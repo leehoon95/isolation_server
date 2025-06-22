@@ -113,7 +113,7 @@ private:
 						char *serialized = _bufferReceived + 8;
 
 						// protobuf 프로토콜콜
-						MessageType msg;
+						//MessageType msg;
 						// msg.ParseFromArray(static_cast<void *>(serialized), serializedLength);
 
 						// MessageType type = msg.type();

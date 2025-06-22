@@ -17,6 +17,7 @@ set(SOURCES
     Server.cpp
     ClientSocket.cpp
     Acceptor.cpp
+    util.cpp
 )
 
 add_executable(test_server ${SOURCES})

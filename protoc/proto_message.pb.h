@@ -53,68 +53,72 @@ struct TableStruct_proto_5fmessage_2eproto {
 extern "C" {
 extern const ::google::protobuf::internal::DescriptorTable descriptor_table_proto_5fmessage_2eproto;
 }  // extern "C"
-enum MessageType : int;
-extern const uint32_t MessageType_internal_data_[];
+enum PROTO_MessageType : int;
+extern const uint32_t PROTO_MessageType_internal_data_[];
 class CharacterPosition;
 struct CharacterPositionDefaultTypeInternal;
 extern CharacterPositionDefaultTypeInternal _CharacterPosition_default_instance_;
 extern const ::google::protobuf::internal::ClassDataFull CharacterPosition_class_data_;
-class LoginMessage;
-struct LoginMessageDefaultTypeInternal;
-extern LoginMessageDefaultTypeInternal _LoginMessage_default_instance_;
-extern const ::google::protobuf::internal::ClassDataFull LoginMessage_class_data_;
-class LoginResultMessage;
-struct LoginResultMessageDefaultTypeInternal;
-extern LoginResultMessageDefaultTypeInternal _LoginResultMessage_default_instance_;
-extern const ::google::protobuf::internal::ClassDataFull LoginResultMessage_class_data_;
-class SyncMessage;
-struct SyncMessageDefaultTypeInternal;
-extern SyncMessageDefaultTypeInternal _SyncMessage_default_instance_;
-extern const ::google::protobuf::internal::ClassDataFull SyncMessage_class_data_;
+class PROTO_LoginResult;
+struct PROTO_LoginResultDefaultTypeInternal;
+extern PROTO_LoginResultDefaultTypeInternal _PROTO_LoginResult_default_instance_;
+extern const ::google::protobuf::internal::ClassDataFull PROTO_LoginResult_class_data_;
+class PROTO_ObjectTransform;
+struct PROTO_ObjectTransformDefaultTypeInternal;
+extern PROTO_ObjectTransformDefaultTypeInternal _PROTO_ObjectTransform_default_instance_;
+extern const ::google::protobuf::internal::ClassDataFull PROTO_ObjectTransform_class_data_;
+class PROTO_RequestLogin;
+struct PROTO_RequestLoginDefaultTypeInternal;
+extern PROTO_RequestLoginDefaultTypeInternal _PROTO_RequestLogin_default_instance_;
+extern const ::google::protobuf::internal::ClassDataFull PROTO_RequestLogin_class_data_;
+class PROTO_SyncPhysics;
+struct PROTO_SyncPhysicsDefaultTypeInternal;
+extern PROTO_SyncPhysicsDefaultTypeInternal _PROTO_SyncPhysics_default_instance_;
+extern const ::google::protobuf::internal::ClassDataFull PROTO_SyncPhysics_class_data_;
 namespace google {
 namespace protobuf {
 template <>
-internal::EnumTraitsT<::MessageType_internal_data_>
-    internal::EnumTraitsImpl::value<::MessageType>;
+internal::EnumTraitsT<::PROTO_MessageType_internal_data_>
+    internal::EnumTraitsImpl::value<::PROTO_MessageType>;
 }  // namespace protobuf
 }  // namespace google
 
-enum MessageType : int {
-  MT_UNSPECIFIED = 0,
-  MT_LOGIN = 1,
-  MT_SYNC_POSITION = 2,
-  MT_BROADCAST = 3,
-  MessageType_INT_MIN_SENTINEL_DO_NOT_USE_ =
+enum PROTO_MessageType : int {
+  UNSPECIFIED = 0,
+  REQUEST_LOGIN = 1,
+  LOGIN_RESULT = 2,
+  REQUEST_SYNC_OBJECT = 3,
+  PROTO_MessageType_INT_MIN_SENTINEL_DO_NOT_USE_ =
       ::std::numeric_limits<::int32_t>::min(),
-  MessageType_INT_MAX_SENTINEL_DO_NOT_USE_ =
+  PROTO_MessageType_INT_MAX_SENTINEL_DO_NOT_USE_ =
       ::std::numeric_limits<::int32_t>::max(),
 };
 
-extern const uint32_t MessageType_internal_data_[];
-inline constexpr MessageType MessageType_MIN =
-    static_cast<MessageType>(0);
-inline constexpr MessageType MessageType_MAX =
-    static_cast<MessageType>(3);
-inline bool MessageType_IsValid(int value) {
+extern const uint32_t PROTO_MessageType_internal_data_[];
+inline constexpr PROTO_MessageType PROTO_MessageType_MIN =
+    static_cast<PROTO_MessageType>(0);
+inline constexpr PROTO_MessageType PROTO_MessageType_MAX =
+    static_cast<PROTO_MessageType>(3);
+inline bool PROTO_MessageType_IsValid(int value) {
   return 0 <= value && value <= 3;
 }
-inline constexpr int MessageType_ARRAYSIZE = 3 + 1;
-const ::google::protobuf::EnumDescriptor* PROTOBUF_NONNULL MessageType_descriptor();
+inline constexpr int PROTO_MessageType_ARRAYSIZE = 3 + 1;
+const ::google::protobuf::EnumDescriptor* PROTOBUF_NONNULL PROTO_MessageType_descriptor();
 template <typename T>
-const ::std::string& MessageType_Name(T value) {
-  static_assert(::std::is_same<T, MessageType>::value ||
+const ::std::string& PROTO_MessageType_Name(T value) {
+  static_assert(::std::is_same<T, PROTO_MessageType>::value ||
                     ::std::is_integral<T>::value,
-                "Incorrect type passed to MessageType_Name().");
-  return MessageType_Name(static_cast<MessageType>(value));
+                "Incorrect type passed to PROTO_MessageType_Name().");
+  return PROTO_MessageType_Name(static_cast<PROTO_MessageType>(value));
 }
 template <>
-inline const ::std::string& MessageType_Name(MessageType value) {
-  return ::google::protobuf::internal::NameOfDenseEnum<MessageType_descriptor, 0, 3>(
+inline const ::std::string& PROTO_MessageType_Name(PROTO_MessageType value) {
+  return ::google::protobuf::internal::NameOfDenseEnum<PROTO_MessageType_descriptor, 0, 3>(
       static_cast<int>(value));
 }
-inline bool MessageType_Parse(
-    ::absl::string_view name, MessageType* PROTOBUF_NONNULL value) {
-  return ::google::protobuf::internal::ParseNamedEnum<MessageType>(MessageType_descriptor(), name,
+inline bool PROTO_MessageType_Parse(
+    ::absl::string_view name, PROTO_MessageType* PROTOBUF_NONNULL value) {
+  return ::google::protobuf::internal::ParseNamedEnum<PROTO_MessageType>(PROTO_MessageType_descriptor(), name,
                                            value);
 }
 
@@ -123,30 +127,30 @@ inline bool MessageType_Parse(
 
 // -------------------------------------------------------------------
 
-class LoginResultMessage final : public ::google::protobuf::Message
-/* @@protoc_insertion_point(class_definition:LoginResultMessage) */ {
+class PROTO_RequestLogin final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:PROTO_RequestLogin) */ {
  public:
-  inline LoginResultMessage() : LoginResultMessage(nullptr) {}
-  ~LoginResultMessage() PROTOBUF_FINAL;
+  inline PROTO_RequestLogin() : PROTO_RequestLogin(nullptr) {}
+  ~PROTO_RequestLogin() PROTOBUF_FINAL;
 
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-  void operator delete(LoginResultMessage* PROTOBUF_NONNULL msg, std::destroying_delete_t) {
+  void operator delete(PROTO_RequestLogin* PROTOBUF_NONNULL msg, std::destroying_delete_t) {
     SharedDtor(*msg);
-    ::google::protobuf::internal::SizedDelete(msg, sizeof(LoginResultMessage));
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(PROTO_RequestLogin));
   }
 #endif
 
   template <typename = void>
-  explicit PROTOBUF_CONSTEXPR LoginResultMessage(::google::protobuf::internal::ConstantInitialized);
+  explicit PROTOBUF_CONSTEXPR PROTO_RequestLogin(::google::protobuf::internal::ConstantInitialized);
 
-  inline LoginResultMessage(const LoginResultMessage& from) : LoginResultMessage(nullptr, from) {}
-  inline LoginResultMessage(LoginResultMessage&& from) noexcept
-      : LoginResultMessage(nullptr, ::std::move(from)) {}
-  inline LoginResultMessage& operator=(const LoginResultMessage& from) {
+  inline PROTO_RequestLogin(const PROTO_RequestLogin& from) : PROTO_RequestLogin(nullptr, from) {}
+  inline PROTO_RequestLogin(PROTO_RequestLogin&& from) noexcept
+      : PROTO_RequestLogin(nullptr, ::std::move(from)) {}
+  inline PROTO_RequestLogin& operator=(const PROTO_RequestLogin& from) {
     CopyFrom(from);
     return *this;
   }
-  inline LoginResultMessage& operator=(LoginResultMessage&& from) noexcept {
+  inline PROTO_RequestLogin& operator=(PROTO_RequestLogin&& from) noexcept {
     if (this == &from) return *this;
     if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
       InternalSwap(&from);
@@ -174,13 +178,13 @@ class LoginResultMessage final : public ::google::protobuf::Message
   static const ::google::protobuf::Reflection* PROTOBUF_NONNULL GetReflection() {
     return default_instance().GetMetadata().reflection;
   }
-  static const LoginResultMessage& default_instance() {
-    return *reinterpret_cast<const LoginResultMessage*>(
-        &_LoginResultMessage_default_instance_);
+  static const PROTO_RequestLogin& default_instance() {
+    return *reinterpret_cast<const PROTO_RequestLogin*>(
+        &_PROTO_RequestLogin_default_instance_);
   }
   static constexpr int kIndexInFileMessages = 2;
-  friend void swap(LoginResultMessage& a, LoginResultMessage& b) { a.Swap(&b); }
-  inline void Swap(LoginResultMessage* PROTOBUF_NONNULL other) {
+  friend void swap(PROTO_RequestLogin& a, PROTO_RequestLogin& b) { a.Swap(&b); }
+  inline void Swap(PROTO_RequestLogin* PROTOBUF_NONNULL other) {
     if (other == this) return;
     if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
       InternalSwap(other);
@@ -188,7 +192,7 @@ class LoginResultMessage final : public ::google::protobuf::Message
       ::google::protobuf::internal::GenericSwap(this, other);
     }
   }
-  void UnsafeArenaSwap(LoginResultMessage* PROTOBUF_NONNULL other) {
+  void UnsafeArenaSwap(PROTO_RequestLogin* PROTOBUF_NONNULL other) {
     if (other == this) return;
     ABSL_DCHECK(GetArena() == other->GetArena());
     InternalSwap(other);
@@ -196,13 +200,13 @@ class LoginResultMessage final : public ::google::protobuf::Message
 
   // implements Message ----------------------------------------------
 
-  LoginResultMessage* PROTOBUF_NONNULL New(::google::protobuf::Arena* PROTOBUF_NULLABLE arena = nullptr) const {
-    return ::google::protobuf::Message::DefaultConstruct<LoginResultMessage>(arena);
+  PROTO_RequestLogin* PROTOBUF_NONNULL New(::google::protobuf::Arena* PROTOBUF_NULLABLE arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<PROTO_RequestLogin>(arena);
   }
   using ::google::protobuf::Message::CopyFrom;
-  void CopyFrom(const LoginResultMessage& from);
+  void CopyFrom(const PROTO_RequestLogin& from);
   using ::google::protobuf::Message::MergeFrom;
-  void MergeFrom(const LoginResultMessage& from) { LoginResultMessage::MergeImpl(*this, from); }
+  void MergeFrom(const PROTO_RequestLogin& from) { PROTO_RequestLogin::MergeImpl(*this, from); }
 
   private:
   static void MergeImpl(::google::protobuf::MessageLite& to_msg,
@@ -238,18 +242,459 @@ class LoginResultMessage final : public ::google::protobuf::Message
   private:
   void SharedCtor(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
   static void SharedDtor(MessageLite& self);
-  void InternalSwap(LoginResultMessage* PROTOBUF_NONNULL other);
+  void InternalSwap(PROTO_RequestLogin* PROTOBUF_NONNULL other);
  private:
   template <typename T>
   friend ::absl::string_view(::google::protobuf::internal::GetAnyMessageName)();
-  static ::absl::string_view FullMessageName() { return "LoginResultMessage"; }
+  static ::absl::string_view FullMessageName() { return "PROTO_RequestLogin"; }
 
  protected:
-  explicit LoginResultMessage(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
-  LoginResultMessage(::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const LoginResultMessage& from);
-  LoginResultMessage(
-      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, LoginResultMessage&& from) noexcept
-      : LoginResultMessage(arena) {
+  explicit PROTO_RequestLogin(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  PROTO_RequestLogin(::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const PROTO_RequestLogin& from);
+  PROTO_RequestLogin(
+      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, PROTO_RequestLogin&& from) noexcept
+      : PROTO_RequestLogin(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL GetClassData() const PROTOBUF_FINAL;
+  static void* PROTOBUF_NONNULL PlacementNew_(
+      const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  static constexpr auto InternalNewImpl_();
+
+ public:
+  static constexpr auto InternalGenerateClassData_();
+
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kNicknameFieldNumber = 1,
+  };
+  // string nickname = 1;
+  bool has_nickname() const;
+  void clear_nickname() ;
+  const ::std::string& nickname() const;
+  template <typename Arg_ = const ::std::string&, typename... Args_>
+  void set_nickname(Arg_&& arg, Args_... args);
+  ::std::string* PROTOBUF_NONNULL mutable_nickname();
+  [[nodiscard]] ::std::string* PROTOBUF_NULLABLE release_nickname();
+  void set_allocated_nickname(::std::string* PROTOBUF_NULLABLE value);
+
+  private:
+  const ::std::string& _internal_nickname() const;
+  PROTOBUF_ALWAYS_INLINE void _internal_set_nickname(const ::std::string& value);
+  ::std::string* PROTOBUF_NONNULL _internal_mutable_nickname();
+
+  public:
+  // @@protoc_insertion_point(class_scope:PROTO_RequestLogin)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<0, 1,
+                                   0, 35,
+                                   2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(
+        ::google::protobuf::internal::InternalVisibility visibility,
+        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+    inline explicit Impl_(
+        ::google::protobuf::internal::InternalVisibility visibility,
+        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
+        const PROTO_RequestLogin& from_msg);
+    ::google::protobuf::internal::HasBits<1> _has_bits_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    ::google::protobuf::internal::ArenaStringPtr nickname_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_proto_5fmessage_2eproto;
+};
+
+extern const ::google::protobuf::internal::ClassDataFull PROTO_RequestLogin_class_data_;
+// -------------------------------------------------------------------
+
+class PROTO_ObjectTransform final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:PROTO_ObjectTransform) */ {
+ public:
+  inline PROTO_ObjectTransform() : PROTO_ObjectTransform(nullptr) {}
+  ~PROTO_ObjectTransform() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(PROTO_ObjectTransform* PROTOBUF_NONNULL msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(PROTO_ObjectTransform));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR PROTO_ObjectTransform(::google::protobuf::internal::ConstantInitialized);
+
+  inline PROTO_ObjectTransform(const PROTO_ObjectTransform& from) : PROTO_ObjectTransform(nullptr, from) {}
+  inline PROTO_ObjectTransform(PROTO_ObjectTransform&& from) noexcept
+      : PROTO_ObjectTransform(nullptr, ::std::move(from)) {}
+  inline PROTO_ObjectTransform& operator=(const PROTO_ObjectTransform& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline PROTO_ObjectTransform& operator=(PROTO_ObjectTransform&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* PROTOBUF_NONNULL mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* PROTOBUF_NONNULL GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const PROTO_ObjectTransform& default_instance() {
+    return *reinterpret_cast<const PROTO_ObjectTransform*>(
+        &_PROTO_ObjectTransform_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 1;
+  friend void swap(PROTO_ObjectTransform& a, PROTO_ObjectTransform& b) { a.Swap(&b); }
+  inline void Swap(PROTO_ObjectTransform* PROTOBUF_NONNULL other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(PROTO_ObjectTransform* PROTOBUF_NONNULL other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  PROTO_ObjectTransform* PROTOBUF_NONNULL New(::google::protobuf::Arena* PROTOBUF_NULLABLE arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<PROTO_ObjectTransform>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const PROTO_ObjectTransform& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const PROTO_ObjectTransform& from) { PROTO_ObjectTransform::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(::google::protobuf::MessageLite& to_msg,
+                        const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      const ::google::protobuf::MessageLite& msg, ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(PROTO_ObjectTransform* PROTOBUF_NONNULL other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "PROTO_ObjectTransform"; }
+
+ protected:
+  explicit PROTO_ObjectTransform(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  PROTO_ObjectTransform(::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const PROTO_ObjectTransform& from);
+  PROTO_ObjectTransform(
+      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, PROTO_ObjectTransform&& from) noexcept
+      : PROTO_ObjectTransform(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL GetClassData() const PROTOBUF_FINAL;
+  static void* PROTOBUF_NONNULL PlacementNew_(
+      const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  static constexpr auto InternalNewImpl_();
+
+ public:
+  static constexpr auto InternalGenerateClassData_();
+
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kIdFieldNumber = 1,
+    kXFieldNumber = 2,
+    kYFieldNumber = 3,
+    kZFieldNumber = 4,
+    kRFieldNumber = 5,
+  };
+  // int32 id = 1;
+  bool has_id() const;
+  void clear_id() ;
+  ::int32_t id() const;
+  void set_id(::int32_t value);
+
+  private:
+  ::int32_t _internal_id() const;
+  void _internal_set_id(::int32_t value);
+
+  public:
+  // float x = 2;
+  bool has_x() const;
+  void clear_x() ;
+  float x() const;
+  void set_x(float value);
+
+  private:
+  float _internal_x() const;
+  void _internal_set_x(float value);
+
+  public:
+  // float y = 3;
+  bool has_y() const;
+  void clear_y() ;
+  float y() const;
+  void set_y(float value);
+
+  private:
+  float _internal_y() const;
+  void _internal_set_y(float value);
+
+  public:
+  // float z = 4;
+  bool has_z() const;
+  void clear_z() ;
+  float z() const;
+  void set_z(float value);
+
+  private:
+  float _internal_z() const;
+  void _internal_set_z(float value);
+
+  public:
+  // float r = 5;
+  bool has_r() const;
+  void clear_r() ;
+  float r() const;
+  void set_r(float value);
+
+  private:
+  float _internal_r() const;
+  void _internal_set_r(float value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:PROTO_ObjectTransform)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<3, 5,
+                                   0, 0,
+                                   2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(
+        ::google::protobuf::internal::InternalVisibility visibility,
+        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+    inline explicit Impl_(
+        ::google::protobuf::internal::InternalVisibility visibility,
+        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
+        const PROTO_ObjectTransform& from_msg);
+    ::google::protobuf::internal::HasBits<1> _has_bits_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    ::int32_t id_;
+    float x_;
+    float y_;
+    float z_;
+    float r_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_proto_5fmessage_2eproto;
+};
+
+extern const ::google::protobuf::internal::ClassDataFull PROTO_ObjectTransform_class_data_;
+// -------------------------------------------------------------------
+
+class PROTO_LoginResult final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:PROTO_LoginResult) */ {
+ public:
+  inline PROTO_LoginResult() : PROTO_LoginResult(nullptr) {}
+  ~PROTO_LoginResult() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(PROTO_LoginResult* PROTOBUF_NONNULL msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(PROTO_LoginResult));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR PROTO_LoginResult(::google::protobuf::internal::ConstantInitialized);
+
+  inline PROTO_LoginResult(const PROTO_LoginResult& from) : PROTO_LoginResult(nullptr, from) {}
+  inline PROTO_LoginResult(PROTO_LoginResult&& from) noexcept
+      : PROTO_LoginResult(nullptr, ::std::move(from)) {}
+  inline PROTO_LoginResult& operator=(const PROTO_LoginResult& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline PROTO_LoginResult& operator=(PROTO_LoginResult&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* PROTOBUF_NONNULL mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* PROTOBUF_NONNULL GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const PROTO_LoginResult& default_instance() {
+    return *reinterpret_cast<const PROTO_LoginResult*>(
+        &_PROTO_LoginResult_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 3;
+  friend void swap(PROTO_LoginResult& a, PROTO_LoginResult& b) { a.Swap(&b); }
+  inline void Swap(PROTO_LoginResult* PROTOBUF_NONNULL other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(PROTO_LoginResult* PROTOBUF_NONNULL other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  PROTO_LoginResult* PROTOBUF_NONNULL New(::google::protobuf::Arena* PROTOBUF_NULLABLE arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<PROTO_LoginResult>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const PROTO_LoginResult& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const PROTO_LoginResult& from) { PROTO_LoginResult::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(::google::protobuf::MessageLite& to_msg,
+                        const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      const ::google::protobuf::MessageLite& msg, ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(PROTO_LoginResult* PROTOBUF_NONNULL other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "PROTO_LoginResult"; }
+
+ protected:
+  explicit PROTO_LoginResult(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  PROTO_LoginResult(::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const PROTO_LoginResult& from);
+  PROTO_LoginResult(
+      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, PROTO_LoginResult&& from) noexcept
+      : PROTO_LoginResult(arena) {
     *this = ::std::move(from);
   }
   const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL GetClassData() const PROTOBUF_FINAL;
@@ -296,12 +741,12 @@ class LoginResultMessage final : public ::google::protobuf::Message
   void _internal_set_result(bool value);
 
   public:
-  // @@protoc_insertion_point(class_scope:LoginResultMessage)
+  // @@protoc_insertion_point(class_scope:PROTO_LoginResult)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<1, 2,
-                                   0, 33,
+                                   0, 32,
                                    2>
       _table_;
 
@@ -319,7 +764,7 @@ class LoginResultMessage final : public ::google::protobuf::Message
     inline explicit Impl_(
         ::google::protobuf::internal::InternalVisibility visibility,
         ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
-        const LoginResultMessage& from_msg);
+        const PROTO_LoginResult& from_msg);
     ::google::protobuf::internal::HasBits<1> _has_bits_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     ::google::protobuf::internal::ArenaStringPtr reason_;
@@ -330,204 +775,7 @@ class LoginResultMessage final : public ::google::protobuf::Message
   friend struct ::TableStruct_proto_5fmessage_2eproto;
 };
 
-extern const ::google::protobuf::internal::ClassDataFull LoginResultMessage_class_data_;
-// -------------------------------------------------------------------
-
-class LoginMessage final : public ::google::protobuf::Message
-/* @@protoc_insertion_point(class_definition:LoginMessage) */ {
- public:
-  inline LoginMessage() : LoginMessage(nullptr) {}
-  ~LoginMessage() PROTOBUF_FINAL;
-
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-  void operator delete(LoginMessage* PROTOBUF_NONNULL msg, std::destroying_delete_t) {
-    SharedDtor(*msg);
-    ::google::protobuf::internal::SizedDelete(msg, sizeof(LoginMessage));
-  }
-#endif
-
-  template <typename = void>
-  explicit PROTOBUF_CONSTEXPR LoginMessage(::google::protobuf::internal::ConstantInitialized);
-
-  inline LoginMessage(const LoginMessage& from) : LoginMessage(nullptr, from) {}
-  inline LoginMessage(LoginMessage&& from) noexcept
-      : LoginMessage(nullptr, ::std::move(from)) {}
-  inline LoginMessage& operator=(const LoginMessage& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline LoginMessage& operator=(LoginMessage&& from) noexcept {
-    if (this == &from) return *this;
-    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
-      ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
-  }
-  inline ::google::protobuf::UnknownFieldSet* PROTOBUF_NONNULL mutable_unknown_fields()
-      ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
-  }
-
-  static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL descriptor() {
-    return GetDescriptor();
-  }
-  static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::google::protobuf::Reflection* PROTOBUF_NONNULL GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const LoginMessage& default_instance() {
-    return *reinterpret_cast<const LoginMessage*>(
-        &_LoginMessage_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages = 1;
-  friend void swap(LoginMessage& a, LoginMessage& b) { a.Swap(&b); }
-  inline void Swap(LoginMessage* PROTOBUF_NONNULL other) {
-    if (other == this) return;
-    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
-      InternalSwap(other);
-    } else {
-      ::google::protobuf::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(LoginMessage* PROTOBUF_NONNULL other) {
-    if (other == this) return;
-    ABSL_DCHECK(GetArena() == other->GetArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  LoginMessage* PROTOBUF_NONNULL New(::google::protobuf::Arena* PROTOBUF_NULLABLE arena = nullptr) const {
-    return ::google::protobuf::Message::DefaultConstruct<LoginMessage>(arena);
-  }
-  using ::google::protobuf::Message::CopyFrom;
-  void CopyFrom(const LoginMessage& from);
-  using ::google::protobuf::Message::MergeFrom;
-  void MergeFrom(const LoginMessage& from) { LoginMessage::MergeImpl(*this, from); }
-
-  private:
-  static void MergeImpl(::google::protobuf::MessageLite& to_msg,
-                        const ::google::protobuf::MessageLite& from_msg);
-
-  public:
-  bool IsInitialized() const {
-    return true;
-  }
-  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
-  #if defined(PROTOBUF_CUSTOM_VTABLE)
-  private:
-  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
-  static ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
-      const ::google::protobuf::MessageLite& msg, ::uint8_t* PROTOBUF_NONNULL target,
-      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream);
-
-  public:
-  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
-  ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
-      ::uint8_t* PROTOBUF_NONNULL target,
-      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
-    return _InternalSerialize(*this, target, stream);
-  }
-  #else   // PROTOBUF_CUSTOM_VTABLE
-  ::size_t ByteSizeLong() const final;
-  ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
-      ::uint8_t* PROTOBUF_NONNULL target,
-      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const final;
-  #endif  // PROTOBUF_CUSTOM_VTABLE
-  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
-
-  private:
-  void SharedCtor(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
-  static void SharedDtor(MessageLite& self);
-  void InternalSwap(LoginMessage* PROTOBUF_NONNULL other);
- private:
-  template <typename T>
-  friend ::absl::string_view(::google::protobuf::internal::GetAnyMessageName)();
-  static ::absl::string_view FullMessageName() { return "LoginMessage"; }
-
- protected:
-  explicit LoginMessage(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
-  LoginMessage(::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const LoginMessage& from);
-  LoginMessage(
-      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, LoginMessage&& from) noexcept
-      : LoginMessage(arena) {
-    *this = ::std::move(from);
-  }
-  const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL GetClassData() const PROTOBUF_FINAL;
-  static void* PROTOBUF_NONNULL PlacementNew_(
-      const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
-      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
-  static constexpr auto InternalNewImpl_();
-
- public:
-  static constexpr auto InternalGenerateClassData_();
-
-  ::google::protobuf::Metadata GetMetadata() const;
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-  enum : int {
-    kNicknameFieldNumber = 1,
-  };
-  // string nickname = 1;
-  bool has_nickname() const;
-  void clear_nickname() ;
-  const ::std::string& nickname() const;
-  template <typename Arg_ = const ::std::string&, typename... Args_>
-  void set_nickname(Arg_&& arg, Args_... args);
-  ::std::string* PROTOBUF_NONNULL mutable_nickname();
-  [[nodiscard]] ::std::string* PROTOBUF_NULLABLE release_nickname();
-  void set_allocated_nickname(::std::string* PROTOBUF_NULLABLE value);
-
-  private:
-  const ::std::string& _internal_nickname() const;
-  PROTOBUF_ALWAYS_INLINE void _internal_set_nickname(const ::std::string& value);
-  ::std::string* PROTOBUF_NONNULL _internal_mutable_nickname();
-
-  public:
-  // @@protoc_insertion_point(class_scope:LoginMessage)
- private:
-  class _Internal;
-  friend class ::google::protobuf::internal::TcParser;
-  static const ::google::protobuf::internal::TcParseTable<0, 1,
-                                   0, 29,
-                                   2>
-      _table_;
-
-  friend class ::google::protobuf::MessageLite;
-  friend class ::google::protobuf::Arena;
-  template <typename T>
-  friend class ::google::protobuf::Arena::InternalHelper;
-  using InternalArenaConstructable_ = void;
-  using DestructorSkippable_ = void;
-  struct Impl_ {
-    inline explicit constexpr Impl_(::google::protobuf::internal::ConstantInitialized) noexcept;
-    inline explicit Impl_(
-        ::google::protobuf::internal::InternalVisibility visibility,
-        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
-    inline explicit Impl_(
-        ::google::protobuf::internal::InternalVisibility visibility,
-        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
-        const LoginMessage& from_msg);
-    ::google::protobuf::internal::HasBits<1> _has_bits_;
-    ::google::protobuf::internal::CachedSize _cached_size_;
-    ::google::protobuf::internal::ArenaStringPtr nickname_;
-    PROTOBUF_TSAN_DECLARE_MEMBER
-  };
-  union { Impl_ _impl_; };
-  friend struct ::TableStruct_proto_5fmessage_2eproto;
-};
-
-extern const ::google::protobuf::internal::ClassDataFull LoginMessage_class_data_;
+extern const ::google::protobuf::internal::ClassDataFull PROTO_LoginResult_class_data_;
 // -------------------------------------------------------------------
 
 class CharacterPosition final : public ::google::protobuf::Message
@@ -761,30 +1009,30 @@ class CharacterPosition final : public ::google::protobuf::Message
 extern const ::google::protobuf::internal::ClassDataFull CharacterPosition_class_data_;
 // -------------------------------------------------------------------
 
-class SyncMessage final : public ::google::protobuf::Message
-/* @@protoc_insertion_point(class_definition:SyncMessage) */ {
+class PROTO_SyncPhysics final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:PROTO_SyncPhysics) */ {
  public:
-  inline SyncMessage() : SyncMessage(nullptr) {}
-  ~SyncMessage() PROTOBUF_FINAL;
+  inline PROTO_SyncPhysics() : PROTO_SyncPhysics(nullptr) {}
+  ~PROTO_SyncPhysics() PROTOBUF_FINAL;
 
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-  void operator delete(SyncMessage* PROTOBUF_NONNULL msg, std::destroying_delete_t) {
+  void operator delete(PROTO_SyncPhysics* PROTOBUF_NONNULL msg, std::destroying_delete_t) {
     SharedDtor(*msg);
-    ::google::protobuf::internal::SizedDelete(msg, sizeof(SyncMessage));
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(PROTO_SyncPhysics));
   }
 #endif
 
   template <typename = void>
-  explicit PROTOBUF_CONSTEXPR SyncMessage(::google::protobuf::internal::ConstantInitialized);
+  explicit PROTOBUF_CONSTEXPR PROTO_SyncPhysics(::google::protobuf::internal::ConstantInitialized);
 
-  inline SyncMessage(const SyncMessage& from) : SyncMessage(nullptr, from) {}
-  inline SyncMessage(SyncMessage&& from) noexcept
-      : SyncMessage(nullptr, ::std::move(from)) {}
-  inline SyncMessage& operator=(const SyncMessage& from) {
+  inline PROTO_SyncPhysics(const PROTO_SyncPhysics& from) : PROTO_SyncPhysics(nullptr, from) {}
+  inline PROTO_SyncPhysics(PROTO_SyncPhysics&& from) noexcept
+      : PROTO_SyncPhysics(nullptr, ::std::move(from)) {}
+  inline PROTO_SyncPhysics& operator=(const PROTO_SyncPhysics& from) {
     CopyFrom(from);
     return *this;
   }
-  inline SyncMessage& operator=(SyncMessage&& from) noexcept {
+  inline PROTO_SyncPhysics& operator=(PROTO_SyncPhysics&& from) noexcept {
     if (this == &from) return *this;
     if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
       InternalSwap(&from);
@@ -812,13 +1060,13 @@ class SyncMessage final : public ::google::protobuf::Message
   static const ::google::protobuf::Reflection* PROTOBUF_NONNULL GetReflection() {
     return default_instance().GetMetadata().reflection;
   }
-  static const SyncMessage& default_instance() {
-    return *reinterpret_cast<const SyncMessage*>(
-        &_SyncMessage_default_instance_);
+  static const PROTO_SyncPhysics& default_instance() {
+    return *reinterpret_cast<const PROTO_SyncPhysics*>(
+        &_PROTO_SyncPhysics_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 3;
-  friend void swap(SyncMessage& a, SyncMessage& b) { a.Swap(&b); }
-  inline void Swap(SyncMessage* PROTOBUF_NONNULL other) {
+  static constexpr int kIndexInFileMessages = 4;
+  friend void swap(PROTO_SyncPhysics& a, PROTO_SyncPhysics& b) { a.Swap(&b); }
+  inline void Swap(PROTO_SyncPhysics* PROTOBUF_NONNULL other) {
     if (other == this) return;
     if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
       InternalSwap(other);
@@ -826,7 +1074,7 @@ class SyncMessage final : public ::google::protobuf::Message
       ::google::protobuf::internal::GenericSwap(this, other);
     }
   }
-  void UnsafeArenaSwap(SyncMessage* PROTOBUF_NONNULL other) {
+  void UnsafeArenaSwap(PROTO_SyncPhysics* PROTOBUF_NONNULL other) {
     if (other == this) return;
     ABSL_DCHECK(GetArena() == other->GetArena());
     InternalSwap(other);
@@ -834,13 +1082,13 @@ class SyncMessage final : public ::google::protobuf::Message
 
   // implements Message ----------------------------------------------
 
-  SyncMessage* PROTOBUF_NONNULL New(::google::protobuf::Arena* PROTOBUF_NULLABLE arena = nullptr) const {
-    return ::google::protobuf::Message::DefaultConstruct<SyncMessage>(arena);
+  PROTO_SyncPhysics* PROTOBUF_NONNULL New(::google::protobuf::Arena* PROTOBUF_NULLABLE arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<PROTO_SyncPhysics>(arena);
   }
   using ::google::protobuf::Message::CopyFrom;
-  void CopyFrom(const SyncMessage& from);
+  void CopyFrom(const PROTO_SyncPhysics& from);
   using ::google::protobuf::Message::MergeFrom;
-  void MergeFrom(const SyncMessage& from) { SyncMessage::MergeImpl(*this, from); }
+  void MergeFrom(const PROTO_SyncPhysics& from) { PROTO_SyncPhysics::MergeImpl(*this, from); }
 
   private:
   static void MergeImpl(::google::protobuf::MessageLite& to_msg,
@@ -876,18 +1124,18 @@ class SyncMessage final : public ::google::protobuf::Message
   private:
   void SharedCtor(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
   static void SharedDtor(MessageLite& self);
-  void InternalSwap(SyncMessage* PROTOBUF_NONNULL other);
+  void InternalSwap(PROTO_SyncPhysics* PROTOBUF_NONNULL other);
  private:
   template <typename T>
   friend ::absl::string_view(::google::protobuf::internal::GetAnyMessageName)();
-  static ::absl::string_view FullMessageName() { return "SyncMessage"; }
+  static ::absl::string_view FullMessageName() { return "PROTO_SyncPhysics"; }
 
  protected:
-  explicit SyncMessage(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
-  SyncMessage(::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const SyncMessage& from);
-  SyncMessage(
-      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, SyncMessage&& from) noexcept
-      : SyncMessage(arena) {
+  explicit PROTO_SyncPhysics(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  PROTO_SyncPhysics(::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const PROTO_SyncPhysics& from);
+  PROTO_SyncPhysics(
+      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, PROTO_SyncPhysics&& from) noexcept
+      : PROTO_SyncPhysics(arena) {
     *this = ::std::move(from);
   }
   const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL GetClassData() const PROTOBUF_FINAL;
@@ -923,7 +1171,7 @@ class SyncMessage final : public ::google::protobuf::Message
   const ::CharacterPosition& characters(int index) const;
   ::CharacterPosition* PROTOBUF_NONNULL add_characters();
   const ::google::protobuf::RepeatedPtrField<::CharacterPosition>& characters() const;
-  // @@protoc_insertion_point(class_scope:SyncMessage)
+  // @@protoc_insertion_point(class_scope:PROTO_SyncPhysics)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
@@ -946,7 +1194,7 @@ class SyncMessage final : public ::google::protobuf::Message
     inline explicit Impl_(
         ::google::protobuf::internal::InternalVisibility visibility,
         ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
-        const SyncMessage& from_msg);
+        const PROTO_SyncPhysics& from_msg);
     ::google::protobuf::RepeatedPtrField< ::CharacterPosition > characters_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
@@ -955,7 +1203,7 @@ class SyncMessage final : public ::google::protobuf::Message
   friend struct ::TableStruct_proto_5fmessage_2eproto;
 };
 
-extern const ::google::protobuf::internal::ClassDataFull SyncMessage_class_data_;
+extern const ::google::protobuf::internal::ClassDataFull PROTO_SyncPhysics_class_data_;
 
 // ===================================================================
 
@@ -1087,53 +1335,197 @@ inline void CharacterPosition::_internal_set_z(float value) {
 
 // -------------------------------------------------------------------
 
-// LoginMessage
+// PROTO_ObjectTransform
 
-// string nickname = 1;
-inline bool LoginMessage::has_nickname() const {
+// int32 id = 1;
+inline bool PROTO_ObjectTransform::has_id() const {
   bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
   return value;
 }
-inline void LoginMessage::clear_nickname() {
+inline void PROTO_ObjectTransform::clear_id() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.id_ = 0;
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+inline ::int32_t PROTO_ObjectTransform::id() const {
+  // @@protoc_insertion_point(field_get:PROTO_ObjectTransform.id)
+  return _internal_id();
+}
+inline void PROTO_ObjectTransform::set_id(::int32_t value) {
+  _internal_set_id(value);
+  _impl_._has_bits_[0] |= 0x00000001u;
+  // @@protoc_insertion_point(field_set:PROTO_ObjectTransform.id)
+}
+inline ::int32_t PROTO_ObjectTransform::_internal_id() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.id_;
+}
+inline void PROTO_ObjectTransform::_internal_set_id(::int32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.id_ = value;
+}
+
+// float x = 2;
+inline bool PROTO_ObjectTransform::has_x() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
+  return value;
+}
+inline void PROTO_ObjectTransform::clear_x() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.x_ = 0;
+  _impl_._has_bits_[0] &= ~0x00000002u;
+}
+inline float PROTO_ObjectTransform::x() const {
+  // @@protoc_insertion_point(field_get:PROTO_ObjectTransform.x)
+  return _internal_x();
+}
+inline void PROTO_ObjectTransform::set_x(float value) {
+  _internal_set_x(value);
+  _impl_._has_bits_[0] |= 0x00000002u;
+  // @@protoc_insertion_point(field_set:PROTO_ObjectTransform.x)
+}
+inline float PROTO_ObjectTransform::_internal_x() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.x_;
+}
+inline void PROTO_ObjectTransform::_internal_set_x(float value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.x_ = value;
+}
+
+// float y = 3;
+inline bool PROTO_ObjectTransform::has_y() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000004u) != 0;
+  return value;
+}
+inline void PROTO_ObjectTransform::clear_y() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.y_ = 0;
+  _impl_._has_bits_[0] &= ~0x00000004u;
+}
+inline float PROTO_ObjectTransform::y() const {
+  // @@protoc_insertion_point(field_get:PROTO_ObjectTransform.y)
+  return _internal_y();
+}
+inline void PROTO_ObjectTransform::set_y(float value) {
+  _internal_set_y(value);
+  _impl_._has_bits_[0] |= 0x00000004u;
+  // @@protoc_insertion_point(field_set:PROTO_ObjectTransform.y)
+}
+inline float PROTO_ObjectTransform::_internal_y() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.y_;
+}
+inline void PROTO_ObjectTransform::_internal_set_y(float value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.y_ = value;
+}
+
+// float z = 4;
+inline bool PROTO_ObjectTransform::has_z() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000008u) != 0;
+  return value;
+}
+inline void PROTO_ObjectTransform::clear_z() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.z_ = 0;
+  _impl_._has_bits_[0] &= ~0x00000008u;
+}
+inline float PROTO_ObjectTransform::z() const {
+  // @@protoc_insertion_point(field_get:PROTO_ObjectTransform.z)
+  return _internal_z();
+}
+inline void PROTO_ObjectTransform::set_z(float value) {
+  _internal_set_z(value);
+  _impl_._has_bits_[0] |= 0x00000008u;
+  // @@protoc_insertion_point(field_set:PROTO_ObjectTransform.z)
+}
+inline float PROTO_ObjectTransform::_internal_z() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.z_;
+}
+inline void PROTO_ObjectTransform::_internal_set_z(float value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.z_ = value;
+}
+
+// float r = 5;
+inline bool PROTO_ObjectTransform::has_r() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000010u) != 0;
+  return value;
+}
+inline void PROTO_ObjectTransform::clear_r() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.r_ = 0;
+  _impl_._has_bits_[0] &= ~0x00000010u;
+}
+inline float PROTO_ObjectTransform::r() const {
+  // @@protoc_insertion_point(field_get:PROTO_ObjectTransform.r)
+  return _internal_r();
+}
+inline void PROTO_ObjectTransform::set_r(float value) {
+  _internal_set_r(value);
+  _impl_._has_bits_[0] |= 0x00000010u;
+  // @@protoc_insertion_point(field_set:PROTO_ObjectTransform.r)
+}
+inline float PROTO_ObjectTransform::_internal_r() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.r_;
+}
+inline void PROTO_ObjectTransform::_internal_set_r(float value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.r_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// PROTO_RequestLogin
+
+// string nickname = 1;
+inline bool PROTO_RequestLogin::has_nickname() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  return value;
+}
+inline void PROTO_RequestLogin::clear_nickname() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.nickname_.ClearToEmpty();
   _impl_._has_bits_[0] &= ~0x00000001u;
 }
-inline const ::std::string& LoginMessage::nickname() const
+inline const ::std::string& PROTO_RequestLogin::nickname() const
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:LoginMessage.nickname)
+  // @@protoc_insertion_point(field_get:PROTO_RequestLogin.nickname)
   return _internal_nickname();
 }
 template <typename Arg_, typename... Args_>
-PROTOBUF_ALWAYS_INLINE void LoginMessage::set_nickname(Arg_&& arg, Args_... args) {
+PROTOBUF_ALWAYS_INLINE void PROTO_RequestLogin::set_nickname(Arg_&& arg, Args_... args) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_._has_bits_[0] |= 0x00000001u;
   _impl_.nickname_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
-  // @@protoc_insertion_point(field_set:LoginMessage.nickname)
+  // @@protoc_insertion_point(field_set:PROTO_RequestLogin.nickname)
 }
-inline ::std::string* PROTOBUF_NONNULL LoginMessage::mutable_nickname()
+inline ::std::string* PROTOBUF_NONNULL PROTO_RequestLogin::mutable_nickname()
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
   ::std::string* _s = _internal_mutable_nickname();
-  // @@protoc_insertion_point(field_mutable:LoginMessage.nickname)
+  // @@protoc_insertion_point(field_mutable:PROTO_RequestLogin.nickname)
   return _s;
 }
-inline const ::std::string& LoginMessage::_internal_nickname() const {
+inline const ::std::string& PROTO_RequestLogin::_internal_nickname() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.nickname_.Get();
 }
-inline void LoginMessage::_internal_set_nickname(const ::std::string& value) {
+inline void PROTO_RequestLogin::_internal_set_nickname(const ::std::string& value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_._has_bits_[0] |= 0x00000001u;
   _impl_.nickname_.Set(value, GetArena());
 }
-inline ::std::string* PROTOBUF_NONNULL LoginMessage::_internal_mutable_nickname() {
+inline ::std::string* PROTOBUF_NONNULL PROTO_RequestLogin::_internal_mutable_nickname() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_._has_bits_[0] |= 0x00000001u;
   return _impl_.nickname_.Mutable( GetArena());
 }
-inline ::std::string* PROTOBUF_NULLABLE LoginMessage::release_nickname() {
+inline ::std::string* PROTOBUF_NULLABLE PROTO_RequestLogin::release_nickname() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  // @@protoc_insertion_point(field_release:LoginMessage.nickname)
+  // @@protoc_insertion_point(field_release:PROTO_RequestLogin.nickname)
   if ((_impl_._has_bits_[0] & 0x00000001u) == 0) {
     return nullptr;
   }
@@ -1144,7 +1536,7 @@ inline ::std::string* PROTOBUF_NULLABLE LoginMessage::release_nickname() {
   }
   return released;
 }
-inline void LoginMessage::set_allocated_nickname(::std::string* PROTOBUF_NULLABLE value) {
+inline void PROTO_RequestLogin::set_allocated_nickname(::std::string* PROTOBUF_NULLABLE value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (value != nullptr) {
     _impl_._has_bits_[0] |= 0x00000001u;
@@ -1155,86 +1547,86 @@ inline void LoginMessage::set_allocated_nickname(::std::string* PROTOBUF_NULLABL
   if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.nickname_.IsDefault()) {
     _impl_.nickname_.Set("", GetArena());
   }
-  // @@protoc_insertion_point(field_set_allocated:LoginMessage.nickname)
+  // @@protoc_insertion_point(field_set_allocated:PROTO_RequestLogin.nickname)
 }
 
 // -------------------------------------------------------------------
 
-// LoginResultMessage
+// PROTO_LoginResult
 
 // bool result = 1;
-inline bool LoginResultMessage::has_result() const {
+inline bool PROTO_LoginResult::has_result() const {
   bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
   return value;
 }
-inline void LoginResultMessage::clear_result() {
+inline void PROTO_LoginResult::clear_result() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.result_ = false;
   _impl_._has_bits_[0] &= ~0x00000002u;
 }
-inline bool LoginResultMessage::result() const {
-  // @@protoc_insertion_point(field_get:LoginResultMessage.result)
+inline bool PROTO_LoginResult::result() const {
+  // @@protoc_insertion_point(field_get:PROTO_LoginResult.result)
   return _internal_result();
 }
-inline void LoginResultMessage::set_result(bool value) {
+inline void PROTO_LoginResult::set_result(bool value) {
   _internal_set_result(value);
   _impl_._has_bits_[0] |= 0x00000002u;
-  // @@protoc_insertion_point(field_set:LoginResultMessage.result)
+  // @@protoc_insertion_point(field_set:PROTO_LoginResult.result)
 }
-inline bool LoginResultMessage::_internal_result() const {
+inline bool PROTO_LoginResult::_internal_result() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.result_;
 }
-inline void LoginResultMessage::_internal_set_result(bool value) {
+inline void PROTO_LoginResult::_internal_set_result(bool value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.result_ = value;
 }
 
 // string reason = 2;
-inline bool LoginResultMessage::has_reason() const {
+inline bool PROTO_LoginResult::has_reason() const {
   bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
   return value;
 }
-inline void LoginResultMessage::clear_reason() {
+inline void PROTO_LoginResult::clear_reason() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.reason_.ClearToEmpty();
   _impl_._has_bits_[0] &= ~0x00000001u;
 }
-inline const ::std::string& LoginResultMessage::reason() const
+inline const ::std::string& PROTO_LoginResult::reason() const
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:LoginResultMessage.reason)
+  // @@protoc_insertion_point(field_get:PROTO_LoginResult.reason)
   return _internal_reason();
 }
 template <typename Arg_, typename... Args_>
-PROTOBUF_ALWAYS_INLINE void LoginResultMessage::set_reason(Arg_&& arg, Args_... args) {
+PROTOBUF_ALWAYS_INLINE void PROTO_LoginResult::set_reason(Arg_&& arg, Args_... args) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_._has_bits_[0] |= 0x00000001u;
   _impl_.reason_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
-  // @@protoc_insertion_point(field_set:LoginResultMessage.reason)
+  // @@protoc_insertion_point(field_set:PROTO_LoginResult.reason)
 }
-inline ::std::string* PROTOBUF_NONNULL LoginResultMessage::mutable_reason()
+inline ::std::string* PROTOBUF_NONNULL PROTO_LoginResult::mutable_reason()
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
   ::std::string* _s = _internal_mutable_reason();
-  // @@protoc_insertion_point(field_mutable:LoginResultMessage.reason)
+  // @@protoc_insertion_point(field_mutable:PROTO_LoginResult.reason)
   return _s;
 }
-inline const ::std::string& LoginResultMessage::_internal_reason() const {
+inline const ::std::string& PROTO_LoginResult::_internal_reason() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.reason_.Get();
 }
-inline void LoginResultMessage::_internal_set_reason(const ::std::string& value) {
+inline void PROTO_LoginResult::_internal_set_reason(const ::std::string& value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_._has_bits_[0] |= 0x00000001u;
   _impl_.reason_.Set(value, GetArena());
 }
-inline ::std::string* PROTOBUF_NONNULL LoginResultMessage::_internal_mutable_reason() {
+inline ::std::string* PROTOBUF_NONNULL PROTO_LoginResult::_internal_mutable_reason() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_._has_bits_[0] |= 0x00000001u;
   return _impl_.reason_.Mutable( GetArena());
 }
-inline ::std::string* PROTOBUF_NULLABLE LoginResultMessage::release_reason() {
+inline ::std::string* PROTOBUF_NULLABLE PROTO_LoginResult::release_reason() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  // @@protoc_insertion_point(field_release:LoginResultMessage.reason)
+  // @@protoc_insertion_point(field_release:PROTO_LoginResult.reason)
   if ((_impl_._has_bits_[0] & 0x00000001u) == 0) {
     return nullptr;
   }
@@ -1245,7 +1637,7 @@ inline ::std::string* PROTOBUF_NULLABLE LoginResultMessage::release_reason() {
   }
   return released;
 }
-inline void LoginResultMessage::set_allocated_reason(::std::string* PROTOBUF_NULLABLE value) {
+inline void PROTO_LoginResult::set_allocated_reason(::std::string* PROTOBUF_NULLABLE value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (value != nullptr) {
     _impl_._has_bits_[0] |= 0x00000001u;
@@ -1256,59 +1648,59 @@ inline void LoginResultMessage::set_allocated_reason(::std::string* PROTOBUF_NUL
   if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.reason_.IsDefault()) {
     _impl_.reason_.Set("", GetArena());
   }
-  // @@protoc_insertion_point(field_set_allocated:LoginResultMessage.reason)
+  // @@protoc_insertion_point(field_set_allocated:PROTO_LoginResult.reason)
 }
 
 // -------------------------------------------------------------------
 
-// SyncMessage
+// PROTO_SyncPhysics
 
 // repeated .CharacterPosition characters = 1;
-inline int SyncMessage::_internal_characters_size() const {
+inline int PROTO_SyncPhysics::_internal_characters_size() const {
   return _internal_characters().size();
 }
-inline int SyncMessage::characters_size() const {
+inline int PROTO_SyncPhysics::characters_size() const {
   return _internal_characters_size();
 }
-inline void SyncMessage::clear_characters() {
+inline void PROTO_SyncPhysics::clear_characters() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.characters_.Clear();
 }
-inline ::CharacterPosition* PROTOBUF_NONNULL SyncMessage::mutable_characters(int index)
+inline ::CharacterPosition* PROTOBUF_NONNULL PROTO_SyncPhysics::mutable_characters(int index)
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_mutable:SyncMessage.characters)
+  // @@protoc_insertion_point(field_mutable:PROTO_SyncPhysics.characters)
   return _internal_mutable_characters()->Mutable(index);
 }
-inline ::google::protobuf::RepeatedPtrField<::CharacterPosition>* PROTOBUF_NONNULL SyncMessage::mutable_characters()
+inline ::google::protobuf::RepeatedPtrField<::CharacterPosition>* PROTOBUF_NONNULL PROTO_SyncPhysics::mutable_characters()
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_mutable_list:SyncMessage.characters)
+  // @@protoc_insertion_point(field_mutable_list:PROTO_SyncPhysics.characters)
   ::google::protobuf::internal::TSanWrite(&_impl_);
   return _internal_mutable_characters();
 }
-inline const ::CharacterPosition& SyncMessage::characters(int index) const
+inline const ::CharacterPosition& PROTO_SyncPhysics::characters(int index) const
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:SyncMessage.characters)
+  // @@protoc_insertion_point(field_get:PROTO_SyncPhysics.characters)
   return _internal_characters().Get(index);
 }
-inline ::CharacterPosition* PROTOBUF_NONNULL SyncMessage::add_characters()
+inline ::CharacterPosition* PROTOBUF_NONNULL PROTO_SyncPhysics::add_characters()
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   ::CharacterPosition* _add = _internal_mutable_characters()->Add();
-  // @@protoc_insertion_point(field_add:SyncMessage.characters)
+  // @@protoc_insertion_point(field_add:PROTO_SyncPhysics.characters)
   return _add;
 }
-inline const ::google::protobuf::RepeatedPtrField<::CharacterPosition>& SyncMessage::characters() const
+inline const ::google::protobuf::RepeatedPtrField<::CharacterPosition>& PROTO_SyncPhysics::characters() const
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_list:SyncMessage.characters)
+  // @@protoc_insertion_point(field_list:PROTO_SyncPhysics.characters)
   return _internal_characters();
 }
 inline const ::google::protobuf::RepeatedPtrField<::CharacterPosition>&
-SyncMessage::_internal_characters() const {
+PROTO_SyncPhysics::_internal_characters() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.characters_;
 }
 inline ::google::protobuf::RepeatedPtrField<::CharacterPosition>* PROTOBUF_NONNULL
-SyncMessage::_internal_mutable_characters() {
+PROTO_SyncPhysics::_internal_mutable_characters() {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return &_impl_.characters_;
 }
@@ -1324,10 +1716,10 @@ namespace google {
 namespace protobuf {
 
 template <>
-struct is_proto_enum<::MessageType> : std::true_type {};
+struct is_proto_enum<::PROTO_MessageType> : std::true_type {};
 template <>
-inline const EnumDescriptor* PROTOBUF_NONNULL GetEnumDescriptor<::MessageType>() {
-  return ::MessageType_descriptor();
+inline const EnumDescriptor* PROTOBUF_NONNULL GetEnumDescriptor<::PROTO_MessageType>() {
+  return ::PROTO_MessageType_descriptor();
 }
 
 }  // namespace protobuf

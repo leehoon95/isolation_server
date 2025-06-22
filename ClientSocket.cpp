@@ -37,8 +37,9 @@ void ClientSocket::ReadAsync()
                 }
                 else if (memcmp(_recvBuffer.get(), "prot", 4) == 0)
                 {
-                    int serializedLength = *(int32_t *)(&_recvBuffer[4]);
-                    int type = *(int32_t *)(&_recvBuffer[8]);
+                    int type = *(int32_t *)(&_recvBuffer[4]);
+                    int serializedLength = *(int32_t *)(&_recvBuffer[8]);
+                    
                     std::cout << std::format("prot data len: {}, type: {}\n",
                                              serializedLength, type);
                     char *data = &_recvBuffer[12];
@@ -141,6 +142,18 @@ bool ClientSocket::Init(unsigned int index)
     ReadAsync();
 
     return true;
+}
+
+void ClientSocket::Stop()
+{
+    std::cout << std::format("STOP Client {} / {}.\n", _index, _nickname);
+    system::error_code ec;
+    _socket.shutdown(asio::ip::tcp::socket::shutdown_both, ec);
+    _socket.close(ec);
+
+    if (!ec) {
+        std::cout << std::format("STOP Client {} / {}. error: {}\n", _index, _nickname, ec.what());
+    }
 }
 
 bool ClientSocket::PostWrite(std::vector<char> &data)

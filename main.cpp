@@ -68,6 +68,7 @@ int main()
 			if (cmd.compare("stop") == 0)
 			{
 				acceptor.Stop();
+				server->Stop();
 				// for (auto& client : Servers){
 				// 	client.second->Stop();
 				// }

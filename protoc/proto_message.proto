@@ -7,22 +7,30 @@ message CharacterPosition {
   float z = 4;
 }
 
-enum MessageType {
-	MT_UNSPECIFIED = 0;
-	MT_LOGIN = 1;
-	MT_SYNC_POSITION = 2;
-	MT_BROADCAST = 3;
+message PROTO_ObjectTransform {
+	int32 id = 1;
+	float x = 2;
+	float y = 3;
+	float z = 4;
+	float r = 5;
 }
 
-message LoginMessage {
+enum PROTO_MessageType {
+	UNSPECIFIED = 0;
+	REQUEST_LOGIN = 1;
+	LOGIN_RESULT = 2;
+	REQUEST_SYNC_OBJECT = 3;
+}
+
+message PROTO_RequestLogin {
 	string nickname = 1;
 }
 
-message LoginResultMessage {
+message PROTO_LoginResult {
 	bool result = 1;
 	string reason = 2;
 }
 
-message SyncMessage {
+message PROTO_SyncPhysics {
 	repeated CharacterPosition characters = 1;
 }
