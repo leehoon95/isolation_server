@@ -1,12 +1,5 @@
 edition="2023";
 
-message CharacterPosition {
-  int32 id = 1;
-  float x = 2;
-  float y = 3;
-  float z = 4;
-}
-
 message PROTO_ObjectTransform {
 	int32 id = 1;
 	float x = 2;
@@ -19,7 +12,9 @@ enum PROTO_MessageType {
 	UNSPECIFIED = 0;
 	REQUEST_LOGIN = 1;
 	LOGIN_RESULT = 2;
-	REQUEST_SYNC_OBJECT = 3;
+	REQUEST_SYNC = 3;
+	REQUEST_SYNC_RESULT = 4;
+	REPORT_CHARACTER_PHYSICS = 5;
 }
 
 message PROTO_RequestLogin {
@@ -31,6 +26,18 @@ message PROTO_LoginResult {
 	string reason = 2;
 }
 
-message PROTO_SyncPhysics {
-	repeated CharacterPosition characters = 1;
+message PROTO_RequestSync {
+	string nickname = 1;
+}
+
+message PROTO_RequestSyncResult {
+	int32 id = 1;
+}
+
+message PROTO_ReportCharacterPhysics {
+	PROTO_ObjectTransform transform = 1;
+}
+
+message PROTO_SyncCharacterPhysics {
+	repeated PROTO_ObjectTransform transfoms = 1;
 }

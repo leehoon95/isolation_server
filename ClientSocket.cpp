@@ -39,7 +39,7 @@ void ClientSocket::ReadAsync()
                 {
                     int type = *(int32_t *)(&_recvBuffer[4]);
                     int serializedLength = *(int32_t *)(&_recvBuffer[8]);
-                    
+
                     std::cout << std::format("prot data len: {}, type: {}\n",
                                              serializedLength, type);
                     char *data = &_recvBuffer[12];
@@ -151,7 +151,8 @@ void ClientSocket::Stop()
     _socket.shutdown(asio::ip::tcp::socket::shutdown_both, ec);
     _socket.close(ec);
 
-    if (!ec) {
+    if (!ec)
+    {
         std::cout << std::format("STOP Client {} / {}. error: {}\n", _index, _nickname, ec.what());
     }
 }

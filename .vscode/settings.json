@@ -76,6 +76,7 @@
         "bitset": "cpp",
         "forward_list": "cpp",
         "ranges": "cpp",
-        "queue": "cpp"
+        "queue": "cpp",
+        "*.inc": "cpp"
     }
 }
