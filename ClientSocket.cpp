@@ -38,13 +38,20 @@ void ClientSocket::ReadAsync()
                 else if (memcmp(_recvBuffer.get(), "prot", 4) == 0)
                 {
                     int type = *(int32_t *)(&_recvBuffer[4]);
-                    int serializedLength = *(int32_t *)(&_recvBuffer[8]);
+                    int totalDataLength = *(int32_t *)(&_recvBuffer[8]);
 
-                    std::cout << std::format("prot data len: {}, type: {}\n",
-                                             serializedLength, type);
+                    std::cout << std::format("prot data length: {} / {} type: {}\n",
+                                             length, totalDataLength, type);
+
                     char *data = &_recvBuffer[12];
 
-                    _procedure[type](data, length - 12);
+                    if (totalDataLength != length)
+                    {
+                        std::cout << std::format("TCP serialized data is insufficient. buffer data len: {}. serialized data length: {}\n",
+                             length, totalDataLength);
+                    }
+                    else
+                        _procedure[type](data, length - 12);
                 }
 
                 // test ----
@@ -133,7 +140,7 @@ void ClientSocket::WriteAsync()
                             }));
 }
 
-bool ClientSocket::Init(unsigned int index)
+bool ClientSocket::Init(int index)
 {
     _recvBuffer = std::shared_ptr<char[]>(
         new char[static_cast<size_t>(BufferSize::RECV_BUFFER_SIZE)]);
@@ -179,7 +186,7 @@ void ClientSocket::SetProcedure(int type, std::function<void(char *, int)> proc)
     _procedure[type] = proc;
 }
 
-void ClientSocket::OnDisconnected(std::function<void(unsigned int, std::string)> callback)
+void ClientSocket::OnDisconnected(std::function<void(int, std::string)> callback)
 {
     _onDisconnected = callback;
 }

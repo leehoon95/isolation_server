@@ -15,14 +15,14 @@ class Server
 
     boost::asio::io_context &_io;
     boost::asio::ip::udp::socket _udpSocket;
-    //boost::asio::ip::udp::socket _udpSocket2;
     boost::asio::ip::udp::endpoint _remoteEndpoint;
     std::shared_ptr<char[]> _udpRecvBuffer;
     std::shared_ptr<char[]> _udpSendBuffer;
     std::mutex _connMtx;
-    std::map<unsigned int, std::shared_ptr<ClientSocket>> _connectedClients;
+    std::map<int, std::shared_ptr<ClientSocket>> _connectedClients;
     std::mutex _loginedMtx;
-    std::map<std::string, std::shared_ptr<ClientSocket>> _loginedClients;
+    //std::map<std::string, std::shared_ptr<ClientSocket>> _loginedClients;
+    std::map<int, std::shared_ptr<ClientSocket>> _loginedClients;
     Room _room;
 
     unsigned int _clientIndex = 0;

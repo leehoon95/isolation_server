@@ -98,6 +98,7 @@ enum PROTO_MessageType : int {
   REQUEST_SYNC = 3,
   REQUEST_SYNC_RESULT = 4,
   REPORT_CHARACTER_PHYSICS = 5,
+  SYNC_CHARACTER_PHYSICS = 6,
   PROTO_MessageType_INT_MIN_SENTINEL_DO_NOT_USE_ =
       ::std::numeric_limits<::int32_t>::min(),
   PROTO_MessageType_INT_MAX_SENTINEL_DO_NOT_USE_ =
@@ -108,11 +109,11 @@ extern const uint32_t PROTO_MessageType_internal_data_[];
 inline constexpr PROTO_MessageType PROTO_MessageType_MIN =
     static_cast<PROTO_MessageType>(0);
 inline constexpr PROTO_MessageType PROTO_MessageType_MAX =
-    static_cast<PROTO_MessageType>(5);
+    static_cast<PROTO_MessageType>(6);
 inline bool PROTO_MessageType_IsValid(int value) {
-  return 0 <= value && value <= 5;
+  return 0 <= value && value <= 6;
 }
-inline constexpr int PROTO_MessageType_ARRAYSIZE = 5 + 1;
+inline constexpr int PROTO_MessageType_ARRAYSIZE = 6 + 1;
 const ::google::protobuf::EnumDescriptor* PROTOBUF_NONNULL PROTO_MessageType_descriptor();
 template <typename T>
 const ::std::string& PROTO_MessageType_Name(T value) {
@@ -123,7 +124,7 @@ const ::std::string& PROTO_MessageType_Name(T value) {
 }
 template <>
 inline const ::std::string& PROTO_MessageType_Name(PROTO_MessageType value) {
-  return ::google::protobuf::internal::NameOfDenseEnum<PROTO_MessageType_descriptor, 0, 5>(
+  return ::google::protobuf::internal::NameOfDenseEnum<PROTO_MessageType_descriptor, 0, 6>(
       static_cast<int>(value));
 }
 inline bool PROTO_MessageType_Parse(
@@ -280,17 +281,17 @@ class PROTO_RequestSyncResult final : public ::google::protobuf::Message
 
   // accessors -------------------------------------------------------
   enum : int {
-    kIdFieldNumber = 1,
+    kRoomIndexFieldNumber = 1,
   };
-  // int32 id = 1;
-  bool has_id() const;
-  void clear_id() ;
-  ::int32_t id() const;
-  void set_id(::int32_t value);
+  // int32 roomIndex = 1;
+  bool has_roomindex() const;
+  void clear_roomindex() ;
+  ::int32_t roomindex() const;
+  void set_roomindex(::int32_t value);
 
   private:
-  ::int32_t _internal_id() const;
-  void _internal_set_id(::int32_t value);
+  ::int32_t _internal_roomindex() const;
+  void _internal_set_roomindex(::int32_t value);
 
   public:
   // @@protoc_insertion_point(class_scope:PROTO_RequestSyncResult)
@@ -319,7 +320,7 @@ class PROTO_RequestSyncResult final : public ::google::protobuf::Message
         const PROTO_RequestSyncResult& from_msg);
     ::google::protobuf::internal::HasBits<1> _has_bits_;
     ::google::protobuf::internal::CachedSize _cached_size_;
-    ::int32_t id_;
+    ::int32_t roomindex_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -472,22 +473,17 @@ class PROTO_RequestSync final : public ::google::protobuf::Message
 
   // accessors -------------------------------------------------------
   enum : int {
-    kNicknameFieldNumber = 1,
+    kClientIndexFieldNumber = 1,
   };
-  // string nickname = 1;
-  bool has_nickname() const;
-  void clear_nickname() ;
-  const ::std::string& nickname() const;
-  template <typename Arg_ = const ::std::string&, typename... Args_>
-  void set_nickname(Arg_&& arg, Args_... args);
-  ::std::string* PROTOBUF_NONNULL mutable_nickname();
-  [[nodiscard]] ::std::string* PROTOBUF_NULLABLE release_nickname();
-  void set_allocated_nickname(::std::string* PROTOBUF_NULLABLE value);
+  // int32 clientIndex = 1;
+  bool has_clientindex() const;
+  void clear_clientindex() ;
+  ::int32_t clientindex() const;
+  void set_clientindex(::int32_t value);
 
   private:
-  const ::std::string& _internal_nickname() const;
-  PROTOBUF_ALWAYS_INLINE void _internal_set_nickname(const ::std::string& value);
-  ::std::string* PROTOBUF_NONNULL _internal_mutable_nickname();
+  ::int32_t _internal_clientindex() const;
+  void _internal_set_clientindex(::int32_t value);
 
   public:
   // @@protoc_insertion_point(class_scope:PROTO_RequestSync)
@@ -495,7 +491,7 @@ class PROTO_RequestSync final : public ::google::protobuf::Message
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<0, 1,
-                                   0, 34,
+                                   0, 0,
                                    2>
       _table_;
 
@@ -516,7 +512,7 @@ class PROTO_RequestSync final : public ::google::protobuf::Message
         const PROTO_RequestSync& from_msg);
     ::google::protobuf::internal::HasBits<1> _has_bits_;
     ::google::protobuf::internal::CachedSize _cached_size_;
-    ::google::protobuf::internal::ArenaStringPtr nickname_;
+    ::int32_t clientindex_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -866,24 +862,24 @@ class PROTO_ObjectTransform final : public ::google::protobuf::Message
 
   // accessors -------------------------------------------------------
   enum : int {
-    kIdFieldNumber = 1,
-    kXFieldNumber = 2,
-    kYFieldNumber = 3,
-    kZFieldNumber = 4,
-    kRFieldNumber = 5,
+    kClientIndexFieldNumber = 1,
+    kXFieldNumber = 3,
+    kYFieldNumber = 4,
+    kZFieldNumber = 5,
+    kRFieldNumber = 6,
   };
-  // int32 id = 1;
-  bool has_id() const;
-  void clear_id() ;
-  ::int32_t id() const;
-  void set_id(::int32_t value);
+  // int32 clientIndex = 1;
+  bool has_clientindex() const;
+  void clear_clientindex() ;
+  ::int32_t clientindex() const;
+  void set_clientindex(::int32_t value);
 
   private:
-  ::int32_t _internal_id() const;
-  void _internal_set_id(::int32_t value);
+  ::int32_t _internal_clientindex() const;
+  void _internal_set_clientindex(::int32_t value);
 
   public:
-  // float x = 2;
+  // float x = 3;
   bool has_x() const;
   void clear_x() ;
   float x() const;
@@ -894,7 +890,7 @@ class PROTO_ObjectTransform final : public ::google::protobuf::Message
   void _internal_set_x(float value);
 
   public:
-  // float y = 3;
+  // float y = 4;
   bool has_y() const;
   void clear_y() ;
   float y() const;
@@ -905,7 +901,7 @@ class PROTO_ObjectTransform final : public ::google::protobuf::Message
   void _internal_set_y(float value);
 
   public:
-  // float z = 4;
+  // float z = 5;
   bool has_z() const;
   void clear_z() ;
   float z() const;
@@ -916,7 +912,7 @@ class PROTO_ObjectTransform final : public ::google::protobuf::Message
   void _internal_set_z(float value);
 
   public:
-  // float r = 5;
+  // float r = 6;
   bool has_r() const;
   void clear_r() ;
   float r() const;
@@ -953,7 +949,7 @@ class PROTO_ObjectTransform final : public ::google::protobuf::Message
         const PROTO_ObjectTransform& from_msg);
     ::google::protobuf::internal::HasBits<1> _has_bits_;
     ::google::protobuf::internal::CachedSize _cached_size_;
-    ::int32_t id_;
+    ::int32_t clientindex_;
     float x_;
     float y_;
     float z_;
@@ -1111,7 +1107,7 @@ class PROTO_LoginResult final : public ::google::protobuf::Message
   // accessors -------------------------------------------------------
   enum : int {
     kReasonFieldNumber = 2,
-    kResultFieldNumber = 1,
+    kClientIndexFieldNumber = 1,
   };
   // string reason = 2;
   bool has_reason() const;
@@ -1129,15 +1125,15 @@ class PROTO_LoginResult final : public ::google::protobuf::Message
   ::std::string* PROTOBUF_NONNULL _internal_mutable_reason();
 
   public:
-  // bool result = 1;
-  bool has_result() const;
-  void clear_result() ;
-  bool result() const;
-  void set_result(bool value);
+  // int32 clientIndex = 1;
+  bool has_clientindex() const;
+  void clear_clientindex() ;
+  ::int32_t clientindex() const;
+  void set_clientindex(::int32_t value);
 
   private:
-  bool _internal_result() const;
-  void _internal_set_result(bool value);
+  ::int32_t _internal_clientindex() const;
+  void _internal_set_clientindex(::int32_t value);
 
   public:
   // @@protoc_insertion_point(class_scope:PROTO_LoginResult)
@@ -1167,7 +1163,7 @@ class PROTO_LoginResult final : public ::google::protobuf::Message
     ::google::protobuf::internal::HasBits<1> _has_bits_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     ::google::protobuf::internal::ArenaStringPtr reason_;
-    bool result_;
+    ::int32_t clientindex_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -1517,9 +1513,10 @@ class PROTO_ReportCharacterPhysics final : public ::google::protobuf::Message
 
   // accessors -------------------------------------------------------
   enum : int {
-    kTransformFieldNumber = 1,
+    kTransformFieldNumber = 2,
+    kRoomIndexFieldNumber = 1,
   };
-  // .PROTO_ObjectTransform transform = 1;
+  // .PROTO_ObjectTransform transform = 2;
   bool has_transform() const;
   void clear_transform() ;
   const ::PROTO_ObjectTransform& transform() const;
@@ -1534,11 +1531,22 @@ class PROTO_ReportCharacterPhysics final : public ::google::protobuf::Message
   ::PROTO_ObjectTransform* PROTOBUF_NONNULL _internal_mutable_transform();
 
   public:
+  // int32 roomIndex = 1;
+  bool has_roomindex() const;
+  void clear_roomindex() ;
+  ::int32_t roomindex() const;
+  void set_roomindex(::int32_t value);
+
+  private:
+  ::int32_t _internal_roomindex() const;
+  void _internal_set_roomindex(::int32_t value);
+
+  public:
   // @@protoc_insertion_point(class_scope:PROTO_ReportCharacterPhysics)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
-  static const ::google::protobuf::internal::TcParseTable<0, 1,
+  static const ::google::protobuf::internal::TcParseTable<1, 2,
                                    1, 0,
                                    2>
       _table_;
@@ -1561,6 +1569,7 @@ class PROTO_ReportCharacterPhysics final : public ::google::protobuf::Message
     ::google::protobuf::internal::HasBits<1> _has_bits_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     ::PROTO_ObjectTransform* PROTOBUF_NULLABLE transform_;
+    ::int32_t roomindex_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -1585,35 +1594,35 @@ extern const ::google::protobuf::internal::ClassDataFull PROTO_ReportCharacterPh
 
 // PROTO_ObjectTransform
 
-// int32 id = 1;
-inline bool PROTO_ObjectTransform::has_id() const {
+// int32 clientIndex = 1;
+inline bool PROTO_ObjectTransform::has_clientindex() const {
   bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
   return value;
 }
-inline void PROTO_ObjectTransform::clear_id() {
+inline void PROTO_ObjectTransform::clear_clientindex() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.id_ = 0;
+  _impl_.clientindex_ = 0;
   _impl_._has_bits_[0] &= ~0x00000001u;
 }
-inline ::int32_t PROTO_ObjectTransform::id() const {
-  // @@protoc_insertion_point(field_get:PROTO_ObjectTransform.id)
-  return _internal_id();
+inline ::int32_t PROTO_ObjectTransform::clientindex() const {
+  // @@protoc_insertion_point(field_get:PROTO_ObjectTransform.clientIndex)
+  return _internal_clientindex();
 }
-inline void PROTO_ObjectTransform::set_id(::int32_t value) {
-  _internal_set_id(value);
+inline void PROTO_ObjectTransform::set_clientindex(::int32_t value) {
+  _internal_set_clientindex(value);
   _impl_._has_bits_[0] |= 0x00000001u;
-  // @@protoc_insertion_point(field_set:PROTO_ObjectTransform.id)
+  // @@protoc_insertion_point(field_set:PROTO_ObjectTransform.clientIndex)
 }
-inline ::int32_t PROTO_ObjectTransform::_internal_id() const {
+inline ::int32_t PROTO_ObjectTransform::_internal_clientindex() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.id_;
+  return _impl_.clientindex_;
 }
-inline void PROTO_ObjectTransform::_internal_set_id(::int32_t value) {
+inline void PROTO_ObjectTransform::_internal_set_clientindex(::int32_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.id_ = value;
+  _impl_.clientindex_ = value;
 }
 
-// float x = 2;
+// float x = 3;
 inline bool PROTO_ObjectTransform::has_x() const {
   bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
   return value;
@@ -1641,7 +1650,7 @@ inline void PROTO_ObjectTransform::_internal_set_x(float value) {
   _impl_.x_ = value;
 }
 
-// float y = 3;
+// float y = 4;
 inline bool PROTO_ObjectTransform::has_y() const {
   bool value = (_impl_._has_bits_[0] & 0x00000004u) != 0;
   return value;
@@ -1669,7 +1678,7 @@ inline void PROTO_ObjectTransform::_internal_set_y(float value) {
   _impl_.y_ = value;
 }
 
-// float z = 4;
+// float z = 5;
 inline bool PROTO_ObjectTransform::has_z() const {
   bool value = (_impl_._has_bits_[0] & 0x00000008u) != 0;
   return value;
@@ -1697,7 +1706,7 @@ inline void PROTO_ObjectTransform::_internal_set_z(float value) {
   _impl_.z_ = value;
 }
 
-// float r = 5;
+// float r = 6;
 inline bool PROTO_ObjectTransform::has_r() const {
   bool value = (_impl_._has_bits_[0] & 0x00000010u) != 0;
   return value;
@@ -1802,32 +1811,32 @@ inline void PROTO_RequestLogin::set_allocated_nickname(::std::string* PROTOBUF_N
 
 // PROTO_LoginResult
 
-// bool result = 1;
-inline bool PROTO_LoginResult::has_result() const {
+// int32 clientIndex = 1;
+inline bool PROTO_LoginResult::has_clientindex() const {
   bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
   return value;
 }
-inline void PROTO_LoginResult::clear_result() {
+inline void PROTO_LoginResult::clear_clientindex() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.result_ = false;
+  _impl_.clientindex_ = 0;
   _impl_._has_bits_[0] &= ~0x00000002u;
 }
-inline bool PROTO_LoginResult::result() const {
-  // @@protoc_insertion_point(field_get:PROTO_LoginResult.result)
-  return _internal_result();
+inline ::int32_t PROTO_LoginResult::clientindex() const {
+  // @@protoc_insertion_point(field_get:PROTO_LoginResult.clientIndex)
+  return _internal_clientindex();
 }
-inline void PROTO_LoginResult::set_result(bool value) {
-  _internal_set_result(value);
+inline void PROTO_LoginResult::set_clientindex(::int32_t value) {
+  _internal_set_clientindex(value);
   _impl_._has_bits_[0] |= 0x00000002u;
-  // @@protoc_insertion_point(field_set:PROTO_LoginResult.result)
+  // @@protoc_insertion_point(field_set:PROTO_LoginResult.clientIndex)
 }
-inline bool PROTO_LoginResult::_internal_result() const {
+inline ::int32_t PROTO_LoginResult::_internal_clientindex() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.result_;
+  return _impl_.clientindex_;
 }
-inline void PROTO_LoginResult::_internal_set_result(bool value) {
+inline void PROTO_LoginResult::_internal_set_clientindex(::int32_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.result_ = value;
+  _impl_.clientindex_ = value;
 }
 
 // string reason = 2;
@@ -1903,112 +1912,99 @@ inline void PROTO_LoginResult::set_allocated_reason(::std::string* PROTOBUF_NULL
 
 // PROTO_RequestSync
 
-// string nickname = 1;
-inline bool PROTO_RequestSync::has_nickname() const {
+// int32 clientIndex = 1;
+inline bool PROTO_RequestSync::has_clientindex() const {
   bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
   return value;
 }
-inline void PROTO_RequestSync::clear_nickname() {
+inline void PROTO_RequestSync::clear_clientindex() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.nickname_.ClearToEmpty();
+  _impl_.clientindex_ = 0;
   _impl_._has_bits_[0] &= ~0x00000001u;
 }
-inline const ::std::string& PROTO_RequestSync::nickname() const
-    ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:PROTO_RequestSync.nickname)
-  return _internal_nickname();
+inline ::int32_t PROTO_RequestSync::clientindex() const {
+  // @@protoc_insertion_point(field_get:PROTO_RequestSync.clientIndex)
+  return _internal_clientindex();
 }
-template <typename Arg_, typename... Args_>
-PROTOBUF_ALWAYS_INLINE void PROTO_RequestSync::set_nickname(Arg_&& arg, Args_... args) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
+inline void PROTO_RequestSync::set_clientindex(::int32_t value) {
+  _internal_set_clientindex(value);
   _impl_._has_bits_[0] |= 0x00000001u;
-  _impl_.nickname_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
-  // @@protoc_insertion_point(field_set:PROTO_RequestSync.nickname)
+  // @@protoc_insertion_point(field_set:PROTO_RequestSync.clientIndex)
 }
-inline ::std::string* PROTOBUF_NONNULL PROTO_RequestSync::mutable_nickname()
-    ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  ::std::string* _s = _internal_mutable_nickname();
-  // @@protoc_insertion_point(field_mutable:PROTO_RequestSync.nickname)
-  return _s;
-}
-inline const ::std::string& PROTO_RequestSync::_internal_nickname() const {
+inline ::int32_t PROTO_RequestSync::_internal_clientindex() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.nickname_.Get();
+  return _impl_.clientindex_;
 }
-inline void PROTO_RequestSync::_internal_set_nickname(const ::std::string& value) {
+inline void PROTO_RequestSync::_internal_set_clientindex(::int32_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_._has_bits_[0] |= 0x00000001u;
-  _impl_.nickname_.Set(value, GetArena());
-}
-inline ::std::string* PROTOBUF_NONNULL PROTO_RequestSync::_internal_mutable_nickname() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_._has_bits_[0] |= 0x00000001u;
-  return _impl_.nickname_.Mutable( GetArena());
-}
-inline ::std::string* PROTOBUF_NULLABLE PROTO_RequestSync::release_nickname() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  // @@protoc_insertion_point(field_release:PROTO_RequestSync.nickname)
-  if ((_impl_._has_bits_[0] & 0x00000001u) == 0) {
-    return nullptr;
-  }
-  _impl_._has_bits_[0] &= ~0x00000001u;
-  auto* released = _impl_.nickname_.Release();
-  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString()) {
-    _impl_.nickname_.Set("", GetArena());
-  }
-  return released;
-}
-inline void PROTO_RequestSync::set_allocated_nickname(::std::string* PROTOBUF_NULLABLE value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (value != nullptr) {
-    _impl_._has_bits_[0] |= 0x00000001u;
-  } else {
-    _impl_._has_bits_[0] &= ~0x00000001u;
-  }
-  _impl_.nickname_.SetAllocated(value, GetArena());
-  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.nickname_.IsDefault()) {
-    _impl_.nickname_.Set("", GetArena());
-  }
-  // @@protoc_insertion_point(field_set_allocated:PROTO_RequestSync.nickname)
+  _impl_.clientindex_ = value;
 }
 
 // -------------------------------------------------------------------
 
 // PROTO_RequestSyncResult
 
-// int32 id = 1;
-inline bool PROTO_RequestSyncResult::has_id() const {
+// int32 roomIndex = 1;
+inline bool PROTO_RequestSyncResult::has_roomindex() const {
   bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
   return value;
 }
-inline void PROTO_RequestSyncResult::clear_id() {
+inline void PROTO_RequestSyncResult::clear_roomindex() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.id_ = 0;
+  _impl_.roomindex_ = 0;
   _impl_._has_bits_[0] &= ~0x00000001u;
 }
-inline ::int32_t PROTO_RequestSyncResult::id() const {
-  // @@protoc_insertion_point(field_get:PROTO_RequestSyncResult.id)
-  return _internal_id();
+inline ::int32_t PROTO_RequestSyncResult::roomindex() const {
+  // @@protoc_insertion_point(field_get:PROTO_RequestSyncResult.roomIndex)
+  return _internal_roomindex();
 }
-inline void PROTO_RequestSyncResult::set_id(::int32_t value) {
-  _internal_set_id(value);
+inline void PROTO_RequestSyncResult::set_roomindex(::int32_t value) {
+  _internal_set_roomindex(value);
   _impl_._has_bits_[0] |= 0x00000001u;
-  // @@protoc_insertion_point(field_set:PROTO_RequestSyncResult.id)
+  // @@protoc_insertion_point(field_set:PROTO_RequestSyncResult.roomIndex)
 }
-inline ::int32_t PROTO_RequestSyncResult::_internal_id() const {
+inline ::int32_t PROTO_RequestSyncResult::_internal_roomindex() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.id_;
+  return _impl_.roomindex_;
 }
-inline void PROTO_RequestSyncResult::_internal_set_id(::int32_t value) {
+inline void PROTO_RequestSyncResult::_internal_set_roomindex(::int32_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.id_ = value;
+  _impl_.roomindex_ = value;
 }
 
 // -------------------------------------------------------------------
 
 // PROTO_ReportCharacterPhysics
 
-// .PROTO_ObjectTransform transform = 1;
+// int32 roomIndex = 1;
+inline bool PROTO_ReportCharacterPhysics::has_roomindex() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
+  return value;
+}
+inline void PROTO_ReportCharacterPhysics::clear_roomindex() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.roomindex_ = 0;
+  _impl_._has_bits_[0] &= ~0x00000002u;
+}
+inline ::int32_t PROTO_ReportCharacterPhysics::roomindex() const {
+  // @@protoc_insertion_point(field_get:PROTO_ReportCharacterPhysics.roomIndex)
+  return _internal_roomindex();
+}
+inline void PROTO_ReportCharacterPhysics::set_roomindex(::int32_t value) {
+  _internal_set_roomindex(value);
+  _impl_._has_bits_[0] |= 0x00000002u;
+  // @@protoc_insertion_point(field_set:PROTO_ReportCharacterPhysics.roomIndex)
+}
+inline ::int32_t PROTO_ReportCharacterPhysics::_internal_roomindex() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.roomindex_;
+}
+inline void PROTO_ReportCharacterPhysics::_internal_set_roomindex(::int32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.roomindex_ = value;
+}
+
+// .PROTO_ObjectTransform transform = 2;
 inline bool PROTO_ReportCharacterPhysics::has_transform() const {
   bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
   PROTOBUF_ASSUME(!value || _impl_.transform_ != nullptr);

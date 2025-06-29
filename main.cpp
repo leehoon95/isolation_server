@@ -30,13 +30,30 @@ int main()
 		// Server server{io_context, 51010};
 		Acceptor acceptor(io_context, 51010);
 
-		std::thread io_thread{
-			[&]()
-			{
-				std::cout << "Echo server is running on port 51010...\n";
+		std::vector<std::thread> ioThreads;
+
+		std::thread ioThread{[&](){
+			std::cout << "Echo server is running on port 51010...\n";
 				io_context.run();
 				std::cout << "io_context.run() is returned!!!\n";
-			}};
+		}};
+
+		// for (int i = 0; i < 16; ++i) {
+		// 	ioThreads.emplace_back([&]()
+		// 	{
+		// 		std::cout << "Echo server is running on port 51010...\n";
+		// 		io_context.run();
+		// 		std::cout << "io_context.run() is returned!!!\n";
+		// 	});
+		// }
+
+		// std::thread io_thread{
+		// 	[&]()
+		// 	{
+		// 		std::cout << "Echo server is running on port 51010...\n";
+		// 		io_context.run();
+		// 		std::cout << "io_context.run() is returned!!!\n";
+		// 	}};
 			
 		acceptor.Accept([&](asio::ip::tcp::socket socket){
 			//auto server = std::make_shared<Server>(std::move(socket));
@@ -44,19 +61,7 @@ int main()
 			server->AddClient(
 				std::make_shared<ClientSocket>(io_context, std::move(socket))
 			);
-
-
-			// clientIndex++;
-			// auto res = Servers.insert(
-			// 	std::make_pair(clientIndex, server)
-			// );
-
-			// 중복 index 있음
-			//if (!res.second)
-			//	std::cout << std::format("clientIndex {} is inserted aleady.\n", clientIndex);
 		});
-
-		
 
 		while (true)
 		{
@@ -87,7 +92,14 @@ int main()
 		work_guard.reset();
 
 		// testAsyncSendThread.join();
-		io_thread.join();
+		//io_thread.join();
+
+		// for (auto& th : ioThreads) {
+		// 	th.join();
+		// }
+		ioThread.join();
+
+		std::cout << "All io thread is joined\n";
 	}
 	catch (std::exception &e)
 	{

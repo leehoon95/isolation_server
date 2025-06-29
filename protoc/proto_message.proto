@@ -1,11 +1,11 @@
 edition="2023";
 
 message PROTO_ObjectTransform {
-	int32 id = 1;
-	float x = 2;
-	float y = 3;
-	float z = 4;
-	float r = 5;
+	int32 clientIndex = 1;
+	float x = 3;
+	float y = 4;
+	float z = 5;
+	float r = 6;
 }
 
 enum PROTO_MessageType {
@@ -15,6 +15,7 @@ enum PROTO_MessageType {
 	REQUEST_SYNC = 3;
 	REQUEST_SYNC_RESULT = 4;
 	REPORT_CHARACTER_PHYSICS = 5;
+	SYNC_CHARACTER_PHYSICS = 6;
 }
 
 message PROTO_RequestLogin {
@@ -22,22 +23,25 @@ message PROTO_RequestLogin {
 }
 
 message PROTO_LoginResult {
-	bool result = 1;
+	int32 clientIndex = 1;
 	string reason = 2;
 }
 
 message PROTO_RequestSync {
-	string nickname = 1;
+	int32 clientIndex = 1;
 }
 
 message PROTO_RequestSyncResult {
-	int32 id = 1;
+	int32 roomIndex = 1;
 }
 
+// type: REPORT_CHARACTER_PHYSICS
 message PROTO_ReportCharacterPhysics {
-	PROTO_ObjectTransform transform = 1;
+	int32 roomIndex = 1;
+	PROTO_ObjectTransform transform = 2;
 }
 
+// type: SYNC_CHARACTER_PHYSICS
 message PROTO_SyncCharacterPhysics {
 	repeated PROTO_ObjectTransform transfoms = 1;
 }

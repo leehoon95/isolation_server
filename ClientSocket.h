@@ -16,7 +16,7 @@ class ClientSocket : public std::enable_shared_from_this<ClientSocket>
 
     boost::asio::io_context &_io;
     boost::asio::ip::tcp::socket _socket;
-    unsigned int _index;
+    int _index;
     std::string _nickname;
     std::shared_ptr<char[]> _recvBuffer;
     int _remainedLengthToReceive = 0;
@@ -28,7 +28,7 @@ class ClientSocket : public std::enable_shared_from_this<ClientSocket>
     std::map<int, std::function<void(char *, int)>> _procedure;
     std::mutex _procMtx;
 
-    std::function<void(unsigned int, std::string)> _onDisconnected;
+    std::function<void(int, std::string)> _onDisconnected;
 
     ClientSocket(ClientSocket &) = delete;
     ClientSocket &operator=(const ClientSocket &) = delete;
@@ -39,12 +39,12 @@ public:
     explicit ClientSocket(
         boost::asio::io_context &io,
         boost::asio::ip::tcp::socket socket);
-    bool Init(unsigned int index);
+    bool Init(int index);
     void Stop();
     bool PostWrite(std::vector<char> &data);
     void SetMessageDeserializer(std::function<void(char *, int)> dispatcher);
     void SetProcedure(int type, std::function<void(char *, int)> proc);
-    void OnDisconnected(std::function<void(unsigned int, std::string)> callback);
+    void OnDisconnected(std::function<void(int, std::string)> callback);
     void ClearProcedure();
     void SetNickname(std::string nickname);
     // void SetIndex(unsigned int index) { _index = index; }

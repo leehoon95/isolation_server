@@ -8,8 +8,8 @@ using namespace boost;
 Server::Server(
     asio::io_context &io)
     : _io(io),
-      _udpSocket(io, asio::ip::udp::endpoint(asio::ip::udp::v4(), 51022))
-     // _udpSocket2(io,asio::ip::udp::endpoint(asio::ip::udp::v4(), 51020))
+      _udpSocket(io, asio::ip::udp::endpoint(asio::ip::udp::v4(), 51022)),
+      _room(io, _udpSocket)
 {
     _udpRecvBuffer = std::shared_ptr<char[]>(
         new char[static_cast<size_t>(static_cast<size_t>(UDPBufferSize::RECV_BUFFER_SIZE))]);
@@ -27,10 +27,7 @@ void Server::StartUDPReceive()
     //     std::cout << "UDP Recv buffer is not initialized.(maybe alloc exception.)\n";
     //     return;
     // }
-    
-    //boost::asio::ip::udp::endpoint sender;
-    if (_udpSocket.is_open())
-        std::cout << "udp socket is opened.\n";
+
     _udpSocket.async_receive_from(
         asio::buffer(_udpRecvBuffer.get(), static_cast<size_t>(UDPBufferSize::RECV_BUFFER_SIZE)),
         _remoteEndpoint,
@@ -38,38 +35,56 @@ void Server::StartUDPReceive()
         {
             if (!ec && length > 0)
             {
-                // if (memcmp(_udpRecvBuffer.get(), "prot", 4) == 0)
-                // {
-                //     int type = *(int32_t *)(&_udpRecvBuffer[4]);
-                //     int serializedLength = *(int32_t *)(&_udpRecvBuffer[8]);
+                if (memcmp(_udpRecvBuffer.get(), "prot", 4) == 0)
+                {
+                    int type = *(int32_t *)(&_udpRecvBuffer[4]);
+                    int totalDataLength = *(int32_t *)(&_udpRecvBuffer[8]);
 
-                //     std::cout << std::format("UDP prot data len: {}, type: {}\n",
-                //                              serializedLength, type);
-                // }
-
-                std::string msg{_udpRecvBuffer.get(), length};
-                std::string response{std::format("UDP received: {}", msg)};
-                std::cout << response << std::endl;
-
-                std::memcpy(_udpSendBuffer.get(), response.c_str(), response.length());
-
-                _udpSocket.async_send_to(
-                    asio::buffer(_udpSendBuffer.get(), response.length()),
-                    _remoteEndpoint,
-                    [this](system::error_code ec, std::size_t length) {
-                        if (!ec){
-                            std::cout << std::format("UDP sent {}\n", length);
+                    if (totalDataLength != length)
+                    {
+                        std::cout << std::format("UDP prot data is insufficient. buffer data length: {}, packet data length: {}\n",
+                                                 length, totalDataLength);
+                    }
+                    else if (type == REPORT_CHARACTER_PHYSICS)
+                    {
+                        PROTO_ObjectTransform pot;
+                        if (pot.ParseFromArray(&_udpRecvBuffer[12], length - 12))
+                        {
+                            _room.ReportClientTransform(&pot, _remoteEndpoint);
                         }
-                        else {
-                            std::cout << std::format("UDP send error: {}\n", ec.what());
+                        else
+                        {
+                            std::cerr << "UDP ObjectTransform parsing error.\n";
                         }
                     }
-                );
+                }
+
+                // std::string msg{_udpRecvBuffer.get(), length};
+                // std::string response{std::format("UDP received: {}", msg)};
+                // std::cout << response << std::endl;
+
+                // std::memcpy(_udpSendBuffer.get(), response.c_str(), response.length());
+
+                // _udpSocket.async_send_to(
+                //     asio::buffer(_udpSendBuffer.get(), response.length()),
+                //     _remoteEndpoint,
+                //     [this](system::error_code ec, std::size_t length)
+                //     {
+                //         if (!ec)
+                //         {
+                //             std::cout << std::format("UDP sent {}\n", length);
+                //         }
+                //         else
+                //         {
+                //             std::cout << std::format("UDP send error: {}\n", ec.what());
+                //         }
+                //     });
 
                 StartUDPReceive();
             }
             else
             {
+                print_boost_system_error("UDP async_receive_from.error.", ec);
                 std::cout << std::format("UDP error: {}\n", ec.what());
             }
         });
@@ -121,23 +136,26 @@ void Server::AddClient(std::shared_ptr<ClientSocket> client)
 
                 {
                     std::scoped_lock sl{_connMtx, _loginedMtx};
-                    auto cc = _connectedClients.find(client->GetIndex());
+                    int clientIndex = client->GetIndex();
+                    auto cc = _connectedClients.find(clientIndex);
                     if (cc == _connectedClients.end())
                     {
                         std::cout << std::format("Not found connected client {}:{}\n",
-                                                 client->GetIndex(), nickname);
+                                                 clientIndex, nickname);
                         // do nothing on the server side.
                         return;
                     }
-                    if (_loginedClients.find(nickname) != _loginedClients.end())
+                    if (_loginedClients.find(clientIndex) != _loginedClients.end())
                     {
-                        lr.set_result(false);
+                        lr.set_clientindex(-1);
+                        // lr.set_roomindex(-1);
                         lr.set_reason("Not found as connected client");
                     }
                     else
                     {
-                        lr.set_result(true);
-                        _loginedClients[nickname] = cc->second;
+                        lr.set_clientindex(clientIndex);
+                        // lr.set_roomindex(100);
+                        _loginedClients[clientIndex] = cc->second;
                         _connectedClients.erase(cc);
                     }
                 }
@@ -176,10 +194,9 @@ void Server::AddClient(std::shared_ptr<ClientSocket> client)
             _room.EnterRoom(client);
 
             PROTO_RequestSyncResult rsr;
-            rsr.set_id(client->GetIndex());
+            rsr.set_roomindex(100);
 
             std::string rsrString{rsr.SerializeAsString()};
-            
 
             std::vector<char> t;
             append_prot_packet(t, static_cast<int>(LOGIN_RESULT), static_cast<int>(rsrString.length()));
@@ -189,13 +206,13 @@ void Server::AddClient(std::shared_ptr<ClientSocket> client)
         });
 
     client->OnDisconnected(
-        [this](unsigned int index, std::string nickname)
+        [this](int index, std::string nickname)
         {
             std::cout << std::format("client {} / {} disconnected\n", index, nickname);
             {
                 std::scoped_lock sl{_connMtx, _loginedMtx};
                 _connectedClients.erase(index);
-                _loginedClients.erase(nickname);
+                _loginedClients.erase(index);
             }
         });
 }
@@ -209,7 +226,7 @@ void Server::PrintStatus()
     {
         std::cout << std::format("{}: ---\n", pair.first);
     }
-    std::cout << "------\n\n";
+    std::cout << "------------------------------\n\n";
 
     std::cout << "--- logined client ---\n";
     for (auto &pair : _loginedClients)
@@ -217,5 +234,7 @@ void Server::PrintStatus()
         if (pair.second.use_count() > 0)
             std::cout << std::format("{}\n", pair.first);
     }
-    std::cout << "------\n\n";
+    std::cout << "-----------------------\n\n";
+
+    _room.PrintStatus();
 }
