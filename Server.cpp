@@ -35,6 +35,12 @@ void Server::StartUDPReceive()
         {
             if (!ec && length > 0)
             {
+                for (int i = 0; i < length; ++i) {
+                    printf("%0X ", _udpRecvBuffer[i]);
+                }
+
+                std::cout << std::endl;
+
                 if (memcmp(_udpRecvBuffer.get(), "prot", 4) == 0)
                 {
                     int type = *(int32_t *)(&_udpRecvBuffer[4]);
@@ -47,13 +53,13 @@ void Server::StartUDPReceive()
                     }
                     else if (type == REPORT_CHARACTER_PHYSICS)
                     {
-                        PROTO_ObjectTransform pot;
-                        if (pot.ParseFromArray(&_udpRecvBuffer[12], length - 12))
-                        {
-                            _room.ReportClientTransform(&pot, _remoteEndpoint);
+                        PROTO_ReportCharacterPhysics rcp;
+
+                        if (rcp.ParseFromArray(&_udpRecvBuffer[12], length - 12)) {
+                            std::cout << std::format("UDP data received. ri: {}, ci: {}\n", rcp.roomindex(), rcp.transform().clientindex());
+                           _room.ReportClientTransform(rcp.mutable_transform(), _remoteEndpoint);
                         }
-                        else
-                        {
+                        else {
                             std::cerr << "UDP ObjectTransform parsing error.\n";
                         }
                     }
@@ -124,7 +130,7 @@ void Server::AddClient(std::shared_ptr<ClientSocket> client)
         [this, client](char *serializedData, int length)
         {
             PROTO_RequestLogin msg;
-            std::cout << std::format("c use_count: {}\n", client.use_count());
+            //std::cout << std::format("c use_count: {}\n", client.use_count());
 
             if (msg.ParseFromArray(serializedData, length))
             {
@@ -172,11 +178,14 @@ void Server::AddClient(std::shared_ptr<ClientSocket> client)
                 std::string lrString{lr.SerializeAsString()};
 
                 std::vector<char> t;
-                append_prot_packet(t, static_cast<int>(LOGIN_RESULT), static_cast<int>(lrString.length()));
+                append_prot_packet(
+                    t, 
+                    static_cast<int>(LOGIN_RESULT), 
+                    static_cast<int>(lrString.length()) + 12);
                 t.insert(t.end(), lrString.begin(), lrString.end());
                 // t.push_back(message.begin(), message.end());
                 client->PostWrite(t);
-                // std::cout << std::format("t.size(): {}\n", t.size());
+                std::cout << std::format("t.size(): {}\n", t.size());
             }
             else
             {
@@ -199,7 +208,10 @@ void Server::AddClient(std::shared_ptr<ClientSocket> client)
             std::string rsrString{rsr.SerializeAsString()};
 
             std::vector<char> t;
-            append_prot_packet(t, static_cast<int>(LOGIN_RESULT), static_cast<int>(rsrString.length()));
+            append_prot_packet(
+                t, 
+                static_cast<int>(REQUEST_SYNC_RESULT), 
+                static_cast<int>(rsrString.length()) + 12);
             t.insert(t.end(), rsrString.begin(), rsrString.end());
 
             client->PostWrite(t);
@@ -212,6 +224,7 @@ void Server::AddClient(std::shared_ptr<ClientSocket> client)
             {
                 std::scoped_lock sl{_connMtx, _loginedMtx};
                 _connectedClients.erase(index);
+                _room.ExitRoom(_loginedClients[index]);
                 _loginedClients.erase(index);
             }
         });
@@ -232,7 +245,7 @@ void Server::PrintStatus()
     for (auto &pair : _loginedClients)
     {
         if (pair.second.use_count() > 0)
-            std::cout << std::format("{}\n", pair.first);
+            std::cout << std::format("{}: {}\n", pair.first, pair.second->GetNickname());
     }
     std::cout << "-----------------------\n\n";
 

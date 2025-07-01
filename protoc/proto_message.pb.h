@@ -863,10 +863,10 @@ class PROTO_ObjectTransform final : public ::google::protobuf::Message
   // accessors -------------------------------------------------------
   enum : int {
     kClientIndexFieldNumber = 1,
-    kXFieldNumber = 3,
-    kYFieldNumber = 4,
-    kZFieldNumber = 5,
-    kRFieldNumber = 6,
+    kXFieldNumber = 2,
+    kYFieldNumber = 3,
+    kZFieldNumber = 4,
+    kRFieldNumber = 5,
   };
   // int32 clientIndex = 1;
   bool has_clientindex() const;
@@ -879,7 +879,7 @@ class PROTO_ObjectTransform final : public ::google::protobuf::Message
   void _internal_set_clientindex(::int32_t value);
 
   public:
-  // float x = 3;
+  // float x = 2;
   bool has_x() const;
   void clear_x() ;
   float x() const;
@@ -890,7 +890,7 @@ class PROTO_ObjectTransform final : public ::google::protobuf::Message
   void _internal_set_x(float value);
 
   public:
-  // float y = 4;
+  // float y = 3;
   bool has_y() const;
   void clear_y() ;
   float y() const;
@@ -901,7 +901,7 @@ class PROTO_ObjectTransform final : public ::google::protobuf::Message
   void _internal_set_y(float value);
 
   public:
-  // float z = 5;
+  // float z = 4;
   bool has_z() const;
   void clear_z() ;
   float z() const;
@@ -912,7 +912,7 @@ class PROTO_ObjectTransform final : public ::google::protobuf::Message
   void _internal_set_z(float value);
 
   public:
-  // float r = 6;
+  // float r = 5;
   bool has_r() const;
   void clear_r() ;
   float r() const;
@@ -1622,7 +1622,7 @@ inline void PROTO_ObjectTransform::_internal_set_clientindex(::int32_t value) {
   _impl_.clientindex_ = value;
 }
 
-// float x = 3;
+// float x = 2;
 inline bool PROTO_ObjectTransform::has_x() const {
   bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
   return value;
@@ -1650,7 +1650,7 @@ inline void PROTO_ObjectTransform::_internal_set_x(float value) {
   _impl_.x_ = value;
 }
 
-// float y = 4;
+// float y = 3;
 inline bool PROTO_ObjectTransform::has_y() const {
   bool value = (_impl_._has_bits_[0] & 0x00000004u) != 0;
   return value;
@@ -1678,7 +1678,7 @@ inline void PROTO_ObjectTransform::_internal_set_y(float value) {
   _impl_.y_ = value;
 }
 
-// float z = 5;
+// float z = 4;
 inline bool PROTO_ObjectTransform::has_z() const {
   bool value = (_impl_._has_bits_[0] & 0x00000008u) != 0;
   return value;
@@ -1706,7 +1706,7 @@ inline void PROTO_ObjectTransform::_internal_set_z(float value) {
   _impl_.z_ = value;
 }
 
-// float r = 6;
+// float r = 5;
 inline bool PROTO_ObjectTransform::has_r() const {
   bool value = (_impl_._has_bits_[0] & 0x00000010u) != 0;
   return value;

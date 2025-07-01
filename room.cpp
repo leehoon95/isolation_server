@@ -10,7 +10,7 @@ static_assert(std::is_trivially_copyable<ObjectTransform>::value, "memcpy unsafe
 Room::Room(boost::asio::io_context &io, asio::ip::udp::socket &socket)
     : _roomIndex(100),
       _io(io),
-      _timer(io, std::chrono::milliseconds(500)),
+      _timer(io, std::chrono::milliseconds(20)),
       _udpSocket(socket)
 {
     _udpRecvBuffer = std::shared_ptr<char[]>(
@@ -25,47 +25,66 @@ void Room::StartTimer()
         mtx lock...
         async send data...
     */
-
     std::scoped_lock sl{_mtxSCP};
-    std::string serialized{_scp.SerializePartialAsString()};
-
-    if (!_clientUDPEndpoint.empty())
+    // std::cout << std::format("scp transforms_size: {}\n", _scp.transfoms_size());
+    if (_scp.transfoms_size() > 0)
+    // if (_transforms.size() > 0)
     {
-        for (auto &ep : _clientUDPEndpoint)
+
+        // PROTO_SyncCharacterPhysics scp;
+
+        // for (auto& tr : _transforms) {
+        //     auto newtr = scp.add_transfoms();
+
+        //     //std::memcpy(newtr, tr.second.get(), sizeof(PROTO_ObjectTransform));
+        //     tr.second
+        //     newtr->set_clientindex()
+        // }
+      
+        std::string serialized{_scp.SerializePartialAsString()};
+
+        if (!_clientUDPEndpoint.empty())
         {
-            std::scoped_lock sl{_mtxSendQueue};
+            for (auto &ep : _clientUDPEndpoint)
+            {
+                //std::scoped_lock sl{_mtxSendQueue};
 
-            std::vector<char> buffer;
-            append_prot_packet(buffer, static_cast<int>(LOGIN_RESULT), static_cast<int>(serialized.length()));
-            buffer.insert(buffer.end(), serialized.begin(), serialized.end());
+                std::vector<char> buffer;
+                append_prot_packet(
+                    buffer,
+                    static_cast<int>(SYNC_CHARACTER_PHYSICS),
+                    static_cast<int>(serialized.length()) + 12);
+                buffer.insert(buffer.end(), serialized.begin(), serialized.end());
 
-            _sendQueue.push(std::move(buffer));
+                //_sendQueue.push(std::move(buffer));
 
-            SendUDPData(ep.second);
+                SendUDPData(
+                    ep.second, 
+                    std::make_shared<std::vector<char>>(std::move(buffer))
+                );
+            }
         }
-        _timer.expires_after(std::chrono::milliseconds(500));
-    }
-    else {
-        std::cout << "Any clients didn't send udp data.\n";
-        _timer.expires_after(std::chrono::milliseconds(1000));
     }
 
+    _timer.expires_after(std::chrono::milliseconds(20));
     _timer.async_wait([this](const system::error_code &ec)
                       {
         if (!ec) {
-            std::cout << "tick!\n";
+            //std::cout << "tick!\n";
             StartTimer();
         }
         else
             print_boost_system_error("Room timer error", ec); });
 }
 
-void Room::SendUDPData(asio::ip::udp::endpoint remoteEndpoint)
+void Room::SendUDPData(
+    asio::ip::udp::endpoint remoteEndpoint,
+    std::shared_ptr<std::vector<char>> buffer)
 {
     _udpSocket.async_send_to(
-        asio::buffer(_sendQueue.back()),
+        asio::buffer(*buffer),
         remoteEndpoint,
-        [this](system::error_code ec, std::size_t length)
+        [this, buffer](system::error_code ec, std::size_t length)
         {
             if (!ec)
             {
@@ -76,8 +95,8 @@ void Room::SendUDPData(asio::ip::udp::endpoint remoteEndpoint)
                 std::cout << std::format("UDP send error: {}\n", ec.what());
             }
 
-            std::scoped_lock sl{_mtxSendQueue};
-            _sendQueue.pop();
+            // std::scoped_lock sl{_mtxSendQueue};
+            // _sendQueue.pop();
         });
 }
 
@@ -86,34 +105,37 @@ void Room::EnterRoom(std::shared_ptr<ClientSocket> client)
     std::scoped_lock sl{_mtxClient};
     for (auto &var : _clients)
     {
-        if (var->GetIndex() == client->GetIndex())
+        if (_clients.find(client->GetIndex()) != _clients.end())
             return;
     }
 
-    _clients.push_back(client);
+    _clients[client->GetIndex()] = client;
 
-    std::cout << "pscp count " << _scp.transfoms_size() << std::endl;
+    std::cout << std::format("client {}: {} is entered.\n",
+                             client->GetIndex(), client->GetNickname());
 }
 
 void Room::ExitRoom(std::shared_ptr<ClientSocket> client)
 {
-    std::scoped_lock sl{_mtxClient, _mtxSCP, _mtxClientUDPEndpoint};
-
+    std::scoped_lock sl{_mtxClient, _mtxSCP, _mtxClientUDPEndpoint, _mtxTransforms};
+    std::cout << std::format("Client({}: {}) exit room.\n", client->GetIndex(), client->GetNickname());
     bool found = false;
     auto iter = _clients.begin();
     int clientIndex = client->GetIndex();
+    
+    // for (; iter != _clients.end(); ++iter)
+    // {
+    //     if ((*iter)->GetIndex() == clientIndex)
+    //         break;
+    // }
 
-    for (; iter != _clients.end(); ++iter)
-    {
-        if ((*iter)->GetIndex() == clientIndex)
-            break;
-    }
+    // _clients.erase(iter);
+    if (_clients.find(clientIndex) != _clients.end())
+        _clients.erase(clientIndex);
 
-    _clients.erase(iter);
-
-    auto &t = _scp.transfoms();
-
-    for (int i = 0; i < t.size();)
+    // _transforms.erase(clientIndex);
+    int trsize = _scp.transfoms_size();
+    for (int i = 0; i < trsize; ++i)
     {
         if (_scp.transfoms(i).clientindex() == clientIndex)
         {
@@ -126,26 +148,46 @@ void Room::ExitRoom(std::shared_ptr<ClientSocket> client)
         }
     }
 
+    std::cout << std::format("scp count: {}", _scp.transfoms_size());
     _clientUDPEndpoint.erase(clientIndex);
 }
 
 void Room::ReportClientTransform(PROTO_ObjectTransform *ot, asio::ip::udp::endpoint sender)
 {
-    std::scoped_lock sl{_mtxSCP, _mtxClientUDPEndpoint};
+    std::scoped_lock sl{_mtxSCP, _mtxClientUDPEndpoint, _mtxTransforms};
+
     int clientIndex = ot->clientindex();
+
+    if (_clients.find(clientIndex) == _clients.end())
+    {
+        std::cout << std::format("ObjectTransform.clientIndex is not in _clients(index: {}\n", clientIndex);
+        return;
+    }
+
+    // std::cout << std::format("client transfom reported: {}\n", clientIndex);
 
     _clientUDPEndpoint[clientIndex] = sender;
 
-    auto &t = _scp.transfoms();
+    // _transforms[clientIndex] = std::make_shared<PROTO_ObjectTransform>();
+    // _transforms[clientIndex]->CopyFrom(*ot);
 
     bool found = false;
+    int trsize = _scp.transfoms_size();
 
-    for (int i = 0; i < t.size();)
+    for (int i = 0; i < trsize; ++i)
     {
         if (_scp.transfoms(i).clientindex() == clientIndex)
         {
-            std::memcpy(_scp.mutable_transfoms(i), ot, sizeof(PROTO_ObjectTransform));
+            // std::memcpy(_scp.mutable_transfoms(i), ot, sizeof(PROTO_ObjectTransform));
+            auto tr = _scp.mutable_transfoms(i);
+            tr->set_clientindex(ot->clientindex());
+            tr->set_x(ot->x());
+            tr->set_y(ot->y());
+            tr->set_z(ot->z());
+            tr->set_r(ot->r());
+
             found = true;
+            // std::cout << std::format("client transforms is set. {}\n", _scp.transfoms(i).clientindex());
 
             return;
         }
@@ -153,16 +195,20 @@ void Room::ReportClientTransform(PROTO_ObjectTransform *ot, asio::ip::udp::endpo
 
     if (!found)
     {
-        auto newt = _scp.add_transfoms();
-
-        std::memcpy(newt, ot, sizeof(PROTO_ObjectTransform));
-        std::cout << "New transforms is added.\n";
+        auto tr = _scp.add_transfoms();
+        tr->set_clientindex(ot->clientindex());
+        tr->set_x(ot->x());
+        tr->set_y(ot->y());
+        tr->set_z(ot->z());
+        tr->set_r(ot->r());
+        // std::memcpy(newt, ot, sizeof(PROTO_ObjectTransform));
+        std::cout << std::format("New transforms is added. {}\n", tr->clientindex());
     }
 }
 
 void Room::PrintStatus()
 {
-    std::scoped_lock sl{_mtxSendQueue, _mtxClient};
+    std::scoped_lock sl{_mtxClient};
 
     std::cout << "--- Room status ---\n";
 
@@ -170,7 +216,7 @@ void Room::PrintStatus()
 
     for (auto &var : _clients)
     {
-        std::cout << std::format("{} : {}\n", var->GetIndex(), var->GetNickname());
+        std::cout << std::format("{} : {}\n", var.second->GetIndex(), var.second->GetNickname());
     }
 
     std::cout << "-------------------\n\n";

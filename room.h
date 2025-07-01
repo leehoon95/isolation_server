@@ -28,29 +28,34 @@ class Room : std::enable_shared_from_this<Room>
     boost::asio::ip::udp::socket &_udpSocket;
     boost::asio::ip::udp::endpoint _udpRemoteEndpoint;
 
-    std::list<std::shared_ptr<ClientSocket>> _clients;
+    std::map<int, std::shared_ptr<ClientSocket>> _clients;
     std::mutex _mtxClient;
 
     std::map<int, boost::asio::ip::udp::endpoint> _clientUDPEndpoint;
     std::mutex _mtxClientUDPEndpoint;
 
+    std::map<int, std::shared_ptr<PROTO_ObjectTransform>> _transforms;
+    std::mutex _mtxTransforms;
+
     PROTO_SyncCharacterPhysics _scp;
     std::mutex _mtxSCP;
-    
+
     std::queue<std::vector<char>> _sendQueue;
     std::mutex _mtxSendQueue;
 
     std::shared_ptr<char[]> _udpRecvBuffer;
-    
+
     const float _syncRateMs = 0.02f;
 
 private:
     void StartTimer();
-    void SendUDPData(boost::asio::ip::udp::endpoint remoteEndpoint);
+    void SendUDPData(
+        boost::asio::ip::udp::endpoint remoteEndpoint,
+        std::shared_ptr<std::vector<char>> buffer);
 
 public:
     Room(boost::asio::io_context &io,
-        boost::asio::ip::udp::socket &socket);
+         boost::asio::ip::udp::socket &socket);
     void EnterRoom(std::shared_ptr<ClientSocket> client);
     void ExitRoom(std::shared_ptr<ClientSocket> client);
     void ReportClientTransform(

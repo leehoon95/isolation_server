@@ -32,20 +32,20 @@ int main()
 
 		std::vector<std::thread> ioThreads;
 
-		std::thread ioThread{[&](){
-			std::cout << "Echo server is running on port 51010...\n";
-				io_context.run();
-				std::cout << "io_context.run() is returned!!!\n";
-		}};
-
-		// for (int i = 0; i < 16; ++i) {
-		// 	ioThreads.emplace_back([&]()
-		// 	{
-		// 		std::cout << "Echo server is running on port 51010...\n";
+		// std::thread ioThread{[&](){
+		// 	std::cout << "Echo server is running on port 51010...\n";
 		// 		io_context.run();
 		// 		std::cout << "io_context.run() is returned!!!\n";
-		// 	});
-		// }
+		// }};
+
+		for (int i = 0; i < 2; ++i) {
+			ioThreads.emplace_back([&]()
+			{
+				std::cout << "Echo server is running on port 51010...\n";
+				io_context.run();
+				std::cout << "io_context.run() is returned!!!\n";
+			});
+		}
 
 		// std::thread io_thread{
 		// 	[&]()
@@ -92,12 +92,11 @@ int main()
 		work_guard.reset();
 
 		// testAsyncSendThread.join();
-		//io_thread.join();
 
 		// for (auto& th : ioThreads) {
 		// 	th.join();
 		// }
-		ioThread.join();
+		//ioThread.join();
 
 		std::cout << "All io thread is joined\n";
 	}

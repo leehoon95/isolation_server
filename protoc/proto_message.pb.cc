@@ -284,8 +284,8 @@ static const ::_pb::Message* PROTOBUF_NONNULL const file_default_instances[] = {
 const char descriptor_table_protodef_proto_5fmessage_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\023proto_message.proto\"X\n\025PROTO_ObjectTra"
-    "nsform\022\023\n\013clientIndex\030\001 \001(\005\022\t\n\001x\030\003 \001(\002\022\t"
-    "\n\001y\030\004 \001(\002\022\t\n\001z\030\005 \001(\002\022\t\n\001r\030\006 \001(\002\"&\n\022PROTO"
+    "nsform\022\023\n\013clientIndex\030\001 \001(\005\022\t\n\001x\030\002 \001(\002\022\t"
+    "\n\001y\030\003 \001(\002\022\t\n\001z\030\004 \001(\002\022\t\n\001r\030\005 \001(\002\"&\n\022PROTO"
     "_RequestLogin\022\020\n\010nickname\030\001 \001(\t\"8\n\021PROTO"
     "_LoginResult\022\023\n\013clientIndex\030\001 \001(\005\022\016\n\006rea"
     "son\030\002 \001(\t\"(\n\021PROTO_RequestSync\022\023\n\013client"
@@ -427,9 +427,9 @@ PROTO_ObjectTransform::_table_ = {
   {
     PROTOBUF_FIELD_OFFSET(PROTO_ObjectTransform, _impl_._has_bits_),
     0, // no _extensions_
-    6, 56,  // max_field_number, fast_idx_mask
+    5, 56,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294967234,  // skipmap
+    4294967264,  // skipmap
     offsetof(decltype(_table_), field_entries),
     5,  // num_field_entries
     0,  // num_aux_entries
@@ -445,19 +445,19 @@ PROTO_ObjectTransform::_table_ = {
     // int32 clientIndex = 1;
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(PROTO_ObjectTransform, _impl_.clientindex_), 0>(),
      {8, 0, 0, PROTOBUF_FIELD_OFFSET(PROTO_ObjectTransform, _impl_.clientindex_)}},
+    // float x = 2;
+    {::_pbi::TcParser::FastF32S1,
+     {21, 1, 0, PROTOBUF_FIELD_OFFSET(PROTO_ObjectTransform, _impl_.x_)}},
+    // float y = 3;
+    {::_pbi::TcParser::FastF32S1,
+     {29, 2, 0, PROTOBUF_FIELD_OFFSET(PROTO_ObjectTransform, _impl_.y_)}},
+    // float z = 4;
+    {::_pbi::TcParser::FastF32S1,
+     {37, 3, 0, PROTOBUF_FIELD_OFFSET(PROTO_ObjectTransform, _impl_.z_)}},
+    // float r = 5;
+    {::_pbi::TcParser::FastF32S1,
+     {45, 4, 0, PROTOBUF_FIELD_OFFSET(PROTO_ObjectTransform, _impl_.r_)}},
     {::_pbi::TcParser::MiniParse, {}},
-    // float x = 3;
-    {::_pbi::TcParser::FastF32S1,
-     {29, 1, 0, PROTOBUF_FIELD_OFFSET(PROTO_ObjectTransform, _impl_.x_)}},
-    // float y = 4;
-    {::_pbi::TcParser::FastF32S1,
-     {37, 2, 0, PROTOBUF_FIELD_OFFSET(PROTO_ObjectTransform, _impl_.y_)}},
-    // float z = 5;
-    {::_pbi::TcParser::FastF32S1,
-     {45, 3, 0, PROTOBUF_FIELD_OFFSET(PROTO_ObjectTransform, _impl_.z_)}},
-    // float r = 6;
-    {::_pbi::TcParser::FastF32S1,
-     {53, 4, 0, PROTOBUF_FIELD_OFFSET(PROTO_ObjectTransform, _impl_.r_)}},
     {::_pbi::TcParser::MiniParse, {}},
   }}, {{
     65535, 65535
@@ -465,16 +465,16 @@ PROTO_ObjectTransform::_table_ = {
     // int32 clientIndex = 1;
     {PROTOBUF_FIELD_OFFSET(PROTO_ObjectTransform, _impl_.clientindex_), _Internal::kHasBitsOffset + 0, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kInt32)},
-    // float x = 3;
+    // float x = 2;
     {PROTOBUF_FIELD_OFFSET(PROTO_ObjectTransform, _impl_.x_), _Internal::kHasBitsOffset + 1, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kFloat)},
-    // float y = 4;
+    // float y = 3;
     {PROTOBUF_FIELD_OFFSET(PROTO_ObjectTransform, _impl_.y_), _Internal::kHasBitsOffset + 2, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kFloat)},
-    // float z = 5;
+    // float z = 4;
     {PROTOBUF_FIELD_OFFSET(PROTO_ObjectTransform, _impl_.z_), _Internal::kHasBitsOffset + 3, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kFloat)},
-    // float r = 6;
+    // float r = 5;
     {PROTOBUF_FIELD_OFFSET(PROTO_ObjectTransform, _impl_.r_), _Internal::kHasBitsOffset + 4, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kFloat)},
   }},
@@ -522,32 +522,32 @@ PROTOBUF_NOINLINE void PROTO_ObjectTransform::Clear() {
             stream, this_._internal_clientindex(), target);
   }
 
-  // float x = 3;
+  // float x = 2;
   if ((cached_has_bits & 0x00000002u) != 0) {
     target = stream->EnsureSpace(target);
     target = ::_pbi::WireFormatLite::WriteFloatToArray(
-        3, this_._internal_x(), target);
+        2, this_._internal_x(), target);
   }
 
-  // float y = 4;
+  // float y = 3;
   if ((cached_has_bits & 0x00000004u) != 0) {
     target = stream->EnsureSpace(target);
     target = ::_pbi::WireFormatLite::WriteFloatToArray(
-        4, this_._internal_y(), target);
+        3, this_._internal_y(), target);
   }
 
-  // float z = 5;
+  // float z = 4;
   if ((cached_has_bits & 0x00000008u) != 0) {
     target = stream->EnsureSpace(target);
     target = ::_pbi::WireFormatLite::WriteFloatToArray(
-        5, this_._internal_z(), target);
+        4, this_._internal_z(), target);
   }
 
-  // float r = 6;
+  // float r = 5;
   if ((cached_has_bits & 0x00000010u) != 0) {
     target = stream->EnsureSpace(target);
     target = ::_pbi::WireFormatLite::WriteFloatToArray(
-        6, this_._internal_r(), target);
+        5, this_._internal_r(), target);
   }
 
   if (ABSL_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
