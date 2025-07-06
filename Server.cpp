@@ -35,11 +35,11 @@ void Server::StartUDPReceive()
         {
             if (!ec && length > 0)
             {
-                for (int i = 0; i < length; ++i) {
-                    printf("%0X ", _udpRecvBuffer[i]);
-                }
+                // for (int i = 0; i < length; ++i) {
+                //     printf("%0X ", _udpRecvBuffer[i]);
+                // }
 
-                std::cout << std::endl;
+                //std::cout << std::endl;
 
                 if (memcmp(_udpRecvBuffer.get(), "prot", 4) == 0)
                 {
@@ -64,27 +64,6 @@ void Server::StartUDPReceive()
                         }
                     }
                 }
-
-                // std::string msg{_udpRecvBuffer.get(), length};
-                // std::string response{std::format("UDP received: {}", msg)};
-                // std::cout << response << std::endl;
-
-                // std::memcpy(_udpSendBuffer.get(), response.c_str(), response.length());
-
-                // _udpSocket.async_send_to(
-                //     asio::buffer(_udpSendBuffer.get(), response.length()),
-                //     _remoteEndpoint,
-                //     [this](system::error_code ec, std::size_t length)
-                //     {
-                //         if (!ec)
-                //         {
-                //             std::cout << std::format("UDP sent {}\n", length);
-                //         }
-                //         else
-                //         {
-                //             std::cout << std::format("UDP send error: {}\n", ec.what());
-                //         }
-                //     });
 
                 StartUDPReceive();
             }
@@ -139,7 +118,7 @@ void Server::AddClient(std::shared_ptr<ClientSocket> client)
                 client->SetNickname(nickname);
 
                 PROTO_LoginResult lr;
-
+                
                 {
                     std::scoped_lock sl{_connMtx, _loginedMtx};
                     int clientIndex = client->GetIndex();
@@ -168,12 +147,12 @@ void Server::AddClient(std::shared_ptr<ClientSocket> client)
 
                 std::string message{std::format("client nickname: {}. login allowed.", nickname)};
                 std::cout << message << std::endl;
-                for (auto &c : message)
-                {
-                    printf("0x%X(%c) ", c, c);
-                }
+                // for (auto &c : message)
+                // {
+                //     printf("0x%X(%c) ", c, c);
+                // }
 
-                printf("\n");
+                // printf("\n");
 
                 std::string lrString{lr.SerializeAsString()};
 
@@ -224,7 +203,7 @@ void Server::AddClient(std::shared_ptr<ClientSocket> client)
             {
                 std::scoped_lock sl{_connMtx, _loginedMtx};
                 _connectedClients.erase(index);
-                _room.ExitRoom(_loginedClients[index]);
+                _room.ExitRoom(index);
                 _loginedClients.erase(index);
             }
         });

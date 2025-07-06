@@ -22,6 +22,11 @@ class Room : std::enable_shared_from_this<Room>
         SEND_BUFFER_SIZE = 4096
     };
 
+    enum class BroadcastingInterval : int 
+    {
+        INTERVAL = 100
+    };
+
     int _roomIndex;
     boost::asio::io_context &_io;
     boost::asio::steady_timer _timer;
@@ -57,7 +62,7 @@ public:
     Room(boost::asio::io_context &io,
          boost::asio::ip::udp::socket &socket);
     void EnterRoom(std::shared_ptr<ClientSocket> client);
-    void ExitRoom(std::shared_ptr<ClientSocket> client);
+    void ExitRoom(const int index);
     void ReportClientTransform(
         PROTO_ObjectTransform *ot,
         boost::asio::ip::udp::endpoint sender);

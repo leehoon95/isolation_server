@@ -10,7 +10,7 @@ static_assert(std::is_trivially_copyable<ObjectTransform>::value, "memcpy unsafe
 Room::Room(boost::asio::io_context &io, asio::ip::udp::socket &socket)
     : _roomIndex(100),
       _io(io),
-      _timer(io, std::chrono::milliseconds(20)),
+      _timer(io),
       _udpSocket(socket)
 {
     _udpRecvBuffer = std::shared_ptr<char[]>(
@@ -25,12 +25,12 @@ void Room::StartTimer()
         mtx lock...
         async send data...
     */
-    std::scoped_lock sl{_mtxSCP};
+   
     // std::cout << std::format("scp transforms_size: {}\n", _scp.transfoms_size());
     if (_scp.transfoms_size() > 0)
     // if (_transforms.size() > 0)
     {
-
+        std::scoped_lock sl{_mtxSCP};
         // PROTO_SyncCharacterPhysics scp;
 
         // for (auto& tr : _transforms) {
@@ -66,7 +66,8 @@ void Room::StartTimer()
         }
     }
 
-    _timer.expires_after(std::chrono::milliseconds(20));
+    _timer.expires_after(std::chrono::milliseconds(
+        static_cast<int>(BroadcastingInterval::INTERVAL)));
     _timer.async_wait([this](const system::error_code &ec)
                       {
         if (!ec) {
@@ -115,29 +116,19 @@ void Room::EnterRoom(std::shared_ptr<ClientSocket> client)
                              client->GetIndex(), client->GetNickname());
 }
 
-void Room::ExitRoom(std::shared_ptr<ClientSocket> client)
+void Room::ExitRoom(const int index)
 {
     std::scoped_lock sl{_mtxClient, _mtxSCP, _mtxClientUDPEndpoint, _mtxTransforms};
-    std::cout << std::format("Client({}: {}) exit room.\n", client->GetIndex(), client->GetNickname());
+    std::cout << std::format("Client({}) exit room.\n", index);
     bool found = false;
-    auto iter = _clients.begin();
-    int clientIndex = client->GetIndex();
-    
-    // for (; iter != _clients.end(); ++iter)
-    // {
-    //     if ((*iter)->GetIndex() == clientIndex)
-    //         break;
-    // }
 
-    // _clients.erase(iter);
-    if (_clients.find(clientIndex) != _clients.end())
-        _clients.erase(clientIndex);
+    if (_clients.find(index) != _clients.end())
+        _clients.erase(index);
 
-    // _transforms.erase(clientIndex);
     int trsize = _scp.transfoms_size();
     for (int i = 0; i < trsize; ++i)
     {
-        if (_scp.transfoms(i).clientindex() == clientIndex)
+        if (_scp.transfoms(i).clientindex() == index)
         {
             _scp.mutable_transfoms()->DeleteSubrange(i, 1);
             break;
@@ -149,7 +140,7 @@ void Room::ExitRoom(std::shared_ptr<ClientSocket> client)
     }
 
     std::cout << std::format("scp count: {}", _scp.transfoms_size());
-    _clientUDPEndpoint.erase(clientIndex);
+    _clientUDPEndpoint.erase(index);
 }
 
 void Room::ReportClientTransform(PROTO_ObjectTransform *ot, asio::ip::udp::endpoint sender)

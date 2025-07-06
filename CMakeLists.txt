@@ -24,8 +24,8 @@ set(SOURCES
 add_executable(test_server ${SOURCES})
 #target_include_directories(test_server PRIVATE ${Protobuf_INCLUDE_DIRS})
 target_link_libraries(test_server Boost::boost myproto redis++ hiredis)
-    #protobuf::protobuf
-    #protobuf::libprotobuf
-    #libprotobuf
-    #protobuf
-    #${Protobuf_LIBRARIES}
+#protobuf::protobuf
+#protobuf::libprotobuf
+#libprotobuf
+#protobuf
+#${Protobuf_LIBRARIES}
