@@ -2,6 +2,7 @@
 #include <iostream>
 #include <format>
 #include "protoc/proto_message.pb.h"
+#include "util.h"
 
 using namespace boost;
 // using asio::ip::tcp;
@@ -15,122 +16,131 @@ ClientSocket::ClientSocket(
 {
 }
 
+//
 void ClientSocket::ReadAsync()
 {
-    // auto client = shared_from_this();
-
+    auto self = shared_from_this();
+    
     _socket.async_read_some(
         asio::buffer(_recvBuffer.get(), static_cast<size_t>(BufferSize::RECV_BUFFER_SIZE)),
-        [this](boost::system::error_code ec, std::size_t length)
+        [self](boost::system::error_code ec, std::size_t length)
         {
+            
+
             if (!ec)
             {
+                auto buffer = self->GetReceiveBuffer();
+
                 if (length == 0)
                 {
-                    auto re = _socket.remote_endpoint();
-                    std::cerr << std::format(
-                        "Client is closed. ({}:{})\n",
-                        re.address().to_string(),
-                        re.port());
+                    self->HandlePacket(PROTO_MessageType::DISCONNECTED, nullptr, 0);
 
                     return;
                 }
-                else if (memcmp(_recvBuffer.get(), "prot", 4) == 0)
+                else if (memcmp(buffer.get(), "prot", 4) == 0)
                 {
-                    int type = *(int32_t *)(&_recvBuffer[4]);
-                    int totalDataLength = *(int32_t *)(&_recvBuffer[8]);
+                    int type = *(int32_t *)(&buffer[4]);
+                    int totalDataLength = *(int32_t *)(&buffer[8]);
 
                     std::cout << std::format("prot data length: {} / {} type: {}\n",
                                              length, totalDataLength, type);
 
-                    char *data = &_recvBuffer[12];
+                    char *data = &buffer[12];
 
                     if (totalDataLength != length)
                     {
                         std::cout << std::format("TCP serialized data is insufficient. buffer data len: {}. serialized data length: {}\n",
-                             length, totalDataLength);
+                                                 length, totalDataLength);
                     }
                     else
-                        _procedure[type](data, length - 12);
+                    {
+                        self->HandlePacket(type, data, length - 12);
+                    }
                 }
+
+                self->ReadAsync();
 
                 // test ----
-                else if (memcmp(_recvBuffer.get(), "many", 4) == 0)
-                {
-                    int len = *(int *)(&_recvBuffer[4]);
+                // else if (memcmp(_recvBuffer.get(), "many", 4) == 0)
+                // {
+                //     int len = *(int *)(&_recvBuffer[4]);
 
-                    if (length < len)
-                    {
-                        _remainedLengthToReceive = len - length;
-                        _allDataSize = len;
-                    }
+                //     if (length < len)
+                //     {
+                //         _remainedLengthToReceive = len - length;
+                //         _allDataSize = len;
+                //     }
 
-                    std::cout << std::format("Received from client {} / {} ({} %)\n", length, len, (double)length / len);
+                //     std::cout << std::format("Received from client {} / {} ({} %)\n", length, len, (double)length / len);
 
-                    std::string message{std::format("thanks! {} byte\n", length)};
+                //     std::string message{std::format("thanks! {} byte\n", length)};
 
-                    std::vector<char> t(message.begin(), message.end());
-                    PostWrite(t);
-                }
-                else if (_remainedLengthToReceive > 0)
-                {
-                    std::cout << std::format("Received from client {} / {} ({} %)\n", length, _allDataSize, ((float)length / _allDataSize) * 100.f);
-                    _remainedLengthToReceive -= length;
+                //     std::vector<char> t(message.begin(), message.end());
+                //     PostWrite(t);
+                // }
+                // else if (_remainedLengthToReceive > 0)
+                // {
+                //     std::cout << std::format("Received from client {} / {} ({} %)\n", length, _allDataSize, ((float)length / _allDataSize) * 100.f);
+                //     _remainedLengthToReceive -= length;
 
-                    if (_remainedLengthToReceive < 0)
-                    {
-                        std::cout << std::format("Ramained length to receive: {} ---!!!\n", _remainedLengthToReceive);
-                    }
-                    else if (_remainedLengthToReceive == 0)
-                    {
-                        std::string message{std::format("thanks! received all data {} byte\n", _allDataSize)};
+                //     if (_remainedLengthToReceive < 0)
+                //     {
+                //         std::cout << std::format("Ramained length to receive: {} ---!!!\n", _remainedLengthToReceive);
+                //     }
+                //     else if (_remainedLengthToReceive == 0)
+                //     {
+                //         std::string message{std::format("thanks! received all data {} byte\n", _allDataSize)};
 
-                        std::vector<char> t(message.begin(), message.end());
-                        PostWrite(t);
+                //         std::vector<char> t(message.begin(), message.end());
+                //         PostWrite(t);
 
-                        _allDataSize = 0;
-                    }
-                }
+                //         _allDataSize = 0;
+                //     }
+                // }
                 // ------
-
-                ReadAsync();
             }
             else if (ec == asio::error::eof)
             {
-                auto re = _socket.remote_endpoint();
-                std::cout << std::format(
-                    "Client is closed. eof ({}:{})\n",
-                    re.address().to_string(),
-                    re.port());
-                _onDisconnected(_index, _nickname);
+                self->PrintSocketErorrEof();
+                self->HandlePacket(PROTO_MessageType::DISCONNECTED, nullptr, 0);
 
                 return;
+            }
+            else
+            {
+                std::cout << std::format("Client Socket error: {}. what: {} .\n", ec.value(), ec.what());
             }
         });
 }
 
 void ClientSocket::WriteAsync()
 {
+    std::scoped_lock<std::mutex> sl{_writeBufferMtx};
+
     if (_writeBufferQueue.empty())
         return;
 
-    _writeInProgress = true;
+    _writeInProcessing = true;
 
     auto bufferShared = _writeBufferQueue.front();
+
+    auto self = shared_from_this();
 
     asio::async_write(
         _socket,
         asio::buffer(*bufferShared),
         asio::bind_executor(_strand,
-                            [this](system::error_code ec, std::size_t transferred)
+                            [self](system::error_code ec, std::size_t transferred)
                             {
                                 if (!ec)
                                 {
-                                    _writeBufferQueue.pop_front();
-                                    if (!_writeBufferQueue.empty())
-                                        WriteAsync();
+                                    self->PopFrontWriteBuffer();
+
+                                    if (self->IsWriteBufferQueueEmpty())
+                                        self->WriteAsync();
                                     else
-                                        _writeInProgress = false;
+                                        self->SetWriteProcessing(false);
+
                                     std::cout << "transferred: " << transferred << std::endl;
                                 }
                                 else
@@ -138,6 +148,85 @@ void ClientSocket::WriteAsync()
                                     std::cout << "ClientSocket.Write() error :" << ec.what() << std::endl;
                                 }
                             }));
+}
+
+void ClientSocket::PushWriteBuffer(std::shared_ptr<std::vector<char>> buffer)
+{
+    std::scoped_lock<std::mutex> sl{_writeBufferMtx};
+    _writeBufferQueue.push_back(buffer);
+}
+std::shared_ptr<std::vector<char>> ClientSocket::GetFrontWriteBuffer()
+{
+    std::scoped_lock<std::mutex> sl{_writeBufferMtx};
+
+    if (_writeBufferQueue.empty())
+        return std::make_shared<std::vector<char>>();
+
+    return _writeBufferQueue.front();
+}
+
+void ClientSocket::PopFrontWriteBuffer()
+{
+    std::scoped_lock<std::mutex> sl{_writeBufferMtx};
+    if (_writeBufferQueue.empty())
+        return;
+
+    _writeBufferQueue.pop_front();
+}
+
+bool ClientSocket::IsWriteBufferQueueEmpty()
+{
+    std::scoped_lock<std::mutex> sl{_writeBufferMtx};
+
+    return _writeBufferQueue.empty();
+}
+
+bool ClientSocket::IsWriteProcessing()
+{
+    return _writeInProcessing.load();
+}
+
+void ClientSocket::SetWriteProcessing(bool value)
+{
+    _writeInProcessing = value;
+}
+
+bool ClientSocket::HandlePacket(int type, char *data, int length)
+{
+    std::scoped_lock<std::mutex> sl{_packetHandlerMtx};
+
+    if (_packetHandler.find(type) == _packetHandler.end())
+        return false;
+
+    if (type == PROTO_MessageType::DISCONNECTED)
+    {
+        auto re = _socket.remote_endpoint();
+        std::cerr << std::format(
+            "Client socket is closed. ({}:{})\n",
+            re.address().to_string(),
+            re.port());
+
+        if (_onDisconnected)
+            _onDisconnected(_index, _nickname);
+
+        return true;
+    }
+   
+    if (_packetHandler.find(type) != _packetHandler.end())
+        _packetHandler[type](data, length);
+    else
+        return false;
+
+    return true;
+}
+
+void ClientSocket::PrintSocketErorrEof()
+{
+    auto re = _socket.remote_endpoint();
+    std::cout << std::format(
+        "Client Socket Error. eof ({}:{})\n",
+        re.address().to_string(),
+        re.port());
 }
 
 bool ClientSocket::Init(int index)
@@ -168,33 +257,42 @@ bool ClientSocket::PostWrite(std::vector<char> &data)
 {
     auto buffer = std::make_shared<std::vector<char>>(std::move(data));
 
-    asio::post(_strand, [this, buffer]()
-               {
-        _writeBufferQueue.push_back(buffer);
+    auto self = shared_from_this();
 
-        if (!_writeInProgress)
-            WriteAsync(); });
+    asio::post(_strand, [self, buffer]()
+               {
+        self->PushWriteBuffer(buffer);
+
+        if (!self->IsWriteProcessing())
+            self->WriteAsync(); });
 
     return true;
 }
 
-void ClientSocket::SetProcedure(int type, std::function<void(char *, int)> proc)
+void ClientSocket::SetPacketHandler(int type, std::function<void(char *, int)> proc)
 {
-    std::cout << "SetProcedure() type: " << static_cast<int>(type) << std::endl;
-    std::scoped_lock<std::mutex> sl{_procMtx};
+    // std::cout << "SetProcedure() type: " << static_cast<int>(type) << std::endl;
+    std::scoped_lock<std::mutex> sl{_packetHandlerMtx};
 
-    _procedure[type] = proc;
+    _packetHandler[type] = proc;
 }
 
-void ClientSocket::OnDisconnected(std::function<void(int, std::string)> callback)
+void ClientSocket::RemoveHandler(int type)
 {
-    _onDisconnected = callback;
+    std::scoped_lock<std::mutex> sl{_packetHandlerMtx};
+
+    _packetHandler.erase(type);
 }
 
-void ClientSocket::ClearProcedure()
+// void ClientSocket::OnDisconnected(std::function<void(int, std::string)> callback)
+// {
+//     _onDisconnected = callback;
+// }
+
+void ClientSocket::ClearHandler()
 {
-    std::scoped_lock<std::mutex> sl{_procMtx};
-    _procedure.clear();
+    std::scoped_lock<std::mutex> sl{_packetHandlerMtx};
+    _packetHandler.clear();
 }
 
 void ClientSocket::SetNickname(std::string nickname)

@@ -32,29 +32,15 @@ int main()
 
 		std::vector<std::thread> ioThreads;
 
-		// std::thread ioThread{[&](){
-		// 	std::cout << "Echo server is running on port 51010...\n";
-		// 		io_context.run();
-		// 		std::cout << "io_context.run() is returned!!!\n";
-		// }};
-
 		for (int i = 0; i < 8; ++i) {
-			ioThreads.emplace_back([&]()
+			ioThreads.emplace_back([&, i]()
 			{
-				std::cout << "Echo server is running on port 51010...\n";
+				std::cout << std::format("io_context.run() {}...\n", i);
 				io_context.run();
 				std::cout << "io_context.run() is returned!!!\n";
 			});
 		}
 
-		// std::thread io_thread{
-		// 	[&]()
-		// 	{
-		// 		std::cout << "Echo server is running on port 51010...\n";
-		// 		io_context.run();
-		// 		std::cout << "io_context.run() is returned!!!\n";
-		// 	}};
-			
 		acceptor.Accept([&](asio::ip::tcp::socket socket){
 			//auto server = std::make_shared<Server>(std::move(socket));
 			

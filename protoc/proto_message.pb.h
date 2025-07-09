@@ -93,12 +93,13 @@ internal::EnumTraitsT<::PROTO_MessageType_internal_data_>
 
 enum PROTO_MessageType : int {
   UNSPECIFIED = 0,
-  REQUEST_LOGIN = 1,
-  LOGIN_RESULT = 2,
-  REQUEST_SYNC = 3,
-  REQUEST_SYNC_RESULT = 4,
-  REPORT_CHARACTER_PHYSICS = 5,
-  SYNC_CHARACTER_PHYSICS = 6,
+  DISCONNECTED = 1,
+  REQUEST_LOGIN = 2,
+  LOGIN_RESULT = 3,
+  REQUEST_SYNC = 4,
+  REQUEST_SYNC_RESULT = 5,
+  REPORT_CHARACTER_PHYSICS = 6,
+  SYNC_CHARACTER_PHYSICS = 7,
   PROTO_MessageType_INT_MIN_SENTINEL_DO_NOT_USE_ =
       ::std::numeric_limits<::int32_t>::min(),
   PROTO_MessageType_INT_MAX_SENTINEL_DO_NOT_USE_ =
@@ -109,11 +110,11 @@ extern const uint32_t PROTO_MessageType_internal_data_[];
 inline constexpr PROTO_MessageType PROTO_MessageType_MIN =
     static_cast<PROTO_MessageType>(0);
 inline constexpr PROTO_MessageType PROTO_MessageType_MAX =
-    static_cast<PROTO_MessageType>(6);
+    static_cast<PROTO_MessageType>(7);
 inline bool PROTO_MessageType_IsValid(int value) {
-  return 0 <= value && value <= 6;
+  return 0 <= value && value <= 7;
 }
-inline constexpr int PROTO_MessageType_ARRAYSIZE = 6 + 1;
+inline constexpr int PROTO_MessageType_ARRAYSIZE = 7 + 1;
 const ::google::protobuf::EnumDescriptor* PROTOBUF_NONNULL PROTO_MessageType_descriptor();
 template <typename T>
 const ::std::string& PROTO_MessageType_Name(T value) {
@@ -124,7 +125,7 @@ const ::std::string& PROTO_MessageType_Name(T value) {
 }
 template <>
 inline const ::std::string& PROTO_MessageType_Name(PROTO_MessageType value) {
-  return ::google::protobuf::internal::NameOfDenseEnum<PROTO_MessageType_descriptor, 0, 6>(
+  return ::google::protobuf::internal::NameOfDenseEnum<PROTO_MessageType_descriptor, 0, 7>(
       static_cast<int>(value));
 }
 inline bool PROTO_MessageType_Parse(
@@ -385,7 +386,7 @@ class PROTO_RequestSync final : public ::google::protobuf::Message
     return *reinterpret_cast<const PROTO_RequestSync*>(
         &_PROTO_RequestSync_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 3;
+  static constexpr int kIndexInFileMessages = 2;
   friend void swap(PROTO_RequestSync& a, PROTO_RequestSync& b) { a.Swap(&b); }
   inline void Swap(PROTO_RequestSync* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -1018,7 +1019,7 @@ class PROTO_LoginResult final : public ::google::protobuf::Message
     return *reinterpret_cast<const PROTO_LoginResult*>(
         &_PROTO_LoginResult_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 2;
+  static constexpr int kIndexInFileMessages = 3;
   friend void swap(PROTO_LoginResult& a, PROTO_LoginResult& b) { a.Swap(&b); }
   inline void Swap(PROTO_LoginResult* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -1809,6 +1810,38 @@ inline void PROTO_RequestLogin::set_allocated_nickname(::std::string* PROTOBUF_N
 
 // -------------------------------------------------------------------
 
+// PROTO_RequestSync
+
+// int32 clientIndex = 1;
+inline bool PROTO_RequestSync::has_clientindex() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  return value;
+}
+inline void PROTO_RequestSync::clear_clientindex() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.clientindex_ = 0;
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+inline ::int32_t PROTO_RequestSync::clientindex() const {
+  // @@protoc_insertion_point(field_get:PROTO_RequestSync.clientIndex)
+  return _internal_clientindex();
+}
+inline void PROTO_RequestSync::set_clientindex(::int32_t value) {
+  _internal_set_clientindex(value);
+  _impl_._has_bits_[0] |= 0x00000001u;
+  // @@protoc_insertion_point(field_set:PROTO_RequestSync.clientIndex)
+}
+inline ::int32_t PROTO_RequestSync::_internal_clientindex() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.clientindex_;
+}
+inline void PROTO_RequestSync::_internal_set_clientindex(::int32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.clientindex_ = value;
+}
+
+// -------------------------------------------------------------------
+
 // PROTO_LoginResult
 
 // int32 clientIndex = 1;
@@ -1906,38 +1939,6 @@ inline void PROTO_LoginResult::set_allocated_reason(::std::string* PROTOBUF_NULL
     _impl_.reason_.Set("", GetArena());
   }
   // @@protoc_insertion_point(field_set_allocated:PROTO_LoginResult.reason)
-}
-
-// -------------------------------------------------------------------
-
-// PROTO_RequestSync
-
-// int32 clientIndex = 1;
-inline bool PROTO_RequestSync::has_clientindex() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
-  return value;
-}
-inline void PROTO_RequestSync::clear_clientindex() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.clientindex_ = 0;
-  _impl_._has_bits_[0] &= ~0x00000001u;
-}
-inline ::int32_t PROTO_RequestSync::clientindex() const {
-  // @@protoc_insertion_point(field_get:PROTO_RequestSync.clientIndex)
-  return _internal_clientindex();
-}
-inline void PROTO_RequestSync::set_clientindex(::int32_t value) {
-  _internal_set_clientindex(value);
-  _impl_._has_bits_[0] |= 0x00000001u;
-  // @@protoc_insertion_point(field_set:PROTO_RequestSync.clientIndex)
-}
-inline ::int32_t PROTO_RequestSync::_internal_clientindex() const {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.clientindex_;
-}
-inline void PROTO_RequestSync::_internal_set_clientindex(::int32_t value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.clientindex_ = value;
 }
 
 // -------------------------------------------------------------------

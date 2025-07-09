@@ -1,5 +1,18 @@
 edition="2023";
 
+
+// type of message
+enum PROTO_MessageType {
+	UNSPECIFIED = 0;
+	DISCONNECTED = 1;
+	REQUEST_LOGIN = 2;
+	LOGIN_RESULT = 3;
+	REQUEST_SYNC = 4;
+	REQUEST_SYNC_RESULT = 5;
+	REPORT_CHARACTER_PHYSICS = 6;
+	SYNC_CHARACTER_PHYSICS = 7;
+}
+
 message PROTO_ObjectTransform {
 	int32 clientIndex = 1;
 	float x = 2;
@@ -8,27 +21,22 @@ message PROTO_ObjectTransform {
 	float r = 5;
 }
 
-enum PROTO_MessageType {
-	UNSPECIFIED = 0;
-	REQUEST_LOGIN = 1;
-	LOGIN_RESULT = 2;
-	REQUEST_SYNC = 3;
-	REQUEST_SYNC_RESULT = 4;
-	REPORT_CHARACTER_PHYSICS = 5;
-	SYNC_CHARACTER_PHYSICS = 6;
-}
 
+
+// Request to server.
 message PROTO_RequestLogin {
 	string nickname = 1;
 }
 
+message PROTO_RequestSync {
+	int32 clientIndex = 1;
+}
+
+
+// Response from server.
 message PROTO_LoginResult {
 	int32 clientIndex = 1;
 	string reason = 2;
-}
-
-message PROTO_RequestSync {
-	int32 clientIndex = 1;
 }
 
 message PROTO_RequestSyncResult {

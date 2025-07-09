@@ -119,7 +119,7 @@ void Room::EnterRoom(std::shared_ptr<ClientSocket> client)
 void Room::ExitRoom(const int index)
 {
     std::scoped_lock sl{_mtxClient, _mtxSCP, _mtxClientUDPEndpoint, _mtxTransforms};
-    std::cout << std::format("Client({}) exit room.\n", index);
+    std::cout << std::format("Client({}) exit room. {}\n", index, _clients[index]->GetNickname());
     bool found = false;
 
     if (_clients.find(index) != _clients.end())

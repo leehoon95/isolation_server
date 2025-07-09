@@ -9,18 +9,17 @@ Server::Server(
     asio::io_context &io)
     : _io(io),
       _udpSocket(io, asio::ip::udp::endpoint(asio::ip::udp::v4(), 51022)),
-      _room(io, _udpSocket)
+      //_room(io, _udpSocket),
+      _rm(io, _udpSocket)
 {
     _udpRecvBuffer = std::shared_ptr<char[]>(
         new char[static_cast<size_t>(static_cast<size_t>(UDPBufferSize::RECV_BUFFER_SIZE))]);
 
-    _udpSendBuffer = std::shared_ptr<char[]>(
-        new char[static_cast<size_t>(static_cast<size_t>(UDPBufferSize::SEND_BUFFER_SIZE))]);
-
-    StartUDPReceive();
+    // _udpSendBuffer = std::shared_ptr<char[]>(
+    //     new char[static_cast<size_t>(static_cast<size_t>(UDPBufferSize::SEND_BUFFER_SIZE))]);
 }
 
-void Server::StartUDPReceive()
+void Server::ReceiveUDP()
 {
     // if (!_udpRecvBuffer)
     // {
@@ -39,7 +38,7 @@ void Server::StartUDPReceive()
                 //     printf("%0X ", _udpRecvBuffer[i]);
                 // }
 
-                //std::cout << std::endl;
+                // std::cout << std::endl;
 
                 if (memcmp(_udpRecvBuffer.get(), "prot", 4) == 0)
                 {
@@ -55,17 +54,19 @@ void Server::StartUDPReceive()
                     {
                         PROTO_ReportCharacterPhysics rcp;
 
-                        if (rcp.ParseFromArray(&_udpRecvBuffer[12], length - 12)) {
+                        if (rcp.ParseFromArray(&_udpRecvBuffer[12], length - 12))
+                        {
                             std::cout << std::format("UDP data received. ri: {}, ci: {}\n", rcp.roomindex(), rcp.transform().clientindex());
-                           _room.ReportClientTransform(rcp.mutable_transform(), _remoteEndpoint);
+                            //_room.ReportClientTransform(rcp.mutable_transform(), _remoteEndpoint);
                         }
-                        else {
+                        else
+                        {
                             std::cerr << "UDP ObjectTransform parsing error.\n";
                         }
                     }
                 }
 
-                StartUDPReceive();
+                ReceiveUDP();
             }
             else
             {
@@ -75,10 +76,48 @@ void Server::StartUDPReceive()
         });
 }
 
-// void SendUDPBuffer()
-// {
+bool Server::MoveClientToLogin(std::shared_ptr<ClientSocket> client, std::string nickname)
+{
+    std::scoped_lock sl{_connMtx, _loginedMtx};
 
-// }
+    int clientIndex = client->GetIndex();
+    auto cc = _connectedClients.find(clientIndex);
+
+    if (cc == _connectedClients.end())
+    {
+        std::cout << std::format("Not found connected client {}:{}\n",
+                                 clientIndex, nickname);
+        // do nothing on the server side.
+        return false;
+    }
+
+    if (_loginedClients.find(clientIndex) != _loginedClients.end())
+    {
+        std::cout << std::format("client {}:{} has aleady logined\n",
+                                 clientIndex, nickname);
+
+        return false;
+    }
+    else
+    {
+        _loginedClients[clientIndex] = cc->second;
+        _connectedClients.erase(cc);
+
+        return true;
+    }
+}
+
+void Server::RemoveClient(int index)
+{
+    std::scoped_lock sl{_connMtx, _loginedMtx};
+    _connectedClients.erase(index);
+    _loginedClients.erase(index);
+}
+
+void Server::PassClientToRoomManager(std::shared_ptr<ClientSocket> client)
+{
+    _rm.LoginedClient(client);
+}
 
 void Server::Stop()
 {
@@ -104,109 +143,121 @@ void Server::AddClient(std::shared_ptr<ClientSocket> client)
     _clientIndex++;
     _connectedClients[_clientIndex] = client;
     client->Init(_clientIndex);
-    client->SetProcedure(
-        REQUEST_LOGIN,
-        [this, client](char *serializedData, int length)
+
+    std::weak_ptr wclient{client};
+    auto self = shared_from_this();
+
+    client->SetPacketHandler(
+        PROTO_MessageType::REQUEST_LOGIN,
+        [self, wclient](char *serializedData, int length)
         {
-            PROTO_RequestLogin msg;
-            //std::cout << std::format("c use_count: {}\n", client.use_count());
-
-            if (msg.ParseFromArray(serializedData, length))
+            if (auto c = wclient.lock())
             {
-                std::string nickname{msg.nickname()};
+                PROTO_RequestLogin msg;
+                // std::cout << std::format("c use_count: {}\n", client.use_count());
 
-                client->SetNickname(nickname);
-
-                PROTO_LoginResult lr;
-                
+                if (msg.ParseFromArray(serializedData, length))
                 {
-                    std::scoped_lock sl{_connMtx, _loginedMtx};
-                    int clientIndex = client->GetIndex();
-                    auto cc = _connectedClients.find(clientIndex);
-                    if (cc == _connectedClients.end())
+                    std::string nickname{msg.nickname()};
+
+                    c->SetNickname(nickname);
+
+                    PROTO_LoginResult lr;
+
                     {
-                        std::cout << std::format("Not found connected client {}:{}\n",
-                                                 clientIndex, nickname);
-                        // do nothing on the server side.
-                        return;
+                        bool res = self->MoveClientToLogin(c, nickname);
+
+                        if (res)
+                        {
+
+                            lr.set_clientindex(c->GetIndex());
+                        }
+                        else
+                        {
+                            lr.set_clientindex(-1);
+                            lr.set_reason("Not found as connected client");
+                        }
                     }
-                    if (_loginedClients.find(clientIndex) != _loginedClients.end())
-                    {
-                        lr.set_clientindex(-1);
-                        // lr.set_roomindex(-1);
-                        lr.set_reason("Not found as connected client");
-                    }
-                    else
-                    {
-                        lr.set_clientindex(clientIndex);
-                        // lr.set_roomindex(100);
-                        _loginedClients[clientIndex] = cc->second;
-                        _connectedClients.erase(cc);
-                    }
+
+                    std::string message{std::format("client nickname: {}. login allowed.", nickname)};
+                    std::cout << message << std::endl;
+                    // for (auto &c : message)
+                    // {
+                    //     printf("0x%X(%c) ", c, c);
+                    // }
+
+                    // printf("\n");
+
+                    std::string lrString{lr.SerializeAsString()};
+
+                    std::vector<char> t;
+                    append_prot_packet(
+                        t,
+                        static_cast<int>(LOGIN_RESULT),
+                        static_cast<int>(lrString.length()) + 12);
+                    t.insert(t.end(), lrString.begin(), lrString.end());
+                    // t.push_back(message.begin(), message.end());
+                    c->PostWrite(t);
+                    //std::cout << std::format("t.size(): {}\n", t.size());
                 }
+                else
+                {
+                    std::string message{"invalid nickname"};
+                    std::vector<char> t(message.begin(), message.end());
+                    c->PostWrite(t);
+                    // std::cout << std::format("t.size(): {}\n", t.size());
+                }
+            }
+        });
 
-                std::string message{std::format("client nickname: {}. login allowed.", nickname)};
-                std::cout << message << std::endl;
-                // for (auto &c : message)
-                // {
-                //     printf("0x%X(%c) ", c, c);
-                // }
+    client->SetPacketHandler(
+        PROTO_MessageType::REQUEST_SYNC,
+        [self, wclient](char *serializedData, int length)
+        {
+            if (auto c = wclient.lock())
+            {
+                c->ClearHandler();
 
-                // printf("\n");
+               // self->PassClientToRoomManager(c);
 
-                std::string lrString{lr.SerializeAsString()};
+                PROTO_RequestSyncResult rsr;
+                rsr.set_roomindex(100);
+
+                std::string rsrString{rsr.SerializeAsString()};
 
                 std::vector<char> t;
                 append_prot_packet(
-                    t, 
-                    static_cast<int>(LOGIN_RESULT), 
-                    static_cast<int>(lrString.length()) + 12);
-                t.insert(t.end(), lrString.begin(), lrString.end());
-                // t.push_back(message.begin(), message.end());
-                client->PostWrite(t);
-                std::cout << std::format("t.size(): {}\n", t.size());
-            }
-            else
-            {
-                std::string message{"invalid nickname"};
-                std::vector<char> t(message.begin(), message.end());
-                client->PostWrite(t);
-                // std::cout << std::format("t.size(): {}\n", t.size());
+                    t,
+                    static_cast<int>(REQUEST_SYNC_RESULT),
+                    static_cast<int>(rsrString.length()) + 12);
+                t.insert(t.end(), rsrString.begin(), rsrString.end());
+
+                c->PostWrite(t);
             }
         });
 
-    client->SetProcedure(
-        REQUEST_SYNC,
-        [this, client](char *serializedData, int length)
+    client->SetPacketHandler(
+        PROTO_MessageType::DISCONNECTED,
+        [self, wclient](char *serializedData, int length)
         {
-            _room.EnterRoom(client);
-
-            PROTO_RequestSyncResult rsr;
-            rsr.set_roomindex(100);
-
-            std::string rsrString{rsr.SerializeAsString()};
-
-            std::vector<char> t;
-            append_prot_packet(
-                t, 
-                static_cast<int>(REQUEST_SYNC_RESULT), 
-                static_cast<int>(rsrString.length()) + 12);
-            t.insert(t.end(), rsrString.begin(), rsrString.end());
-
-            client->PostWrite(t);
-        });
-
-    client->OnDisconnected(
-        [this](int index, std::string nickname)
-        {
-            std::cout << std::format("client {} / {} disconnected\n", index, nickname);
+            if (auto c = wclient.lock())
             {
-                std::scoped_lock sl{_connMtx, _loginedMtx};
-                _connectedClients.erase(index);
-                _room.ExitRoom(index);
-                _loginedClients.erase(index);
+                int index = c->GetIndex();
+
+                std::cout << std::format("client {} / {} disconnected\n", index, c->GetNickname());
+
+                self->RemoveClient(index);
             }
         });
+}
+
+void Server::StartUDPReceive()
+{
+    for (int i = 0; i < 8; ++i)
+    {
+        std::cout << std::format("Receive UDP data {}", i);
+        ReceiveUDP();
+    }
 }
 
 void Server::PrintStatus()
@@ -228,5 +279,5 @@ void Server::PrintStatus()
     }
     std::cout << "-----------------------\n\n";
 
-    _room.PrintStatus();
+    _rm.PrintStatus();
 }

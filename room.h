@@ -14,7 +14,7 @@ struct ObjectTransform
     float _x = 0.f, _y = 0.f, _z = 0.f, _r = 0.f;
 };
 
-class Room : std::enable_shared_from_this<Room>
+class Room : public std::enable_shared_from_this<Room>
 {
     enum class UDPBufferSize : size_t
     {
