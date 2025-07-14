@@ -10,5 +10,11 @@ file(GLOB PROTO_FILES ./*.proto)
 
 protobuf_generate_cpp(PROTO_SRCS PROTO_HDRS ${PROTO_FILES})
 
-add_library(myproto STATIC proto_message.pb.cc)
+add_library(myproto STATIC 
+    proto_message.pb.cc
+    error_message.pb.cc
+    login_message.pb.cc
+    room_message.pb.cc
+    sync_message.pb.cc
+)
 target_link_libraries(myproto protobuf::libprotobuf)

@@ -1,0 +1,15 @@
+edition="2023";
+
+enum PGM_Type {
+    PGM_UNSPECIFIED = 0;
+    STM_EVENT_1 = 1;
+    STM_EVENT_2 = 2;
+}
+
+message PGM_RequestSync {
+	int32 sequenceNumber = 1;
+}
+
+message PGM_RequestSyncResult {
+	int32 sequenceNumber = 1;
+}

@@ -1,0 +1,16 @@
+edition="2023";
+
+enum PLM_Type {
+    PLM_UNSPECIFIED = 0;
+    CTM_REQUEST_LOGIN = 1;
+	STM_RESULT_LOGIN = 2;
+}
+
+message PLM_RequestLogin {
+	string nickname = 1;
+}
+
+message PLM_LoginResult {
+	int32 clientIndex = 1;
+	string reason = 2;
+}

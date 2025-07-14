@@ -12,7 +12,7 @@ add_subdirectory(./protoc)
 
 set(SOURCES
     main.cpp
-    TestAsyncServer.cpp
+    #TestAsyncServer.cpp
     redisService.cpp
     Server.cpp
     ClientSocket.cpp

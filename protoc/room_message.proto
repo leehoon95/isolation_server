@@ -1,0 +1,36 @@
+edition="2023";
+
+enum PRM_Type {
+    RPM_UNSPECIFIED = 0;
+	CTM_REQUEST_ROOM_LIST = 1;
+	STM_RESULT_ROOM_LIST = 2;
+	CTM_ROOM_ENTER = 3;
+	STM_ROOM_ENTER = 4;
+	CTM_ROOM_LEAVE = 5;
+	STM_ROOM_LEAVE = 6;
+	CTM_REQUEST_CREATE_ROOM = 7;
+	STM_RESULT_CREATE_ROOM = 8;
+}
+
+message PRM_RequestRoomList {
+	int32 filter = 1;
+}
+
+message PRM_RoomSmallInfo {
+	int32 roomIndex = 1;
+	string roomName = 2;
+}
+
+message PRM_ResultRoomList {
+	int32 count = 1;
+	repeated PRM_RoomSmallInfo list = 2;
+}
+
+message PRM_RequestCreateRoom {
+	string roomName = 1;
+}
+
+message PRM_ResultCreateRoom {
+	int32 roomIndex = 1;
+	string reason = 2;
+}

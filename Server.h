@@ -28,7 +28,7 @@ class Server : public std::enable_shared_from_this<Server>
     std::map<int, std::shared_ptr<ClientSocket>> _loginedClients;
     std::mutex _loginedMtx;
 
-    RoomManager _rm;
+    std::shared_ptr<RoomManager> _rm;
     //Room _room;
 
     unsigned int _clientIndex = 0;

@@ -2,13 +2,14 @@
 #include <cassert>
 #include <iostream>
 #include "util.h"
+#include "protoc/sync_message.pb.h"
 
 using namespace boost;
 
 static_assert(std::is_trivially_copyable<ObjectTransform>::value, "memcpy unsafe for non-trivially-copyable types");
 
 Room::Room(boost::asio::io_context &io, asio::ip::udp::socket &socket)
-    : _roomIndex(100),
+    : _index(100),
       _io(io),
       _timer(io),
       _udpSocket(socket)
@@ -26,45 +27,34 @@ void Room::StartTimer()
         async send data...
     */
    
-    // std::cout << std::format("scp transforms_size: {}\n", _scp.transfoms_size());
-    if (_scp.transfoms_size() > 0)
-    // if (_transforms.size() > 0)
-    {
-        std::scoped_lock sl{_mtxSCP};
-        // PROTO_SyncCharacterPhysics scp;
-
-        // for (auto& tr : _transforms) {
-        //     auto newtr = scp.add_transfoms();
-
-        //     //std::memcpy(newtr, tr.second.get(), sizeof(PROTO_ObjectTransform));
-        //     tr.second
-        //     newtr->set_clientindex()
-        // }
+    // if (_scp.transfoms_size() > 0)
+    // {
+    //     std::scoped_lock sl{_mtxSCP};
       
-        std::string serialized{_scp.SerializePartialAsString()};
+    //     std::string serialized{_scp.SerializePartialAsString()};
 
-        if (!_clientUDPEndpoint.empty())
-        {
-            for (auto &ep : _clientUDPEndpoint)
-            {
-                //std::scoped_lock sl{_mtxSendQueue};
+    //     if (!_clientUDPEndpoint.empty())
+    //     {
+    //         for (auto &ep : _clientUDPEndpoint)
+    //         {
+    //             //std::scoped_lock sl{_mtxSendQueue};
 
-                std::vector<char> buffer;
-                append_prot_packet(
-                    buffer,
-                    static_cast<int>(SYNC_CHARACTER_PHYSICS),
-                    static_cast<int>(serialized.length()) + 12);
-                buffer.insert(buffer.end(), serialized.begin(), serialized.end());
+    //             std::vector<char> buffer;
+    //             append_prot_packet(
+    //                 buffer,
+    //                 static_cast<int>(SYNC_CHARACTER_PHYSICS),
+    //                 static_cast<int>(serialized.length()) + 12);
+    //             buffer.insert(buffer.end(), serialized.begin(), serialized.end());
 
-                //_sendQueue.push(std::move(buffer));
+    //             //_sendQueue.push(std::move(buffer));
 
-                SendUDPData(
-                    ep.second, 
-                    std::make_shared<std::vector<char>>(std::move(buffer))
-                );
-            }
-        }
-    }
+    //             SendUDPData(
+    //                 ep.second, 
+    //                 std::make_shared<std::vector<char>>(std::move(buffer))
+    //             );
+    //         }
+    //     }
+    // }
 
     _timer.expires_after(std::chrono::milliseconds(
         static_cast<int>(BroadcastingInterval::INTERVAL)));
@@ -125,77 +115,77 @@ void Room::ExitRoom(const int index)
     if (_clients.find(index) != _clients.end())
         _clients.erase(index);
 
-    int trsize = _scp.transfoms_size();
-    for (int i = 0; i < trsize; ++i)
-    {
-        if (_scp.transfoms(i).clientindex() == index)
-        {
-            _scp.mutable_transfoms()->DeleteSubrange(i, 1);
-            break;
-        }
-        else
-        {
-            ++i;
-        }
-    }
+    //int trsize = _scp.transfoms_size();
+    // for (int i = 0; i < trsize; ++i)
+    // {
+    //     if (_scp.transfoms(i).clientindex() == index)
+    //     {
+    //         _scp.mutable_transfoms()->DeleteSubrange(i, 1);
+    //         break;
+    //     }
+    //     else
+    //     {
+    //         ++i;
+    //     }
+    // }
 
-    std::cout << std::format("scp count: {}", _scp.transfoms_size());
+    //std::cout << std::format("scp count: {}", _scp.transfoms_size());
     _clientUDPEndpoint.erase(index);
 }
 
-void Room::ReportClientTransform(PROTO_ObjectTransform *ot, asio::ip::udp::endpoint sender)
-{
-    std::scoped_lock sl{_mtxSCP, _mtxClientUDPEndpoint, _mtxTransforms};
+// void Room::ReportClientTransform(PM_ObjectTransform *ot, asio::ip::udp::endpoint sender)
+// {
+//     std::scoped_lock sl{_mtxSCP, _mtxClientUDPEndpoint, _mtxTransforms};
 
-    int clientIndex = ot->clientindex();
+//     int clientIndex = ot->clientindex();
 
-    if (_clients.find(clientIndex) == _clients.end())
-    {
-        std::cout << std::format("ObjectTransform.clientIndex is not in _clients(index: {}\n", clientIndex);
-        return;
-    }
+//     if (_clients.find(clientIndex) == _clients.end())
+//     {
+//         std::cout << std::format("ObjectTransform.clientIndex is not in _clients(index: {}\n", clientIndex);
+//         return;
+//     }
 
-    // std::cout << std::format("client transfom reported: {}\n", clientIndex);
+//     // std::cout << std::format("client transfom reported: {}\n", clientIndex);
 
-    _clientUDPEndpoint[clientIndex] = sender;
+//     _clientUDPEndpoint[clientIndex] = sender;
 
-    // _transforms[clientIndex] = std::make_shared<PROTO_ObjectTransform>();
-    // _transforms[clientIndex]->CopyFrom(*ot);
+//     // _transforms[clientIndex] = std::make_shared<PROTO_ObjectTransform>();
+//     // _transforms[clientIndex]->CopyFrom(*ot);
 
-    bool found = false;
-    int trsize = _scp.transfoms_size();
+//     bool found = false;
+//     int trsize = _scp.transfoms_size();
 
-    for (int i = 0; i < trsize; ++i)
-    {
-        if (_scp.transfoms(i).clientindex() == clientIndex)
-        {
-            // std::memcpy(_scp.mutable_transfoms(i), ot, sizeof(PROTO_ObjectTransform));
-            auto tr = _scp.mutable_transfoms(i);
-            tr->set_clientindex(ot->clientindex());
-            tr->set_x(ot->x());
-            tr->set_y(ot->y());
-            tr->set_z(ot->z());
-            tr->set_r(ot->r());
+//     for (int i = 0; i < trsize; ++i)
+//     {
+//         if (_scp.transfoms(i).clientindex() == clientIndex)
+//         {
+//             // std::memcpy(_scp.mutable_transfoms(i), ot, sizeof(PROTO_ObjectTransform));
+//             auto tr = _scp.mutable_transfoms(i);
+//             tr->set_clientindex(ot->clientindex());
+//             tr->set_x(ot->x());
+//             tr->set_y(ot->y());
+//             tr->set_z(ot->z());
+//             tr->set_r(ot->r());
 
-            found = true;
-            // std::cout << std::format("client transforms is set. {}\n", _scp.transfoms(i).clientindex());
+//             found = true;
+//             // std::cout << std::format("client transforms is set. {}\n", _scp.transfoms(i).clientindex());
 
-            return;
-        }
-    }
+//             return;
+//         }
+//     }
 
-    if (!found)
-    {
-        auto tr = _scp.add_transfoms();
-        tr->set_clientindex(ot->clientindex());
-        tr->set_x(ot->x());
-        tr->set_y(ot->y());
-        tr->set_z(ot->z());
-        tr->set_r(ot->r());
-        // std::memcpy(newt, ot, sizeof(PROTO_ObjectTransform));
-        std::cout << std::format("New transforms is added. {}\n", tr->clientindex());
-    }
-}
+//     if (!found)
+//     {
+//         auto tr = _scp.add_transfoms();
+//         tr->set_clientindex(ot->clientindex());
+//         tr->set_x(ot->x());
+//         tr->set_y(ot->y());
+//         tr->set_z(ot->z());
+//         tr->set_r(ot->r());
+//         // std::memcpy(newt, ot, sizeof(PROTO_ObjectTransform));
+//         std::cout << std::format("New transforms is added. {}\n", tr->clientindex());
+//     }
+// }
 
 void Room::PrintStatus()
 {
@@ -203,7 +193,7 @@ void Room::PrintStatus()
 
     std::cout << "--- Room status ---\n";
 
-    std::cout << "Room index : " << _roomIndex << std::endl;
+    std::cout << "Room index : " << _index << std::endl;
 
     for (auto &var : _clients)
     {

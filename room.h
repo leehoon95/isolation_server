@@ -4,7 +4,6 @@
 #include <list>
 #include <mutex>
 #include <map>
-#include "protoc/proto_message.pb.h"
 #include <queue>
 #include <vector>
 
@@ -27,7 +26,9 @@ class Room : public std::enable_shared_from_this<Room>
         INTERVAL = 100
     };
 
-    int _roomIndex;
+    int _index;
+    std::string _name;
+
     boost::asio::io_context &_io;
     boost::asio::steady_timer _timer;
     boost::asio::ip::udp::socket &_udpSocket;
@@ -39,10 +40,10 @@ class Room : public std::enable_shared_from_this<Room>
     std::map<int, boost::asio::ip::udp::endpoint> _clientUDPEndpoint;
     std::mutex _mtxClientUDPEndpoint;
 
-    std::map<int, std::shared_ptr<PROTO_ObjectTransform>> _transforms;
+    //std::map<int, std::shared_ptr<PM_ObjectTransform>> _transforms;
     std::mutex _mtxTransforms;
 
-    PROTO_SyncCharacterPhysics _scp;
+    //PM_SyncCharacterPhysics _scp;
     std::mutex _mtxSCP;
 
     std::queue<std::vector<char>> _sendQueue;
@@ -63,9 +64,13 @@ public:
          boost::asio::ip::udp::socket &socket);
     void EnterRoom(std::shared_ptr<ClientSocket> client);
     void ExitRoom(const int index);
-    void ReportClientTransform(
-        PROTO_ObjectTransform *ot,
-        boost::asio::ip::udp::endpoint sender);
+    // void ReportClientTransform(
+    //     PM_ObjectTransform *ot,
+    //     boost::asio::ip::udp::endpoint sender);
+    void SetIndex(int index) { _index = index; }
+    void SetName(const std::string &name) { _name = name; }
+    int GetIndex() const { return _index; }
+    std::string GetName() const { return _name; }
     void PrintStatus();
     ~Room();
     // void SetTransfrom(int index, )

@@ -1,6 +1,7 @@
 #include "Server.h"
 #include <iostream>
-#include "protoc/proto_message.pb.h"
+#include "protoc/login_message.pb.h"
+#include "protoc/error_message.pb.h"
 #include "util.h"
 
 using namespace boost;
@@ -8,13 +9,12 @@ using namespace boost;
 Server::Server(
     asio::io_context &io)
     : _io(io),
-      _udpSocket(io, asio::ip::udp::endpoint(asio::ip::udp::v4(), 51022)),
-      //_room(io, _udpSocket),
-      _rm(io, _udpSocket)
+      _udpSocket(io, asio::ip::udp::endpoint(asio::ip::udp::v4(), 51022))
 {
     _udpRecvBuffer = std::shared_ptr<char[]>(
         new char[static_cast<size_t>(static_cast<size_t>(UDPBufferSize::RECV_BUFFER_SIZE))]);
 
+    _rm = std::make_shared<RoomManager>(io, _udpSocket);
     // _udpSendBuffer = std::shared_ptr<char[]>(
     //     new char[static_cast<size_t>(static_cast<size_t>(UDPBufferSize::SEND_BUFFER_SIZE))]);
 }
@@ -50,19 +50,9 @@ void Server::ReceiveUDP()
                         std::cout << std::format("UDP prot data is insufficient. buffer data length: {}, packet data length: {}\n",
                                                  length, totalDataLength);
                     }
-                    else if (type == REPORT_CHARACTER_PHYSICS)
+                    else
                     {
-                        PROTO_ReportCharacterPhysics rcp;
-
-                        if (rcp.ParseFromArray(&_udpRecvBuffer[12], length - 12))
-                        {
-                            std::cout << std::format("UDP data received. ri: {}, ci: {}\n", rcp.roomindex(), rcp.transform().clientindex());
-                            //_room.ReportClientTransform(rcp.mutable_transform(), _remoteEndpoint);
-                        }
-                        else
-                        {
-                            std::cerr << "UDP ObjectTransform parsing error.\n";
-                        }
+                        _rm->ForwardUDPData(&_udpRecvBuffer[12], length);
                     }
                 }
 
@@ -116,7 +106,8 @@ void Server::RemoveClient(int index)
 
 void Server::PassClientToRoomManager(std::shared_ptr<ClientSocket> client)
 {
-    _rm.LoginedClient(client);
+    std::scoped_lock sl{_loginedMtx};
+    _rm->Enter(client->GetIndex(), std::weak_ptr<ClientSocket>(client));
 }
 
 void Server::Stop()
@@ -146,14 +137,15 @@ void Server::AddClient(std::shared_ptr<ClientSocket> client)
 
     std::weak_ptr wclient{client};
     auto self = shared_from_this();
-
+    
+    // io_context.stop()이 Server 소멸보다 먼저 호출될 것을 보장할 것
     client->SetPacketHandler(
-        PROTO_MessageType::REQUEST_LOGIN,
+        PLM_Type::CTM_REQUEST_LOGIN,
         [self, wclient](char *serializedData, int length)
         {
             if (auto c = wclient.lock())
             {
-                PROTO_RequestLogin msg;
+                PLM_RequestLogin msg;
                 // std::cout << std::format("c use_count: {}\n", client.use_count());
 
                 if (msg.ParseFromArray(serializedData, length))
@@ -162,8 +154,8 @@ void Server::AddClient(std::shared_ptr<ClientSocket> client)
 
                     c->SetNickname(nickname);
 
-                    PROTO_LoginResult lr;
-
+                    PLM_LoginResult lr;
+                    
                     {
                         bool res = self->MoveClientToLogin(c, nickname);
 
@@ -193,51 +185,63 @@ void Server::AddClient(std::shared_ptr<ClientSocket> client)
                     std::vector<char> t;
                     append_prot_packet(
                         t,
-                        static_cast<int>(LOGIN_RESULT),
+                        static_cast<int>(PLM_Type::STM_RESULT_LOGIN),
                         static_cast<int>(lrString.length()) + 12);
                     t.insert(t.end(), lrString.begin(), lrString.end());
                     // t.push_back(message.begin(), message.end());
                     c->PostWrite(t);
-                    //std::cout << std::format("t.size(): {}\n", t.size());
+
+                    self->PassClientToRoomManager(c);
                 }
                 else
                 {
-                    std::string message{"invalid nickname"};
-                    std::vector<char> t(message.begin(), message.end());
+                    PLM_LoginResult lr;
+
+                    lr.set_clientindex(-1);
+                    lr.set_reason("CTM_REQUEST_LOGIN parsing error.");
+
+                    std::string lrString{lr.SerializeAsString()};
+                    std::vector<char> t;
+
+                    append_prot_packet(
+                        t,
+                        static_cast<int>(PLM_Type::STM_RESULT_LOGIN),
+                        static_cast<int>(lrString.length()) + 12);
+                    t.insert(t.end(), lrString.begin(), lrString.end());
+
                     c->PostWrite(t);
-                    // std::cout << std::format("t.size(): {}\n", t.size());
                 }
             }
         });
 
+    // client->SetPacketHandler(
+    //     PM_MessageType::CTM_REQUEST_ROOM_LIST,
+    //     [self, wclient](char *serializedData, int length)
+    //     {
+    //         if (auto c = wclient.lock())
+    //         {
+    //             c->ClearHandler();
+
+    //             self->PassClientToRoomManager(c);
+
+    //             PM_RequestSyncResult rsr;
+    //             rsr.set_roomindex(100);
+
+    //             std::string rsrString{rsr.SerializeAsString()};
+
+    //             std::vector<char> t;
+    //             append_prot_packet(
+    //                 t,
+    //                 static_cast<int>(STM_RESULT_ROOM_LIST),
+    //                 static_cast<int>(rsrString.length()) + 12);
+    //             t.insert(t.end(), rsrString.begin(), rsrString.end());
+
+    //             c->PostWrite(t);
+    //         }
+    //     });
+
     client->SetPacketHandler(
-        PROTO_MessageType::REQUEST_SYNC,
-        [self, wclient](char *serializedData, int length)
-        {
-            if (auto c = wclient.lock())
-            {
-                c->ClearHandler();
-
-               // self->PassClientToRoomManager(c);
-
-                PROTO_RequestSyncResult rsr;
-                rsr.set_roomindex(100);
-
-                std::string rsrString{rsr.SerializeAsString()};
-
-                std::vector<char> t;
-                append_prot_packet(
-                    t,
-                    static_cast<int>(REQUEST_SYNC_RESULT),
-                    static_cast<int>(rsrString.length()) + 12);
-                t.insert(t.end(), rsrString.begin(), rsrString.end());
-
-                c->PostWrite(t);
-            }
-        });
-
-    client->SetPacketHandler(
-        PROTO_MessageType::DISCONNECTED,
+        PEM_Type::PEM_DISCONNECTED,
         [self, wclient](char *serializedData, int length)
         {
             if (auto c = wclient.lock())
@@ -279,5 +283,5 @@ void Server::PrintStatus()
     }
     std::cout << "-----------------------\n\n";
 
-    _rm.PrintStatus();
+    _rm->PrintStatus();
 }

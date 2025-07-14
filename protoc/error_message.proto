@@ -1,0 +1,7 @@
+edition="2023";
+
+enum PEM_Type {
+	PEM_UNSPECIFIED = 0;
+    PEM_DISCONNECTED = 1;
+	PEM_ENDOFFILE = 2;
+}

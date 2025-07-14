@@ -1,0 +1,7 @@
+edition="2023";
+
+enum PSM_Type {
+    PSM_UNSPECIFIED = 0;
+    CTM_SYNC_1 = 1;
+    STM_BC_SYNC_1 = 2;
+}

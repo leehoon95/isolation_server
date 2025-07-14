@@ -1,7 +1,7 @@
 #include "ClientSocket.h"
 #include <iostream>
 #include <format>
-#include "protoc/proto_message.pb.h"
+#include "protoc/error_message.pb.h"
 #include "util.h"
 
 using namespace boost;
@@ -20,20 +20,18 @@ ClientSocket::ClientSocket(
 void ClientSocket::ReadAsync()
 {
     auto self = shared_from_this();
-    
+
     _socket.async_read_some(
         asio::buffer(_recvBuffer.get(), static_cast<size_t>(BufferSize::RECV_BUFFER_SIZE)),
         [self](boost::system::error_code ec, std::size_t length)
         {
-            
-
             if (!ec)
             {
                 auto buffer = self->GetReceiveBuffer();
 
                 if (length == 0)
                 {
-                    self->HandlePacket(PROTO_MessageType::DISCONNECTED, nullptr, 0);
+                    self->HandlePacket(PEM_Type::PEM_DISCONNECTED, nullptr, 0);
 
                     return;
                 }
@@ -102,7 +100,7 @@ void ClientSocket::ReadAsync()
             else if (ec == asio::error::eof)
             {
                 self->PrintSocketErorrEof();
-                self->HandlePacket(PROTO_MessageType::DISCONNECTED, nullptr, 0);
+                self->HandlePacket(PEM_Type::PEM_ENDOFFILE, nullptr, 0);
 
                 return;
             }
@@ -193,29 +191,33 @@ void ClientSocket::SetWriteProcessing(bool value)
 
 bool ClientSocket::HandlePacket(int type, char *data, int length)
 {
-    std::scoped_lock<std::mutex> sl{_packetHandlerMtx};
+    std::function<void(char *, int)> handler;
 
-    if (_packetHandler.find(type) == _packetHandler.end())
-        return false;
-
-    if (type == PROTO_MessageType::DISCONNECTED)
+    // handler 비동기 처리 중 _packetHandler가 변경될 수 있으므로
     {
-        auto re = _socket.remote_endpoint();
-        std::cerr << std::format(
-            "Client socket is closed. ({}:{})\n",
-            re.address().to_string(),
-            re.port());
+        std::scoped_lock<std::mutex> sl{_packetHandlerMtx};
 
-        if (_onDisconnected)
-            _onDisconnected(_index, _nickname);
+        if (_packetHandler.find(type) == _packetHandler.end())
+            return false;
 
-        return true;
+        if (type == PEM_Type::PEM_DISCONNECTED)
+        {
+            auto re = _socket.remote_endpoint();
+            std::cerr << std::format(
+                "Client socket is closed. ({}:{})\n",
+                re.address().to_string(),
+                re.port());
+
+            if (_onDisconnected)
+                _onDisconnected(_index, _nickname);
+
+            return true;
+        }
+
+        handler = _packetHandler[type];
     }
-   
-    if (_packetHandler.find(type) != _packetHandler.end())
-        _packetHandler[type](data, length);
-    else
-        return false;
+
+    handler(data, length);
 
     return true;
 }
@@ -292,6 +294,7 @@ void ClientSocket::RemoveHandler(int type)
 void ClientSocket::ClearHandler()
 {
     std::scoped_lock<std::mutex> sl{_packetHandlerMtx};
+
     _packetHandler.clear();
 }
 

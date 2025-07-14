@@ -1,0 +1,7 @@
+edition="2023";
+
+enum PWRM_Type {
+    UNSPECIFIED = 0;
+	CTM_CLIENT_SETTING = 1;
+	STM_BC_CLIENT = 2;
+}
