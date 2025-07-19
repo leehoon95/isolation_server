@@ -1,7 +1,17 @@
 edition="2023";
 
-enum PSM_Type {
-    PSM_UNSPECIFIED = 0;
-    CTM_SYNC_1 = 1;
-    STM_BC_SYNC_1 = 2;
+enum SM_Type {
+    SM_UNSPECIFIED = 0;
+    SM_DISCONNECTED = 400;
+    CM_SYNC_1 = 401;
+    SM_BC_SYNC_1 = 402;
+}
+
+message SM_Sync_1 {
+    uint64 token = 1;
+    string message = 2;
+}
+
+message SM_BCSync_1 {
+    string message = 1;
 }

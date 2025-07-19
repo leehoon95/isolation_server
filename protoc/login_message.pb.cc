@@ -25,7 +25,7 @@ namespace _pb = ::google::protobuf;
 namespace _pbi = ::google::protobuf::internal;
 namespace _fl = ::google::protobuf::internal::field_layout;
 
-inline constexpr PLM_RequestLogin::Impl_::Impl_(
+inline constexpr LM_RequestLogin::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : _cached_size_{0},
         nickname_(
@@ -33,52 +33,52 @@ inline constexpr PLM_RequestLogin::Impl_::Impl_(
             ::_pbi::ConstantInitialized()) {}
 
 template <typename>
-PROTOBUF_CONSTEXPR PLM_RequestLogin::PLM_RequestLogin(::_pbi::ConstantInitialized)
+PROTOBUF_CONSTEXPR LM_RequestLogin::LM_RequestLogin(::_pbi::ConstantInitialized)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(PLM_RequestLogin_class_data_.base()),
+    : ::google::protobuf::Message(LM_RequestLogin_class_data_.base()),
 #else   // PROTOBUF_CUSTOM_VTABLE
     : ::google::protobuf::Message(),
 #endif  // PROTOBUF_CUSTOM_VTABLE
       _impl_(::_pbi::ConstantInitialized()) {
 }
-struct PLM_RequestLoginDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR PLM_RequestLoginDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~PLM_RequestLoginDefaultTypeInternal() {}
+struct LM_RequestLoginDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR LM_RequestLoginDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~LM_RequestLoginDefaultTypeInternal() {}
   union {
-    PLM_RequestLogin _instance;
+    LM_RequestLogin _instance;
   };
 };
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PLM_RequestLoginDefaultTypeInternal _PLM_RequestLogin_default_instance_;
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 LM_RequestLoginDefaultTypeInternal _LM_RequestLogin_default_instance_;
 
-inline constexpr PLM_LoginResult::Impl_::Impl_(
+inline constexpr LM_LoginResult::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : _cached_size_{0},
         reason_(
             &::google::protobuf::internal::fixed_address_empty_string,
             ::_pbi::ConstantInitialized()),
-        clientindex_{0} {}
+        token_{::uint64_t{0u}} {}
 
 template <typename>
-PROTOBUF_CONSTEXPR PLM_LoginResult::PLM_LoginResult(::_pbi::ConstantInitialized)
+PROTOBUF_CONSTEXPR LM_LoginResult::LM_LoginResult(::_pbi::ConstantInitialized)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(PLM_LoginResult_class_data_.base()),
+    : ::google::protobuf::Message(LM_LoginResult_class_data_.base()),
 #else   // PROTOBUF_CUSTOM_VTABLE
     : ::google::protobuf::Message(),
 #endif  // PROTOBUF_CUSTOM_VTABLE
       _impl_(::_pbi::ConstantInitialized()) {
 }
-struct PLM_LoginResultDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR PLM_LoginResultDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~PLM_LoginResultDefaultTypeInternal() {}
+struct LM_LoginResultDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR LM_LoginResultDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~LM_LoginResultDefaultTypeInternal() {}
   union {
-    PLM_LoginResult _instance;
+    LM_LoginResult _instance;
   };
 };
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PLM_LoginResultDefaultTypeInternal _PLM_LoginResult_default_instance_;
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 LM_LoginResultDefaultTypeInternal _LM_LoginResult_default_instance_;
 static const ::_pb::EnumDescriptor* PROTOBUF_NONNULL
     file_level_enum_descriptors_login_5fmessage_2eproto[1];
 static constexpr const ::_pb::ServiceDescriptor *PROTOBUF_NONNULL *PROTOBUF_NULLABLE
@@ -87,42 +87,42 @@ const ::uint32_t
     TableStruct_login_5fmessage_2eproto::offsets[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
         protodesc_cold) = {
         0x081, // bitmap
-        PROTOBUF_FIELD_OFFSET(::PLM_RequestLogin, _impl_._has_bits_),
+        PROTOBUF_FIELD_OFFSET(::LM_RequestLogin, _impl_._has_bits_),
         4, // hasbit index offset
-        PROTOBUF_FIELD_OFFSET(::PLM_RequestLogin, _impl_.nickname_),
+        PROTOBUF_FIELD_OFFSET(::LM_RequestLogin, _impl_.nickname_),
         0,
         0x081, // bitmap
-        PROTOBUF_FIELD_OFFSET(::PLM_LoginResult, _impl_._has_bits_),
+        PROTOBUF_FIELD_OFFSET(::LM_LoginResult, _impl_._has_bits_),
         5, // hasbit index offset
-        PROTOBUF_FIELD_OFFSET(::PLM_LoginResult, _impl_.clientindex_),
-        PROTOBUF_FIELD_OFFSET(::PLM_LoginResult, _impl_.reason_),
+        PROTOBUF_FIELD_OFFSET(::LM_LoginResult, _impl_.token_),
+        PROTOBUF_FIELD_OFFSET(::LM_LoginResult, _impl_.reason_),
         1,
         0,
 };
 
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-        {0, sizeof(::PLM_RequestLogin)},
-        {5, sizeof(::PLM_LoginResult)},
+        {0, sizeof(::LM_RequestLogin)},
+        {5, sizeof(::LM_LoginResult)},
 };
 static const ::_pb::Message* PROTOBUF_NONNULL const file_default_instances[] = {
-    &::_PLM_RequestLogin_default_instance_._instance,
-    &::_PLM_LoginResult_default_instance_._instance,
+    &::_LM_RequestLogin_default_instance_._instance,
+    &::_LM_LoginResult_default_instance_._instance,
 };
 const char descriptor_table_protodef_login_5fmessage_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
-    "\n\023login_message.proto\"$\n\020PLM_RequestLogi"
-    "n\022\020\n\010nickname\030\001 \001(\t\"6\n\017PLM_LoginResult\022\023"
-    "\n\013clientIndex\030\001 \001(\005\022\016\n\006reason\030\002 \001(\t*L\n\010P"
-    "LM_Type\022\023\n\017PLM_UNSPECIFIED\020\000\022\025\n\021CTM_REQU"
-    "EST_LOGIN\020\001\022\024\n\020STM_RESULT_LOGIN\020\002b\010editi"
-    "onsp\350\007"
+    "\n\023login_message.proto\"#\n\017LM_RequestLogin"
+    "\022\020\n\010nickname\030\001 \001(\t\"/\n\016LM_LoginResult\022\r\n\005"
+    "token\030\001 \001(\004\022\016\n\006reason\030\002 \001(\t*_\n\007LM_Type\022\022"
+    "\n\016LM_UNSPECIFIED\020\000\022\023\n\017LM_DISCONNECTED\020d\022"
+    "\024\n\020CM_REQUEST_LOGIN\020e\022\025\n\021SM_RESPONSE_LOG"
+    "IN\020fb\010editionsp\350\007"
 };
 static ::absl::once_flag descriptor_table_login_5fmessage_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_login_5fmessage_2eproto = {
     false,
     false,
-    206,
+    217,
     descriptor_table_protodef_login_5fmessage_2eproto,
     "login_message.proto",
     &descriptor_table_login_5fmessage_2eproto_once,
@@ -135,123 +135,123 @@ PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_login_5fmessag
     file_level_enum_descriptors_login_5fmessage_2eproto,
     file_level_service_descriptors_login_5fmessage_2eproto,
 };
-const ::google::protobuf::EnumDescriptor* PROTOBUF_NONNULL PLM_Type_descriptor() {
+const ::google::protobuf::EnumDescriptor* PROTOBUF_NONNULL LM_Type_descriptor() {
   ::google::protobuf::internal::AssignDescriptors(&descriptor_table_login_5fmessage_2eproto);
   return file_level_enum_descriptors_login_5fmessage_2eproto[0];
 }
-PROTOBUF_CONSTINIT const uint32_t PLM_Type_internal_data_[] = {
-    196608u, 0u, };
+PROTOBUF_CONSTINIT const uint32_t LM_Type_internal_data_[] = {
+    65536u, 196608u, 101u, 100u, 102u, };
 // ===================================================================
 
-class PLM_RequestLogin::_Internal {
+class LM_RequestLogin::_Internal {
  public:
   using HasBits =
-      decltype(::std::declval<PLM_RequestLogin>()._impl_._has_bits_);
+      decltype(::std::declval<LM_RequestLogin>()._impl_._has_bits_);
   static constexpr ::int32_t kHasBitsOffset =
-      8 * PROTOBUF_FIELD_OFFSET(PLM_RequestLogin, _impl_._has_bits_);
+      8 * PROTOBUF_FIELD_OFFSET(LM_RequestLogin, _impl_._has_bits_);
 };
 
-PLM_RequestLogin::PLM_RequestLogin(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+LM_RequestLogin::LM_RequestLogin(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(arena, PLM_RequestLogin_class_data_.base()) {
+    : ::google::protobuf::Message(arena, LM_RequestLogin_class_data_.base()) {
 #else   // PROTOBUF_CUSTOM_VTABLE
     : ::google::protobuf::Message(arena) {
 #endif  // PROTOBUF_CUSTOM_VTABLE
   SharedCtor(arena);
-  // @@protoc_insertion_point(arena_constructor:PLM_RequestLogin)
+  // @@protoc_insertion_point(arena_constructor:LM_RequestLogin)
 }
-PROTOBUF_NDEBUG_INLINE PLM_RequestLogin::Impl_::Impl_(
+PROTOBUF_NDEBUG_INLINE LM_RequestLogin::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
     ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
-    const ::PLM_RequestLogin& from_msg)
+    const ::LM_RequestLogin& from_msg)
       : _has_bits_{from._has_bits_},
         _cached_size_{0},
         nickname_(arena, from.nickname_) {}
 
-PLM_RequestLogin::PLM_RequestLogin(
+LM_RequestLogin::LM_RequestLogin(
     ::google::protobuf::Arena* PROTOBUF_NULLABLE arena,
-    const PLM_RequestLogin& from)
+    const LM_RequestLogin& from)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(arena, PLM_RequestLogin_class_data_.base()) {
+    : ::google::protobuf::Message(arena, LM_RequestLogin_class_data_.base()) {
 #else   // PROTOBUF_CUSTOM_VTABLE
     : ::google::protobuf::Message(arena) {
 #endif  // PROTOBUF_CUSTOM_VTABLE
-  PLM_RequestLogin* const _this = this;
+  LM_RequestLogin* const _this = this;
   (void)_this;
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
   new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
 
-  // @@protoc_insertion_point(copy_constructor:PLM_RequestLogin)
+  // @@protoc_insertion_point(copy_constructor:LM_RequestLogin)
 }
-PROTOBUF_NDEBUG_INLINE PLM_RequestLogin::Impl_::Impl_(
+PROTOBUF_NDEBUG_INLINE LM_RequestLogin::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
     ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
       : _cached_size_{0},
         nickname_(arena) {}
 
-inline void PLM_RequestLogin::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
+inline void LM_RequestLogin::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
   new (&_impl_) Impl_(internal_visibility(), arena);
 }
-PLM_RequestLogin::~PLM_RequestLogin() {
-  // @@protoc_insertion_point(destructor:PLM_RequestLogin)
+LM_RequestLogin::~LM_RequestLogin() {
+  // @@protoc_insertion_point(destructor:LM_RequestLogin)
   SharedDtor(*this);
 }
-inline void PLM_RequestLogin::SharedDtor(MessageLite& self) {
-  PLM_RequestLogin& this_ = static_cast<PLM_RequestLogin&>(self);
+inline void LM_RequestLogin::SharedDtor(MessageLite& self) {
+  LM_RequestLogin& this_ = static_cast<LM_RequestLogin&>(self);
   this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
   ABSL_DCHECK(this_.GetArena() == nullptr);
   this_._impl_.nickname_.Destroy();
   this_._impl_.~Impl_();
 }
 
-inline void* PROTOBUF_NONNULL PLM_RequestLogin::PlacementNew_(
+inline void* PROTOBUF_NONNULL LM_RequestLogin::PlacementNew_(
     const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
     ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
-  return ::new (mem) PLM_RequestLogin(arena);
+  return ::new (mem) LM_RequestLogin(arena);
 }
-constexpr auto PLM_RequestLogin::InternalNewImpl_() {
-  return ::google::protobuf::internal::MessageCreator::CopyInit(sizeof(PLM_RequestLogin),
-                                            alignof(PLM_RequestLogin));
+constexpr auto LM_RequestLogin::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::CopyInit(sizeof(LM_RequestLogin),
+                                            alignof(LM_RequestLogin));
 }
-constexpr auto PLM_RequestLogin::InternalGenerateClassData_() {
+constexpr auto LM_RequestLogin::InternalGenerateClassData_() {
   return ::google::protobuf::internal::ClassDataFull{
       ::google::protobuf::internal::ClassData{
-          &_PLM_RequestLogin_default_instance_._instance,
+          &_LM_RequestLogin_default_instance_._instance,
           &_table_.header,
           nullptr,  // OnDemandRegisterArenaDtor
           nullptr,  // IsInitialized
-          &PLM_RequestLogin::MergeImpl,
-          ::google::protobuf::Message::GetNewImpl<PLM_RequestLogin>(),
+          &LM_RequestLogin::MergeImpl,
+          ::google::protobuf::Message::GetNewImpl<LM_RequestLogin>(),
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-          &PLM_RequestLogin::SharedDtor,
-          ::google::protobuf::Message::GetClearImpl<PLM_RequestLogin>(), &PLM_RequestLogin::ByteSizeLong,
-              &PLM_RequestLogin::_InternalSerialize,
+          &LM_RequestLogin::SharedDtor,
+          ::google::protobuf::Message::GetClearImpl<LM_RequestLogin>(), &LM_RequestLogin::ByteSizeLong,
+              &LM_RequestLogin::_InternalSerialize,
 #endif  // PROTOBUF_CUSTOM_VTABLE
-          PROTOBUF_FIELD_OFFSET(PLM_RequestLogin, _impl_._cached_size_),
+          PROTOBUF_FIELD_OFFSET(LM_RequestLogin, _impl_._cached_size_),
           false,
       },
-      &PLM_RequestLogin::kDescriptorMethods,
+      &LM_RequestLogin::kDescriptorMethods,
       &descriptor_table_login_5fmessage_2eproto,
       nullptr,  // tracker
   };
 }
 
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const
-    ::google::protobuf::internal::ClassDataFull PLM_RequestLogin_class_data_ =
-        PLM_RequestLogin::InternalGenerateClassData_();
+    ::google::protobuf::internal::ClassDataFull LM_RequestLogin_class_data_ =
+        LM_RequestLogin::InternalGenerateClassData_();
 
 PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
-PLM_RequestLogin::GetClassData() const {
-  ::google::protobuf::internal::PrefetchToLocalCache(&PLM_RequestLogin_class_data_);
-  ::google::protobuf::internal::PrefetchToLocalCache(PLM_RequestLogin_class_data_.tc_table);
-  return PLM_RequestLogin_class_data_.base();
+LM_RequestLogin::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&LM_RequestLogin_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(LM_RequestLogin_class_data_.tc_table);
+  return LM_RequestLogin_class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<0, 1, 0, 33, 2>
-PLM_RequestLogin::_table_ = {
+const ::_pbi::TcParseTable<0, 1, 0, 32, 2>
+LM_RequestLogin::_table_ = {
   {
-    PROTOBUF_FIELD_OFFSET(PLM_RequestLogin, _impl_._has_bits_),
+    PROTOBUF_FIELD_OFFSET(LM_RequestLogin, _impl_._has_bits_),
     0, // no _extensions_
     1, 0,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
@@ -260,32 +260,32 @@ PLM_RequestLogin::_table_ = {
     1,  // num_field_entries
     0,  // num_aux_entries
     offsetof(decltype(_table_), field_names),  // no aux_entries
-    PLM_RequestLogin_class_data_.base(),
+    LM_RequestLogin_class_data_.base(),
     nullptr,  // post_loop_handler
     ::_pbi::TcParser::GenericFallback,  // fallback
     #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
-    ::_pbi::TcParser::GetTable<::PLM_RequestLogin>(),  // to_prefetch
+    ::_pbi::TcParser::GetTable<::LM_RequestLogin>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     // string nickname = 1;
     {::_pbi::TcParser::FastUS1,
-     {10, 0, 0, PROTOBUF_FIELD_OFFSET(PLM_RequestLogin, _impl_.nickname_)}},
+     {10, 0, 0, PROTOBUF_FIELD_OFFSET(LM_RequestLogin, _impl_.nickname_)}},
   }}, {{
     65535, 65535
   }}, {{
     // string nickname = 1;
-    {PROTOBUF_FIELD_OFFSET(PLM_RequestLogin, _impl_.nickname_), _Internal::kHasBitsOffset + 0, 0,
+    {PROTOBUF_FIELD_OFFSET(LM_RequestLogin, _impl_.nickname_), _Internal::kHasBitsOffset + 0, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
   }},
   // no aux_entries
   {{
-    "\20\10\0\0\0\0\0\0"
-    "PLM_RequestLogin"
+    "\17\10\0\0\0\0\0\0"
+    "LM_RequestLogin"
     "nickname"
   }},
 };
-PROTOBUF_NOINLINE void PLM_RequestLogin::Clear() {
-// @@protoc_insertion_point(message_clear_start:PLM_RequestLogin)
+PROTOBUF_NOINLINE void LM_RequestLogin::Clear() {
+// @@protoc_insertion_point(message_clear_start:LM_RequestLogin)
   ::google::protobuf::internal::TSanWrite(&_impl_);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
@@ -300,17 +300,17 @@ PROTOBUF_NOINLINE void PLM_RequestLogin::Clear() {
 }
 
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-::uint8_t* PROTOBUF_NONNULL PLM_RequestLogin::_InternalSerialize(
+::uint8_t* PROTOBUF_NONNULL LM_RequestLogin::_InternalSerialize(
     const ::google::protobuf::MessageLite& base, ::uint8_t* PROTOBUF_NONNULL target,
     ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) {
-  const PLM_RequestLogin& this_ = static_cast<const PLM_RequestLogin&>(base);
+  const LM_RequestLogin& this_ = static_cast<const LM_RequestLogin&>(base);
 #else   // PROTOBUF_CUSTOM_VTABLE
-::uint8_t* PROTOBUF_NONNULL PLM_RequestLogin::_InternalSerialize(
+::uint8_t* PROTOBUF_NONNULL LM_RequestLogin::_InternalSerialize(
     ::uint8_t* PROTOBUF_NONNULL target,
     ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
-  const PLM_RequestLogin& this_ = *this;
+  const LM_RequestLogin& this_ = *this;
 #endif  // PROTOBUF_CUSTOM_VTABLE
-  // @@protoc_insertion_point(serialize_to_array_start:PLM_RequestLogin)
+  // @@protoc_insertion_point(serialize_to_array_start:LM_RequestLogin)
   ::uint32_t cached_has_bits = 0;
   (void)cached_has_bits;
 
@@ -319,7 +319,7 @@ PROTOBUF_NOINLINE void PLM_RequestLogin::Clear() {
   if ((cached_has_bits & 0x00000001u) != 0) {
     const ::std::string& _s = this_._internal_nickname();
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-        _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "PLM_RequestLogin.nickname");
+        _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "LM_RequestLogin.nickname");
     target = stream->WriteStringMaybeAliased(1, _s, target);
   }
 
@@ -328,18 +328,18 @@ PROTOBUF_NOINLINE void PLM_RequestLogin::Clear() {
         ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
             this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:PLM_RequestLogin)
+  // @@protoc_insertion_point(serialize_to_array_end:LM_RequestLogin)
   return target;
 }
 
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-::size_t PLM_RequestLogin::ByteSizeLong(const MessageLite& base) {
-  const PLM_RequestLogin& this_ = static_cast<const PLM_RequestLogin&>(base);
+::size_t LM_RequestLogin::ByteSizeLong(const MessageLite& base) {
+  const LM_RequestLogin& this_ = static_cast<const LM_RequestLogin&>(base);
 #else   // PROTOBUF_CUSTOM_VTABLE
-::size_t PLM_RequestLogin::ByteSizeLong() const {
-  const PLM_RequestLogin& this_ = *this;
+::size_t LM_RequestLogin::ByteSizeLong() const {
+  const LM_RequestLogin& this_ = *this;
 #endif  // PROTOBUF_CUSTOM_VTABLE
-  // @@protoc_insertion_point(message_byte_size_start:PLM_RequestLogin)
+  // @@protoc_insertion_point(message_byte_size_start:LM_RequestLogin)
   ::size_t total_size = 0;
 
   ::uint32_t cached_has_bits = 0;
@@ -358,10 +358,10 @@ PROTOBUF_NOINLINE void PLM_RequestLogin::Clear() {
                                              &this_._impl_._cached_size_);
 }
 
-void PLM_RequestLogin::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
-  auto* const _this = static_cast<PLM_RequestLogin*>(&to_msg);
-  auto& from = static_cast<const PLM_RequestLogin&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:PLM_RequestLogin)
+void LM_RequestLogin::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
+  auto* const _this = static_cast<LM_RequestLogin*>(&to_msg);
+  auto& from = static_cast<const LM_RequestLogin&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:LM_RequestLogin)
   ABSL_DCHECK_NE(&from, _this);
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
@@ -374,15 +374,15 @@ void PLM_RequestLogin::MergeImpl(::google::protobuf::MessageLite& to_msg, const 
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
 
-void PLM_RequestLogin::CopyFrom(const PLM_RequestLogin& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:PLM_RequestLogin)
+void LM_RequestLogin::CopyFrom(const LM_RequestLogin& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:LM_RequestLogin)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 
-void PLM_RequestLogin::InternalSwap(PLM_RequestLogin* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
+void LM_RequestLogin::InternalSwap(LM_RequestLogin* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
   using ::std::swap;
   auto* arena = GetArena();
   ABSL_DCHECK_EQ(arena, other->GetArena());
@@ -391,122 +391,122 @@ void PLM_RequestLogin::InternalSwap(PLM_RequestLogin* PROTOBUF_RESTRICT PROTOBUF
   ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.nickname_, &other->_impl_.nickname_, arena);
 }
 
-::google::protobuf::Metadata PLM_RequestLogin::GetMetadata() const {
+::google::protobuf::Metadata LM_RequestLogin::GetMetadata() const {
   return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
 }
 // ===================================================================
 
-class PLM_LoginResult::_Internal {
+class LM_LoginResult::_Internal {
  public:
   using HasBits =
-      decltype(::std::declval<PLM_LoginResult>()._impl_._has_bits_);
+      decltype(::std::declval<LM_LoginResult>()._impl_._has_bits_);
   static constexpr ::int32_t kHasBitsOffset =
-      8 * PROTOBUF_FIELD_OFFSET(PLM_LoginResult, _impl_._has_bits_);
+      8 * PROTOBUF_FIELD_OFFSET(LM_LoginResult, _impl_._has_bits_);
 };
 
-PLM_LoginResult::PLM_LoginResult(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+LM_LoginResult::LM_LoginResult(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(arena, PLM_LoginResult_class_data_.base()) {
+    : ::google::protobuf::Message(arena, LM_LoginResult_class_data_.base()) {
 #else   // PROTOBUF_CUSTOM_VTABLE
     : ::google::protobuf::Message(arena) {
 #endif  // PROTOBUF_CUSTOM_VTABLE
   SharedCtor(arena);
-  // @@protoc_insertion_point(arena_constructor:PLM_LoginResult)
+  // @@protoc_insertion_point(arena_constructor:LM_LoginResult)
 }
-PROTOBUF_NDEBUG_INLINE PLM_LoginResult::Impl_::Impl_(
+PROTOBUF_NDEBUG_INLINE LM_LoginResult::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
     ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
-    const ::PLM_LoginResult& from_msg)
+    const ::LM_LoginResult& from_msg)
       : _has_bits_{from._has_bits_},
         _cached_size_{0},
         reason_(arena, from.reason_) {}
 
-PLM_LoginResult::PLM_LoginResult(
+LM_LoginResult::LM_LoginResult(
     ::google::protobuf::Arena* PROTOBUF_NULLABLE arena,
-    const PLM_LoginResult& from)
+    const LM_LoginResult& from)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(arena, PLM_LoginResult_class_data_.base()) {
+    : ::google::protobuf::Message(arena, LM_LoginResult_class_data_.base()) {
 #else   // PROTOBUF_CUSTOM_VTABLE
     : ::google::protobuf::Message(arena) {
 #endif  // PROTOBUF_CUSTOM_VTABLE
-  PLM_LoginResult* const _this = this;
+  LM_LoginResult* const _this = this;
   (void)_this;
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
   new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
-  _impl_.clientindex_ = from._impl_.clientindex_;
+  _impl_.token_ = from._impl_.token_;
 
-  // @@protoc_insertion_point(copy_constructor:PLM_LoginResult)
+  // @@protoc_insertion_point(copy_constructor:LM_LoginResult)
 }
-PROTOBUF_NDEBUG_INLINE PLM_LoginResult::Impl_::Impl_(
+PROTOBUF_NDEBUG_INLINE LM_LoginResult::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
     ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
       : _cached_size_{0},
         reason_(arena) {}
 
-inline void PLM_LoginResult::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
+inline void LM_LoginResult::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
   new (&_impl_) Impl_(internal_visibility(), arena);
-  _impl_.clientindex_ = {};
+  _impl_.token_ = {};
 }
-PLM_LoginResult::~PLM_LoginResult() {
-  // @@protoc_insertion_point(destructor:PLM_LoginResult)
+LM_LoginResult::~LM_LoginResult() {
+  // @@protoc_insertion_point(destructor:LM_LoginResult)
   SharedDtor(*this);
 }
-inline void PLM_LoginResult::SharedDtor(MessageLite& self) {
-  PLM_LoginResult& this_ = static_cast<PLM_LoginResult&>(self);
+inline void LM_LoginResult::SharedDtor(MessageLite& self) {
+  LM_LoginResult& this_ = static_cast<LM_LoginResult&>(self);
   this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
   ABSL_DCHECK(this_.GetArena() == nullptr);
   this_._impl_.reason_.Destroy();
   this_._impl_.~Impl_();
 }
 
-inline void* PROTOBUF_NONNULL PLM_LoginResult::PlacementNew_(
+inline void* PROTOBUF_NONNULL LM_LoginResult::PlacementNew_(
     const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
     ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
-  return ::new (mem) PLM_LoginResult(arena);
+  return ::new (mem) LM_LoginResult(arena);
 }
-constexpr auto PLM_LoginResult::InternalNewImpl_() {
-  return ::google::protobuf::internal::MessageCreator::CopyInit(sizeof(PLM_LoginResult),
-                                            alignof(PLM_LoginResult));
+constexpr auto LM_LoginResult::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::CopyInit(sizeof(LM_LoginResult),
+                                            alignof(LM_LoginResult));
 }
-constexpr auto PLM_LoginResult::InternalGenerateClassData_() {
+constexpr auto LM_LoginResult::InternalGenerateClassData_() {
   return ::google::protobuf::internal::ClassDataFull{
       ::google::protobuf::internal::ClassData{
-          &_PLM_LoginResult_default_instance_._instance,
+          &_LM_LoginResult_default_instance_._instance,
           &_table_.header,
           nullptr,  // OnDemandRegisterArenaDtor
           nullptr,  // IsInitialized
-          &PLM_LoginResult::MergeImpl,
-          ::google::protobuf::Message::GetNewImpl<PLM_LoginResult>(),
+          &LM_LoginResult::MergeImpl,
+          ::google::protobuf::Message::GetNewImpl<LM_LoginResult>(),
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-          &PLM_LoginResult::SharedDtor,
-          ::google::protobuf::Message::GetClearImpl<PLM_LoginResult>(), &PLM_LoginResult::ByteSizeLong,
-              &PLM_LoginResult::_InternalSerialize,
+          &LM_LoginResult::SharedDtor,
+          ::google::protobuf::Message::GetClearImpl<LM_LoginResult>(), &LM_LoginResult::ByteSizeLong,
+              &LM_LoginResult::_InternalSerialize,
 #endif  // PROTOBUF_CUSTOM_VTABLE
-          PROTOBUF_FIELD_OFFSET(PLM_LoginResult, _impl_._cached_size_),
+          PROTOBUF_FIELD_OFFSET(LM_LoginResult, _impl_._cached_size_),
           false,
       },
-      &PLM_LoginResult::kDescriptorMethods,
+      &LM_LoginResult::kDescriptorMethods,
       &descriptor_table_login_5fmessage_2eproto,
       nullptr,  // tracker
   };
 }
 
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const
-    ::google::protobuf::internal::ClassDataFull PLM_LoginResult_class_data_ =
-        PLM_LoginResult::InternalGenerateClassData_();
+    ::google::protobuf::internal::ClassDataFull LM_LoginResult_class_data_ =
+        LM_LoginResult::InternalGenerateClassData_();
 
 PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
-PLM_LoginResult::GetClassData() const {
-  ::google::protobuf::internal::PrefetchToLocalCache(&PLM_LoginResult_class_data_);
-  ::google::protobuf::internal::PrefetchToLocalCache(PLM_LoginResult_class_data_.tc_table);
-  return PLM_LoginResult_class_data_.base();
+LM_LoginResult::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&LM_LoginResult_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(LM_LoginResult_class_data_.tc_table);
+  return LM_LoginResult_class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<1, 2, 0, 30, 2>
-PLM_LoginResult::_table_ = {
+const ::_pbi::TcParseTable<1, 2, 0, 29, 2>
+LM_LoginResult::_table_ = {
   {
-    PROTOBUF_FIELD_OFFSET(PLM_LoginResult, _impl_._has_bits_),
+    PROTOBUF_FIELD_OFFSET(LM_LoginResult, _impl_._has_bits_),
     0, // no _extensions_
     2, 8,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
@@ -515,38 +515,38 @@ PLM_LoginResult::_table_ = {
     2,  // num_field_entries
     0,  // num_aux_entries
     offsetof(decltype(_table_), field_names),  // no aux_entries
-    PLM_LoginResult_class_data_.base(),
+    LM_LoginResult_class_data_.base(),
     nullptr,  // post_loop_handler
     ::_pbi::TcParser::GenericFallback,  // fallback
     #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
-    ::_pbi::TcParser::GetTable<::PLM_LoginResult>(),  // to_prefetch
+    ::_pbi::TcParser::GetTable<::LM_LoginResult>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     // string reason = 2;
     {::_pbi::TcParser::FastUS1,
-     {18, 0, 0, PROTOBUF_FIELD_OFFSET(PLM_LoginResult, _impl_.reason_)}},
-    // int32 clientIndex = 1;
-    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(PLM_LoginResult, _impl_.clientindex_), 1>(),
-     {8, 1, 0, PROTOBUF_FIELD_OFFSET(PLM_LoginResult, _impl_.clientindex_)}},
+     {18, 0, 0, PROTOBUF_FIELD_OFFSET(LM_LoginResult, _impl_.reason_)}},
+    // uint64 token = 1;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(LM_LoginResult, _impl_.token_), 1>(),
+     {8, 1, 0, PROTOBUF_FIELD_OFFSET(LM_LoginResult, _impl_.token_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // int32 clientIndex = 1;
-    {PROTOBUF_FIELD_OFFSET(PLM_LoginResult, _impl_.clientindex_), _Internal::kHasBitsOffset + 1, 0,
-    (0 | ::_fl::kFcOptional | ::_fl::kInt32)},
+    // uint64 token = 1;
+    {PROTOBUF_FIELD_OFFSET(LM_LoginResult, _impl_.token_), _Internal::kHasBitsOffset + 1, 0,
+    (0 | ::_fl::kFcOptional | ::_fl::kUInt64)},
     // string reason = 2;
-    {PROTOBUF_FIELD_OFFSET(PLM_LoginResult, _impl_.reason_), _Internal::kHasBitsOffset + 0, 0,
+    {PROTOBUF_FIELD_OFFSET(LM_LoginResult, _impl_.reason_), _Internal::kHasBitsOffset + 0, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
   }},
   // no aux_entries
   {{
-    "\17\0\6\0\0\0\0\0"
-    "PLM_LoginResult"
+    "\16\0\6\0\0\0\0\0"
+    "LM_LoginResult"
     "reason"
   }},
 };
-PROTOBUF_NOINLINE void PLM_LoginResult::Clear() {
-// @@protoc_insertion_point(message_clear_start:PLM_LoginResult)
+PROTOBUF_NOINLINE void LM_LoginResult::Clear() {
+// @@protoc_insertion_point(message_clear_start:LM_LoginResult)
   ::google::protobuf::internal::TSanWrite(&_impl_);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
@@ -556,39 +556,39 @@ PROTOBUF_NOINLINE void PLM_LoginResult::Clear() {
   if ((cached_has_bits & 0x00000001u) != 0) {
     _impl_.reason_.ClearNonDefaultToEmpty();
   }
-  _impl_.clientindex_ = 0;
+  _impl_.token_ = ::uint64_t{0u};
   _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
 }
 
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-::uint8_t* PROTOBUF_NONNULL PLM_LoginResult::_InternalSerialize(
+::uint8_t* PROTOBUF_NONNULL LM_LoginResult::_InternalSerialize(
     const ::google::protobuf::MessageLite& base, ::uint8_t* PROTOBUF_NONNULL target,
     ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) {
-  const PLM_LoginResult& this_ = static_cast<const PLM_LoginResult&>(base);
+  const LM_LoginResult& this_ = static_cast<const LM_LoginResult&>(base);
 #else   // PROTOBUF_CUSTOM_VTABLE
-::uint8_t* PROTOBUF_NONNULL PLM_LoginResult::_InternalSerialize(
+::uint8_t* PROTOBUF_NONNULL LM_LoginResult::_InternalSerialize(
     ::uint8_t* PROTOBUF_NONNULL target,
     ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
-  const PLM_LoginResult& this_ = *this;
+  const LM_LoginResult& this_ = *this;
 #endif  // PROTOBUF_CUSTOM_VTABLE
-  // @@protoc_insertion_point(serialize_to_array_start:PLM_LoginResult)
+  // @@protoc_insertion_point(serialize_to_array_start:LM_LoginResult)
   ::uint32_t cached_has_bits = 0;
   (void)cached_has_bits;
 
   cached_has_bits = this_._impl_._has_bits_[0];
-  // int32 clientIndex = 1;
+  // uint64 token = 1;
   if ((cached_has_bits & 0x00000002u) != 0) {
-    target =
-        ::google::protobuf::internal::WireFormatLite::WriteInt32ToArrayWithField<1>(
-            stream, this_._internal_clientindex(), target);
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
+        1, this_._internal_token(), target);
   }
 
   // string reason = 2;
   if ((cached_has_bits & 0x00000001u) != 0) {
     const ::std::string& _s = this_._internal_reason();
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-        _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "PLM_LoginResult.reason");
+        _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "LM_LoginResult.reason");
     target = stream->WriteStringMaybeAliased(2, _s, target);
   }
 
@@ -597,18 +597,18 @@ PROTOBUF_NOINLINE void PLM_LoginResult::Clear() {
         ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
             this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:PLM_LoginResult)
+  // @@protoc_insertion_point(serialize_to_array_end:LM_LoginResult)
   return target;
 }
 
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-::size_t PLM_LoginResult::ByteSizeLong(const MessageLite& base) {
-  const PLM_LoginResult& this_ = static_cast<const PLM_LoginResult&>(base);
+::size_t LM_LoginResult::ByteSizeLong(const MessageLite& base) {
+  const LM_LoginResult& this_ = static_cast<const LM_LoginResult&>(base);
 #else   // PROTOBUF_CUSTOM_VTABLE
-::size_t PLM_LoginResult::ByteSizeLong() const {
-  const PLM_LoginResult& this_ = *this;
+::size_t LM_LoginResult::ByteSizeLong() const {
+  const LM_LoginResult& this_ = *this;
 #endif  // PROTOBUF_CUSTOM_VTABLE
-  // @@protoc_insertion_point(message_byte_size_start:PLM_LoginResult)
+  // @@protoc_insertion_point(message_byte_size_start:LM_LoginResult)
   ::size_t total_size = 0;
 
   ::uint32_t cached_has_bits = 0;
@@ -623,20 +623,20 @@ PROTOBUF_NOINLINE void PLM_LoginResult::Clear() {
       total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
                                       this_._internal_reason());
     }
-    // int32 clientIndex = 1;
+    // uint64 token = 1;
     if ((cached_has_bits & 0x00000002u) != 0) {
-      total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
-          this_._internal_clientindex());
+      total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
+          this_._internal_token());
     }
   }
   return this_.MaybeComputeUnknownFieldsSize(total_size,
                                              &this_._impl_._cached_size_);
 }
 
-void PLM_LoginResult::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
-  auto* const _this = static_cast<PLM_LoginResult*>(&to_msg);
-  auto& from = static_cast<const PLM_LoginResult&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:PLM_LoginResult)
+void LM_LoginResult::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
+  auto* const _this = static_cast<LM_LoginResult*>(&to_msg);
+  auto& from = static_cast<const LM_LoginResult&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:LM_LoginResult)
   ABSL_DCHECK_NE(&from, _this);
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
@@ -647,32 +647,32 @@ void PLM_LoginResult::MergeImpl(::google::protobuf::MessageLite& to_msg, const :
       _this->_internal_set_reason(from._internal_reason());
     }
     if ((cached_has_bits & 0x00000002u) != 0) {
-      _this->_impl_.clientindex_ = from._impl_.clientindex_;
+      _this->_impl_.token_ = from._impl_.token_;
     }
   }
   _this->_impl_._has_bits_[0] |= cached_has_bits;
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
 
-void PLM_LoginResult::CopyFrom(const PLM_LoginResult& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:PLM_LoginResult)
+void LM_LoginResult::CopyFrom(const LM_LoginResult& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:LM_LoginResult)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 
-void PLM_LoginResult::InternalSwap(PLM_LoginResult* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
+void LM_LoginResult::InternalSwap(LM_LoginResult* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
   using ::std::swap;
   auto* arena = GetArena();
   ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
   ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.reason_, &other->_impl_.reason_, arena);
-  swap(_impl_.clientindex_, other->_impl_.clientindex_);
+  swap(_impl_.token_, other->_impl_.token_);
 }
 
-::google::protobuf::Metadata PLM_LoginResult::GetMetadata() const {
+::google::protobuf::Metadata LM_LoginResult::GetMetadata() const {
   return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
 }
 // @@protoc_insertion_point(namespace_scope)

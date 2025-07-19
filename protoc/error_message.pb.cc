@@ -34,15 +34,15 @@ static constexpr ::_pb::Message* PROTOBUF_NONNULL const* PROTOBUF_NULLABLE
     file_default_instances = nullptr;
 const char descriptor_table_protodef_error_5fmessage_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
-    "\n\023error_message.proto*H\n\010PEM_Type\022\023\n\017PEM"
-    "_UNSPECIFIED\020\000\022\024\n\020PEM_DISCONNECTED\020\001\022\021\n\r"
-    "PEM_ENDOFFILE\020\002b\010editionsp\350\007"
+    "\n\023error_message.proto*D\n\007EM_Type\022\022\n\016EM_U"
+    "NSPECIFIED\020\000\022\023\n\017EM_DISCONNECTED\020\001\022\020\n\014EM_"
+    "ENDOFFILE\020\002b\010editionsp\350\007"
 };
 static ::absl::once_flag descriptor_table_error_5fmessage_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_error_5fmessage_2eproto = {
     false,
     false,
-    108,
+    104,
     descriptor_table_protodef_error_5fmessage_2eproto,
     "error_message.proto",
     &descriptor_table_error_5fmessage_2eproto_once,
@@ -55,11 +55,11 @@ PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_error_5fmessag
     file_level_enum_descriptors_error_5fmessage_2eproto,
     file_level_service_descriptors_error_5fmessage_2eproto,
 };
-const ::google::protobuf::EnumDescriptor* PROTOBUF_NONNULL PEM_Type_descriptor() {
+const ::google::protobuf::EnumDescriptor* PROTOBUF_NONNULL EM_Type_descriptor() {
   ::google::protobuf::internal::AssignDescriptors(&descriptor_table_error_5fmessage_2eproto);
   return file_level_enum_descriptors_error_5fmessage_2eproto[0];
 }
-PROTOBUF_CONSTINIT const uint32_t PEM_Type_internal_data_[] = {
+PROTOBUF_CONSTINIT const uint32_t EM_Type_internal_data_[] = {
     196608u, 0u, };
 // @@protoc_insertion_point(namespace_scope)
 namespace google {

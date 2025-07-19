@@ -1,36 +1,53 @@
 edition="2023";
 
-enum PRM_Type {
-    RPM_UNSPECIFIED = 0;
-	CTM_REQUEST_ROOM_LIST = 1;
-	STM_RESULT_ROOM_LIST = 2;
-	CTM_ROOM_ENTER = 3;
-	STM_ROOM_ENTER = 4;
-	CTM_ROOM_LEAVE = 5;
-	STM_ROOM_LEAVE = 6;
-	CTM_REQUEST_CREATE_ROOM = 7;
-	STM_RESULT_CREATE_ROOM = 8;
+enum RM_Type {
+	RM_UNSPECIFIED = 0;
+    RM_DISCONNECTED = 200;
+	CM_REQUEST_ROOM_LIST = 201;
+	SM_RESPONSE_ROOM_LIST = 202;
+	CM_REQUEST_ROOM_ENTER = 203;
+	SM_RESPONSE_ROOM_ENTER = 204;
+	CM_REQUEST_ROOM_LEAVE = 205;
+	SM_RESPONSE_ROOM_LEAVE = 206;
+	CM_REQUEST_CREATE_ROOM = 207;
+	SM_RESPONSE_CREATE_ROOM = 208;
+	CM_BC_MESSAGE = 209;
+	SM_BC_MESSAGE = 210;
 }
 
-message PRM_RequestRoomList {
+message RM_RequestRoomList {
 	int32 filter = 1;
 }
 
-message PRM_RoomSmallInfo {
+message RM_RoomSmallInfo {
 	int32 roomIndex = 1;
 	string roomName = 2;
 }
 
-message PRM_ResultRoomList {
+message RM_ResultRoomList {
 	int32 count = 1;
-	repeated PRM_RoomSmallInfo list = 2;
+	repeated RM_RoomSmallInfo list = 2;
 }
 
-message PRM_RequestCreateRoom {
+message RM_RequestCreateRoom {
 	string roomName = 1;
 }
 
-message PRM_ResultCreateRoom {
+message RM_ResultCreateRoom {
 	int32 roomIndex = 1;
 	string reason = 2;
+}
+
+message RM_RequestEnterRoom {
+	int32 roomIndex = 1;
+}
+
+message RM_ResultEnterRoom {
+	bool result = 1;
+	string reason = 2;
+}
+
+message RM_BroadcastMessage {
+	string message = 1;
+	int32 time = 2;
 }

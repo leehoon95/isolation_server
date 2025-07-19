@@ -23,7 +23,7 @@ class Room : public std::enable_shared_from_this<Room>
 
     enum class BroadcastingInterval : int 
     {
-        INTERVAL = 100
+        INTERVAL = 1000
     };
 
     int _index;
@@ -34,17 +34,18 @@ class Room : public std::enable_shared_from_this<Room>
     boost::asio::ip::udp::socket &_udpSocket;
     boost::asio::ip::udp::endpoint _udpRemoteEndpoint;
 
-    std::map<int, std::shared_ptr<ClientSocket>> _clients;
+    std::map<uint64_t, std::shared_ptr<ClientSocket>> _clients;
     std::mutex _mtxClient;
 
-    std::map<int, boost::asio::ip::udp::endpoint> _clientUDPEndpoint;
-    std::mutex _mtxClientUDPEndpoint;
+    //std::map<uint64_t, boost::asio::ip::udp::endpoint> _clientUDPEndpoint;
+    //std::mutex _mtxClientUDPEndpoint;
 
     //std::map<int, std::shared_ptr<PM_ObjectTransform>> _transforms;
     std::mutex _mtxTransforms;
 
     //PM_SyncCharacterPhysics _scp;
-    std::mutex _mtxSCP;
+    std::string _broadcastingMessage;
+    std::mutex _bcmMtx;
 
     std::queue<std::vector<char>> _sendQueue;
     std::mutex _mtxSendQueue;
@@ -54,16 +55,18 @@ class Room : public std::enable_shared_from_this<Room>
     const float _syncRateMs = 0.02f;
 
 private:
-    void StartTimer();
+    void StartSyncTimer();
     void SendUDPData(
         boost::asio::ip::udp::endpoint remoteEndpoint,
         std::shared_ptr<std::vector<char>> buffer);
+    void BroadcastMessage(std::string message);
 
 public:
     Room(boost::asio::io_context &io,
          boost::asio::ip::udp::socket &socket);
-    void EnterRoom(std::shared_ptr<ClientSocket> client);
+    bool EnterRoom(std::shared_ptr<ClientSocket> client, std::string &reason);
     void ExitRoom(const int index);
+    void DisconnectClient(uint64_t token);
     // void ReportClientTransform(
     //     PM_ObjectTransform *ot,
     //     boost::asio::ip::udp::endpoint sender);

@@ -18,6 +18,7 @@ class ClientSocket : public std::enable_shared_from_this<ClientSocket>
     boost::asio::ip::tcp::socket _socket;
     int _index;
     std::string _nickname;
+    uint64_t _token;
     std::shared_ptr<char[]> _recvBuffer;
 
     std::deque<std::shared_ptr<std::vector<char>>> _writeBufferQueue;
@@ -28,7 +29,13 @@ class ClientSocket : public std::enable_shared_from_this<ClientSocket>
     std::map<int, std::function<void(char *, int)>> _packetHandler;
     std::mutex _packetHandlerMtx;
 
-    std::function<void(int, std::string)> _onDisconnected;
+    std::map<int, std::function<void(boost::system::error_code&)>> _disconnectHandler;
+    std::mutex _disconnectHandlerMtx;
+    // boost::system::error_code _lastError;
+    bool _isConnected;
+    bool _stopped;
+
+    // std::function<void(std::shared_ptr<ClientSocket>)> _disconnectHandler;
 
 private:
     ClientSocket(ClientSocket &) = delete;
@@ -42,8 +49,9 @@ private:
     bool IsWriteProcessing();
     void SetWriteProcessing(bool value);
     bool HandlePacket(int type, char *data, int length);
+    void HandleError(boost::system::error_code &ec);
+    void HandleDisconnect(boost::system::error_code &ec);
     std::shared_ptr<char[]> GetReceiveBuffer() { return _recvBuffer; };
-    void PrintSocketErorrEof();
 
 public:
     explicit ClientSocket(
@@ -53,13 +61,17 @@ public:
     void Stop();
     bool PostWrite(std::vector<char> &data);
     void SetMessageDeserializer(std::function<void(char *, int)> dispatcher);
-    void SetPacketHandler(int type, std::function<void(char *, int)> proc);
-    void RemoveHandler(int type);
-    // void OnDisconnected(std::function<void(int, std::string)> callback);
-    void ClearHandler();
+    void SetPacketHandler(int type, std::function<void(char *, int)> handler);
+    void SetDisconnectHandler(int type, std::function<void(boost::system::error_code&)> handler);
+    void RemovePacketHandler(int type);
+    void RemoveDisconnectHandler(int type);
+    void ClearPacketHandler();
+    void ClearDisconnectHandler();
     void SetNickname(std::string nickname);
-    // void SetIndex(unsigned int index) { _index = index; }
+    void SetToken(uint64_t token) { _token = token; }
+    uint64_t GetToken() { return _token; }
     unsigned int GetIndex() { return _index; }
     std::string GetNickname() { return _nickname; }
+
     ~ClientSocket();
 };

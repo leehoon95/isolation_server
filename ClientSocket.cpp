@@ -12,26 +12,30 @@ ClientSocket::ClientSocket(
     asio::ip::tcp::socket socket)
     : _io(io),
       _socket(std::move(socket)),
-      _strand(asio::make_strand(io))
+      _strand(asio::make_strand(io)),
+      _isConnected(true)
 {
 }
 
-//
 void ClientSocket::ReadAsync()
 {
     auto self = shared_from_this();
 
     _socket.async_read_some(
         asio::buffer(_recvBuffer.get(), static_cast<size_t>(BufferSize::RECV_BUFFER_SIZE)),
-        [self](boost::system::error_code ec, std::size_t length)
+        [self](system::error_code ec, std::size_t length)
         {
-            if (!ec)
+            if (length == 0)
+            {
+                self->HandleDisconnect(ec);
+            }
+            else if (!ec)
             {
                 auto buffer = self->GetReceiveBuffer();
 
                 if (length == 0)
                 {
-                    self->HandlePacket(PEM_Type::PEM_DISCONNECTED, nullptr, 0);
+                    self->HandlePacket(EM_Type::EM_DISCONNECTED, nullptr, 0);
 
                     return;
                 }
@@ -97,15 +101,9 @@ void ClientSocket::ReadAsync()
                 // }
                 // ------
             }
-            else if (ec == asio::error::eof)
-            {
-                self->PrintSocketErorrEof();
-                self->HandlePacket(PEM_Type::PEM_ENDOFFILE, nullptr, 0);
-
-                return;
-            }
             else
             {
+                self->HandleError(ec);
                 std::cout << std::format("Client Socket error: {}. what: {} .\n", ec.value(), ec.what());
             }
         });
@@ -191,50 +189,63 @@ void ClientSocket::SetWriteProcessing(bool value)
 
 bool ClientSocket::HandlePacket(int type, char *data, int length)
 {
-    std::function<void(char *, int)> handler;
 
-    // handler 비동기 처리 중 _packetHandler가 변경될 수 있으므로
+    std::scoped_lock<std::mutex> sl{_packetHandlerMtx};
+
+    if (_packetHandler.find(type) == _packetHandler.end())
+        return false;
+
+    if (type == EM_Type::EM_DISCONNECTED)
     {
-        std::scoped_lock<std::mutex> sl{_packetHandlerMtx};
+        auto re = _socket.remote_endpoint();
+        std::cerr << std::format(
+            "Client socket is closed. ({}:{})\n",
+            re.address().to_string(),
+            re.port());
 
-        if (_packetHandler.find(type) == _packetHandler.end())
-            return false;
-
-        if (type == PEM_Type::PEM_DISCONNECTED)
-        {
-            auto re = _socket.remote_endpoint();
-            std::cerr << std::format(
-                "Client socket is closed. ({}:{})\n",
-                re.address().to_string(),
-                re.port());
-
-            if (_onDisconnected)
-                _onDisconnected(_index, _nickname);
-
-            return true;
-        }
-
-        handler = _packetHandler[type];
+        return true;
     }
 
-    handler(data, length);
+    _packetHandler[type](data, length);
 
     return true;
 }
 
-void ClientSocket::PrintSocketErorrEof()
+void ClientSocket::HandleError(boost::system::error_code &ec)
 {
     auto re = _socket.remote_endpoint();
     std::cout << std::format(
-        "Client Socket Error. eof ({}:{})\n",
+        "Client socket Error: {} ({}:{})\n",
+        ec.what(),
         re.address().to_string(),
         re.port());
+    
+    HandleDisconnect(ec);
+}
+
+void ClientSocket::HandleDisconnect(boost::system::error_code &ec)
+{
+    auto re = _socket.remote_endpoint();
+    std::cerr << std::format(
+        "Client socket is closed. ({}:{})\n",
+        re.address().to_string(),
+        re.port());
+
+    std::scoped_lock<std::mutex> sl{_disconnectHandlerMtx};
+
+    for (auto &var : _disconnectHandler)
+    {
+        var.second(ec);
+    }
 }
 
 bool ClientSocket::Init(int index)
 {
     _recvBuffer = std::shared_ptr<char[]>(
         new char[static_cast<size_t>(BufferSize::RECV_BUFFER_SIZE)]);
+
+    ASSERT(_recvBuffer != nullptr, "ClientSocket. Failed to allocate receive buffer");
+
     _index = index;
 
     ReadAsync();
@@ -248,6 +259,7 @@ void ClientSocket::Stop()
     system::error_code ec;
     _socket.shutdown(asio::ip::tcp::socket::shutdown_both, ec);
     _socket.close(ec);
+    _stopped = true;
 
     if (!ec)
     {
@@ -271,31 +283,47 @@ bool ClientSocket::PostWrite(std::vector<char> &data)
     return true;
 }
 
-void ClientSocket::SetPacketHandler(int type, std::function<void(char *, int)> proc)
+void ClientSocket::SetPacketHandler(int type, std::function<void(char *, int)> handler)
 {
     // std::cout << "SetProcedure() type: " << static_cast<int>(type) << std::endl;
     std::scoped_lock<std::mutex> sl{_packetHandlerMtx};
 
-    _packetHandler[type] = proc;
+    _packetHandler[type] = handler;
 }
 
-void ClientSocket::RemoveHandler(int type)
+void ClientSocket::SetDisconnectHandler(int type, std::function<void(boost::system::error_code&)> handler)
+{
+    std::scoped_lock<std::mutex> sl{_disconnectHandlerMtx};
+
+    _disconnectHandler[type] = handler;
+}
+
+void ClientSocket::RemovePacketHandler(int type)
 {
     std::scoped_lock<std::mutex> sl{_packetHandlerMtx};
 
     _packetHandler.erase(type);
 }
 
-// void ClientSocket::OnDisconnected(std::function<void(int, std::string)> callback)
-// {
-//     _onDisconnected = callback;
-// }
+void ClientSocket::RemoveDisconnectHandler(int type)
+{
+    std::scoped_lock<std::mutex> sl{_packetHandlerMtx};
 
-void ClientSocket::ClearHandler()
+    _disconnectHandler.erase(type);
+}
+
+void ClientSocket::ClearPacketHandler()
 {
     std::scoped_lock<std::mutex> sl{_packetHandlerMtx};
 
     _packetHandler.clear();
+}
+
+void ClientSocket::ClearDisconnectHandler()
+{
+    std::scoped_lock<std::mutex> sl{_disconnectHandlerMtx};
+
+    _disconnectHandler.clear();
 }
 
 void ClientSocket::SetNickname(std::string nickname)

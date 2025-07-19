@@ -50,51 +50,51 @@ struct TableStruct_error_5fmessage_2eproto {
 extern "C" {
 extern const ::google::protobuf::internal::DescriptorTable descriptor_table_error_5fmessage_2eproto;
 }  // extern "C"
-enum PEM_Type : int;
-extern const uint32_t PEM_Type_internal_data_[];
+enum EM_Type : int;
+extern const uint32_t EM_Type_internal_data_[];
 namespace google {
 namespace protobuf {
 template <>
-internal::EnumTraitsT<::PEM_Type_internal_data_>
-    internal::EnumTraitsImpl::value<::PEM_Type>;
+internal::EnumTraitsT<::EM_Type_internal_data_>
+    internal::EnumTraitsImpl::value<::EM_Type>;
 }  // namespace protobuf
 }  // namespace google
 
-enum PEM_Type : int {
-  PEM_UNSPECIFIED = 0,
-  PEM_DISCONNECTED = 1,
-  PEM_ENDOFFILE = 2,
-  PEM_Type_INT_MIN_SENTINEL_DO_NOT_USE_ =
+enum EM_Type : int {
+  EM_UNSPECIFIED = 0,
+  EM_DISCONNECTED = 1,
+  EM_ENDOFFILE = 2,
+  EM_Type_INT_MIN_SENTINEL_DO_NOT_USE_ =
       ::std::numeric_limits<::int32_t>::min(),
-  PEM_Type_INT_MAX_SENTINEL_DO_NOT_USE_ =
+  EM_Type_INT_MAX_SENTINEL_DO_NOT_USE_ =
       ::std::numeric_limits<::int32_t>::max(),
 };
 
-extern const uint32_t PEM_Type_internal_data_[];
-inline constexpr PEM_Type PEM_Type_MIN =
-    static_cast<PEM_Type>(0);
-inline constexpr PEM_Type PEM_Type_MAX =
-    static_cast<PEM_Type>(2);
-inline bool PEM_Type_IsValid(int value) {
+extern const uint32_t EM_Type_internal_data_[];
+inline constexpr EM_Type EM_Type_MIN =
+    static_cast<EM_Type>(0);
+inline constexpr EM_Type EM_Type_MAX =
+    static_cast<EM_Type>(2);
+inline bool EM_Type_IsValid(int value) {
   return 0 <= value && value <= 2;
 }
-inline constexpr int PEM_Type_ARRAYSIZE = 2 + 1;
-const ::google::protobuf::EnumDescriptor* PROTOBUF_NONNULL PEM_Type_descriptor();
+inline constexpr int EM_Type_ARRAYSIZE = 2 + 1;
+const ::google::protobuf::EnumDescriptor* PROTOBUF_NONNULL EM_Type_descriptor();
 template <typename T>
-const ::std::string& PEM_Type_Name(T value) {
-  static_assert(::std::is_same<T, PEM_Type>::value ||
+const ::std::string& EM_Type_Name(T value) {
+  static_assert(::std::is_same<T, EM_Type>::value ||
                     ::std::is_integral<T>::value,
-                "Incorrect type passed to PEM_Type_Name().");
-  return PEM_Type_Name(static_cast<PEM_Type>(value));
+                "Incorrect type passed to EM_Type_Name().");
+  return EM_Type_Name(static_cast<EM_Type>(value));
 }
 template <>
-inline const ::std::string& PEM_Type_Name(PEM_Type value) {
-  return ::google::protobuf::internal::NameOfDenseEnum<PEM_Type_descriptor, 0, 2>(
+inline const ::std::string& EM_Type_Name(EM_Type value) {
+  return ::google::protobuf::internal::NameOfDenseEnum<EM_Type_descriptor, 0, 2>(
       static_cast<int>(value));
 }
-inline bool PEM_Type_Parse(
-    ::absl::string_view name, PEM_Type* PROTOBUF_NONNULL value) {
-  return ::google::protobuf::internal::ParseNamedEnum<PEM_Type>(PEM_Type_descriptor(), name,
+inline bool EM_Type_Parse(
+    ::absl::string_view name, EM_Type* PROTOBUF_NONNULL value) {
+  return ::google::protobuf::internal::ParseNamedEnum<EM_Type>(EM_Type_descriptor(), name,
                                            value);
 }
 
@@ -125,10 +125,10 @@ namespace google {
 namespace protobuf {
 
 template <>
-struct is_proto_enum<::PEM_Type> : std::true_type {};
+struct is_proto_enum<::EM_Type> : std::true_type {};
 template <>
-inline const EnumDescriptor* PROTOBUF_NONNULL GetEnumDescriptor<::PEM_Type>() {
-  return ::PEM_Type_descriptor();
+inline const EnumDescriptor* PROTOBUF_NONNULL GetEnumDescriptor<::EM_Type>() {
+  return ::EM_Type_descriptor();
 }
 
 }  // namespace protobuf

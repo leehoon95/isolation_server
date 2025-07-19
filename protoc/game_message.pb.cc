@@ -25,55 +25,55 @@ namespace _pb = ::google::protobuf;
 namespace _pbi = ::google::protobuf::internal;
 namespace _fl = ::google::protobuf::internal::field_layout;
 
-inline constexpr PGM_RequestSyncResult::Impl_::Impl_(
+inline constexpr GM_RequestSyncResult::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : _cached_size_{0},
         sequencenumber_{0} {}
 
 template <typename>
-PROTOBUF_CONSTEXPR PGM_RequestSyncResult::PGM_RequestSyncResult(::_pbi::ConstantInitialized)
+PROTOBUF_CONSTEXPR GM_RequestSyncResult::GM_RequestSyncResult(::_pbi::ConstantInitialized)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(PGM_RequestSyncResult_class_data_.base()),
+    : ::google::protobuf::Message(GM_RequestSyncResult_class_data_.base()),
 #else   // PROTOBUF_CUSTOM_VTABLE
     : ::google::protobuf::Message(),
 #endif  // PROTOBUF_CUSTOM_VTABLE
       _impl_(::_pbi::ConstantInitialized()) {
 }
-struct PGM_RequestSyncResultDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR PGM_RequestSyncResultDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~PGM_RequestSyncResultDefaultTypeInternal() {}
+struct GM_RequestSyncResultDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR GM_RequestSyncResultDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~GM_RequestSyncResultDefaultTypeInternal() {}
   union {
-    PGM_RequestSyncResult _instance;
+    GM_RequestSyncResult _instance;
   };
 };
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PGM_RequestSyncResultDefaultTypeInternal _PGM_RequestSyncResult_default_instance_;
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 GM_RequestSyncResultDefaultTypeInternal _GM_RequestSyncResult_default_instance_;
 
-inline constexpr PGM_RequestSync::Impl_::Impl_(
+inline constexpr GM_RequestSync::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : _cached_size_{0},
         sequencenumber_{0} {}
 
 template <typename>
-PROTOBUF_CONSTEXPR PGM_RequestSync::PGM_RequestSync(::_pbi::ConstantInitialized)
+PROTOBUF_CONSTEXPR GM_RequestSync::GM_RequestSync(::_pbi::ConstantInitialized)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(PGM_RequestSync_class_data_.base()),
+    : ::google::protobuf::Message(GM_RequestSync_class_data_.base()),
 #else   // PROTOBUF_CUSTOM_VTABLE
     : ::google::protobuf::Message(),
 #endif  // PROTOBUF_CUSTOM_VTABLE
       _impl_(::_pbi::ConstantInitialized()) {
 }
-struct PGM_RequestSyncDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR PGM_RequestSyncDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~PGM_RequestSyncDefaultTypeInternal() {}
+struct GM_RequestSyncDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR GM_RequestSyncDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~GM_RequestSyncDefaultTypeInternal() {}
   union {
-    PGM_RequestSync _instance;
+    GM_RequestSync _instance;
   };
 };
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PGM_RequestSyncDefaultTypeInternal _PGM_RequestSync_default_instance_;
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 GM_RequestSyncDefaultTypeInternal _GM_RequestSync_default_instance_;
 static const ::_pb::EnumDescriptor* PROTOBUF_NONNULL
     file_level_enum_descriptors_game_5fmessage_2eproto[1];
 static constexpr const ::_pb::ServiceDescriptor *PROTOBUF_NONNULL *PROTOBUF_NULLABLE
@@ -82,39 +82,40 @@ const ::uint32_t
     TableStruct_game_5fmessage_2eproto::offsets[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
         protodesc_cold) = {
         0x081, // bitmap
-        PROTOBUF_FIELD_OFFSET(::PGM_RequestSync, _impl_._has_bits_),
+        PROTOBUF_FIELD_OFFSET(::GM_RequestSync, _impl_._has_bits_),
         4, // hasbit index offset
-        PROTOBUF_FIELD_OFFSET(::PGM_RequestSync, _impl_.sequencenumber_),
+        PROTOBUF_FIELD_OFFSET(::GM_RequestSync, _impl_.sequencenumber_),
         0,
         0x081, // bitmap
-        PROTOBUF_FIELD_OFFSET(::PGM_RequestSyncResult, _impl_._has_bits_),
+        PROTOBUF_FIELD_OFFSET(::GM_RequestSyncResult, _impl_._has_bits_),
         4, // hasbit index offset
-        PROTOBUF_FIELD_OFFSET(::PGM_RequestSyncResult, _impl_.sequencenumber_),
+        PROTOBUF_FIELD_OFFSET(::GM_RequestSyncResult, _impl_.sequencenumber_),
         0,
 };
 
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-        {0, sizeof(::PGM_RequestSync)},
-        {5, sizeof(::PGM_RequestSyncResult)},
+        {0, sizeof(::GM_RequestSync)},
+        {5, sizeof(::GM_RequestSyncResult)},
 };
 static const ::_pb::Message* PROTOBUF_NONNULL const file_default_instances[] = {
-    &::_PGM_RequestSync_default_instance_._instance,
-    &::_PGM_RequestSyncResult_default_instance_._instance,
+    &::_GM_RequestSync_default_instance_._instance,
+    &::_GM_RequestSyncResult_default_instance_._instance,
 };
 const char descriptor_table_protodef_game_5fmessage_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
-    "\n\022game_message.proto\")\n\017PGM_RequestSync\022"
-    "\026\n\016sequenceNumber\030\001 \001(\005\"/\n\025PGM_RequestSy"
-    "ncResult\022\026\n\016sequenceNumber\030\001 \001(\005*A\n\010PGM_"
-    "Type\022\023\n\017PGM_UNSPECIFIED\020\000\022\017\n\013STM_EVENT_1"
-    "\020\001\022\017\n\013STM_EVENT_2\020\002b\010editionsp\350\007"
+    "\n\022game_message.proto\"(\n\016GM_RequestSync\022\026"
+    "\n\016sequenceNumber\030\001 \001(\005\".\n\024GM_RequestSync"
+    "Result\022\026\n\016sequenceNumber\030\001 \001(\005*W\n\007GM_Typ"
+    "e\022\022\n\016GM_UNSPECIFIED\020\000\022\024\n\017GM_DISCONNECTED"
+    "\020\254\002\022\020\n\013STM_EVENT_1\020\255\002\022\020\n\013STM_EVENT_2\020\256\002b"
+    "\010editionsp\350\007"
 };
 static ::absl::once_flag descriptor_table_game_5fmessage_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_game_5fmessage_2eproto = {
     false,
     false,
-    192,
+    212,
     descriptor_table_protodef_game_5fmessage_2eproto,
     "game_message.proto",
     &descriptor_table_game_5fmessage_2eproto_once,
@@ -127,35 +128,35 @@ PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_game_5fmessage
     file_level_enum_descriptors_game_5fmessage_2eproto,
     file_level_service_descriptors_game_5fmessage_2eproto,
 };
-const ::google::protobuf::EnumDescriptor* PROTOBUF_NONNULL PGM_Type_descriptor() {
+const ::google::protobuf::EnumDescriptor* PROTOBUF_NONNULL GM_Type_descriptor() {
   ::google::protobuf::internal::AssignDescriptors(&descriptor_table_game_5fmessage_2eproto);
   return file_level_enum_descriptors_game_5fmessage_2eproto[0];
 }
-PROTOBUF_CONSTINIT const uint32_t PGM_Type_internal_data_[] = {
-    196608u, 0u, };
+PROTOBUF_CONSTINIT const uint32_t GM_Type_internal_data_[] = {
+    65536u, 196608u, 301u, 300u, 302u, };
 // ===================================================================
 
-class PGM_RequestSync::_Internal {
+class GM_RequestSync::_Internal {
  public:
   using HasBits =
-      decltype(::std::declval<PGM_RequestSync>()._impl_._has_bits_);
+      decltype(::std::declval<GM_RequestSync>()._impl_._has_bits_);
   static constexpr ::int32_t kHasBitsOffset =
-      8 * PROTOBUF_FIELD_OFFSET(PGM_RequestSync, _impl_._has_bits_);
+      8 * PROTOBUF_FIELD_OFFSET(GM_RequestSync, _impl_._has_bits_);
 };
 
-PGM_RequestSync::PGM_RequestSync(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+GM_RequestSync::GM_RequestSync(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(arena, PGM_RequestSync_class_data_.base()) {
+    : ::google::protobuf::Message(arena, GM_RequestSync_class_data_.base()) {
 #else   // PROTOBUF_CUSTOM_VTABLE
     : ::google::protobuf::Message(arena) {
 #endif  // PROTOBUF_CUSTOM_VTABLE
   SharedCtor(arena);
-  // @@protoc_insertion_point(arena_constructor:PGM_RequestSync)
+  // @@protoc_insertion_point(arena_constructor:GM_RequestSync)
 }
-PGM_RequestSync::PGM_RequestSync(
-    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const PGM_RequestSync& from)
+GM_RequestSync::GM_RequestSync(
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const GM_RequestSync& from)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(arena, PGM_RequestSync_class_data_.base()),
+    : ::google::protobuf::Message(arena, GM_RequestSync_class_data_.base()),
 #else   // PROTOBUF_CUSTOM_VTABLE
     : ::google::protobuf::Message(arena),
 #endif  // PROTOBUF_CUSTOM_VTABLE
@@ -163,73 +164,73 @@ PGM_RequestSync::PGM_RequestSync(
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
 }
-PROTOBUF_NDEBUG_INLINE PGM_RequestSync::Impl_::Impl_(
+PROTOBUF_NDEBUG_INLINE GM_RequestSync::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
     ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
       : _cached_size_{0} {}
 
-inline void PGM_RequestSync::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
+inline void GM_RequestSync::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
   new (&_impl_) Impl_(internal_visibility(), arena);
   _impl_.sequencenumber_ = {};
 }
-PGM_RequestSync::~PGM_RequestSync() {
-  // @@protoc_insertion_point(destructor:PGM_RequestSync)
+GM_RequestSync::~GM_RequestSync() {
+  // @@protoc_insertion_point(destructor:GM_RequestSync)
   SharedDtor(*this);
 }
-inline void PGM_RequestSync::SharedDtor(MessageLite& self) {
-  PGM_RequestSync& this_ = static_cast<PGM_RequestSync&>(self);
+inline void GM_RequestSync::SharedDtor(MessageLite& self) {
+  GM_RequestSync& this_ = static_cast<GM_RequestSync&>(self);
   this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
   ABSL_DCHECK(this_.GetArena() == nullptr);
   this_._impl_.~Impl_();
 }
 
-inline void* PROTOBUF_NONNULL PGM_RequestSync::PlacementNew_(
+inline void* PROTOBUF_NONNULL GM_RequestSync::PlacementNew_(
     const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
     ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
-  return ::new (mem) PGM_RequestSync(arena);
+  return ::new (mem) GM_RequestSync(arena);
 }
-constexpr auto PGM_RequestSync::InternalNewImpl_() {
-  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(PGM_RequestSync),
-                                            alignof(PGM_RequestSync));
+constexpr auto GM_RequestSync::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(GM_RequestSync),
+                                            alignof(GM_RequestSync));
 }
-constexpr auto PGM_RequestSync::InternalGenerateClassData_() {
+constexpr auto GM_RequestSync::InternalGenerateClassData_() {
   return ::google::protobuf::internal::ClassDataFull{
       ::google::protobuf::internal::ClassData{
-          &_PGM_RequestSync_default_instance_._instance,
+          &_GM_RequestSync_default_instance_._instance,
           &_table_.header,
           nullptr,  // OnDemandRegisterArenaDtor
           nullptr,  // IsInitialized
-          &PGM_RequestSync::MergeImpl,
-          ::google::protobuf::Message::GetNewImpl<PGM_RequestSync>(),
+          &GM_RequestSync::MergeImpl,
+          ::google::protobuf::Message::GetNewImpl<GM_RequestSync>(),
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-          &PGM_RequestSync::SharedDtor,
-          ::google::protobuf::Message::GetClearImpl<PGM_RequestSync>(), &PGM_RequestSync::ByteSizeLong,
-              &PGM_RequestSync::_InternalSerialize,
+          &GM_RequestSync::SharedDtor,
+          ::google::protobuf::Message::GetClearImpl<GM_RequestSync>(), &GM_RequestSync::ByteSizeLong,
+              &GM_RequestSync::_InternalSerialize,
 #endif  // PROTOBUF_CUSTOM_VTABLE
-          PROTOBUF_FIELD_OFFSET(PGM_RequestSync, _impl_._cached_size_),
+          PROTOBUF_FIELD_OFFSET(GM_RequestSync, _impl_._cached_size_),
           false,
       },
-      &PGM_RequestSync::kDescriptorMethods,
+      &GM_RequestSync::kDescriptorMethods,
       &descriptor_table_game_5fmessage_2eproto,
       nullptr,  // tracker
   };
 }
 
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const
-    ::google::protobuf::internal::ClassDataFull PGM_RequestSync_class_data_ =
-        PGM_RequestSync::InternalGenerateClassData_();
+    ::google::protobuf::internal::ClassDataFull GM_RequestSync_class_data_ =
+        GM_RequestSync::InternalGenerateClassData_();
 
 PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
-PGM_RequestSync::GetClassData() const {
-  ::google::protobuf::internal::PrefetchToLocalCache(&PGM_RequestSync_class_data_);
-  ::google::protobuf::internal::PrefetchToLocalCache(PGM_RequestSync_class_data_.tc_table);
-  return PGM_RequestSync_class_data_.base();
+GM_RequestSync::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&GM_RequestSync_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(GM_RequestSync_class_data_.tc_table);
+  return GM_RequestSync_class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
 const ::_pbi::TcParseTable<0, 1, 0, 0, 2>
-PGM_RequestSync::_table_ = {
+GM_RequestSync::_table_ = {
   {
-    PROTOBUF_FIELD_OFFSET(PGM_RequestSync, _impl_._has_bits_),
+    PROTOBUF_FIELD_OFFSET(GM_RequestSync, _impl_._has_bits_),
     0, // no _extensions_
     1, 0,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
@@ -238,29 +239,29 @@ PGM_RequestSync::_table_ = {
     1,  // num_field_entries
     0,  // num_aux_entries
     offsetof(decltype(_table_), field_names),  // no aux_entries
-    PGM_RequestSync_class_data_.base(),
+    GM_RequestSync_class_data_.base(),
     nullptr,  // post_loop_handler
     ::_pbi::TcParser::GenericFallback,  // fallback
     #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
-    ::_pbi::TcParser::GetTable<::PGM_RequestSync>(),  // to_prefetch
+    ::_pbi::TcParser::GetTable<::GM_RequestSync>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     // int32 sequenceNumber = 1;
-    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(PGM_RequestSync, _impl_.sequencenumber_), 0>(),
-     {8, 0, 0, PROTOBUF_FIELD_OFFSET(PGM_RequestSync, _impl_.sequencenumber_)}},
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(GM_RequestSync, _impl_.sequencenumber_), 0>(),
+     {8, 0, 0, PROTOBUF_FIELD_OFFSET(GM_RequestSync, _impl_.sequencenumber_)}},
   }}, {{
     65535, 65535
   }}, {{
     // int32 sequenceNumber = 1;
-    {PROTOBUF_FIELD_OFFSET(PGM_RequestSync, _impl_.sequencenumber_), _Internal::kHasBitsOffset + 0, 0,
+    {PROTOBUF_FIELD_OFFSET(GM_RequestSync, _impl_.sequencenumber_), _Internal::kHasBitsOffset + 0, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kInt32)},
   }},
   // no aux_entries
   {{
   }},
 };
-PROTOBUF_NOINLINE void PGM_RequestSync::Clear() {
-// @@protoc_insertion_point(message_clear_start:PGM_RequestSync)
+PROTOBUF_NOINLINE void GM_RequestSync::Clear() {
+// @@protoc_insertion_point(message_clear_start:GM_RequestSync)
   ::google::protobuf::internal::TSanWrite(&_impl_);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
@@ -272,17 +273,17 @@ PROTOBUF_NOINLINE void PGM_RequestSync::Clear() {
 }
 
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-::uint8_t* PROTOBUF_NONNULL PGM_RequestSync::_InternalSerialize(
+::uint8_t* PROTOBUF_NONNULL GM_RequestSync::_InternalSerialize(
     const ::google::protobuf::MessageLite& base, ::uint8_t* PROTOBUF_NONNULL target,
     ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) {
-  const PGM_RequestSync& this_ = static_cast<const PGM_RequestSync&>(base);
+  const GM_RequestSync& this_ = static_cast<const GM_RequestSync&>(base);
 #else   // PROTOBUF_CUSTOM_VTABLE
-::uint8_t* PROTOBUF_NONNULL PGM_RequestSync::_InternalSerialize(
+::uint8_t* PROTOBUF_NONNULL GM_RequestSync::_InternalSerialize(
     ::uint8_t* PROTOBUF_NONNULL target,
     ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
-  const PGM_RequestSync& this_ = *this;
+  const GM_RequestSync& this_ = *this;
 #endif  // PROTOBUF_CUSTOM_VTABLE
-  // @@protoc_insertion_point(serialize_to_array_start:PGM_RequestSync)
+  // @@protoc_insertion_point(serialize_to_array_start:GM_RequestSync)
   ::uint32_t cached_has_bits = 0;
   (void)cached_has_bits;
 
@@ -299,18 +300,18 @@ PROTOBUF_NOINLINE void PGM_RequestSync::Clear() {
         ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
             this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:PGM_RequestSync)
+  // @@protoc_insertion_point(serialize_to_array_end:GM_RequestSync)
   return target;
 }
 
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-::size_t PGM_RequestSync::ByteSizeLong(const MessageLite& base) {
-  const PGM_RequestSync& this_ = static_cast<const PGM_RequestSync&>(base);
+::size_t GM_RequestSync::ByteSizeLong(const MessageLite& base) {
+  const GM_RequestSync& this_ = static_cast<const GM_RequestSync&>(base);
 #else   // PROTOBUF_CUSTOM_VTABLE
-::size_t PGM_RequestSync::ByteSizeLong() const {
-  const PGM_RequestSync& this_ = *this;
+::size_t GM_RequestSync::ByteSizeLong() const {
+  const GM_RequestSync& this_ = *this;
 #endif  // PROTOBUF_CUSTOM_VTABLE
-  // @@protoc_insertion_point(message_byte_size_start:PGM_RequestSync)
+  // @@protoc_insertion_point(message_byte_size_start:GM_RequestSync)
   ::size_t total_size = 0;
 
   ::uint32_t cached_has_bits = 0;
@@ -329,10 +330,10 @@ PROTOBUF_NOINLINE void PGM_RequestSync::Clear() {
                                              &this_._impl_._cached_size_);
 }
 
-void PGM_RequestSync::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
-  auto* const _this = static_cast<PGM_RequestSync*>(&to_msg);
-  auto& from = static_cast<const PGM_RequestSync&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:PGM_RequestSync)
+void GM_RequestSync::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
+  auto* const _this = static_cast<GM_RequestSync*>(&to_msg);
+  auto& from = static_cast<const GM_RequestSync&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:GM_RequestSync)
   ABSL_DCHECK_NE(&from, _this);
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
@@ -345,47 +346,47 @@ void PGM_RequestSync::MergeImpl(::google::protobuf::MessageLite& to_msg, const :
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
 
-void PGM_RequestSync::CopyFrom(const PGM_RequestSync& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:PGM_RequestSync)
+void GM_RequestSync::CopyFrom(const GM_RequestSync& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:GM_RequestSync)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 
-void PGM_RequestSync::InternalSwap(PGM_RequestSync* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
+void GM_RequestSync::InternalSwap(GM_RequestSync* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
   using ::std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
   swap(_impl_.sequencenumber_, other->_impl_.sequencenumber_);
 }
 
-::google::protobuf::Metadata PGM_RequestSync::GetMetadata() const {
+::google::protobuf::Metadata GM_RequestSync::GetMetadata() const {
   return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
 }
 // ===================================================================
 
-class PGM_RequestSyncResult::_Internal {
+class GM_RequestSyncResult::_Internal {
  public:
   using HasBits =
-      decltype(::std::declval<PGM_RequestSyncResult>()._impl_._has_bits_);
+      decltype(::std::declval<GM_RequestSyncResult>()._impl_._has_bits_);
   static constexpr ::int32_t kHasBitsOffset =
-      8 * PROTOBUF_FIELD_OFFSET(PGM_RequestSyncResult, _impl_._has_bits_);
+      8 * PROTOBUF_FIELD_OFFSET(GM_RequestSyncResult, _impl_._has_bits_);
 };
 
-PGM_RequestSyncResult::PGM_RequestSyncResult(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+GM_RequestSyncResult::GM_RequestSyncResult(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(arena, PGM_RequestSyncResult_class_data_.base()) {
+    : ::google::protobuf::Message(arena, GM_RequestSyncResult_class_data_.base()) {
 #else   // PROTOBUF_CUSTOM_VTABLE
     : ::google::protobuf::Message(arena) {
 #endif  // PROTOBUF_CUSTOM_VTABLE
   SharedCtor(arena);
-  // @@protoc_insertion_point(arena_constructor:PGM_RequestSyncResult)
+  // @@protoc_insertion_point(arena_constructor:GM_RequestSyncResult)
 }
-PGM_RequestSyncResult::PGM_RequestSyncResult(
-    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const PGM_RequestSyncResult& from)
+GM_RequestSyncResult::GM_RequestSyncResult(
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const GM_RequestSyncResult& from)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(arena, PGM_RequestSyncResult_class_data_.base()),
+    : ::google::protobuf::Message(arena, GM_RequestSyncResult_class_data_.base()),
 #else   // PROTOBUF_CUSTOM_VTABLE
     : ::google::protobuf::Message(arena),
 #endif  // PROTOBUF_CUSTOM_VTABLE
@@ -393,73 +394,73 @@ PGM_RequestSyncResult::PGM_RequestSyncResult(
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
 }
-PROTOBUF_NDEBUG_INLINE PGM_RequestSyncResult::Impl_::Impl_(
+PROTOBUF_NDEBUG_INLINE GM_RequestSyncResult::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
     ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
       : _cached_size_{0} {}
 
-inline void PGM_RequestSyncResult::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
+inline void GM_RequestSyncResult::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
   new (&_impl_) Impl_(internal_visibility(), arena);
   _impl_.sequencenumber_ = {};
 }
-PGM_RequestSyncResult::~PGM_RequestSyncResult() {
-  // @@protoc_insertion_point(destructor:PGM_RequestSyncResult)
+GM_RequestSyncResult::~GM_RequestSyncResult() {
+  // @@protoc_insertion_point(destructor:GM_RequestSyncResult)
   SharedDtor(*this);
 }
-inline void PGM_RequestSyncResult::SharedDtor(MessageLite& self) {
-  PGM_RequestSyncResult& this_ = static_cast<PGM_RequestSyncResult&>(self);
+inline void GM_RequestSyncResult::SharedDtor(MessageLite& self) {
+  GM_RequestSyncResult& this_ = static_cast<GM_RequestSyncResult&>(self);
   this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
   ABSL_DCHECK(this_.GetArena() == nullptr);
   this_._impl_.~Impl_();
 }
 
-inline void* PROTOBUF_NONNULL PGM_RequestSyncResult::PlacementNew_(
+inline void* PROTOBUF_NONNULL GM_RequestSyncResult::PlacementNew_(
     const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
     ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
-  return ::new (mem) PGM_RequestSyncResult(arena);
+  return ::new (mem) GM_RequestSyncResult(arena);
 }
-constexpr auto PGM_RequestSyncResult::InternalNewImpl_() {
-  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(PGM_RequestSyncResult),
-                                            alignof(PGM_RequestSyncResult));
+constexpr auto GM_RequestSyncResult::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(GM_RequestSyncResult),
+                                            alignof(GM_RequestSyncResult));
 }
-constexpr auto PGM_RequestSyncResult::InternalGenerateClassData_() {
+constexpr auto GM_RequestSyncResult::InternalGenerateClassData_() {
   return ::google::protobuf::internal::ClassDataFull{
       ::google::protobuf::internal::ClassData{
-          &_PGM_RequestSyncResult_default_instance_._instance,
+          &_GM_RequestSyncResult_default_instance_._instance,
           &_table_.header,
           nullptr,  // OnDemandRegisterArenaDtor
           nullptr,  // IsInitialized
-          &PGM_RequestSyncResult::MergeImpl,
-          ::google::protobuf::Message::GetNewImpl<PGM_RequestSyncResult>(),
+          &GM_RequestSyncResult::MergeImpl,
+          ::google::protobuf::Message::GetNewImpl<GM_RequestSyncResult>(),
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-          &PGM_RequestSyncResult::SharedDtor,
-          ::google::protobuf::Message::GetClearImpl<PGM_RequestSyncResult>(), &PGM_RequestSyncResult::ByteSizeLong,
-              &PGM_RequestSyncResult::_InternalSerialize,
+          &GM_RequestSyncResult::SharedDtor,
+          ::google::protobuf::Message::GetClearImpl<GM_RequestSyncResult>(), &GM_RequestSyncResult::ByteSizeLong,
+              &GM_RequestSyncResult::_InternalSerialize,
 #endif  // PROTOBUF_CUSTOM_VTABLE
-          PROTOBUF_FIELD_OFFSET(PGM_RequestSyncResult, _impl_._cached_size_),
+          PROTOBUF_FIELD_OFFSET(GM_RequestSyncResult, _impl_._cached_size_),
           false,
       },
-      &PGM_RequestSyncResult::kDescriptorMethods,
+      &GM_RequestSyncResult::kDescriptorMethods,
       &descriptor_table_game_5fmessage_2eproto,
       nullptr,  // tracker
   };
 }
 
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const
-    ::google::protobuf::internal::ClassDataFull PGM_RequestSyncResult_class_data_ =
-        PGM_RequestSyncResult::InternalGenerateClassData_();
+    ::google::protobuf::internal::ClassDataFull GM_RequestSyncResult_class_data_ =
+        GM_RequestSyncResult::InternalGenerateClassData_();
 
 PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
-PGM_RequestSyncResult::GetClassData() const {
-  ::google::protobuf::internal::PrefetchToLocalCache(&PGM_RequestSyncResult_class_data_);
-  ::google::protobuf::internal::PrefetchToLocalCache(PGM_RequestSyncResult_class_data_.tc_table);
-  return PGM_RequestSyncResult_class_data_.base();
+GM_RequestSyncResult::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&GM_RequestSyncResult_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(GM_RequestSyncResult_class_data_.tc_table);
+  return GM_RequestSyncResult_class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
 const ::_pbi::TcParseTable<0, 1, 0, 0, 2>
-PGM_RequestSyncResult::_table_ = {
+GM_RequestSyncResult::_table_ = {
   {
-    PROTOBUF_FIELD_OFFSET(PGM_RequestSyncResult, _impl_._has_bits_),
+    PROTOBUF_FIELD_OFFSET(GM_RequestSyncResult, _impl_._has_bits_),
     0, // no _extensions_
     1, 0,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
@@ -468,29 +469,29 @@ PGM_RequestSyncResult::_table_ = {
     1,  // num_field_entries
     0,  // num_aux_entries
     offsetof(decltype(_table_), field_names),  // no aux_entries
-    PGM_RequestSyncResult_class_data_.base(),
+    GM_RequestSyncResult_class_data_.base(),
     nullptr,  // post_loop_handler
     ::_pbi::TcParser::GenericFallback,  // fallback
     #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
-    ::_pbi::TcParser::GetTable<::PGM_RequestSyncResult>(),  // to_prefetch
+    ::_pbi::TcParser::GetTable<::GM_RequestSyncResult>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     // int32 sequenceNumber = 1;
-    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(PGM_RequestSyncResult, _impl_.sequencenumber_), 0>(),
-     {8, 0, 0, PROTOBUF_FIELD_OFFSET(PGM_RequestSyncResult, _impl_.sequencenumber_)}},
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(GM_RequestSyncResult, _impl_.sequencenumber_), 0>(),
+     {8, 0, 0, PROTOBUF_FIELD_OFFSET(GM_RequestSyncResult, _impl_.sequencenumber_)}},
   }}, {{
     65535, 65535
   }}, {{
     // int32 sequenceNumber = 1;
-    {PROTOBUF_FIELD_OFFSET(PGM_RequestSyncResult, _impl_.sequencenumber_), _Internal::kHasBitsOffset + 0, 0,
+    {PROTOBUF_FIELD_OFFSET(GM_RequestSyncResult, _impl_.sequencenumber_), _Internal::kHasBitsOffset + 0, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kInt32)},
   }},
   // no aux_entries
   {{
   }},
 };
-PROTOBUF_NOINLINE void PGM_RequestSyncResult::Clear() {
-// @@protoc_insertion_point(message_clear_start:PGM_RequestSyncResult)
+PROTOBUF_NOINLINE void GM_RequestSyncResult::Clear() {
+// @@protoc_insertion_point(message_clear_start:GM_RequestSyncResult)
   ::google::protobuf::internal::TSanWrite(&_impl_);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
@@ -502,17 +503,17 @@ PROTOBUF_NOINLINE void PGM_RequestSyncResult::Clear() {
 }
 
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-::uint8_t* PROTOBUF_NONNULL PGM_RequestSyncResult::_InternalSerialize(
+::uint8_t* PROTOBUF_NONNULL GM_RequestSyncResult::_InternalSerialize(
     const ::google::protobuf::MessageLite& base, ::uint8_t* PROTOBUF_NONNULL target,
     ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) {
-  const PGM_RequestSyncResult& this_ = static_cast<const PGM_RequestSyncResult&>(base);
+  const GM_RequestSyncResult& this_ = static_cast<const GM_RequestSyncResult&>(base);
 #else   // PROTOBUF_CUSTOM_VTABLE
-::uint8_t* PROTOBUF_NONNULL PGM_RequestSyncResult::_InternalSerialize(
+::uint8_t* PROTOBUF_NONNULL GM_RequestSyncResult::_InternalSerialize(
     ::uint8_t* PROTOBUF_NONNULL target,
     ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
-  const PGM_RequestSyncResult& this_ = *this;
+  const GM_RequestSyncResult& this_ = *this;
 #endif  // PROTOBUF_CUSTOM_VTABLE
-  // @@protoc_insertion_point(serialize_to_array_start:PGM_RequestSyncResult)
+  // @@protoc_insertion_point(serialize_to_array_start:GM_RequestSyncResult)
   ::uint32_t cached_has_bits = 0;
   (void)cached_has_bits;
 
@@ -529,18 +530,18 @@ PROTOBUF_NOINLINE void PGM_RequestSyncResult::Clear() {
         ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
             this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:PGM_RequestSyncResult)
+  // @@protoc_insertion_point(serialize_to_array_end:GM_RequestSyncResult)
   return target;
 }
 
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-::size_t PGM_RequestSyncResult::ByteSizeLong(const MessageLite& base) {
-  const PGM_RequestSyncResult& this_ = static_cast<const PGM_RequestSyncResult&>(base);
+::size_t GM_RequestSyncResult::ByteSizeLong(const MessageLite& base) {
+  const GM_RequestSyncResult& this_ = static_cast<const GM_RequestSyncResult&>(base);
 #else   // PROTOBUF_CUSTOM_VTABLE
-::size_t PGM_RequestSyncResult::ByteSizeLong() const {
-  const PGM_RequestSyncResult& this_ = *this;
+::size_t GM_RequestSyncResult::ByteSizeLong() const {
+  const GM_RequestSyncResult& this_ = *this;
 #endif  // PROTOBUF_CUSTOM_VTABLE
-  // @@protoc_insertion_point(message_byte_size_start:PGM_RequestSyncResult)
+  // @@protoc_insertion_point(message_byte_size_start:GM_RequestSyncResult)
   ::size_t total_size = 0;
 
   ::uint32_t cached_has_bits = 0;
@@ -559,10 +560,10 @@ PROTOBUF_NOINLINE void PGM_RequestSyncResult::Clear() {
                                              &this_._impl_._cached_size_);
 }
 
-void PGM_RequestSyncResult::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
-  auto* const _this = static_cast<PGM_RequestSyncResult*>(&to_msg);
-  auto& from = static_cast<const PGM_RequestSyncResult&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:PGM_RequestSyncResult)
+void GM_RequestSyncResult::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
+  auto* const _this = static_cast<GM_RequestSyncResult*>(&to_msg);
+  auto& from = static_cast<const GM_RequestSyncResult&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:GM_RequestSyncResult)
   ABSL_DCHECK_NE(&from, _this);
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
@@ -575,22 +576,22 @@ void PGM_RequestSyncResult::MergeImpl(::google::protobuf::MessageLite& to_msg, c
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
 
-void PGM_RequestSyncResult::CopyFrom(const PGM_RequestSyncResult& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:PGM_RequestSyncResult)
+void GM_RequestSyncResult::CopyFrom(const GM_RequestSyncResult& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:GM_RequestSyncResult)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 
-void PGM_RequestSyncResult::InternalSwap(PGM_RequestSyncResult* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
+void GM_RequestSyncResult::InternalSwap(GM_RequestSyncResult* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
   using ::std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
   swap(_impl_.sequencenumber_, other->_impl_.sequencenumber_);
 }
 
-::google::protobuf::Metadata PGM_RequestSyncResult::GetMetadata() const {
+::google::protobuf::Metadata GM_RequestSyncResult::GetMetadata() const {
   return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
 }
 // @@protoc_insertion_point(namespace_scope)

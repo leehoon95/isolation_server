@@ -1,15 +1,16 @@
 edition="2023";
 
-enum PGM_Type {
-    PGM_UNSPECIFIED = 0;
-    STM_EVENT_1 = 1;
-    STM_EVENT_2 = 2;
+enum GM_Type {
+    GM_UNSPECIFIED = 0;
+    GM_DISCONNECTED = 300;
+    STM_EVENT_1 = 301;
+    STM_EVENT_2 = 302;
 }
 
-message PGM_RequestSync {
+message GM_RequestSync {
 	int32 sequenceNumber = 1;
 }
 
-message PGM_RequestSyncResult {
+message GM_RequestSyncResult {
 	int32 sequenceNumber = 1;
 }

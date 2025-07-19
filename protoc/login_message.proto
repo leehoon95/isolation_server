@@ -1,16 +1,18 @@
 edition="2023";
 
-enum PLM_Type {
-    PLM_UNSPECIFIED = 0;
-    CTM_REQUEST_LOGIN = 1;
-	STM_RESULT_LOGIN = 2;
+enum LM_Type {
+    LM_UNSPECIFIED = 0;
+	LM_DISCONNECTED = 100;
+    CM_REQUEST_LOGIN = 101;
+	SM_RESPONSE_LOGIN = 102;
 }
 
-message PLM_RequestLogin {
+message LM_RequestLogin {
 	string nickname = 1;
 }
 
-message PLM_LoginResult {
-	int32 clientIndex = 1;
+// token[0, UINT64_MAX]: 0: login failed. 
+message LM_LoginResult {
+	uint64 token = 1;
 	string reason = 2;
 }

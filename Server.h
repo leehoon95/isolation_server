@@ -18,26 +18,26 @@ class Server : public std::enable_shared_from_this<Server>
     boost::asio::ip::udp::socket _udpSocket;
     boost::asio::ip::udp::endpoint _remoteEndpoint;
     std::shared_ptr<char[]> _udpRecvBuffer;
-    //std::shared_ptr<char[]> _udpSendBuffer;
-    
+
     std::map<int, std::shared_ptr<ClientSocket>> _connectedClients;
     std::mutex _connMtx;
 
-    
-    //std::map<std::string, std::shared_ptr<ClientSocket>> _loginedClients;
-    std::map<int, std::shared_ptr<ClientSocket>> _loginedClients;
-    std::mutex _loginedMtx;
+    // std::map<std::string, std::shared_ptr<ClientSocket>> _loginedClients;
+    // std::map<int, std::shared_ptr<ClientSocket>> _loginedClients;
+    // std::mutex _loginedMtx;
 
     std::shared_ptr<RoomManager> _rm;
-    //Room _room;
+    // Room _room;
 
     unsigned int _clientIndex = 0;
 
 private:
     void ReceiveUDP();
-    bool MoveClientToLogin(std::shared_ptr<ClientSocket> client, std::string nickname);
     void RemoveClient(int index);
     void PassClientToRoomManager(std::shared_ptr<ClientSocket> client);
+    //bool TryLogin(std::shared_ptr<ClientSocket> client, std::string &reason);
+    void HandleRequestLogin(std::shared_ptr<ClientSocket> client, char *serializedData, int length);
+    
 
 public:
     explicit Server(

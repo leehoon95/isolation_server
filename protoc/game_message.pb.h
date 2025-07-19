@@ -53,59 +53,55 @@ struct TableStruct_game_5fmessage_2eproto {
 extern "C" {
 extern const ::google::protobuf::internal::DescriptorTable descriptor_table_game_5fmessage_2eproto;
 }  // extern "C"
-enum PGM_Type : int;
-extern const uint32_t PGM_Type_internal_data_[];
-class PGM_RequestSync;
-struct PGM_RequestSyncDefaultTypeInternal;
-extern PGM_RequestSyncDefaultTypeInternal _PGM_RequestSync_default_instance_;
-extern const ::google::protobuf::internal::ClassDataFull PGM_RequestSync_class_data_;
-class PGM_RequestSyncResult;
-struct PGM_RequestSyncResultDefaultTypeInternal;
-extern PGM_RequestSyncResultDefaultTypeInternal _PGM_RequestSyncResult_default_instance_;
-extern const ::google::protobuf::internal::ClassDataFull PGM_RequestSyncResult_class_data_;
+enum GM_Type : int;
+extern const uint32_t GM_Type_internal_data_[];
+class GM_RequestSync;
+struct GM_RequestSyncDefaultTypeInternal;
+extern GM_RequestSyncDefaultTypeInternal _GM_RequestSync_default_instance_;
+extern const ::google::protobuf::internal::ClassDataFull GM_RequestSync_class_data_;
+class GM_RequestSyncResult;
+struct GM_RequestSyncResultDefaultTypeInternal;
+extern GM_RequestSyncResultDefaultTypeInternal _GM_RequestSyncResult_default_instance_;
+extern const ::google::protobuf::internal::ClassDataFull GM_RequestSyncResult_class_data_;
 namespace google {
 namespace protobuf {
 template <>
-internal::EnumTraitsT<::PGM_Type_internal_data_>
-    internal::EnumTraitsImpl::value<::PGM_Type>;
+internal::EnumTraitsT<::GM_Type_internal_data_>
+    internal::EnumTraitsImpl::value<::GM_Type>;
 }  // namespace protobuf
 }  // namespace google
 
-enum PGM_Type : int {
-  PGM_UNSPECIFIED = 0,
-  STM_EVENT_1 = 1,
-  STM_EVENT_2 = 2,
-  PGM_Type_INT_MIN_SENTINEL_DO_NOT_USE_ =
+enum GM_Type : int {
+  GM_UNSPECIFIED = 0,
+  GM_DISCONNECTED = 300,
+  STM_EVENT_1 = 301,
+  STM_EVENT_2 = 302,
+  GM_Type_INT_MIN_SENTINEL_DO_NOT_USE_ =
       ::std::numeric_limits<::int32_t>::min(),
-  PGM_Type_INT_MAX_SENTINEL_DO_NOT_USE_ =
+  GM_Type_INT_MAX_SENTINEL_DO_NOT_USE_ =
       ::std::numeric_limits<::int32_t>::max(),
 };
 
-extern const uint32_t PGM_Type_internal_data_[];
-inline constexpr PGM_Type PGM_Type_MIN =
-    static_cast<PGM_Type>(0);
-inline constexpr PGM_Type PGM_Type_MAX =
-    static_cast<PGM_Type>(2);
-inline bool PGM_Type_IsValid(int value) {
-  return 0 <= value && value <= 2;
+extern const uint32_t GM_Type_internal_data_[];
+inline constexpr GM_Type GM_Type_MIN =
+    static_cast<GM_Type>(0);
+inline constexpr GM_Type GM_Type_MAX =
+    static_cast<GM_Type>(302);
+inline bool GM_Type_IsValid(int value) {
+  return ::google::protobuf::internal::ValidateEnum(value, GM_Type_internal_data_);
 }
-inline constexpr int PGM_Type_ARRAYSIZE = 2 + 1;
-const ::google::protobuf::EnumDescriptor* PROTOBUF_NONNULL PGM_Type_descriptor();
+inline constexpr int GM_Type_ARRAYSIZE = 302 + 1;
+const ::google::protobuf::EnumDescriptor* PROTOBUF_NONNULL GM_Type_descriptor();
 template <typename T>
-const ::std::string& PGM_Type_Name(T value) {
-  static_assert(::std::is_same<T, PGM_Type>::value ||
+const ::std::string& GM_Type_Name(T value) {
+  static_assert(::std::is_same<T, GM_Type>::value ||
                     ::std::is_integral<T>::value,
-                "Incorrect type passed to PGM_Type_Name().");
-  return PGM_Type_Name(static_cast<PGM_Type>(value));
+                "Incorrect type passed to GM_Type_Name().");
+  return ::google::protobuf::internal::NameOfEnum(GM_Type_descriptor(), value);
 }
-template <>
-inline const ::std::string& PGM_Type_Name(PGM_Type value) {
-  return ::google::protobuf::internal::NameOfDenseEnum<PGM_Type_descriptor, 0, 2>(
-      static_cast<int>(value));
-}
-inline bool PGM_Type_Parse(
-    ::absl::string_view name, PGM_Type* PROTOBUF_NONNULL value) {
-  return ::google::protobuf::internal::ParseNamedEnum<PGM_Type>(PGM_Type_descriptor(), name,
+inline bool GM_Type_Parse(
+    ::absl::string_view name, GM_Type* PROTOBUF_NONNULL value) {
+  return ::google::protobuf::internal::ParseNamedEnum<GM_Type>(GM_Type_descriptor(), name,
                                            value);
 }
 
@@ -114,30 +110,30 @@ inline bool PGM_Type_Parse(
 
 // -------------------------------------------------------------------
 
-class PGM_RequestSyncResult final : public ::google::protobuf::Message
-/* @@protoc_insertion_point(class_definition:PGM_RequestSyncResult) */ {
+class GM_RequestSyncResult final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:GM_RequestSyncResult) */ {
  public:
-  inline PGM_RequestSyncResult() : PGM_RequestSyncResult(nullptr) {}
-  ~PGM_RequestSyncResult() PROTOBUF_FINAL;
+  inline GM_RequestSyncResult() : GM_RequestSyncResult(nullptr) {}
+  ~GM_RequestSyncResult() PROTOBUF_FINAL;
 
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-  void operator delete(PGM_RequestSyncResult* PROTOBUF_NONNULL msg, std::destroying_delete_t) {
+  void operator delete(GM_RequestSyncResult* PROTOBUF_NONNULL msg, std::destroying_delete_t) {
     SharedDtor(*msg);
-    ::google::protobuf::internal::SizedDelete(msg, sizeof(PGM_RequestSyncResult));
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(GM_RequestSyncResult));
   }
 #endif
 
   template <typename = void>
-  explicit PROTOBUF_CONSTEXPR PGM_RequestSyncResult(::google::protobuf::internal::ConstantInitialized);
+  explicit PROTOBUF_CONSTEXPR GM_RequestSyncResult(::google::protobuf::internal::ConstantInitialized);
 
-  inline PGM_RequestSyncResult(const PGM_RequestSyncResult& from) : PGM_RequestSyncResult(nullptr, from) {}
-  inline PGM_RequestSyncResult(PGM_RequestSyncResult&& from) noexcept
-      : PGM_RequestSyncResult(nullptr, ::std::move(from)) {}
-  inline PGM_RequestSyncResult& operator=(const PGM_RequestSyncResult& from) {
+  inline GM_RequestSyncResult(const GM_RequestSyncResult& from) : GM_RequestSyncResult(nullptr, from) {}
+  inline GM_RequestSyncResult(GM_RequestSyncResult&& from) noexcept
+      : GM_RequestSyncResult(nullptr, ::std::move(from)) {}
+  inline GM_RequestSyncResult& operator=(const GM_RequestSyncResult& from) {
     CopyFrom(from);
     return *this;
   }
-  inline PGM_RequestSyncResult& operator=(PGM_RequestSyncResult&& from) noexcept {
+  inline GM_RequestSyncResult& operator=(GM_RequestSyncResult&& from) noexcept {
     if (this == &from) return *this;
     if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
       InternalSwap(&from);
@@ -165,13 +161,13 @@ class PGM_RequestSyncResult final : public ::google::protobuf::Message
   static const ::google::protobuf::Reflection* PROTOBUF_NONNULL GetReflection() {
     return default_instance().GetMetadata().reflection;
   }
-  static const PGM_RequestSyncResult& default_instance() {
-    return *reinterpret_cast<const PGM_RequestSyncResult*>(
-        &_PGM_RequestSyncResult_default_instance_);
+  static const GM_RequestSyncResult& default_instance() {
+    return *reinterpret_cast<const GM_RequestSyncResult*>(
+        &_GM_RequestSyncResult_default_instance_);
   }
   static constexpr int kIndexInFileMessages = 1;
-  friend void swap(PGM_RequestSyncResult& a, PGM_RequestSyncResult& b) { a.Swap(&b); }
-  inline void Swap(PGM_RequestSyncResult* PROTOBUF_NONNULL other) {
+  friend void swap(GM_RequestSyncResult& a, GM_RequestSyncResult& b) { a.Swap(&b); }
+  inline void Swap(GM_RequestSyncResult* PROTOBUF_NONNULL other) {
     if (other == this) return;
     if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
       InternalSwap(other);
@@ -179,7 +175,7 @@ class PGM_RequestSyncResult final : public ::google::protobuf::Message
       ::google::protobuf::internal::GenericSwap(this, other);
     }
   }
-  void UnsafeArenaSwap(PGM_RequestSyncResult* PROTOBUF_NONNULL other) {
+  void UnsafeArenaSwap(GM_RequestSyncResult* PROTOBUF_NONNULL other) {
     if (other == this) return;
     ABSL_DCHECK(GetArena() == other->GetArena());
     InternalSwap(other);
@@ -187,13 +183,13 @@ class PGM_RequestSyncResult final : public ::google::protobuf::Message
 
   // implements Message ----------------------------------------------
 
-  PGM_RequestSyncResult* PROTOBUF_NONNULL New(::google::protobuf::Arena* PROTOBUF_NULLABLE arena = nullptr) const {
-    return ::google::protobuf::Message::DefaultConstruct<PGM_RequestSyncResult>(arena);
+  GM_RequestSyncResult* PROTOBUF_NONNULL New(::google::protobuf::Arena* PROTOBUF_NULLABLE arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<GM_RequestSyncResult>(arena);
   }
   using ::google::protobuf::Message::CopyFrom;
-  void CopyFrom(const PGM_RequestSyncResult& from);
+  void CopyFrom(const GM_RequestSyncResult& from);
   using ::google::protobuf::Message::MergeFrom;
-  void MergeFrom(const PGM_RequestSyncResult& from) { PGM_RequestSyncResult::MergeImpl(*this, from); }
+  void MergeFrom(const GM_RequestSyncResult& from) { GM_RequestSyncResult::MergeImpl(*this, from); }
 
   private:
   static void MergeImpl(::google::protobuf::MessageLite& to_msg,
@@ -229,18 +225,18 @@ class PGM_RequestSyncResult final : public ::google::protobuf::Message
   private:
   void SharedCtor(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
   static void SharedDtor(MessageLite& self);
-  void InternalSwap(PGM_RequestSyncResult* PROTOBUF_NONNULL other);
+  void InternalSwap(GM_RequestSyncResult* PROTOBUF_NONNULL other);
  private:
   template <typename T>
   friend ::absl::string_view(::google::protobuf::internal::GetAnyMessageName)();
-  static ::absl::string_view FullMessageName() { return "PGM_RequestSyncResult"; }
+  static ::absl::string_view FullMessageName() { return "GM_RequestSyncResult"; }
 
  protected:
-  explicit PGM_RequestSyncResult(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
-  PGM_RequestSyncResult(::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const PGM_RequestSyncResult& from);
-  PGM_RequestSyncResult(
-      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, PGM_RequestSyncResult&& from) noexcept
-      : PGM_RequestSyncResult(arena) {
+  explicit GM_RequestSyncResult(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  GM_RequestSyncResult(::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const GM_RequestSyncResult& from);
+  GM_RequestSyncResult(
+      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, GM_RequestSyncResult&& from) noexcept
+      : GM_RequestSyncResult(arena) {
     *this = ::std::move(from);
   }
   const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL GetClassData() const PROTOBUF_FINAL;
@@ -270,7 +266,7 @@ class PGM_RequestSyncResult final : public ::google::protobuf::Message
   void _internal_set_sequencenumber(::int32_t value);
 
   public:
-  // @@protoc_insertion_point(class_scope:PGM_RequestSyncResult)
+  // @@protoc_insertion_point(class_scope:GM_RequestSyncResult)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
@@ -293,7 +289,7 @@ class PGM_RequestSyncResult final : public ::google::protobuf::Message
     inline explicit Impl_(
         ::google::protobuf::internal::InternalVisibility visibility,
         ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
-        const PGM_RequestSyncResult& from_msg);
+        const GM_RequestSyncResult& from_msg);
     ::google::protobuf::internal::HasBits<1> _has_bits_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     ::int32_t sequencenumber_;
@@ -303,33 +299,33 @@ class PGM_RequestSyncResult final : public ::google::protobuf::Message
   friend struct ::TableStruct_game_5fmessage_2eproto;
 };
 
-extern const ::google::protobuf::internal::ClassDataFull PGM_RequestSyncResult_class_data_;
+extern const ::google::protobuf::internal::ClassDataFull GM_RequestSyncResult_class_data_;
 // -------------------------------------------------------------------
 
-class PGM_RequestSync final : public ::google::protobuf::Message
-/* @@protoc_insertion_point(class_definition:PGM_RequestSync) */ {
+class GM_RequestSync final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:GM_RequestSync) */ {
  public:
-  inline PGM_RequestSync() : PGM_RequestSync(nullptr) {}
-  ~PGM_RequestSync() PROTOBUF_FINAL;
+  inline GM_RequestSync() : GM_RequestSync(nullptr) {}
+  ~GM_RequestSync() PROTOBUF_FINAL;
 
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-  void operator delete(PGM_RequestSync* PROTOBUF_NONNULL msg, std::destroying_delete_t) {
+  void operator delete(GM_RequestSync* PROTOBUF_NONNULL msg, std::destroying_delete_t) {
     SharedDtor(*msg);
-    ::google::protobuf::internal::SizedDelete(msg, sizeof(PGM_RequestSync));
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(GM_RequestSync));
   }
 #endif
 
   template <typename = void>
-  explicit PROTOBUF_CONSTEXPR PGM_RequestSync(::google::protobuf::internal::ConstantInitialized);
+  explicit PROTOBUF_CONSTEXPR GM_RequestSync(::google::protobuf::internal::ConstantInitialized);
 
-  inline PGM_RequestSync(const PGM_RequestSync& from) : PGM_RequestSync(nullptr, from) {}
-  inline PGM_RequestSync(PGM_RequestSync&& from) noexcept
-      : PGM_RequestSync(nullptr, ::std::move(from)) {}
-  inline PGM_RequestSync& operator=(const PGM_RequestSync& from) {
+  inline GM_RequestSync(const GM_RequestSync& from) : GM_RequestSync(nullptr, from) {}
+  inline GM_RequestSync(GM_RequestSync&& from) noexcept
+      : GM_RequestSync(nullptr, ::std::move(from)) {}
+  inline GM_RequestSync& operator=(const GM_RequestSync& from) {
     CopyFrom(from);
     return *this;
   }
-  inline PGM_RequestSync& operator=(PGM_RequestSync&& from) noexcept {
+  inline GM_RequestSync& operator=(GM_RequestSync&& from) noexcept {
     if (this == &from) return *this;
     if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
       InternalSwap(&from);
@@ -357,13 +353,13 @@ class PGM_RequestSync final : public ::google::protobuf::Message
   static const ::google::protobuf::Reflection* PROTOBUF_NONNULL GetReflection() {
     return default_instance().GetMetadata().reflection;
   }
-  static const PGM_RequestSync& default_instance() {
-    return *reinterpret_cast<const PGM_RequestSync*>(
-        &_PGM_RequestSync_default_instance_);
+  static const GM_RequestSync& default_instance() {
+    return *reinterpret_cast<const GM_RequestSync*>(
+        &_GM_RequestSync_default_instance_);
   }
   static constexpr int kIndexInFileMessages = 0;
-  friend void swap(PGM_RequestSync& a, PGM_RequestSync& b) { a.Swap(&b); }
-  inline void Swap(PGM_RequestSync* PROTOBUF_NONNULL other) {
+  friend void swap(GM_RequestSync& a, GM_RequestSync& b) { a.Swap(&b); }
+  inline void Swap(GM_RequestSync* PROTOBUF_NONNULL other) {
     if (other == this) return;
     if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
       InternalSwap(other);
@@ -371,7 +367,7 @@ class PGM_RequestSync final : public ::google::protobuf::Message
       ::google::protobuf::internal::GenericSwap(this, other);
     }
   }
-  void UnsafeArenaSwap(PGM_RequestSync* PROTOBUF_NONNULL other) {
+  void UnsafeArenaSwap(GM_RequestSync* PROTOBUF_NONNULL other) {
     if (other == this) return;
     ABSL_DCHECK(GetArena() == other->GetArena());
     InternalSwap(other);
@@ -379,13 +375,13 @@ class PGM_RequestSync final : public ::google::protobuf::Message
 
   // implements Message ----------------------------------------------
 
-  PGM_RequestSync* PROTOBUF_NONNULL New(::google::protobuf::Arena* PROTOBUF_NULLABLE arena = nullptr) const {
-    return ::google::protobuf::Message::DefaultConstruct<PGM_RequestSync>(arena);
+  GM_RequestSync* PROTOBUF_NONNULL New(::google::protobuf::Arena* PROTOBUF_NULLABLE arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<GM_RequestSync>(arena);
   }
   using ::google::protobuf::Message::CopyFrom;
-  void CopyFrom(const PGM_RequestSync& from);
+  void CopyFrom(const GM_RequestSync& from);
   using ::google::protobuf::Message::MergeFrom;
-  void MergeFrom(const PGM_RequestSync& from) { PGM_RequestSync::MergeImpl(*this, from); }
+  void MergeFrom(const GM_RequestSync& from) { GM_RequestSync::MergeImpl(*this, from); }
 
   private:
   static void MergeImpl(::google::protobuf::MessageLite& to_msg,
@@ -421,18 +417,18 @@ class PGM_RequestSync final : public ::google::protobuf::Message
   private:
   void SharedCtor(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
   static void SharedDtor(MessageLite& self);
-  void InternalSwap(PGM_RequestSync* PROTOBUF_NONNULL other);
+  void InternalSwap(GM_RequestSync* PROTOBUF_NONNULL other);
  private:
   template <typename T>
   friend ::absl::string_view(::google::protobuf::internal::GetAnyMessageName)();
-  static ::absl::string_view FullMessageName() { return "PGM_RequestSync"; }
+  static ::absl::string_view FullMessageName() { return "GM_RequestSync"; }
 
  protected:
-  explicit PGM_RequestSync(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
-  PGM_RequestSync(::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const PGM_RequestSync& from);
-  PGM_RequestSync(
-      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, PGM_RequestSync&& from) noexcept
-      : PGM_RequestSync(arena) {
+  explicit GM_RequestSync(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  GM_RequestSync(::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const GM_RequestSync& from);
+  GM_RequestSync(
+      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, GM_RequestSync&& from) noexcept
+      : GM_RequestSync(arena) {
     *this = ::std::move(from);
   }
   const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL GetClassData() const PROTOBUF_FINAL;
@@ -462,7 +458,7 @@ class PGM_RequestSync final : public ::google::protobuf::Message
   void _internal_set_sequencenumber(::int32_t value);
 
   public:
-  // @@protoc_insertion_point(class_scope:PGM_RequestSync)
+  // @@protoc_insertion_point(class_scope:GM_RequestSync)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
@@ -485,7 +481,7 @@ class PGM_RequestSync final : public ::google::protobuf::Message
     inline explicit Impl_(
         ::google::protobuf::internal::InternalVisibility visibility,
         ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
-        const PGM_RequestSync& from_msg);
+        const GM_RequestSync& from_msg);
     ::google::protobuf::internal::HasBits<1> _has_bits_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     ::int32_t sequencenumber_;
@@ -495,7 +491,7 @@ class PGM_RequestSync final : public ::google::protobuf::Message
   friend struct ::TableStruct_game_5fmessage_2eproto;
 };
 
-extern const ::google::protobuf::internal::ClassDataFull PGM_RequestSync_class_data_;
+extern const ::google::protobuf::internal::ClassDataFull GM_RequestSync_class_data_;
 
 // ===================================================================
 
@@ -511,64 +507,64 @@ extern const ::google::protobuf::internal::ClassDataFull PGM_RequestSync_class_d
 #endif  // __GNUC__
 // -------------------------------------------------------------------
 
-// PGM_RequestSync
+// GM_RequestSync
 
 // int32 sequenceNumber = 1;
-inline bool PGM_RequestSync::has_sequencenumber() const {
+inline bool GM_RequestSync::has_sequencenumber() const {
   bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
   return value;
 }
-inline void PGM_RequestSync::clear_sequencenumber() {
+inline void GM_RequestSync::clear_sequencenumber() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.sequencenumber_ = 0;
   _impl_._has_bits_[0] &= ~0x00000001u;
 }
-inline ::int32_t PGM_RequestSync::sequencenumber() const {
-  // @@protoc_insertion_point(field_get:PGM_RequestSync.sequenceNumber)
+inline ::int32_t GM_RequestSync::sequencenumber() const {
+  // @@protoc_insertion_point(field_get:GM_RequestSync.sequenceNumber)
   return _internal_sequencenumber();
 }
-inline void PGM_RequestSync::set_sequencenumber(::int32_t value) {
+inline void GM_RequestSync::set_sequencenumber(::int32_t value) {
   _internal_set_sequencenumber(value);
   _impl_._has_bits_[0] |= 0x00000001u;
-  // @@protoc_insertion_point(field_set:PGM_RequestSync.sequenceNumber)
+  // @@protoc_insertion_point(field_set:GM_RequestSync.sequenceNumber)
 }
-inline ::int32_t PGM_RequestSync::_internal_sequencenumber() const {
+inline ::int32_t GM_RequestSync::_internal_sequencenumber() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.sequencenumber_;
 }
-inline void PGM_RequestSync::_internal_set_sequencenumber(::int32_t value) {
+inline void GM_RequestSync::_internal_set_sequencenumber(::int32_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.sequencenumber_ = value;
 }
 
 // -------------------------------------------------------------------
 
-// PGM_RequestSyncResult
+// GM_RequestSyncResult
 
 // int32 sequenceNumber = 1;
-inline bool PGM_RequestSyncResult::has_sequencenumber() const {
+inline bool GM_RequestSyncResult::has_sequencenumber() const {
   bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
   return value;
 }
-inline void PGM_RequestSyncResult::clear_sequencenumber() {
+inline void GM_RequestSyncResult::clear_sequencenumber() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.sequencenumber_ = 0;
   _impl_._has_bits_[0] &= ~0x00000001u;
 }
-inline ::int32_t PGM_RequestSyncResult::sequencenumber() const {
-  // @@protoc_insertion_point(field_get:PGM_RequestSyncResult.sequenceNumber)
+inline ::int32_t GM_RequestSyncResult::sequencenumber() const {
+  // @@protoc_insertion_point(field_get:GM_RequestSyncResult.sequenceNumber)
   return _internal_sequencenumber();
 }
-inline void PGM_RequestSyncResult::set_sequencenumber(::int32_t value) {
+inline void GM_RequestSyncResult::set_sequencenumber(::int32_t value) {
   _internal_set_sequencenumber(value);
   _impl_._has_bits_[0] |= 0x00000001u;
-  // @@protoc_insertion_point(field_set:PGM_RequestSyncResult.sequenceNumber)
+  // @@protoc_insertion_point(field_set:GM_RequestSyncResult.sequenceNumber)
 }
-inline ::int32_t PGM_RequestSyncResult::_internal_sequencenumber() const {
+inline ::int32_t GM_RequestSyncResult::_internal_sequencenumber() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.sequencenumber_;
 }
-inline void PGM_RequestSyncResult::_internal_set_sequencenumber(::int32_t value) {
+inline void GM_RequestSyncResult::_internal_set_sequencenumber(::int32_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.sequencenumber_ = value;
 }
@@ -584,10 +580,10 @@ namespace google {
 namespace protobuf {
 
 template <>
-struct is_proto_enum<::PGM_Type> : std::true_type {};
+struct is_proto_enum<::GM_Type> : std::true_type {};
 template <>
-inline const EnumDescriptor* PROTOBUF_NONNULL GetEnumDescriptor<::PGM_Type>() {
-  return ::PGM_Type_descriptor();
+inline const EnumDescriptor* PROTOBUF_NONNULL GetEnumDescriptor<::GM_Type>() {
+  return ::GM_Type_descriptor();
 }
 
 }  // namespace protobuf

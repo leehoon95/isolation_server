@@ -11,85 +11,120 @@ RoomManager::RoomManager(asio::io_context &io, asio::ip::udp::socket &socket)
 {
 }
 
-bool RoomManager::Enter(int index, std::weak_ptr<ClientSocket> client)
+bool RoomManager::Login(std::shared_ptr<ClientSocket> client, std::string &reason)
 {
-    std::scoped_lock<std::mutex> sl{_listingClientMtx};
-
-    if (_listingClients.find(index) != _listingClients.end())
+    if (!client)
     {
-        // Client is already listed
+        reason = "RoomManager::Login: Client is not valid.";
         return false;
     }
 
-    _listingClients[index] = client;
+    std::string nickname = client->GetNickname();
 
-    if (auto sc = client.lock())
+    if (nickname.length() < 3)
     {
-        std::weak_ptr<RoomManager> wrm{shared_from_this()};
-
-        sc->SetPacketHandler(
-            PRM_Type::CTM_REQUEST_ROOM_LIST,
-            [wrm, client](char *serializedData, int length)
-            {
-                if (auto c = client.lock())
-                {
-                    if (auto rm = wrm.lock())
-                    {
-                        rm->SendCurrentRoomList(c);
-                    }
-                }
-            });
-
-        sc->SetPacketHandler(
-            PRM_Type::CTM_REQUEST_CREATE_ROOM,
-            [wrm, client](char *serializedData, int length)
-            {
-                if (auto c = client.lock())
-                {
-                    if (auto rm = wrm.lock())
-                    {
-                        PRM_RequestCreateRoom rcr;
-                        rcr.ParseFromArray(serializedData, length);
-
-                        std::string roomName{rcr.roomname()};
-
-                        rm->CreateRoom(c, roomName);
-                    }
-                }
-            });
-
-        sc->SetPacketHandler(
-            PRM_Type::CTM_ROOM_ENTER,
-            [wrm, client](char *serializedData, int length)
-            {
-                if (auto c = client.lock())
-                {
-                    if (auto rm = wrm.lock())
-                    {
-                        rm->Enter(c->GetIndex(), std::weak_ptr<ClientSocket>(c));
-                    }
-                }
-            });
-
-        sc->SetPacketHandler(
-            PRM_Type::CTM_ROOM_ENTER,
-            [wrm, client](char *serializedData, int length)
-            {
-                if (auto c = client.lock())
-                {
-                    if (auto rm = wrm.lock())
-                    {
-                        rm->Enter(c->GetIndex(), std::weak_ptr<ClientSocket>(c));
-                    }
-                }
-            });
+        reason = "RoomManager::Login: Client nickname is not valid.";
+        return false;
     }
+
+    std::scoped_lock<std::mutex> sl{_loginedClientMtx};
+
+    // 닉네임 중복검사는 하지 않음 25.07.16
+    // if (_loginedClients.find(nickname) != _loginedClients.end())
+    // {
+    //     return "RoomManager::Login: Client is logined aleady.";
+    // }
+
+    client->ClearPacketHandler();
+    client->ClearDisconnectHandler();
+
+    auto token = _tokenPool.allocate();
+
+    _loginedClients[token] = client;
+    client->SetToken(token);
+
+    std::weak_ptr<ClientSocket> wc{client};
+    std::weak_ptr<RoomManager> wrm{shared_from_this()};
+
+    client->SetPacketHandler(
+        RM_Type::CM_REQUEST_ROOM_LIST,
+        [wrm, wc](char *serializedData, int length)
+        {
+            if (auto c = wc.lock())
+            {
+                if (auto rm = wrm.lock())
+                {
+                    rm->SendCurrentRoomList(c);
+                }
+            }
+        });
+
+    client->SetPacketHandler(
+        RM_Type::CM_REQUEST_CREATE_ROOM,
+        [wrm, wc](char *serializedData, int length)
+        {
+            if (auto c = wc.lock())
+            {
+                if (auto rm = wrm.lock())
+                {
+                    rm->HandleRequestCreateRoom(c, serializedData, length);
+                }
+            }
+        });
+
+    client->SetPacketHandler(
+        RM_Type::CM_REQUEST_ROOM_ENTER,
+        [wrm, wc](char *serializedData, int length)
+        {
+            if (auto c = wc.lock())
+            {
+                if (auto rm = wrm.lock())
+                {
+                    rm->HandleRequestEnterToRoom(c, serializedData, length);
+                }
+            }
+        });
+
+    client->SetPacketHandler(
+        RM_Type::CM_REQUEST_ROOM_LEAVE,
+        [wrm, wc](char *serializedData, int length)
+        {
+            if (auto c = wc.lock())
+            {
+                if (auto rm = wrm.lock())
+                {
+                    rm->HandleRequestLeaveFromRoom(c, serializedData, length);
+                }
+            }
+        });
+
+    client->SetDisconnectHandler(
+        RM_Type::RM_DISCONNECTED,
+        [wrm, wc](system::error_code &ec)
+        {
+            if (auto c = wc.lock())
+            {
+                if (auto rm = wrm.lock())
+                {
+                    rm->DisconnectedClient(c);
+                }
+            }
+        });
+
+    reason = "ok";
 
     return true;
 }
 
-void RoomManager::DisconnectedClient(std::weak_ptr<ClientSocket> client)
+void RoomManager::DisconnectedClient(std::shared_ptr<ClientSocket> client)
 {
+    std::scoped_lock<std::mutex> sl{_loginedClientMtx};
+
+    client->Stop();
+    auto token = client->GetToken();
+
+    _loginedClients.erase(token);
+    _tokenPool.release(token);
 }
 
 std::weak_ptr<Room> RoomManager::GetRoom(int roomIndex)
@@ -109,7 +144,7 @@ void RoomManager::SendCurrentRoomList(std::shared_ptr<ClientSocket> client)
 {
     std::scoped_lock<std::mutex> sl{_roomListCacheMtx};
 
-    PRM_ResultRoomList rrl;
+    RM_ResultRoomList rrl;
 
     if (_roomListCache.empty())
     {
@@ -121,7 +156,7 @@ void RoomManager::SendCurrentRoomList(std::shared_ptr<ClientSocket> client)
 
         for (const auto &entry : _roomListCache)
         {
-            PRM_RoomSmallInfo *rsi = rrl.add_list();
+            RM_RoomSmallInfo *rsi = rrl.add_list();
             rsi->set_roomindex(entry.second.first);
             rsi->set_roomname(entry.second.second);
         }
@@ -132,23 +167,22 @@ void RoomManager::SendCurrentRoomList(std::shared_ptr<ClientSocket> client)
 
     append_prot_packet(
         t,
-        static_cast<int>(PRM_Type::STM_RESULT_ROOM_LIST),
+        static_cast<int>(RM_Type::SM_RESPONSE_ROOM_LIST),
         static_cast<int>(rrlString.length()) + 12);
     t.insert(t.end(), rrlString.begin(), rrlString.end());
 
     client->PostWrite(t);
 }
 
-void RoomManager::CreateRoom(std::shared_ptr<ClientSocket> client, const std::string &name)
+int RoomManager::CreateRoom(std::shared_ptr<ClientSocket> client, const std::string &name, std::string &reason)
 {
     std::scoped_lock<std::mutex> sl{_roomsMtx};
 
-    PRM_ResultCreateRoom rcr;
-
-    if (name.length() < 1)
+    if (name.length() < 4)
     {
-        rcr.set_roomindex(-1);
-        rcr.set_reason("The room name is too short.");
+        reason = "The room name is too short.";
+
+        return -1;
     }
     else
     {
@@ -160,21 +194,127 @@ void RoomManager::CreateRoom(std::shared_ptr<ClientSocket> client, const std::st
 
         _rooms[_roomIndex] = room;
 
-        room->EnterRoom(client);
+        std::string erReason;
+        bool res = room->EnterRoom(client, erReason);
 
-        rcr.set_roomindex(_roomIndex);
-        rcr.set_reason("ok");
+        if (!res)
+        {
+            reason = std::move(erReason);
+            _rooms.erase(_roomIndex);
+            
+            return -1;
+        }
+
+        return _roomIndex;
+    }
+}
+
+bool RoomManager::EnterRoom(std::shared_ptr<ClientSocket> client, int roomIndex, std::string &reason)
+{
+    std::scoped_lock<std::mutex> sl{_roomsMtx};
+
+    if (_rooms.find(roomIndex) == _rooms.end())
+    {
+        reason = "Room does not exist.";
+
+        return false; // Room does not exist
     }
 
-    std::string rcrString{rcr.SerializeAsString()};
+    bool res = _rooms[roomIndex]->EnterRoom(client, reason);
+
+    return res;
+}
+
+void RoomManager::LeaveRoom(std::shared_ptr<ClientSocket> client, int roomIndex)
+{
+}
+
+void RoomManager::HandleRequestCreateRoom(std::shared_ptr<ClientSocket> client, char *serializedData, int length)
+{
+    RM_RequestCreateRoom rcr;
+    RM_ResultCreateRoom response;
+
+    if (rcr.ParseFromArray(serializedData, length))
+    {
+        std::string roomName{rcr.roomname()};
+
+        std::string reason;
+        int res = CreateRoom(client, roomName, reason);
+
+        if (res > 0)
+        {
+            response.set_roomindex(res);
+            response.set_reason("ok");
+        }
+        else
+        {
+            response.set_roomindex(-1);
+            response.set_reason(reason);
+        }
+    }
+    else
+    {
+        response.set_roomindex(-1);
+        response.set_reason("Parsing message error.");
+    }
+
+    std::string rcrString{response.SerializeAsString()};
     std::vector<char> t;
 
     append_prot_packet(
         t,
-        static_cast<int>(PRM_Type::STM_RESULT_CREATE_ROOM),
+        static_cast<int>(RM_Type::SM_RESPONSE_CREATE_ROOM),
         static_cast<int>(rcrString.length()) + 12);
 
     client->PostWrite(t);
+}
+
+void RoomManager::HandleRequestEnterToRoom(std::shared_ptr<ClientSocket> client, char *serializedData, int length)
+{
+    RM_RequestEnterRoom rer;
+    RM_ResultEnterRoom response;
+
+    if (rer.ParseFromArray(serializedData, length))
+    {
+        int roomIndex = rer.roomindex();
+
+        std::string reason;
+        bool res = EnterRoom(client, roomIndex, reason);
+
+        response.set_result(res);
+
+        if (res)
+        {
+            response.set_reason("ok");
+        }
+        else
+        {
+            response.set_reason(reason);
+        }
+    }
+    else
+    {
+        response.set_result(false);
+        response.set_reason("Parsing message error");
+    }
+
+    std::string rcrString{response.SerializeAsString()};
+    std::vector<char> t;
+
+    append_prot_packet(
+        t,
+        static_cast<int>(RM_Type::SM_RESPONSE_CREATE_ROOM),
+        static_cast<int>(rcrString.length()) + 12);
+
+    client->PostWrite(t);
+}
+
+void RoomManager::HandleRequestLeaveFromRoom(std::shared_ptr<ClientSocket> client, char *serializedData, int length)
+{
+}
+
+void RoomManager::HandleRequestLogout(std::shared_ptr<ClientSocket> client, char *serializedData, int length)
+{
 }
 
 void RoomManager::ForwardUDPData(char *data, int length)

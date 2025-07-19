@@ -25,7 +25,7 @@ namespace _pb = ::google::protobuf;
 namespace _pbi = ::google::protobuf::internal;
 namespace _fl = ::google::protobuf::internal::field_layout;
 
-inline constexpr PRM_RoomSmallInfo::Impl_::Impl_(
+inline constexpr RM_RoomSmallInfo::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : _cached_size_{0},
         roomname_(
@@ -34,26 +34,54 @@ inline constexpr PRM_RoomSmallInfo::Impl_::Impl_(
         roomindex_{0} {}
 
 template <typename>
-PROTOBUF_CONSTEXPR PRM_RoomSmallInfo::PRM_RoomSmallInfo(::_pbi::ConstantInitialized)
+PROTOBUF_CONSTEXPR RM_RoomSmallInfo::RM_RoomSmallInfo(::_pbi::ConstantInitialized)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(PRM_RoomSmallInfo_class_data_.base()),
+    : ::google::protobuf::Message(RM_RoomSmallInfo_class_data_.base()),
 #else   // PROTOBUF_CUSTOM_VTABLE
     : ::google::protobuf::Message(),
 #endif  // PROTOBUF_CUSTOM_VTABLE
       _impl_(::_pbi::ConstantInitialized()) {
 }
-struct PRM_RoomSmallInfoDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR PRM_RoomSmallInfoDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~PRM_RoomSmallInfoDefaultTypeInternal() {}
+struct RM_RoomSmallInfoDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR RM_RoomSmallInfoDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~RM_RoomSmallInfoDefaultTypeInternal() {}
   union {
-    PRM_RoomSmallInfo _instance;
+    RM_RoomSmallInfo _instance;
   };
 };
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PRM_RoomSmallInfoDefaultTypeInternal _PRM_RoomSmallInfo_default_instance_;
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 RM_RoomSmallInfoDefaultTypeInternal _RM_RoomSmallInfo_default_instance_;
 
-inline constexpr PRM_ResultCreateRoom::Impl_::Impl_(
+inline constexpr RM_ResultEnterRoom::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        reason_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        result_{false} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR RM_ResultEnterRoom::RM_ResultEnterRoom(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(RM_ResultEnterRoom_class_data_.base()),
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(),
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(::_pbi::ConstantInitialized()) {
+}
+struct RM_ResultEnterRoomDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR RM_ResultEnterRoomDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~RM_ResultEnterRoomDefaultTypeInternal() {}
+  union {
+    RM_ResultEnterRoom _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 RM_ResultEnterRoomDefaultTypeInternal _RM_ResultEnterRoom_default_instance_;
+
+inline constexpr RM_ResultCreateRoom::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : _cached_size_{0},
         reason_(
@@ -62,51 +90,76 @@ inline constexpr PRM_ResultCreateRoom::Impl_::Impl_(
         roomindex_{0} {}
 
 template <typename>
-PROTOBUF_CONSTEXPR PRM_ResultCreateRoom::PRM_ResultCreateRoom(::_pbi::ConstantInitialized)
+PROTOBUF_CONSTEXPR RM_ResultCreateRoom::RM_ResultCreateRoom(::_pbi::ConstantInitialized)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(PRM_ResultCreateRoom_class_data_.base()),
+    : ::google::protobuf::Message(RM_ResultCreateRoom_class_data_.base()),
 #else   // PROTOBUF_CUSTOM_VTABLE
     : ::google::protobuf::Message(),
 #endif  // PROTOBUF_CUSTOM_VTABLE
       _impl_(::_pbi::ConstantInitialized()) {
 }
-struct PRM_ResultCreateRoomDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR PRM_ResultCreateRoomDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~PRM_ResultCreateRoomDefaultTypeInternal() {}
+struct RM_ResultCreateRoomDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR RM_ResultCreateRoomDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~RM_ResultCreateRoomDefaultTypeInternal() {}
   union {
-    PRM_ResultCreateRoom _instance;
+    RM_ResultCreateRoom _instance;
   };
 };
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PRM_ResultCreateRoomDefaultTypeInternal _PRM_ResultCreateRoom_default_instance_;
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 RM_ResultCreateRoomDefaultTypeInternal _RM_ResultCreateRoom_default_instance_;
 
-inline constexpr PRM_RequestRoomList::Impl_::Impl_(
+inline constexpr RM_RequestRoomList::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : _cached_size_{0},
         filter_{0} {}
 
 template <typename>
-PROTOBUF_CONSTEXPR PRM_RequestRoomList::PRM_RequestRoomList(::_pbi::ConstantInitialized)
+PROTOBUF_CONSTEXPR RM_RequestRoomList::RM_RequestRoomList(::_pbi::ConstantInitialized)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(PRM_RequestRoomList_class_data_.base()),
+    : ::google::protobuf::Message(RM_RequestRoomList_class_data_.base()),
 #else   // PROTOBUF_CUSTOM_VTABLE
     : ::google::protobuf::Message(),
 #endif  // PROTOBUF_CUSTOM_VTABLE
       _impl_(::_pbi::ConstantInitialized()) {
 }
-struct PRM_RequestRoomListDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR PRM_RequestRoomListDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~PRM_RequestRoomListDefaultTypeInternal() {}
+struct RM_RequestRoomListDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR RM_RequestRoomListDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~RM_RequestRoomListDefaultTypeInternal() {}
   union {
-    PRM_RequestRoomList _instance;
+    RM_RequestRoomList _instance;
   };
 };
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PRM_RequestRoomListDefaultTypeInternal _PRM_RequestRoomList_default_instance_;
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 RM_RequestRoomListDefaultTypeInternal _RM_RequestRoomList_default_instance_;
 
-inline constexpr PRM_RequestCreateRoom::Impl_::Impl_(
+inline constexpr RM_RequestEnterRoom::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        roomindex_{0} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR RM_RequestEnterRoom::RM_RequestEnterRoom(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(RM_RequestEnterRoom_class_data_.base()),
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(),
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(::_pbi::ConstantInitialized()) {
+}
+struct RM_RequestEnterRoomDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR RM_RequestEnterRoomDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~RM_RequestEnterRoomDefaultTypeInternal() {}
+  union {
+    RM_RequestEnterRoom _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 RM_RequestEnterRoomDefaultTypeInternal _RM_RequestEnterRoom_default_instance_;
+
+inline constexpr RM_RequestCreateRoom::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : _cached_size_{0},
         roomname_(
@@ -114,50 +167,78 @@ inline constexpr PRM_RequestCreateRoom::Impl_::Impl_(
             ::_pbi::ConstantInitialized()) {}
 
 template <typename>
-PROTOBUF_CONSTEXPR PRM_RequestCreateRoom::PRM_RequestCreateRoom(::_pbi::ConstantInitialized)
+PROTOBUF_CONSTEXPR RM_RequestCreateRoom::RM_RequestCreateRoom(::_pbi::ConstantInitialized)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(PRM_RequestCreateRoom_class_data_.base()),
+    : ::google::protobuf::Message(RM_RequestCreateRoom_class_data_.base()),
 #else   // PROTOBUF_CUSTOM_VTABLE
     : ::google::protobuf::Message(),
 #endif  // PROTOBUF_CUSTOM_VTABLE
       _impl_(::_pbi::ConstantInitialized()) {
 }
-struct PRM_RequestCreateRoomDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR PRM_RequestCreateRoomDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~PRM_RequestCreateRoomDefaultTypeInternal() {}
+struct RM_RequestCreateRoomDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR RM_RequestCreateRoomDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~RM_RequestCreateRoomDefaultTypeInternal() {}
   union {
-    PRM_RequestCreateRoom _instance;
+    RM_RequestCreateRoom _instance;
   };
 };
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PRM_RequestCreateRoomDefaultTypeInternal _PRM_RequestCreateRoom_default_instance_;
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 RM_RequestCreateRoomDefaultTypeInternal _RM_RequestCreateRoom_default_instance_;
 
-inline constexpr PRM_ResultRoomList::Impl_::Impl_(
+inline constexpr RM_BroadcastMessage::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        message_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        time_{0} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR RM_BroadcastMessage::RM_BroadcastMessage(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(RM_BroadcastMessage_class_data_.base()),
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(),
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(::_pbi::ConstantInitialized()) {
+}
+struct RM_BroadcastMessageDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR RM_BroadcastMessageDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~RM_BroadcastMessageDefaultTypeInternal() {}
+  union {
+    RM_BroadcastMessage _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 RM_BroadcastMessageDefaultTypeInternal _RM_BroadcastMessage_default_instance_;
+
+inline constexpr RM_ResultRoomList::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : _cached_size_{0},
         list_{},
         count_{0} {}
 
 template <typename>
-PROTOBUF_CONSTEXPR PRM_ResultRoomList::PRM_ResultRoomList(::_pbi::ConstantInitialized)
+PROTOBUF_CONSTEXPR RM_ResultRoomList::RM_ResultRoomList(::_pbi::ConstantInitialized)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(PRM_ResultRoomList_class_data_.base()),
+    : ::google::protobuf::Message(RM_ResultRoomList_class_data_.base()),
 #else   // PROTOBUF_CUSTOM_VTABLE
     : ::google::protobuf::Message(),
 #endif  // PROTOBUF_CUSTOM_VTABLE
       _impl_(::_pbi::ConstantInitialized()) {
 }
-struct PRM_ResultRoomListDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR PRM_ResultRoomListDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~PRM_ResultRoomListDefaultTypeInternal() {}
+struct RM_ResultRoomListDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR RM_ResultRoomListDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~RM_ResultRoomListDefaultTypeInternal() {}
   union {
-    PRM_ResultRoomList _instance;
+    RM_ResultRoomList _instance;
   };
 };
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PRM_ResultRoomListDefaultTypeInternal _PRM_ResultRoomList_default_instance_;
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 RM_ResultRoomListDefaultTypeInternal _RM_ResultRoomList_default_instance_;
 static const ::_pb::EnumDescriptor* PROTOBUF_NONNULL
     file_level_enum_descriptors_room_5fmessage_2eproto[1];
 static constexpr const ::_pb::ServiceDescriptor *PROTOBUF_NONNULL *PROTOBUF_NULLABLE
@@ -166,116 +247,147 @@ const ::uint32_t
     TableStruct_room_5fmessage_2eproto::offsets[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
         protodesc_cold) = {
         0x081, // bitmap
-        PROTOBUF_FIELD_OFFSET(::PRM_RequestRoomList, _impl_._has_bits_),
+        PROTOBUF_FIELD_OFFSET(::RM_RequestRoomList, _impl_._has_bits_),
         4, // hasbit index offset
-        PROTOBUF_FIELD_OFFSET(::PRM_RequestRoomList, _impl_.filter_),
+        PROTOBUF_FIELD_OFFSET(::RM_RequestRoomList, _impl_.filter_),
         0,
         0x081, // bitmap
-        PROTOBUF_FIELD_OFFSET(::PRM_RoomSmallInfo, _impl_._has_bits_),
+        PROTOBUF_FIELD_OFFSET(::RM_RoomSmallInfo, _impl_._has_bits_),
         5, // hasbit index offset
-        PROTOBUF_FIELD_OFFSET(::PRM_RoomSmallInfo, _impl_.roomindex_),
-        PROTOBUF_FIELD_OFFSET(::PRM_RoomSmallInfo, _impl_.roomname_),
+        PROTOBUF_FIELD_OFFSET(::RM_RoomSmallInfo, _impl_.roomindex_),
+        PROTOBUF_FIELD_OFFSET(::RM_RoomSmallInfo, _impl_.roomname_),
         1,
         0,
         0x081, // bitmap
-        PROTOBUF_FIELD_OFFSET(::PRM_ResultRoomList, _impl_._has_bits_),
+        PROTOBUF_FIELD_OFFSET(::RM_ResultRoomList, _impl_._has_bits_),
         5, // hasbit index offset
-        PROTOBUF_FIELD_OFFSET(::PRM_ResultRoomList, _impl_.count_),
-        PROTOBUF_FIELD_OFFSET(::PRM_ResultRoomList, _impl_.list_),
+        PROTOBUF_FIELD_OFFSET(::RM_ResultRoomList, _impl_.count_),
+        PROTOBUF_FIELD_OFFSET(::RM_ResultRoomList, _impl_.list_),
         0,
         ~0u,
         0x081, // bitmap
-        PROTOBUF_FIELD_OFFSET(::PRM_RequestCreateRoom, _impl_._has_bits_),
+        PROTOBUF_FIELD_OFFSET(::RM_RequestCreateRoom, _impl_._has_bits_),
         4, // hasbit index offset
-        PROTOBUF_FIELD_OFFSET(::PRM_RequestCreateRoom, _impl_.roomname_),
+        PROTOBUF_FIELD_OFFSET(::RM_RequestCreateRoom, _impl_.roomname_),
         0,
         0x081, // bitmap
-        PROTOBUF_FIELD_OFFSET(::PRM_ResultCreateRoom, _impl_._has_bits_),
+        PROTOBUF_FIELD_OFFSET(::RM_ResultCreateRoom, _impl_._has_bits_),
         5, // hasbit index offset
-        PROTOBUF_FIELD_OFFSET(::PRM_ResultCreateRoom, _impl_.roomindex_),
-        PROTOBUF_FIELD_OFFSET(::PRM_ResultCreateRoom, _impl_.reason_),
+        PROTOBUF_FIELD_OFFSET(::RM_ResultCreateRoom, _impl_.roomindex_),
+        PROTOBUF_FIELD_OFFSET(::RM_ResultCreateRoom, _impl_.reason_),
         1,
         0,
+        0x081, // bitmap
+        PROTOBUF_FIELD_OFFSET(::RM_RequestEnterRoom, _impl_._has_bits_),
+        4, // hasbit index offset
+        PROTOBUF_FIELD_OFFSET(::RM_RequestEnterRoom, _impl_.roomindex_),
+        0,
+        0x081, // bitmap
+        PROTOBUF_FIELD_OFFSET(::RM_ResultEnterRoom, _impl_._has_bits_),
+        5, // hasbit index offset
+        PROTOBUF_FIELD_OFFSET(::RM_ResultEnterRoom, _impl_.result_),
+        PROTOBUF_FIELD_OFFSET(::RM_ResultEnterRoom, _impl_.reason_),
+        1,
+        0,
+        0x081, // bitmap
+        PROTOBUF_FIELD_OFFSET(::RM_BroadcastMessage, _impl_._has_bits_),
+        5, // hasbit index offset
+        PROTOBUF_FIELD_OFFSET(::RM_BroadcastMessage, _impl_.message_),
+        PROTOBUF_FIELD_OFFSET(::RM_BroadcastMessage, _impl_.time_),
+        0,
+        1,
 };
 
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-        {0, sizeof(::PRM_RequestRoomList)},
-        {5, sizeof(::PRM_RoomSmallInfo)},
-        {12, sizeof(::PRM_ResultRoomList)},
-        {19, sizeof(::PRM_RequestCreateRoom)},
-        {24, sizeof(::PRM_ResultCreateRoom)},
+        {0, sizeof(::RM_RequestRoomList)},
+        {5, sizeof(::RM_RoomSmallInfo)},
+        {12, sizeof(::RM_ResultRoomList)},
+        {19, sizeof(::RM_RequestCreateRoom)},
+        {24, sizeof(::RM_ResultCreateRoom)},
+        {31, sizeof(::RM_RequestEnterRoom)},
+        {36, sizeof(::RM_ResultEnterRoom)},
+        {43, sizeof(::RM_BroadcastMessage)},
 };
 static const ::_pb::Message* PROTOBUF_NONNULL const file_default_instances[] = {
-    &::_PRM_RequestRoomList_default_instance_._instance,
-    &::_PRM_RoomSmallInfo_default_instance_._instance,
-    &::_PRM_ResultRoomList_default_instance_._instance,
-    &::_PRM_RequestCreateRoom_default_instance_._instance,
-    &::_PRM_ResultCreateRoom_default_instance_._instance,
+    &::_RM_RequestRoomList_default_instance_._instance,
+    &::_RM_RoomSmallInfo_default_instance_._instance,
+    &::_RM_ResultRoomList_default_instance_._instance,
+    &::_RM_RequestCreateRoom_default_instance_._instance,
+    &::_RM_ResultCreateRoom_default_instance_._instance,
+    &::_RM_RequestEnterRoom_default_instance_._instance,
+    &::_RM_ResultEnterRoom_default_instance_._instance,
+    &::_RM_BroadcastMessage_default_instance_._instance,
 };
 const char descriptor_table_protodef_room_5fmessage_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
-    "\n\022room_message.proto\"%\n\023PRM_RequestRoomL"
-    "ist\022\016\n\006filter\030\001 \001(\005\"8\n\021PRM_RoomSmallInfo"
-    "\022\021\n\troomIndex\030\001 \001(\005\022\020\n\010roomName\030\002 \001(\t\"E\n"
-    "\022PRM_ResultRoomList\022\r\n\005count\030\001 \001(\005\022 \n\004li"
-    "st\030\002 \003(\0132\022.PRM_RoomSmallInfo\")\n\025PRM_Requ"
-    "estCreateRoom\022\020\n\010roomName\030\001 \001(\t\"9\n\024PRM_R"
-    "esultCreateRoom\022\021\n\troomIndex\030\001 \001(\005\022\016\n\006re"
-    "ason\030\002 \001(\t*\335\001\n\010PRM_Type\022\023\n\017RPM_UNSPECIFI"
-    "ED\020\000\022\031\n\025CTM_REQUEST_ROOM_LIST\020\001\022\030\n\024STM_R"
-    "ESULT_ROOM_LIST\020\002\022\022\n\016CTM_ROOM_ENTER\020\003\022\022\n"
-    "\016STM_ROOM_ENTER\020\004\022\022\n\016CTM_ROOM_LEAVE\020\005\022\022\n"
-    "\016STM_ROOM_LEAVE\020\006\022\033\n\027CTM_REQUEST_CREATE_"
-    "ROOM\020\007\022\032\n\026STM_RESULT_CREATE_ROOM\020\010b\010edit"
-    "ionsp\350\007"
+    "\n\022room_message.proto\"$\n\022RM_RequestRoomLi"
+    "st\022\016\n\006filter\030\001 \001(\005\"7\n\020RM_RoomSmallInfo\022\021"
+    "\n\troomIndex\030\001 \001(\005\022\020\n\010roomName\030\002 \001(\t\"C\n\021R"
+    "M_ResultRoomList\022\r\n\005count\030\001 \001(\005\022\037\n\004list\030"
+    "\002 \003(\0132\021.RM_RoomSmallInfo\"(\n\024RM_RequestCr"
+    "eateRoom\022\020\n\010roomName\030\001 \001(\t\"8\n\023RM_ResultC"
+    "reateRoom\022\021\n\troomIndex\030\001 \001(\005\022\016\n\006reason\030\002"
+    " \001(\t\"(\n\023RM_RequestEnterRoom\022\021\n\troomIndex"
+    "\030\001 \001(\005\"4\n\022RM_ResultEnterRoom\022\016\n\006result\030\001"
+    " \001(\010\022\016\n\006reason\030\002 \001(\t\"4\n\023RM_BroadcastMess"
+    "age\022\017\n\007message\030\001 \001(\t\022\014\n\004time\030\002 \001(\005*\277\002\n\007R"
+    "M_Type\022\022\n\016RM_UNSPECIFIED\020\000\022\024\n\017RM_DISCONN"
+    "ECTED\020\310\001\022\031\n\024CM_REQUEST_ROOM_LIST\020\311\001\022\032\n\025S"
+    "M_RESPONSE_ROOM_LIST\020\312\001\022\032\n\025CM_REQUEST_RO"
+    "OM_ENTER\020\313\001\022\033\n\026SM_RESPONSE_ROOM_ENTER\020\314\001"
+    "\022\032\n\025CM_REQUEST_ROOM_LEAVE\020\315\001\022\033\n\026SM_RESPO"
+    "NSE_ROOM_LEAVE\020\316\001\022\033\n\026CM_REQUEST_CREATE_R"
+    "OOM\020\317\001\022\034\n\027SM_RESPONSE_CREATE_ROOM\020\320\001\022\022\n\r"
+    "CM_BC_MESSAGE\020\321\001\022\022\n\rSM_BC_MESSAGE\020\322\001b\010ed"
+    "itionsp\350\007"
 };
 static ::absl::once_flag descriptor_table_room_5fmessage_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_room_5fmessage_2eproto = {
     false,
     false,
-    527,
+    769,
     descriptor_table_protodef_room_5fmessage_2eproto,
     "room_message.proto",
     &descriptor_table_room_5fmessage_2eproto_once,
     nullptr,
     0,
-    5,
+    8,
     schemas,
     file_default_instances,
     TableStruct_room_5fmessage_2eproto::offsets,
     file_level_enum_descriptors_room_5fmessage_2eproto,
     file_level_service_descriptors_room_5fmessage_2eproto,
 };
-const ::google::protobuf::EnumDescriptor* PROTOBUF_NONNULL PRM_Type_descriptor() {
+const ::google::protobuf::EnumDescriptor* PROTOBUF_NONNULL RM_Type_descriptor() {
   ::google::protobuf::internal::AssignDescriptors(&descriptor_table_room_5fmessage_2eproto);
   return file_level_enum_descriptors_room_5fmessage_2eproto[0];
 }
-PROTOBUF_CONSTINIT const uint32_t PRM_Type_internal_data_[] = {
-    589824u, 0u, };
+PROTOBUF_CONSTINIT const uint32_t RM_Type_internal_data_[] = {
+    65536u, 224u, 0u, 0u, 0u, 0u, 0u, 0u, 262016u, };
 // ===================================================================
 
-class PRM_RequestRoomList::_Internal {
+class RM_RequestRoomList::_Internal {
  public:
   using HasBits =
-      decltype(::std::declval<PRM_RequestRoomList>()._impl_._has_bits_);
+      decltype(::std::declval<RM_RequestRoomList>()._impl_._has_bits_);
   static constexpr ::int32_t kHasBitsOffset =
-      8 * PROTOBUF_FIELD_OFFSET(PRM_RequestRoomList, _impl_._has_bits_);
+      8 * PROTOBUF_FIELD_OFFSET(RM_RequestRoomList, _impl_._has_bits_);
 };
 
-PRM_RequestRoomList::PRM_RequestRoomList(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+RM_RequestRoomList::RM_RequestRoomList(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(arena, PRM_RequestRoomList_class_data_.base()) {
+    : ::google::protobuf::Message(arena, RM_RequestRoomList_class_data_.base()) {
 #else   // PROTOBUF_CUSTOM_VTABLE
     : ::google::protobuf::Message(arena) {
 #endif  // PROTOBUF_CUSTOM_VTABLE
   SharedCtor(arena);
-  // @@protoc_insertion_point(arena_constructor:PRM_RequestRoomList)
+  // @@protoc_insertion_point(arena_constructor:RM_RequestRoomList)
 }
-PRM_RequestRoomList::PRM_RequestRoomList(
-    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const PRM_RequestRoomList& from)
+RM_RequestRoomList::RM_RequestRoomList(
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const RM_RequestRoomList& from)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(arena, PRM_RequestRoomList_class_data_.base()),
+    : ::google::protobuf::Message(arena, RM_RequestRoomList_class_data_.base()),
 #else   // PROTOBUF_CUSTOM_VTABLE
     : ::google::protobuf::Message(arena),
 #endif  // PROTOBUF_CUSTOM_VTABLE
@@ -283,73 +395,73 @@ PRM_RequestRoomList::PRM_RequestRoomList(
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
 }
-PROTOBUF_NDEBUG_INLINE PRM_RequestRoomList::Impl_::Impl_(
+PROTOBUF_NDEBUG_INLINE RM_RequestRoomList::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
     ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
       : _cached_size_{0} {}
 
-inline void PRM_RequestRoomList::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
+inline void RM_RequestRoomList::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
   new (&_impl_) Impl_(internal_visibility(), arena);
   _impl_.filter_ = {};
 }
-PRM_RequestRoomList::~PRM_RequestRoomList() {
-  // @@protoc_insertion_point(destructor:PRM_RequestRoomList)
+RM_RequestRoomList::~RM_RequestRoomList() {
+  // @@protoc_insertion_point(destructor:RM_RequestRoomList)
   SharedDtor(*this);
 }
-inline void PRM_RequestRoomList::SharedDtor(MessageLite& self) {
-  PRM_RequestRoomList& this_ = static_cast<PRM_RequestRoomList&>(self);
+inline void RM_RequestRoomList::SharedDtor(MessageLite& self) {
+  RM_RequestRoomList& this_ = static_cast<RM_RequestRoomList&>(self);
   this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
   ABSL_DCHECK(this_.GetArena() == nullptr);
   this_._impl_.~Impl_();
 }
 
-inline void* PROTOBUF_NONNULL PRM_RequestRoomList::PlacementNew_(
+inline void* PROTOBUF_NONNULL RM_RequestRoomList::PlacementNew_(
     const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
     ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
-  return ::new (mem) PRM_RequestRoomList(arena);
+  return ::new (mem) RM_RequestRoomList(arena);
 }
-constexpr auto PRM_RequestRoomList::InternalNewImpl_() {
-  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(PRM_RequestRoomList),
-                                            alignof(PRM_RequestRoomList));
+constexpr auto RM_RequestRoomList::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(RM_RequestRoomList),
+                                            alignof(RM_RequestRoomList));
 }
-constexpr auto PRM_RequestRoomList::InternalGenerateClassData_() {
+constexpr auto RM_RequestRoomList::InternalGenerateClassData_() {
   return ::google::protobuf::internal::ClassDataFull{
       ::google::protobuf::internal::ClassData{
-          &_PRM_RequestRoomList_default_instance_._instance,
+          &_RM_RequestRoomList_default_instance_._instance,
           &_table_.header,
           nullptr,  // OnDemandRegisterArenaDtor
           nullptr,  // IsInitialized
-          &PRM_RequestRoomList::MergeImpl,
-          ::google::protobuf::Message::GetNewImpl<PRM_RequestRoomList>(),
+          &RM_RequestRoomList::MergeImpl,
+          ::google::protobuf::Message::GetNewImpl<RM_RequestRoomList>(),
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-          &PRM_RequestRoomList::SharedDtor,
-          ::google::protobuf::Message::GetClearImpl<PRM_RequestRoomList>(), &PRM_RequestRoomList::ByteSizeLong,
-              &PRM_RequestRoomList::_InternalSerialize,
+          &RM_RequestRoomList::SharedDtor,
+          ::google::protobuf::Message::GetClearImpl<RM_RequestRoomList>(), &RM_RequestRoomList::ByteSizeLong,
+              &RM_RequestRoomList::_InternalSerialize,
 #endif  // PROTOBUF_CUSTOM_VTABLE
-          PROTOBUF_FIELD_OFFSET(PRM_RequestRoomList, _impl_._cached_size_),
+          PROTOBUF_FIELD_OFFSET(RM_RequestRoomList, _impl_._cached_size_),
           false,
       },
-      &PRM_RequestRoomList::kDescriptorMethods,
+      &RM_RequestRoomList::kDescriptorMethods,
       &descriptor_table_room_5fmessage_2eproto,
       nullptr,  // tracker
   };
 }
 
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const
-    ::google::protobuf::internal::ClassDataFull PRM_RequestRoomList_class_data_ =
-        PRM_RequestRoomList::InternalGenerateClassData_();
+    ::google::protobuf::internal::ClassDataFull RM_RequestRoomList_class_data_ =
+        RM_RequestRoomList::InternalGenerateClassData_();
 
 PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
-PRM_RequestRoomList::GetClassData() const {
-  ::google::protobuf::internal::PrefetchToLocalCache(&PRM_RequestRoomList_class_data_);
-  ::google::protobuf::internal::PrefetchToLocalCache(PRM_RequestRoomList_class_data_.tc_table);
-  return PRM_RequestRoomList_class_data_.base();
+RM_RequestRoomList::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&RM_RequestRoomList_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(RM_RequestRoomList_class_data_.tc_table);
+  return RM_RequestRoomList_class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
 const ::_pbi::TcParseTable<0, 1, 0, 0, 2>
-PRM_RequestRoomList::_table_ = {
+RM_RequestRoomList::_table_ = {
   {
-    PROTOBUF_FIELD_OFFSET(PRM_RequestRoomList, _impl_._has_bits_),
+    PROTOBUF_FIELD_OFFSET(RM_RequestRoomList, _impl_._has_bits_),
     0, // no _extensions_
     1, 0,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
@@ -358,29 +470,29 @@ PRM_RequestRoomList::_table_ = {
     1,  // num_field_entries
     0,  // num_aux_entries
     offsetof(decltype(_table_), field_names),  // no aux_entries
-    PRM_RequestRoomList_class_data_.base(),
+    RM_RequestRoomList_class_data_.base(),
     nullptr,  // post_loop_handler
     ::_pbi::TcParser::GenericFallback,  // fallback
     #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
-    ::_pbi::TcParser::GetTable<::PRM_RequestRoomList>(),  // to_prefetch
+    ::_pbi::TcParser::GetTable<::RM_RequestRoomList>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     // int32 filter = 1;
-    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(PRM_RequestRoomList, _impl_.filter_), 0>(),
-     {8, 0, 0, PROTOBUF_FIELD_OFFSET(PRM_RequestRoomList, _impl_.filter_)}},
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(RM_RequestRoomList, _impl_.filter_), 0>(),
+     {8, 0, 0, PROTOBUF_FIELD_OFFSET(RM_RequestRoomList, _impl_.filter_)}},
   }}, {{
     65535, 65535
   }}, {{
     // int32 filter = 1;
-    {PROTOBUF_FIELD_OFFSET(PRM_RequestRoomList, _impl_.filter_), _Internal::kHasBitsOffset + 0, 0,
+    {PROTOBUF_FIELD_OFFSET(RM_RequestRoomList, _impl_.filter_), _Internal::kHasBitsOffset + 0, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kInt32)},
   }},
   // no aux_entries
   {{
   }},
 };
-PROTOBUF_NOINLINE void PRM_RequestRoomList::Clear() {
-// @@protoc_insertion_point(message_clear_start:PRM_RequestRoomList)
+PROTOBUF_NOINLINE void RM_RequestRoomList::Clear() {
+// @@protoc_insertion_point(message_clear_start:RM_RequestRoomList)
   ::google::protobuf::internal::TSanWrite(&_impl_);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
@@ -392,17 +504,17 @@ PROTOBUF_NOINLINE void PRM_RequestRoomList::Clear() {
 }
 
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-::uint8_t* PROTOBUF_NONNULL PRM_RequestRoomList::_InternalSerialize(
+::uint8_t* PROTOBUF_NONNULL RM_RequestRoomList::_InternalSerialize(
     const ::google::protobuf::MessageLite& base, ::uint8_t* PROTOBUF_NONNULL target,
     ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) {
-  const PRM_RequestRoomList& this_ = static_cast<const PRM_RequestRoomList&>(base);
+  const RM_RequestRoomList& this_ = static_cast<const RM_RequestRoomList&>(base);
 #else   // PROTOBUF_CUSTOM_VTABLE
-::uint8_t* PROTOBUF_NONNULL PRM_RequestRoomList::_InternalSerialize(
+::uint8_t* PROTOBUF_NONNULL RM_RequestRoomList::_InternalSerialize(
     ::uint8_t* PROTOBUF_NONNULL target,
     ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
-  const PRM_RequestRoomList& this_ = *this;
+  const RM_RequestRoomList& this_ = *this;
 #endif  // PROTOBUF_CUSTOM_VTABLE
-  // @@protoc_insertion_point(serialize_to_array_start:PRM_RequestRoomList)
+  // @@protoc_insertion_point(serialize_to_array_start:RM_RequestRoomList)
   ::uint32_t cached_has_bits = 0;
   (void)cached_has_bits;
 
@@ -419,18 +531,18 @@ PROTOBUF_NOINLINE void PRM_RequestRoomList::Clear() {
         ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
             this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:PRM_RequestRoomList)
+  // @@protoc_insertion_point(serialize_to_array_end:RM_RequestRoomList)
   return target;
 }
 
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-::size_t PRM_RequestRoomList::ByteSizeLong(const MessageLite& base) {
-  const PRM_RequestRoomList& this_ = static_cast<const PRM_RequestRoomList&>(base);
+::size_t RM_RequestRoomList::ByteSizeLong(const MessageLite& base) {
+  const RM_RequestRoomList& this_ = static_cast<const RM_RequestRoomList&>(base);
 #else   // PROTOBUF_CUSTOM_VTABLE
-::size_t PRM_RequestRoomList::ByteSizeLong() const {
-  const PRM_RequestRoomList& this_ = *this;
+::size_t RM_RequestRoomList::ByteSizeLong() const {
+  const RM_RequestRoomList& this_ = *this;
 #endif  // PROTOBUF_CUSTOM_VTABLE
-  // @@protoc_insertion_point(message_byte_size_start:PRM_RequestRoomList)
+  // @@protoc_insertion_point(message_byte_size_start:RM_RequestRoomList)
   ::size_t total_size = 0;
 
   ::uint32_t cached_has_bits = 0;
@@ -449,10 +561,10 @@ PROTOBUF_NOINLINE void PRM_RequestRoomList::Clear() {
                                              &this_._impl_._cached_size_);
 }
 
-void PRM_RequestRoomList::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
-  auto* const _this = static_cast<PRM_RequestRoomList*>(&to_msg);
-  auto& from = static_cast<const PRM_RequestRoomList&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:PRM_RequestRoomList)
+void RM_RequestRoomList::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
+  auto* const _this = static_cast<RM_RequestRoomList*>(&to_msg);
+  auto& from = static_cast<const RM_RequestRoomList&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:RM_RequestRoomList)
   ABSL_DCHECK_NE(&from, _this);
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
@@ -465,137 +577,137 @@ void PRM_RequestRoomList::MergeImpl(::google::protobuf::MessageLite& to_msg, con
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
 
-void PRM_RequestRoomList::CopyFrom(const PRM_RequestRoomList& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:PRM_RequestRoomList)
+void RM_RequestRoomList::CopyFrom(const RM_RequestRoomList& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:RM_RequestRoomList)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 
-void PRM_RequestRoomList::InternalSwap(PRM_RequestRoomList* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
+void RM_RequestRoomList::InternalSwap(RM_RequestRoomList* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
   using ::std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
   swap(_impl_.filter_, other->_impl_.filter_);
 }
 
-::google::protobuf::Metadata PRM_RequestRoomList::GetMetadata() const {
+::google::protobuf::Metadata RM_RequestRoomList::GetMetadata() const {
   return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
 }
 // ===================================================================
 
-class PRM_RoomSmallInfo::_Internal {
+class RM_RoomSmallInfo::_Internal {
  public:
   using HasBits =
-      decltype(::std::declval<PRM_RoomSmallInfo>()._impl_._has_bits_);
+      decltype(::std::declval<RM_RoomSmallInfo>()._impl_._has_bits_);
   static constexpr ::int32_t kHasBitsOffset =
-      8 * PROTOBUF_FIELD_OFFSET(PRM_RoomSmallInfo, _impl_._has_bits_);
+      8 * PROTOBUF_FIELD_OFFSET(RM_RoomSmallInfo, _impl_._has_bits_);
 };
 
-PRM_RoomSmallInfo::PRM_RoomSmallInfo(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+RM_RoomSmallInfo::RM_RoomSmallInfo(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(arena, PRM_RoomSmallInfo_class_data_.base()) {
+    : ::google::protobuf::Message(arena, RM_RoomSmallInfo_class_data_.base()) {
 #else   // PROTOBUF_CUSTOM_VTABLE
     : ::google::protobuf::Message(arena) {
 #endif  // PROTOBUF_CUSTOM_VTABLE
   SharedCtor(arena);
-  // @@protoc_insertion_point(arena_constructor:PRM_RoomSmallInfo)
+  // @@protoc_insertion_point(arena_constructor:RM_RoomSmallInfo)
 }
-PROTOBUF_NDEBUG_INLINE PRM_RoomSmallInfo::Impl_::Impl_(
+PROTOBUF_NDEBUG_INLINE RM_RoomSmallInfo::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
     ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
-    const ::PRM_RoomSmallInfo& from_msg)
+    const ::RM_RoomSmallInfo& from_msg)
       : _has_bits_{from._has_bits_},
         _cached_size_{0},
         roomname_(arena, from.roomname_) {}
 
-PRM_RoomSmallInfo::PRM_RoomSmallInfo(
+RM_RoomSmallInfo::RM_RoomSmallInfo(
     ::google::protobuf::Arena* PROTOBUF_NULLABLE arena,
-    const PRM_RoomSmallInfo& from)
+    const RM_RoomSmallInfo& from)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(arena, PRM_RoomSmallInfo_class_data_.base()) {
+    : ::google::protobuf::Message(arena, RM_RoomSmallInfo_class_data_.base()) {
 #else   // PROTOBUF_CUSTOM_VTABLE
     : ::google::protobuf::Message(arena) {
 #endif  // PROTOBUF_CUSTOM_VTABLE
-  PRM_RoomSmallInfo* const _this = this;
+  RM_RoomSmallInfo* const _this = this;
   (void)_this;
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
   new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
   _impl_.roomindex_ = from._impl_.roomindex_;
 
-  // @@protoc_insertion_point(copy_constructor:PRM_RoomSmallInfo)
+  // @@protoc_insertion_point(copy_constructor:RM_RoomSmallInfo)
 }
-PROTOBUF_NDEBUG_INLINE PRM_RoomSmallInfo::Impl_::Impl_(
+PROTOBUF_NDEBUG_INLINE RM_RoomSmallInfo::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
     ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
       : _cached_size_{0},
         roomname_(arena) {}
 
-inline void PRM_RoomSmallInfo::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
+inline void RM_RoomSmallInfo::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
   new (&_impl_) Impl_(internal_visibility(), arena);
   _impl_.roomindex_ = {};
 }
-PRM_RoomSmallInfo::~PRM_RoomSmallInfo() {
-  // @@protoc_insertion_point(destructor:PRM_RoomSmallInfo)
+RM_RoomSmallInfo::~RM_RoomSmallInfo() {
+  // @@protoc_insertion_point(destructor:RM_RoomSmallInfo)
   SharedDtor(*this);
 }
-inline void PRM_RoomSmallInfo::SharedDtor(MessageLite& self) {
-  PRM_RoomSmallInfo& this_ = static_cast<PRM_RoomSmallInfo&>(self);
+inline void RM_RoomSmallInfo::SharedDtor(MessageLite& self) {
+  RM_RoomSmallInfo& this_ = static_cast<RM_RoomSmallInfo&>(self);
   this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
   ABSL_DCHECK(this_.GetArena() == nullptr);
   this_._impl_.roomname_.Destroy();
   this_._impl_.~Impl_();
 }
 
-inline void* PROTOBUF_NONNULL PRM_RoomSmallInfo::PlacementNew_(
+inline void* PROTOBUF_NONNULL RM_RoomSmallInfo::PlacementNew_(
     const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
     ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
-  return ::new (mem) PRM_RoomSmallInfo(arena);
+  return ::new (mem) RM_RoomSmallInfo(arena);
 }
-constexpr auto PRM_RoomSmallInfo::InternalNewImpl_() {
-  return ::google::protobuf::internal::MessageCreator::CopyInit(sizeof(PRM_RoomSmallInfo),
-                                            alignof(PRM_RoomSmallInfo));
+constexpr auto RM_RoomSmallInfo::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::CopyInit(sizeof(RM_RoomSmallInfo),
+                                            alignof(RM_RoomSmallInfo));
 }
-constexpr auto PRM_RoomSmallInfo::InternalGenerateClassData_() {
+constexpr auto RM_RoomSmallInfo::InternalGenerateClassData_() {
   return ::google::protobuf::internal::ClassDataFull{
       ::google::protobuf::internal::ClassData{
-          &_PRM_RoomSmallInfo_default_instance_._instance,
+          &_RM_RoomSmallInfo_default_instance_._instance,
           &_table_.header,
           nullptr,  // OnDemandRegisterArenaDtor
           nullptr,  // IsInitialized
-          &PRM_RoomSmallInfo::MergeImpl,
-          ::google::protobuf::Message::GetNewImpl<PRM_RoomSmallInfo>(),
+          &RM_RoomSmallInfo::MergeImpl,
+          ::google::protobuf::Message::GetNewImpl<RM_RoomSmallInfo>(),
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-          &PRM_RoomSmallInfo::SharedDtor,
-          ::google::protobuf::Message::GetClearImpl<PRM_RoomSmallInfo>(), &PRM_RoomSmallInfo::ByteSizeLong,
-              &PRM_RoomSmallInfo::_InternalSerialize,
+          &RM_RoomSmallInfo::SharedDtor,
+          ::google::protobuf::Message::GetClearImpl<RM_RoomSmallInfo>(), &RM_RoomSmallInfo::ByteSizeLong,
+              &RM_RoomSmallInfo::_InternalSerialize,
 #endif  // PROTOBUF_CUSTOM_VTABLE
-          PROTOBUF_FIELD_OFFSET(PRM_RoomSmallInfo, _impl_._cached_size_),
+          PROTOBUF_FIELD_OFFSET(RM_RoomSmallInfo, _impl_._cached_size_),
           false,
       },
-      &PRM_RoomSmallInfo::kDescriptorMethods,
+      &RM_RoomSmallInfo::kDescriptorMethods,
       &descriptor_table_room_5fmessage_2eproto,
       nullptr,  // tracker
   };
 }
 
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const
-    ::google::protobuf::internal::ClassDataFull PRM_RoomSmallInfo_class_data_ =
-        PRM_RoomSmallInfo::InternalGenerateClassData_();
+    ::google::protobuf::internal::ClassDataFull RM_RoomSmallInfo_class_data_ =
+        RM_RoomSmallInfo::InternalGenerateClassData_();
 
 PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
-PRM_RoomSmallInfo::GetClassData() const {
-  ::google::protobuf::internal::PrefetchToLocalCache(&PRM_RoomSmallInfo_class_data_);
-  ::google::protobuf::internal::PrefetchToLocalCache(PRM_RoomSmallInfo_class_data_.tc_table);
-  return PRM_RoomSmallInfo_class_data_.base();
+RM_RoomSmallInfo::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&RM_RoomSmallInfo_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(RM_RoomSmallInfo_class_data_.tc_table);
+  return RM_RoomSmallInfo_class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<1, 2, 0, 34, 2>
-PRM_RoomSmallInfo::_table_ = {
+const ::_pbi::TcParseTable<1, 2, 0, 33, 2>
+RM_RoomSmallInfo::_table_ = {
   {
-    PROTOBUF_FIELD_OFFSET(PRM_RoomSmallInfo, _impl_._has_bits_),
+    PROTOBUF_FIELD_OFFSET(RM_RoomSmallInfo, _impl_._has_bits_),
     0, // no _extensions_
     2, 8,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
@@ -604,38 +716,38 @@ PRM_RoomSmallInfo::_table_ = {
     2,  // num_field_entries
     0,  // num_aux_entries
     offsetof(decltype(_table_), field_names),  // no aux_entries
-    PRM_RoomSmallInfo_class_data_.base(),
+    RM_RoomSmallInfo_class_data_.base(),
     nullptr,  // post_loop_handler
     ::_pbi::TcParser::GenericFallback,  // fallback
     #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
-    ::_pbi::TcParser::GetTable<::PRM_RoomSmallInfo>(),  // to_prefetch
+    ::_pbi::TcParser::GetTable<::RM_RoomSmallInfo>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     // string roomName = 2;
     {::_pbi::TcParser::FastUS1,
-     {18, 0, 0, PROTOBUF_FIELD_OFFSET(PRM_RoomSmallInfo, _impl_.roomname_)}},
+     {18, 0, 0, PROTOBUF_FIELD_OFFSET(RM_RoomSmallInfo, _impl_.roomname_)}},
     // int32 roomIndex = 1;
-    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(PRM_RoomSmallInfo, _impl_.roomindex_), 1>(),
-     {8, 1, 0, PROTOBUF_FIELD_OFFSET(PRM_RoomSmallInfo, _impl_.roomindex_)}},
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(RM_RoomSmallInfo, _impl_.roomindex_), 1>(),
+     {8, 1, 0, PROTOBUF_FIELD_OFFSET(RM_RoomSmallInfo, _impl_.roomindex_)}},
   }}, {{
     65535, 65535
   }}, {{
     // int32 roomIndex = 1;
-    {PROTOBUF_FIELD_OFFSET(PRM_RoomSmallInfo, _impl_.roomindex_), _Internal::kHasBitsOffset + 1, 0,
+    {PROTOBUF_FIELD_OFFSET(RM_RoomSmallInfo, _impl_.roomindex_), _Internal::kHasBitsOffset + 1, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kInt32)},
     // string roomName = 2;
-    {PROTOBUF_FIELD_OFFSET(PRM_RoomSmallInfo, _impl_.roomname_), _Internal::kHasBitsOffset + 0, 0,
+    {PROTOBUF_FIELD_OFFSET(RM_RoomSmallInfo, _impl_.roomname_), _Internal::kHasBitsOffset + 0, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
   }},
   // no aux_entries
   {{
-    "\21\0\10\0\0\0\0\0"
-    "PRM_RoomSmallInfo"
+    "\20\0\10\0\0\0\0\0"
+    "RM_RoomSmallInfo"
     "roomName"
   }},
 };
-PROTOBUF_NOINLINE void PRM_RoomSmallInfo::Clear() {
-// @@protoc_insertion_point(message_clear_start:PRM_RoomSmallInfo)
+PROTOBUF_NOINLINE void RM_RoomSmallInfo::Clear() {
+// @@protoc_insertion_point(message_clear_start:RM_RoomSmallInfo)
   ::google::protobuf::internal::TSanWrite(&_impl_);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
@@ -651,17 +763,17 @@ PROTOBUF_NOINLINE void PRM_RoomSmallInfo::Clear() {
 }
 
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-::uint8_t* PROTOBUF_NONNULL PRM_RoomSmallInfo::_InternalSerialize(
+::uint8_t* PROTOBUF_NONNULL RM_RoomSmallInfo::_InternalSerialize(
     const ::google::protobuf::MessageLite& base, ::uint8_t* PROTOBUF_NONNULL target,
     ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) {
-  const PRM_RoomSmallInfo& this_ = static_cast<const PRM_RoomSmallInfo&>(base);
+  const RM_RoomSmallInfo& this_ = static_cast<const RM_RoomSmallInfo&>(base);
 #else   // PROTOBUF_CUSTOM_VTABLE
-::uint8_t* PROTOBUF_NONNULL PRM_RoomSmallInfo::_InternalSerialize(
+::uint8_t* PROTOBUF_NONNULL RM_RoomSmallInfo::_InternalSerialize(
     ::uint8_t* PROTOBUF_NONNULL target,
     ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
-  const PRM_RoomSmallInfo& this_ = *this;
+  const RM_RoomSmallInfo& this_ = *this;
 #endif  // PROTOBUF_CUSTOM_VTABLE
-  // @@protoc_insertion_point(serialize_to_array_start:PRM_RoomSmallInfo)
+  // @@protoc_insertion_point(serialize_to_array_start:RM_RoomSmallInfo)
   ::uint32_t cached_has_bits = 0;
   (void)cached_has_bits;
 
@@ -677,7 +789,7 @@ PROTOBUF_NOINLINE void PRM_RoomSmallInfo::Clear() {
   if ((cached_has_bits & 0x00000001u) != 0) {
     const ::std::string& _s = this_._internal_roomname();
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-        _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "PRM_RoomSmallInfo.roomName");
+        _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "RM_RoomSmallInfo.roomName");
     target = stream->WriteStringMaybeAliased(2, _s, target);
   }
 
@@ -686,18 +798,18 @@ PROTOBUF_NOINLINE void PRM_RoomSmallInfo::Clear() {
         ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
             this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:PRM_RoomSmallInfo)
+  // @@protoc_insertion_point(serialize_to_array_end:RM_RoomSmallInfo)
   return target;
 }
 
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-::size_t PRM_RoomSmallInfo::ByteSizeLong(const MessageLite& base) {
-  const PRM_RoomSmallInfo& this_ = static_cast<const PRM_RoomSmallInfo&>(base);
+::size_t RM_RoomSmallInfo::ByteSizeLong(const MessageLite& base) {
+  const RM_RoomSmallInfo& this_ = static_cast<const RM_RoomSmallInfo&>(base);
 #else   // PROTOBUF_CUSTOM_VTABLE
-::size_t PRM_RoomSmallInfo::ByteSizeLong() const {
-  const PRM_RoomSmallInfo& this_ = *this;
+::size_t RM_RoomSmallInfo::ByteSizeLong() const {
+  const RM_RoomSmallInfo& this_ = *this;
 #endif  // PROTOBUF_CUSTOM_VTABLE
-  // @@protoc_insertion_point(message_byte_size_start:PRM_RoomSmallInfo)
+  // @@protoc_insertion_point(message_byte_size_start:RM_RoomSmallInfo)
   ::size_t total_size = 0;
 
   ::uint32_t cached_has_bits = 0;
@@ -722,10 +834,10 @@ PROTOBUF_NOINLINE void PRM_RoomSmallInfo::Clear() {
                                              &this_._impl_._cached_size_);
 }
 
-void PRM_RoomSmallInfo::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
-  auto* const _this = static_cast<PRM_RoomSmallInfo*>(&to_msg);
-  auto& from = static_cast<const PRM_RoomSmallInfo&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:PRM_RoomSmallInfo)
+void RM_RoomSmallInfo::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
+  auto* const _this = static_cast<RM_RoomSmallInfo*>(&to_msg);
+  auto& from = static_cast<const RM_RoomSmallInfo&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:RM_RoomSmallInfo)
   ABSL_DCHECK_NE(&from, _this);
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
@@ -743,15 +855,15 @@ void PRM_RoomSmallInfo::MergeImpl(::google::protobuf::MessageLite& to_msg, const
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
 
-void PRM_RoomSmallInfo::CopyFrom(const PRM_RoomSmallInfo& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:PRM_RoomSmallInfo)
+void RM_RoomSmallInfo::CopyFrom(const RM_RoomSmallInfo& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:RM_RoomSmallInfo)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 
-void PRM_RoomSmallInfo::InternalSwap(PRM_RoomSmallInfo* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
+void RM_RoomSmallInfo::InternalSwap(RM_RoomSmallInfo* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
   using ::std::swap;
   auto* arena = GetArena();
   ABSL_DCHECK_EQ(arena, other->GetArena());
@@ -761,133 +873,133 @@ void PRM_RoomSmallInfo::InternalSwap(PRM_RoomSmallInfo* PROTOBUF_RESTRICT PROTOB
   swap(_impl_.roomindex_, other->_impl_.roomindex_);
 }
 
-::google::protobuf::Metadata PRM_RoomSmallInfo::GetMetadata() const {
+::google::protobuf::Metadata RM_RoomSmallInfo::GetMetadata() const {
   return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
 }
 // ===================================================================
 
-class PRM_ResultRoomList::_Internal {
+class RM_ResultRoomList::_Internal {
  public:
   using HasBits =
-      decltype(::std::declval<PRM_ResultRoomList>()._impl_._has_bits_);
+      decltype(::std::declval<RM_ResultRoomList>()._impl_._has_bits_);
   static constexpr ::int32_t kHasBitsOffset =
-      8 * PROTOBUF_FIELD_OFFSET(PRM_ResultRoomList, _impl_._has_bits_);
+      8 * PROTOBUF_FIELD_OFFSET(RM_ResultRoomList, _impl_._has_bits_);
 };
 
-PRM_ResultRoomList::PRM_ResultRoomList(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+RM_ResultRoomList::RM_ResultRoomList(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(arena, PRM_ResultRoomList_class_data_.base()) {
+    : ::google::protobuf::Message(arena, RM_ResultRoomList_class_data_.base()) {
 #else   // PROTOBUF_CUSTOM_VTABLE
     : ::google::protobuf::Message(arena) {
 #endif  // PROTOBUF_CUSTOM_VTABLE
   SharedCtor(arena);
-  // @@protoc_insertion_point(arena_constructor:PRM_ResultRoomList)
+  // @@protoc_insertion_point(arena_constructor:RM_ResultRoomList)
 }
-PROTOBUF_NDEBUG_INLINE PRM_ResultRoomList::Impl_::Impl_(
+PROTOBUF_NDEBUG_INLINE RM_ResultRoomList::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
     ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
-    const ::PRM_ResultRoomList& from_msg)
+    const ::RM_ResultRoomList& from_msg)
       : _has_bits_{from._has_bits_},
         _cached_size_{0},
         list_{visibility, arena, from.list_} {}
 
-PRM_ResultRoomList::PRM_ResultRoomList(
+RM_ResultRoomList::RM_ResultRoomList(
     ::google::protobuf::Arena* PROTOBUF_NULLABLE arena,
-    const PRM_ResultRoomList& from)
+    const RM_ResultRoomList& from)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(arena, PRM_ResultRoomList_class_data_.base()) {
+    : ::google::protobuf::Message(arena, RM_ResultRoomList_class_data_.base()) {
 #else   // PROTOBUF_CUSTOM_VTABLE
     : ::google::protobuf::Message(arena) {
 #endif  // PROTOBUF_CUSTOM_VTABLE
-  PRM_ResultRoomList* const _this = this;
+  RM_ResultRoomList* const _this = this;
   (void)_this;
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
   new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
   _impl_.count_ = from._impl_.count_;
 
-  // @@protoc_insertion_point(copy_constructor:PRM_ResultRoomList)
+  // @@protoc_insertion_point(copy_constructor:RM_ResultRoomList)
 }
-PROTOBUF_NDEBUG_INLINE PRM_ResultRoomList::Impl_::Impl_(
+PROTOBUF_NDEBUG_INLINE RM_ResultRoomList::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
     ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
       : _cached_size_{0},
         list_{visibility, arena} {}
 
-inline void PRM_ResultRoomList::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
+inline void RM_ResultRoomList::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
   new (&_impl_) Impl_(internal_visibility(), arena);
   _impl_.count_ = {};
 }
-PRM_ResultRoomList::~PRM_ResultRoomList() {
-  // @@protoc_insertion_point(destructor:PRM_ResultRoomList)
+RM_ResultRoomList::~RM_ResultRoomList() {
+  // @@protoc_insertion_point(destructor:RM_ResultRoomList)
   SharedDtor(*this);
 }
-inline void PRM_ResultRoomList::SharedDtor(MessageLite& self) {
-  PRM_ResultRoomList& this_ = static_cast<PRM_ResultRoomList&>(self);
+inline void RM_ResultRoomList::SharedDtor(MessageLite& self) {
+  RM_ResultRoomList& this_ = static_cast<RM_ResultRoomList&>(self);
   this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
   ABSL_DCHECK(this_.GetArena() == nullptr);
   this_._impl_.~Impl_();
 }
 
-inline void* PROTOBUF_NONNULL PRM_ResultRoomList::PlacementNew_(
+inline void* PROTOBUF_NONNULL RM_ResultRoomList::PlacementNew_(
     const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
     ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
-  return ::new (mem) PRM_ResultRoomList(arena);
+  return ::new (mem) RM_ResultRoomList(arena);
 }
-constexpr auto PRM_ResultRoomList::InternalNewImpl_() {
+constexpr auto RM_ResultRoomList::InternalNewImpl_() {
   constexpr auto arena_bits = ::google::protobuf::internal::EncodePlacementArenaOffsets({
-      PROTOBUF_FIELD_OFFSET(PRM_ResultRoomList, _impl_.list_) +
-          decltype(PRM_ResultRoomList::_impl_.list_)::
+      PROTOBUF_FIELD_OFFSET(RM_ResultRoomList, _impl_.list_) +
+          decltype(RM_ResultRoomList::_impl_.list_)::
               InternalGetArenaOffset(
                   ::google::protobuf::Message::internal_visibility()),
   });
   if (arena_bits.has_value()) {
     return ::google::protobuf::internal::MessageCreator::ZeroInit(
-        sizeof(PRM_ResultRoomList), alignof(PRM_ResultRoomList), *arena_bits);
+        sizeof(RM_ResultRoomList), alignof(RM_ResultRoomList), *arena_bits);
   } else {
-    return ::google::protobuf::internal::MessageCreator(&PRM_ResultRoomList::PlacementNew_,
-                                 sizeof(PRM_ResultRoomList),
-                                 alignof(PRM_ResultRoomList));
+    return ::google::protobuf::internal::MessageCreator(&RM_ResultRoomList::PlacementNew_,
+                                 sizeof(RM_ResultRoomList),
+                                 alignof(RM_ResultRoomList));
   }
 }
-constexpr auto PRM_ResultRoomList::InternalGenerateClassData_() {
+constexpr auto RM_ResultRoomList::InternalGenerateClassData_() {
   return ::google::protobuf::internal::ClassDataFull{
       ::google::protobuf::internal::ClassData{
-          &_PRM_ResultRoomList_default_instance_._instance,
+          &_RM_ResultRoomList_default_instance_._instance,
           &_table_.header,
           nullptr,  // OnDemandRegisterArenaDtor
           nullptr,  // IsInitialized
-          &PRM_ResultRoomList::MergeImpl,
-          ::google::protobuf::Message::GetNewImpl<PRM_ResultRoomList>(),
+          &RM_ResultRoomList::MergeImpl,
+          ::google::protobuf::Message::GetNewImpl<RM_ResultRoomList>(),
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-          &PRM_ResultRoomList::SharedDtor,
-          ::google::protobuf::Message::GetClearImpl<PRM_ResultRoomList>(), &PRM_ResultRoomList::ByteSizeLong,
-              &PRM_ResultRoomList::_InternalSerialize,
+          &RM_ResultRoomList::SharedDtor,
+          ::google::protobuf::Message::GetClearImpl<RM_ResultRoomList>(), &RM_ResultRoomList::ByteSizeLong,
+              &RM_ResultRoomList::_InternalSerialize,
 #endif  // PROTOBUF_CUSTOM_VTABLE
-          PROTOBUF_FIELD_OFFSET(PRM_ResultRoomList, _impl_._cached_size_),
+          PROTOBUF_FIELD_OFFSET(RM_ResultRoomList, _impl_._cached_size_),
           false,
       },
-      &PRM_ResultRoomList::kDescriptorMethods,
+      &RM_ResultRoomList::kDescriptorMethods,
       &descriptor_table_room_5fmessage_2eproto,
       nullptr,  // tracker
   };
 }
 
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const
-    ::google::protobuf::internal::ClassDataFull PRM_ResultRoomList_class_data_ =
-        PRM_ResultRoomList::InternalGenerateClassData_();
+    ::google::protobuf::internal::ClassDataFull RM_ResultRoomList_class_data_ =
+        RM_ResultRoomList::InternalGenerateClassData_();
 
 PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
-PRM_ResultRoomList::GetClassData() const {
-  ::google::protobuf::internal::PrefetchToLocalCache(&PRM_ResultRoomList_class_data_);
-  ::google::protobuf::internal::PrefetchToLocalCache(PRM_ResultRoomList_class_data_.tc_table);
-  return PRM_ResultRoomList_class_data_.base();
+RM_ResultRoomList::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&RM_ResultRoomList_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(RM_ResultRoomList_class_data_.tc_table);
+  return RM_ResultRoomList_class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
 const ::_pbi::TcParseTable<1, 2, 1, 0, 2>
-PRM_ResultRoomList::_table_ = {
+RM_ResultRoomList::_table_ = {
   {
-    PROTOBUF_FIELD_OFFSET(PRM_ResultRoomList, _impl_._has_bits_),
+    PROTOBUF_FIELD_OFFSET(RM_ResultRoomList, _impl_._has_bits_),
     0, // no _extensions_
     2, 8,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
@@ -896,37 +1008,37 @@ PRM_ResultRoomList::_table_ = {
     2,  // num_field_entries
     1,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
-    PRM_ResultRoomList_class_data_.base(),
+    RM_ResultRoomList_class_data_.base(),
     nullptr,  // post_loop_handler
     ::_pbi::TcParser::GenericFallback,  // fallback
     #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
-    ::_pbi::TcParser::GetTable<::PRM_ResultRoomList>(),  // to_prefetch
+    ::_pbi::TcParser::GetTable<::RM_ResultRoomList>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // repeated .PRM_RoomSmallInfo list = 2;
+    // repeated .RM_RoomSmallInfo list = 2;
     {::_pbi::TcParser::FastMtR1,
-     {18, 63, 0, PROTOBUF_FIELD_OFFSET(PRM_ResultRoomList, _impl_.list_)}},
+     {18, 63, 0, PROTOBUF_FIELD_OFFSET(RM_ResultRoomList, _impl_.list_)}},
     // int32 count = 1;
-    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(PRM_ResultRoomList, _impl_.count_), 0>(),
-     {8, 0, 0, PROTOBUF_FIELD_OFFSET(PRM_ResultRoomList, _impl_.count_)}},
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(RM_ResultRoomList, _impl_.count_), 0>(),
+     {8, 0, 0, PROTOBUF_FIELD_OFFSET(RM_ResultRoomList, _impl_.count_)}},
   }}, {{
     65535, 65535
   }}, {{
     // int32 count = 1;
-    {PROTOBUF_FIELD_OFFSET(PRM_ResultRoomList, _impl_.count_), _Internal::kHasBitsOffset + 0, 0,
+    {PROTOBUF_FIELD_OFFSET(RM_ResultRoomList, _impl_.count_), _Internal::kHasBitsOffset + 0, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kInt32)},
-    // repeated .PRM_RoomSmallInfo list = 2;
-    {PROTOBUF_FIELD_OFFSET(PRM_ResultRoomList, _impl_.list_), -1, 0,
+    // repeated .RM_RoomSmallInfo list = 2;
+    {PROTOBUF_FIELD_OFFSET(RM_ResultRoomList, _impl_.list_), -1, 0,
     (0 | ::_fl::kFcRepeated | ::_fl::kMessage | ::_fl::kTvTable)},
   }},
   {{
-      {::_pbi::TcParser::GetTable<::PRM_RoomSmallInfo>()},
+      {::_pbi::TcParser::GetTable<::RM_RoomSmallInfo>()},
   }},
   {{
   }},
 };
-PROTOBUF_NOINLINE void PRM_ResultRoomList::Clear() {
-// @@protoc_insertion_point(message_clear_start:PRM_ResultRoomList)
+PROTOBUF_NOINLINE void RM_ResultRoomList::Clear() {
+// @@protoc_insertion_point(message_clear_start:RM_ResultRoomList)
   ::google::protobuf::internal::TSanWrite(&_impl_);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
@@ -939,17 +1051,17 @@ PROTOBUF_NOINLINE void PRM_ResultRoomList::Clear() {
 }
 
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-::uint8_t* PROTOBUF_NONNULL PRM_ResultRoomList::_InternalSerialize(
+::uint8_t* PROTOBUF_NONNULL RM_ResultRoomList::_InternalSerialize(
     const ::google::protobuf::MessageLite& base, ::uint8_t* PROTOBUF_NONNULL target,
     ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) {
-  const PRM_ResultRoomList& this_ = static_cast<const PRM_ResultRoomList&>(base);
+  const RM_ResultRoomList& this_ = static_cast<const RM_ResultRoomList&>(base);
 #else   // PROTOBUF_CUSTOM_VTABLE
-::uint8_t* PROTOBUF_NONNULL PRM_ResultRoomList::_InternalSerialize(
+::uint8_t* PROTOBUF_NONNULL RM_ResultRoomList::_InternalSerialize(
     ::uint8_t* PROTOBUF_NONNULL target,
     ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
-  const PRM_ResultRoomList& this_ = *this;
+  const RM_ResultRoomList& this_ = *this;
 #endif  // PROTOBUF_CUSTOM_VTABLE
-  // @@protoc_insertion_point(serialize_to_array_start:PRM_ResultRoomList)
+  // @@protoc_insertion_point(serialize_to_array_start:RM_ResultRoomList)
   ::uint32_t cached_has_bits = 0;
   (void)cached_has_bits;
 
@@ -961,7 +1073,7 @@ PROTOBUF_NOINLINE void PRM_ResultRoomList::Clear() {
             stream, this_._internal_count(), target);
   }
 
-  // repeated .PRM_RoomSmallInfo list = 2;
+  // repeated .RM_RoomSmallInfo list = 2;
   for (unsigned i = 0, n = static_cast<unsigned>(
                            this_._internal_list_size());
        i < n; i++) {
@@ -977,18 +1089,18 @@ PROTOBUF_NOINLINE void PRM_ResultRoomList::Clear() {
         ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
             this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:PRM_ResultRoomList)
+  // @@protoc_insertion_point(serialize_to_array_end:RM_ResultRoomList)
   return target;
 }
 
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-::size_t PRM_ResultRoomList::ByteSizeLong(const MessageLite& base) {
-  const PRM_ResultRoomList& this_ = static_cast<const PRM_ResultRoomList&>(base);
+::size_t RM_ResultRoomList::ByteSizeLong(const MessageLite& base) {
+  const RM_ResultRoomList& this_ = static_cast<const RM_ResultRoomList&>(base);
 #else   // PROTOBUF_CUSTOM_VTABLE
-::size_t PRM_ResultRoomList::ByteSizeLong() const {
-  const PRM_ResultRoomList& this_ = *this;
+::size_t RM_ResultRoomList::ByteSizeLong() const {
+  const RM_ResultRoomList& this_ = *this;
 #endif  // PROTOBUF_CUSTOM_VTABLE
-  // @@protoc_insertion_point(message_byte_size_start:PRM_ResultRoomList)
+  // @@protoc_insertion_point(message_byte_size_start:RM_ResultRoomList)
   ::size_t total_size = 0;
 
   ::uint32_t cached_has_bits = 0;
@@ -997,7 +1109,7 @@ PROTOBUF_NOINLINE void PRM_ResultRoomList::Clear() {
 
   ::_pbi::Prefetch5LinesFrom7Lines(&this_);
    {
-    // repeated .PRM_RoomSmallInfo list = 2;
+    // repeated .RM_RoomSmallInfo list = 2;
     {
       total_size += 1UL * this_._internal_list_size();
       for (const auto& msg : this_._internal_list()) {
@@ -1017,10 +1129,10 @@ PROTOBUF_NOINLINE void PRM_ResultRoomList::Clear() {
                                              &this_._impl_._cached_size_);
 }
 
-void PRM_ResultRoomList::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
-  auto* const _this = static_cast<PRM_ResultRoomList*>(&to_msg);
-  auto& from = static_cast<const PRM_ResultRoomList&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:PRM_ResultRoomList)
+void RM_ResultRoomList::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
+  auto* const _this = static_cast<RM_ResultRoomList*>(&to_msg);
+  auto& from = static_cast<const RM_ResultRoomList&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:RM_ResultRoomList)
   ABSL_DCHECK_NE(&from, _this);
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
@@ -1035,15 +1147,15 @@ void PRM_ResultRoomList::MergeImpl(::google::protobuf::MessageLite& to_msg, cons
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
 
-void PRM_ResultRoomList::CopyFrom(const PRM_ResultRoomList& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:PRM_ResultRoomList)
+void RM_ResultRoomList::CopyFrom(const RM_ResultRoomList& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:RM_ResultRoomList)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 
-void PRM_ResultRoomList::InternalSwap(PRM_ResultRoomList* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
+void RM_ResultRoomList::InternalSwap(RM_ResultRoomList* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
   using ::std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
@@ -1051,120 +1163,120 @@ void PRM_ResultRoomList::InternalSwap(PRM_ResultRoomList* PROTOBUF_RESTRICT PROT
   swap(_impl_.count_, other->_impl_.count_);
 }
 
-::google::protobuf::Metadata PRM_ResultRoomList::GetMetadata() const {
+::google::protobuf::Metadata RM_ResultRoomList::GetMetadata() const {
   return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
 }
 // ===================================================================
 
-class PRM_RequestCreateRoom::_Internal {
+class RM_RequestCreateRoom::_Internal {
  public:
   using HasBits =
-      decltype(::std::declval<PRM_RequestCreateRoom>()._impl_._has_bits_);
+      decltype(::std::declval<RM_RequestCreateRoom>()._impl_._has_bits_);
   static constexpr ::int32_t kHasBitsOffset =
-      8 * PROTOBUF_FIELD_OFFSET(PRM_RequestCreateRoom, _impl_._has_bits_);
+      8 * PROTOBUF_FIELD_OFFSET(RM_RequestCreateRoom, _impl_._has_bits_);
 };
 
-PRM_RequestCreateRoom::PRM_RequestCreateRoom(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+RM_RequestCreateRoom::RM_RequestCreateRoom(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(arena, PRM_RequestCreateRoom_class_data_.base()) {
+    : ::google::protobuf::Message(arena, RM_RequestCreateRoom_class_data_.base()) {
 #else   // PROTOBUF_CUSTOM_VTABLE
     : ::google::protobuf::Message(arena) {
 #endif  // PROTOBUF_CUSTOM_VTABLE
   SharedCtor(arena);
-  // @@protoc_insertion_point(arena_constructor:PRM_RequestCreateRoom)
+  // @@protoc_insertion_point(arena_constructor:RM_RequestCreateRoom)
 }
-PROTOBUF_NDEBUG_INLINE PRM_RequestCreateRoom::Impl_::Impl_(
+PROTOBUF_NDEBUG_INLINE RM_RequestCreateRoom::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
     ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
-    const ::PRM_RequestCreateRoom& from_msg)
+    const ::RM_RequestCreateRoom& from_msg)
       : _has_bits_{from._has_bits_},
         _cached_size_{0},
         roomname_(arena, from.roomname_) {}
 
-PRM_RequestCreateRoom::PRM_RequestCreateRoom(
+RM_RequestCreateRoom::RM_RequestCreateRoom(
     ::google::protobuf::Arena* PROTOBUF_NULLABLE arena,
-    const PRM_RequestCreateRoom& from)
+    const RM_RequestCreateRoom& from)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(arena, PRM_RequestCreateRoom_class_data_.base()) {
+    : ::google::protobuf::Message(arena, RM_RequestCreateRoom_class_data_.base()) {
 #else   // PROTOBUF_CUSTOM_VTABLE
     : ::google::protobuf::Message(arena) {
 #endif  // PROTOBUF_CUSTOM_VTABLE
-  PRM_RequestCreateRoom* const _this = this;
+  RM_RequestCreateRoom* const _this = this;
   (void)_this;
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
   new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
 
-  // @@protoc_insertion_point(copy_constructor:PRM_RequestCreateRoom)
+  // @@protoc_insertion_point(copy_constructor:RM_RequestCreateRoom)
 }
-PROTOBUF_NDEBUG_INLINE PRM_RequestCreateRoom::Impl_::Impl_(
+PROTOBUF_NDEBUG_INLINE RM_RequestCreateRoom::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
     ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
       : _cached_size_{0},
         roomname_(arena) {}
 
-inline void PRM_RequestCreateRoom::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
+inline void RM_RequestCreateRoom::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
   new (&_impl_) Impl_(internal_visibility(), arena);
 }
-PRM_RequestCreateRoom::~PRM_RequestCreateRoom() {
-  // @@protoc_insertion_point(destructor:PRM_RequestCreateRoom)
+RM_RequestCreateRoom::~RM_RequestCreateRoom() {
+  // @@protoc_insertion_point(destructor:RM_RequestCreateRoom)
   SharedDtor(*this);
 }
-inline void PRM_RequestCreateRoom::SharedDtor(MessageLite& self) {
-  PRM_RequestCreateRoom& this_ = static_cast<PRM_RequestCreateRoom&>(self);
+inline void RM_RequestCreateRoom::SharedDtor(MessageLite& self) {
+  RM_RequestCreateRoom& this_ = static_cast<RM_RequestCreateRoom&>(self);
   this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
   ABSL_DCHECK(this_.GetArena() == nullptr);
   this_._impl_.roomname_.Destroy();
   this_._impl_.~Impl_();
 }
 
-inline void* PROTOBUF_NONNULL PRM_RequestCreateRoom::PlacementNew_(
+inline void* PROTOBUF_NONNULL RM_RequestCreateRoom::PlacementNew_(
     const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
     ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
-  return ::new (mem) PRM_RequestCreateRoom(arena);
+  return ::new (mem) RM_RequestCreateRoom(arena);
 }
-constexpr auto PRM_RequestCreateRoom::InternalNewImpl_() {
-  return ::google::protobuf::internal::MessageCreator::CopyInit(sizeof(PRM_RequestCreateRoom),
-                                            alignof(PRM_RequestCreateRoom));
+constexpr auto RM_RequestCreateRoom::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::CopyInit(sizeof(RM_RequestCreateRoom),
+                                            alignof(RM_RequestCreateRoom));
 }
-constexpr auto PRM_RequestCreateRoom::InternalGenerateClassData_() {
+constexpr auto RM_RequestCreateRoom::InternalGenerateClassData_() {
   return ::google::protobuf::internal::ClassDataFull{
       ::google::protobuf::internal::ClassData{
-          &_PRM_RequestCreateRoom_default_instance_._instance,
+          &_RM_RequestCreateRoom_default_instance_._instance,
           &_table_.header,
           nullptr,  // OnDemandRegisterArenaDtor
           nullptr,  // IsInitialized
-          &PRM_RequestCreateRoom::MergeImpl,
-          ::google::protobuf::Message::GetNewImpl<PRM_RequestCreateRoom>(),
+          &RM_RequestCreateRoom::MergeImpl,
+          ::google::protobuf::Message::GetNewImpl<RM_RequestCreateRoom>(),
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-          &PRM_RequestCreateRoom::SharedDtor,
-          ::google::protobuf::Message::GetClearImpl<PRM_RequestCreateRoom>(), &PRM_RequestCreateRoom::ByteSizeLong,
-              &PRM_RequestCreateRoom::_InternalSerialize,
+          &RM_RequestCreateRoom::SharedDtor,
+          ::google::protobuf::Message::GetClearImpl<RM_RequestCreateRoom>(), &RM_RequestCreateRoom::ByteSizeLong,
+              &RM_RequestCreateRoom::_InternalSerialize,
 #endif  // PROTOBUF_CUSTOM_VTABLE
-          PROTOBUF_FIELD_OFFSET(PRM_RequestCreateRoom, _impl_._cached_size_),
+          PROTOBUF_FIELD_OFFSET(RM_RequestCreateRoom, _impl_._cached_size_),
           false,
       },
-      &PRM_RequestCreateRoom::kDescriptorMethods,
+      &RM_RequestCreateRoom::kDescriptorMethods,
       &descriptor_table_room_5fmessage_2eproto,
       nullptr,  // tracker
   };
 }
 
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const
-    ::google::protobuf::internal::ClassDataFull PRM_RequestCreateRoom_class_data_ =
-        PRM_RequestCreateRoom::InternalGenerateClassData_();
+    ::google::protobuf::internal::ClassDataFull RM_RequestCreateRoom_class_data_ =
+        RM_RequestCreateRoom::InternalGenerateClassData_();
 
 PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
-PRM_RequestCreateRoom::GetClassData() const {
-  ::google::protobuf::internal::PrefetchToLocalCache(&PRM_RequestCreateRoom_class_data_);
-  ::google::protobuf::internal::PrefetchToLocalCache(PRM_RequestCreateRoom_class_data_.tc_table);
-  return PRM_RequestCreateRoom_class_data_.base();
+RM_RequestCreateRoom::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&RM_RequestCreateRoom_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(RM_RequestCreateRoom_class_data_.tc_table);
+  return RM_RequestCreateRoom_class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<0, 1, 0, 38, 2>
-PRM_RequestCreateRoom::_table_ = {
+const ::_pbi::TcParseTable<0, 1, 0, 37, 2>
+RM_RequestCreateRoom::_table_ = {
   {
-    PROTOBUF_FIELD_OFFSET(PRM_RequestCreateRoom, _impl_._has_bits_),
+    PROTOBUF_FIELD_OFFSET(RM_RequestCreateRoom, _impl_._has_bits_),
     0, // no _extensions_
     1, 0,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
@@ -1173,32 +1285,32 @@ PRM_RequestCreateRoom::_table_ = {
     1,  // num_field_entries
     0,  // num_aux_entries
     offsetof(decltype(_table_), field_names),  // no aux_entries
-    PRM_RequestCreateRoom_class_data_.base(),
+    RM_RequestCreateRoom_class_data_.base(),
     nullptr,  // post_loop_handler
     ::_pbi::TcParser::GenericFallback,  // fallback
     #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
-    ::_pbi::TcParser::GetTable<::PRM_RequestCreateRoom>(),  // to_prefetch
+    ::_pbi::TcParser::GetTable<::RM_RequestCreateRoom>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     // string roomName = 1;
     {::_pbi::TcParser::FastUS1,
-     {10, 0, 0, PROTOBUF_FIELD_OFFSET(PRM_RequestCreateRoom, _impl_.roomname_)}},
+     {10, 0, 0, PROTOBUF_FIELD_OFFSET(RM_RequestCreateRoom, _impl_.roomname_)}},
   }}, {{
     65535, 65535
   }}, {{
     // string roomName = 1;
-    {PROTOBUF_FIELD_OFFSET(PRM_RequestCreateRoom, _impl_.roomname_), _Internal::kHasBitsOffset + 0, 0,
+    {PROTOBUF_FIELD_OFFSET(RM_RequestCreateRoom, _impl_.roomname_), _Internal::kHasBitsOffset + 0, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
   }},
   // no aux_entries
   {{
-    "\25\10\0\0\0\0\0\0"
-    "PRM_RequestCreateRoom"
+    "\24\10\0\0\0\0\0\0"
+    "RM_RequestCreateRoom"
     "roomName"
   }},
 };
-PROTOBUF_NOINLINE void PRM_RequestCreateRoom::Clear() {
-// @@protoc_insertion_point(message_clear_start:PRM_RequestCreateRoom)
+PROTOBUF_NOINLINE void RM_RequestCreateRoom::Clear() {
+// @@protoc_insertion_point(message_clear_start:RM_RequestCreateRoom)
   ::google::protobuf::internal::TSanWrite(&_impl_);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
@@ -1213,17 +1325,17 @@ PROTOBUF_NOINLINE void PRM_RequestCreateRoom::Clear() {
 }
 
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-::uint8_t* PROTOBUF_NONNULL PRM_RequestCreateRoom::_InternalSerialize(
+::uint8_t* PROTOBUF_NONNULL RM_RequestCreateRoom::_InternalSerialize(
     const ::google::protobuf::MessageLite& base, ::uint8_t* PROTOBUF_NONNULL target,
     ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) {
-  const PRM_RequestCreateRoom& this_ = static_cast<const PRM_RequestCreateRoom&>(base);
+  const RM_RequestCreateRoom& this_ = static_cast<const RM_RequestCreateRoom&>(base);
 #else   // PROTOBUF_CUSTOM_VTABLE
-::uint8_t* PROTOBUF_NONNULL PRM_RequestCreateRoom::_InternalSerialize(
+::uint8_t* PROTOBUF_NONNULL RM_RequestCreateRoom::_InternalSerialize(
     ::uint8_t* PROTOBUF_NONNULL target,
     ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
-  const PRM_RequestCreateRoom& this_ = *this;
+  const RM_RequestCreateRoom& this_ = *this;
 #endif  // PROTOBUF_CUSTOM_VTABLE
-  // @@protoc_insertion_point(serialize_to_array_start:PRM_RequestCreateRoom)
+  // @@protoc_insertion_point(serialize_to_array_start:RM_RequestCreateRoom)
   ::uint32_t cached_has_bits = 0;
   (void)cached_has_bits;
 
@@ -1232,7 +1344,7 @@ PROTOBUF_NOINLINE void PRM_RequestCreateRoom::Clear() {
   if ((cached_has_bits & 0x00000001u) != 0) {
     const ::std::string& _s = this_._internal_roomname();
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-        _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "PRM_RequestCreateRoom.roomName");
+        _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "RM_RequestCreateRoom.roomName");
     target = stream->WriteStringMaybeAliased(1, _s, target);
   }
 
@@ -1241,18 +1353,18 @@ PROTOBUF_NOINLINE void PRM_RequestCreateRoom::Clear() {
         ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
             this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:PRM_RequestCreateRoom)
+  // @@protoc_insertion_point(serialize_to_array_end:RM_RequestCreateRoom)
   return target;
 }
 
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-::size_t PRM_RequestCreateRoom::ByteSizeLong(const MessageLite& base) {
-  const PRM_RequestCreateRoom& this_ = static_cast<const PRM_RequestCreateRoom&>(base);
+::size_t RM_RequestCreateRoom::ByteSizeLong(const MessageLite& base) {
+  const RM_RequestCreateRoom& this_ = static_cast<const RM_RequestCreateRoom&>(base);
 #else   // PROTOBUF_CUSTOM_VTABLE
-::size_t PRM_RequestCreateRoom::ByteSizeLong() const {
-  const PRM_RequestCreateRoom& this_ = *this;
+::size_t RM_RequestCreateRoom::ByteSizeLong() const {
+  const RM_RequestCreateRoom& this_ = *this;
 #endif  // PROTOBUF_CUSTOM_VTABLE
-  // @@protoc_insertion_point(message_byte_size_start:PRM_RequestCreateRoom)
+  // @@protoc_insertion_point(message_byte_size_start:RM_RequestCreateRoom)
   ::size_t total_size = 0;
 
   ::uint32_t cached_has_bits = 0;
@@ -1271,10 +1383,10 @@ PROTOBUF_NOINLINE void PRM_RequestCreateRoom::Clear() {
                                              &this_._impl_._cached_size_);
 }
 
-void PRM_RequestCreateRoom::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
-  auto* const _this = static_cast<PRM_RequestCreateRoom*>(&to_msg);
-  auto& from = static_cast<const PRM_RequestCreateRoom&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:PRM_RequestCreateRoom)
+void RM_RequestCreateRoom::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
+  auto* const _this = static_cast<RM_RequestCreateRoom*>(&to_msg);
+  auto& from = static_cast<const RM_RequestCreateRoom&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:RM_RequestCreateRoom)
   ABSL_DCHECK_NE(&from, _this);
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
@@ -1287,15 +1399,15 @@ void PRM_RequestCreateRoom::MergeImpl(::google::protobuf::MessageLite& to_msg, c
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
 
-void PRM_RequestCreateRoom::CopyFrom(const PRM_RequestCreateRoom& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:PRM_RequestCreateRoom)
+void RM_RequestCreateRoom::CopyFrom(const RM_RequestCreateRoom& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:RM_RequestCreateRoom)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 
-void PRM_RequestCreateRoom::InternalSwap(PRM_RequestCreateRoom* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
+void RM_RequestCreateRoom::InternalSwap(RM_RequestCreateRoom* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
   using ::std::swap;
   auto* arena = GetArena();
   ABSL_DCHECK_EQ(arena, other->GetArena());
@@ -1304,122 +1416,122 @@ void PRM_RequestCreateRoom::InternalSwap(PRM_RequestCreateRoom* PROTOBUF_RESTRIC
   ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.roomname_, &other->_impl_.roomname_, arena);
 }
 
-::google::protobuf::Metadata PRM_RequestCreateRoom::GetMetadata() const {
+::google::protobuf::Metadata RM_RequestCreateRoom::GetMetadata() const {
   return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
 }
 // ===================================================================
 
-class PRM_ResultCreateRoom::_Internal {
+class RM_ResultCreateRoom::_Internal {
  public:
   using HasBits =
-      decltype(::std::declval<PRM_ResultCreateRoom>()._impl_._has_bits_);
+      decltype(::std::declval<RM_ResultCreateRoom>()._impl_._has_bits_);
   static constexpr ::int32_t kHasBitsOffset =
-      8 * PROTOBUF_FIELD_OFFSET(PRM_ResultCreateRoom, _impl_._has_bits_);
+      8 * PROTOBUF_FIELD_OFFSET(RM_ResultCreateRoom, _impl_._has_bits_);
 };
 
-PRM_ResultCreateRoom::PRM_ResultCreateRoom(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+RM_ResultCreateRoom::RM_ResultCreateRoom(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(arena, PRM_ResultCreateRoom_class_data_.base()) {
+    : ::google::protobuf::Message(arena, RM_ResultCreateRoom_class_data_.base()) {
 #else   // PROTOBUF_CUSTOM_VTABLE
     : ::google::protobuf::Message(arena) {
 #endif  // PROTOBUF_CUSTOM_VTABLE
   SharedCtor(arena);
-  // @@protoc_insertion_point(arena_constructor:PRM_ResultCreateRoom)
+  // @@protoc_insertion_point(arena_constructor:RM_ResultCreateRoom)
 }
-PROTOBUF_NDEBUG_INLINE PRM_ResultCreateRoom::Impl_::Impl_(
+PROTOBUF_NDEBUG_INLINE RM_ResultCreateRoom::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
     ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
-    const ::PRM_ResultCreateRoom& from_msg)
+    const ::RM_ResultCreateRoom& from_msg)
       : _has_bits_{from._has_bits_},
         _cached_size_{0},
         reason_(arena, from.reason_) {}
 
-PRM_ResultCreateRoom::PRM_ResultCreateRoom(
+RM_ResultCreateRoom::RM_ResultCreateRoom(
     ::google::protobuf::Arena* PROTOBUF_NULLABLE arena,
-    const PRM_ResultCreateRoom& from)
+    const RM_ResultCreateRoom& from)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(arena, PRM_ResultCreateRoom_class_data_.base()) {
+    : ::google::protobuf::Message(arena, RM_ResultCreateRoom_class_data_.base()) {
 #else   // PROTOBUF_CUSTOM_VTABLE
     : ::google::protobuf::Message(arena) {
 #endif  // PROTOBUF_CUSTOM_VTABLE
-  PRM_ResultCreateRoom* const _this = this;
+  RM_ResultCreateRoom* const _this = this;
   (void)_this;
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
   new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
   _impl_.roomindex_ = from._impl_.roomindex_;
 
-  // @@protoc_insertion_point(copy_constructor:PRM_ResultCreateRoom)
+  // @@protoc_insertion_point(copy_constructor:RM_ResultCreateRoom)
 }
-PROTOBUF_NDEBUG_INLINE PRM_ResultCreateRoom::Impl_::Impl_(
+PROTOBUF_NDEBUG_INLINE RM_ResultCreateRoom::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
     ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
       : _cached_size_{0},
         reason_(arena) {}
 
-inline void PRM_ResultCreateRoom::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
+inline void RM_ResultCreateRoom::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
   new (&_impl_) Impl_(internal_visibility(), arena);
   _impl_.roomindex_ = {};
 }
-PRM_ResultCreateRoom::~PRM_ResultCreateRoom() {
-  // @@protoc_insertion_point(destructor:PRM_ResultCreateRoom)
+RM_ResultCreateRoom::~RM_ResultCreateRoom() {
+  // @@protoc_insertion_point(destructor:RM_ResultCreateRoom)
   SharedDtor(*this);
 }
-inline void PRM_ResultCreateRoom::SharedDtor(MessageLite& self) {
-  PRM_ResultCreateRoom& this_ = static_cast<PRM_ResultCreateRoom&>(self);
+inline void RM_ResultCreateRoom::SharedDtor(MessageLite& self) {
+  RM_ResultCreateRoom& this_ = static_cast<RM_ResultCreateRoom&>(self);
   this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
   ABSL_DCHECK(this_.GetArena() == nullptr);
   this_._impl_.reason_.Destroy();
   this_._impl_.~Impl_();
 }
 
-inline void* PROTOBUF_NONNULL PRM_ResultCreateRoom::PlacementNew_(
+inline void* PROTOBUF_NONNULL RM_ResultCreateRoom::PlacementNew_(
     const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
     ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
-  return ::new (mem) PRM_ResultCreateRoom(arena);
+  return ::new (mem) RM_ResultCreateRoom(arena);
 }
-constexpr auto PRM_ResultCreateRoom::InternalNewImpl_() {
-  return ::google::protobuf::internal::MessageCreator::CopyInit(sizeof(PRM_ResultCreateRoom),
-                                            alignof(PRM_ResultCreateRoom));
+constexpr auto RM_ResultCreateRoom::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::CopyInit(sizeof(RM_ResultCreateRoom),
+                                            alignof(RM_ResultCreateRoom));
 }
-constexpr auto PRM_ResultCreateRoom::InternalGenerateClassData_() {
+constexpr auto RM_ResultCreateRoom::InternalGenerateClassData_() {
   return ::google::protobuf::internal::ClassDataFull{
       ::google::protobuf::internal::ClassData{
-          &_PRM_ResultCreateRoom_default_instance_._instance,
+          &_RM_ResultCreateRoom_default_instance_._instance,
           &_table_.header,
           nullptr,  // OnDemandRegisterArenaDtor
           nullptr,  // IsInitialized
-          &PRM_ResultCreateRoom::MergeImpl,
-          ::google::protobuf::Message::GetNewImpl<PRM_ResultCreateRoom>(),
+          &RM_ResultCreateRoom::MergeImpl,
+          ::google::protobuf::Message::GetNewImpl<RM_ResultCreateRoom>(),
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-          &PRM_ResultCreateRoom::SharedDtor,
-          ::google::protobuf::Message::GetClearImpl<PRM_ResultCreateRoom>(), &PRM_ResultCreateRoom::ByteSizeLong,
-              &PRM_ResultCreateRoom::_InternalSerialize,
+          &RM_ResultCreateRoom::SharedDtor,
+          ::google::protobuf::Message::GetClearImpl<RM_ResultCreateRoom>(), &RM_ResultCreateRoom::ByteSizeLong,
+              &RM_ResultCreateRoom::_InternalSerialize,
 #endif  // PROTOBUF_CUSTOM_VTABLE
-          PROTOBUF_FIELD_OFFSET(PRM_ResultCreateRoom, _impl_._cached_size_),
+          PROTOBUF_FIELD_OFFSET(RM_ResultCreateRoom, _impl_._cached_size_),
           false,
       },
-      &PRM_ResultCreateRoom::kDescriptorMethods,
+      &RM_ResultCreateRoom::kDescriptorMethods,
       &descriptor_table_room_5fmessage_2eproto,
       nullptr,  // tracker
   };
 }
 
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const
-    ::google::protobuf::internal::ClassDataFull PRM_ResultCreateRoom_class_data_ =
-        PRM_ResultCreateRoom::InternalGenerateClassData_();
+    ::google::protobuf::internal::ClassDataFull RM_ResultCreateRoom_class_data_ =
+        RM_ResultCreateRoom::InternalGenerateClassData_();
 
 PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
-PRM_ResultCreateRoom::GetClassData() const {
-  ::google::protobuf::internal::PrefetchToLocalCache(&PRM_ResultCreateRoom_class_data_);
-  ::google::protobuf::internal::PrefetchToLocalCache(PRM_ResultCreateRoom_class_data_.tc_table);
-  return PRM_ResultCreateRoom_class_data_.base();
+RM_ResultCreateRoom::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&RM_ResultCreateRoom_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(RM_ResultCreateRoom_class_data_.tc_table);
+  return RM_ResultCreateRoom_class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<1, 2, 0, 35, 2>
-PRM_ResultCreateRoom::_table_ = {
+const ::_pbi::TcParseTable<1, 2, 0, 34, 2>
+RM_ResultCreateRoom::_table_ = {
   {
-    PROTOBUF_FIELD_OFFSET(PRM_ResultCreateRoom, _impl_._has_bits_),
+    PROTOBUF_FIELD_OFFSET(RM_ResultCreateRoom, _impl_._has_bits_),
     0, // no _extensions_
     2, 8,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
@@ -1428,38 +1540,38 @@ PRM_ResultCreateRoom::_table_ = {
     2,  // num_field_entries
     0,  // num_aux_entries
     offsetof(decltype(_table_), field_names),  // no aux_entries
-    PRM_ResultCreateRoom_class_data_.base(),
+    RM_ResultCreateRoom_class_data_.base(),
     nullptr,  // post_loop_handler
     ::_pbi::TcParser::GenericFallback,  // fallback
     #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
-    ::_pbi::TcParser::GetTable<::PRM_ResultCreateRoom>(),  // to_prefetch
+    ::_pbi::TcParser::GetTable<::RM_ResultCreateRoom>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     // string reason = 2;
     {::_pbi::TcParser::FastUS1,
-     {18, 0, 0, PROTOBUF_FIELD_OFFSET(PRM_ResultCreateRoom, _impl_.reason_)}},
+     {18, 0, 0, PROTOBUF_FIELD_OFFSET(RM_ResultCreateRoom, _impl_.reason_)}},
     // int32 roomIndex = 1;
-    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(PRM_ResultCreateRoom, _impl_.roomindex_), 1>(),
-     {8, 1, 0, PROTOBUF_FIELD_OFFSET(PRM_ResultCreateRoom, _impl_.roomindex_)}},
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(RM_ResultCreateRoom, _impl_.roomindex_), 1>(),
+     {8, 1, 0, PROTOBUF_FIELD_OFFSET(RM_ResultCreateRoom, _impl_.roomindex_)}},
   }}, {{
     65535, 65535
   }}, {{
     // int32 roomIndex = 1;
-    {PROTOBUF_FIELD_OFFSET(PRM_ResultCreateRoom, _impl_.roomindex_), _Internal::kHasBitsOffset + 1, 0,
+    {PROTOBUF_FIELD_OFFSET(RM_ResultCreateRoom, _impl_.roomindex_), _Internal::kHasBitsOffset + 1, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kInt32)},
     // string reason = 2;
-    {PROTOBUF_FIELD_OFFSET(PRM_ResultCreateRoom, _impl_.reason_), _Internal::kHasBitsOffset + 0, 0,
+    {PROTOBUF_FIELD_OFFSET(RM_ResultCreateRoom, _impl_.reason_), _Internal::kHasBitsOffset + 0, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
   }},
   // no aux_entries
   {{
-    "\24\0\6\0\0\0\0\0"
-    "PRM_ResultCreateRoom"
+    "\23\0\6\0\0\0\0\0"
+    "RM_ResultCreateRoom"
     "reason"
   }},
 };
-PROTOBUF_NOINLINE void PRM_ResultCreateRoom::Clear() {
-// @@protoc_insertion_point(message_clear_start:PRM_ResultCreateRoom)
+PROTOBUF_NOINLINE void RM_ResultCreateRoom::Clear() {
+// @@protoc_insertion_point(message_clear_start:RM_ResultCreateRoom)
   ::google::protobuf::internal::TSanWrite(&_impl_);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
@@ -1475,17 +1587,17 @@ PROTOBUF_NOINLINE void PRM_ResultCreateRoom::Clear() {
 }
 
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-::uint8_t* PROTOBUF_NONNULL PRM_ResultCreateRoom::_InternalSerialize(
+::uint8_t* PROTOBUF_NONNULL RM_ResultCreateRoom::_InternalSerialize(
     const ::google::protobuf::MessageLite& base, ::uint8_t* PROTOBUF_NONNULL target,
     ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) {
-  const PRM_ResultCreateRoom& this_ = static_cast<const PRM_ResultCreateRoom&>(base);
+  const RM_ResultCreateRoom& this_ = static_cast<const RM_ResultCreateRoom&>(base);
 #else   // PROTOBUF_CUSTOM_VTABLE
-::uint8_t* PROTOBUF_NONNULL PRM_ResultCreateRoom::_InternalSerialize(
+::uint8_t* PROTOBUF_NONNULL RM_ResultCreateRoom::_InternalSerialize(
     ::uint8_t* PROTOBUF_NONNULL target,
     ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
-  const PRM_ResultCreateRoom& this_ = *this;
+  const RM_ResultCreateRoom& this_ = *this;
 #endif  // PROTOBUF_CUSTOM_VTABLE
-  // @@protoc_insertion_point(serialize_to_array_start:PRM_ResultCreateRoom)
+  // @@protoc_insertion_point(serialize_to_array_start:RM_ResultCreateRoom)
   ::uint32_t cached_has_bits = 0;
   (void)cached_has_bits;
 
@@ -1501,7 +1613,7 @@ PROTOBUF_NOINLINE void PRM_ResultCreateRoom::Clear() {
   if ((cached_has_bits & 0x00000001u) != 0) {
     const ::std::string& _s = this_._internal_reason();
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-        _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "PRM_ResultCreateRoom.reason");
+        _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "RM_ResultCreateRoom.reason");
     target = stream->WriteStringMaybeAliased(2, _s, target);
   }
 
@@ -1510,18 +1622,18 @@ PROTOBUF_NOINLINE void PRM_ResultCreateRoom::Clear() {
         ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
             this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:PRM_ResultCreateRoom)
+  // @@protoc_insertion_point(serialize_to_array_end:RM_ResultCreateRoom)
   return target;
 }
 
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-::size_t PRM_ResultCreateRoom::ByteSizeLong(const MessageLite& base) {
-  const PRM_ResultCreateRoom& this_ = static_cast<const PRM_ResultCreateRoom&>(base);
+::size_t RM_ResultCreateRoom::ByteSizeLong(const MessageLite& base) {
+  const RM_ResultCreateRoom& this_ = static_cast<const RM_ResultCreateRoom&>(base);
 #else   // PROTOBUF_CUSTOM_VTABLE
-::size_t PRM_ResultCreateRoom::ByteSizeLong() const {
-  const PRM_ResultCreateRoom& this_ = *this;
+::size_t RM_ResultCreateRoom::ByteSizeLong() const {
+  const RM_ResultCreateRoom& this_ = *this;
 #endif  // PROTOBUF_CUSTOM_VTABLE
-  // @@protoc_insertion_point(message_byte_size_start:PRM_ResultCreateRoom)
+  // @@protoc_insertion_point(message_byte_size_start:RM_ResultCreateRoom)
   ::size_t total_size = 0;
 
   ::uint32_t cached_has_bits = 0;
@@ -1546,10 +1658,10 @@ PROTOBUF_NOINLINE void PRM_ResultCreateRoom::Clear() {
                                              &this_._impl_._cached_size_);
 }
 
-void PRM_ResultCreateRoom::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
-  auto* const _this = static_cast<PRM_ResultCreateRoom*>(&to_msg);
-  auto& from = static_cast<const PRM_ResultCreateRoom&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:PRM_ResultCreateRoom)
+void RM_ResultCreateRoom::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
+  auto* const _this = static_cast<RM_ResultCreateRoom*>(&to_msg);
+  auto& from = static_cast<const RM_ResultCreateRoom&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:RM_ResultCreateRoom)
   ABSL_DCHECK_NE(&from, _this);
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
@@ -1567,15 +1679,15 @@ void PRM_ResultCreateRoom::MergeImpl(::google::protobuf::MessageLite& to_msg, co
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
 
-void PRM_ResultCreateRoom::CopyFrom(const PRM_ResultCreateRoom& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:PRM_ResultCreateRoom)
+void RM_ResultCreateRoom::CopyFrom(const RM_ResultCreateRoom& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:RM_ResultCreateRoom)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 
-void PRM_ResultCreateRoom::InternalSwap(PRM_ResultCreateRoom* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
+void RM_ResultCreateRoom::InternalSwap(RM_ResultCreateRoom* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
   using ::std::swap;
   auto* arena = GetArena();
   ABSL_DCHECK_EQ(arena, other->GetArena());
@@ -1585,7 +1697,795 @@ void PRM_ResultCreateRoom::InternalSwap(PRM_ResultCreateRoom* PROTOBUF_RESTRICT 
   swap(_impl_.roomindex_, other->_impl_.roomindex_);
 }
 
-::google::protobuf::Metadata PRM_ResultCreateRoom::GetMetadata() const {
+::google::protobuf::Metadata RM_ResultCreateRoom::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class RM_RequestEnterRoom::_Internal {
+ public:
+  using HasBits =
+      decltype(::std::declval<RM_RequestEnterRoom>()._impl_._has_bits_);
+  static constexpr ::int32_t kHasBitsOffset =
+      8 * PROTOBUF_FIELD_OFFSET(RM_RequestEnterRoom, _impl_._has_bits_);
+};
+
+RM_RequestEnterRoom::RM_RequestEnterRoom(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, RM_RequestEnterRoom_class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:RM_RequestEnterRoom)
+}
+RM_RequestEnterRoom::RM_RequestEnterRoom(
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const RM_RequestEnterRoom& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, RM_RequestEnterRoom_class_data_.base()),
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena),
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(from._impl_) {
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+}
+PROTOBUF_NDEBUG_INLINE RM_RequestEnterRoom::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+      : _cached_size_{0} {}
+
+inline void RM_RequestEnterRoom::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  _impl_.roomindex_ = {};
+}
+RM_RequestEnterRoom::~RM_RequestEnterRoom() {
+  // @@protoc_insertion_point(destructor:RM_RequestEnterRoom)
+  SharedDtor(*this);
+}
+inline void RM_RequestEnterRoom::SharedDtor(MessageLite& self) {
+  RM_RequestEnterRoom& this_ = static_cast<RM_RequestEnterRoom&>(self);
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  this_._impl_.~Impl_();
+}
+
+inline void* PROTOBUF_NONNULL RM_RequestEnterRoom::PlacementNew_(
+    const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
+  return ::new (mem) RM_RequestEnterRoom(arena);
+}
+constexpr auto RM_RequestEnterRoom::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(RM_RequestEnterRoom),
+                                            alignof(RM_RequestEnterRoom));
+}
+constexpr auto RM_RequestEnterRoom::InternalGenerateClassData_() {
+  return ::google::protobuf::internal::ClassDataFull{
+      ::google::protobuf::internal::ClassData{
+          &_RM_RequestEnterRoom_default_instance_._instance,
+          &_table_.header,
+          nullptr,  // OnDemandRegisterArenaDtor
+          nullptr,  // IsInitialized
+          &RM_RequestEnterRoom::MergeImpl,
+          ::google::protobuf::Message::GetNewImpl<RM_RequestEnterRoom>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+          &RM_RequestEnterRoom::SharedDtor,
+          ::google::protobuf::Message::GetClearImpl<RM_RequestEnterRoom>(), &RM_RequestEnterRoom::ByteSizeLong,
+              &RM_RequestEnterRoom::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          PROTOBUF_FIELD_OFFSET(RM_RequestEnterRoom, _impl_._cached_size_),
+          false,
+      },
+      &RM_RequestEnterRoom::kDescriptorMethods,
+      &descriptor_table_room_5fmessage_2eproto,
+      nullptr,  // tracker
+  };
+}
+
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const
+    ::google::protobuf::internal::ClassDataFull RM_RequestEnterRoom_class_data_ =
+        RM_RequestEnterRoom::InternalGenerateClassData_();
+
+PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
+RM_RequestEnterRoom::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&RM_RequestEnterRoom_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(RM_RequestEnterRoom_class_data_.tc_table);
+  return RM_RequestEnterRoom_class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<0, 1, 0, 0, 2>
+RM_RequestEnterRoom::_table_ = {
+  {
+    PROTOBUF_FIELD_OFFSET(RM_RequestEnterRoom, _impl_._has_bits_),
+    0, // no _extensions_
+    1, 0,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967294,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    1,  // num_field_entries
+    0,  // num_aux_entries
+    offsetof(decltype(_table_), field_names),  // no aux_entries
+    RM_RequestEnterRoom_class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::RM_RequestEnterRoom>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    // int32 roomIndex = 1;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(RM_RequestEnterRoom, _impl_.roomindex_), 0>(),
+     {8, 0, 0, PROTOBUF_FIELD_OFFSET(RM_RequestEnterRoom, _impl_.roomindex_)}},
+  }}, {{
+    65535, 65535
+  }}, {{
+    // int32 roomIndex = 1;
+    {PROTOBUF_FIELD_OFFSET(RM_RequestEnterRoom, _impl_.roomindex_), _Internal::kHasBitsOffset + 0, 0,
+    (0 | ::_fl::kFcOptional | ::_fl::kInt32)},
+  }},
+  // no aux_entries
+  {{
+  }},
+};
+PROTOBUF_NOINLINE void RM_RequestEnterRoom::Clear() {
+// @@protoc_insertion_point(message_clear_start:RM_RequestEnterRoom)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.roomindex_ = 0;
+  _impl_._has_bits_.Clear();
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+::uint8_t* PROTOBUF_NONNULL RM_RequestEnterRoom::_InternalSerialize(
+    const ::google::protobuf::MessageLite& base, ::uint8_t* PROTOBUF_NONNULL target,
+    ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) {
+  const RM_RequestEnterRoom& this_ = static_cast<const RM_RequestEnterRoom&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+::uint8_t* PROTOBUF_NONNULL RM_RequestEnterRoom::_InternalSerialize(
+    ::uint8_t* PROTOBUF_NONNULL target,
+    ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
+  const RM_RequestEnterRoom& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(serialize_to_array_start:RM_RequestEnterRoom)
+  ::uint32_t cached_has_bits = 0;
+  (void)cached_has_bits;
+
+  cached_has_bits = this_._impl_._has_bits_[0];
+  // int32 roomIndex = 1;
+  if ((cached_has_bits & 0x00000001u) != 0) {
+    target =
+        ::google::protobuf::internal::WireFormatLite::WriteInt32ToArrayWithField<1>(
+            stream, this_._internal_roomindex(), target);
+  }
+
+  if (ABSL_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
+    target =
+        ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+            this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:RM_RequestEnterRoom)
+  return target;
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+::size_t RM_RequestEnterRoom::ByteSizeLong(const MessageLite& base) {
+  const RM_RequestEnterRoom& this_ = static_cast<const RM_RequestEnterRoom&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+::size_t RM_RequestEnterRoom::ByteSizeLong() const {
+  const RM_RequestEnterRoom& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(message_byte_size_start:RM_RequestEnterRoom)
+  ::size_t total_size = 0;
+
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void)cached_has_bits;
+
+   {
+    // int32 roomIndex = 1;
+    cached_has_bits = this_._impl_._has_bits_[0];
+    if ((cached_has_bits & 0x00000001u) != 0) {
+      total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
+          this_._internal_roomindex());
+    }
+  }
+  return this_.MaybeComputeUnknownFieldsSize(total_size,
+                                             &this_._impl_._cached_size_);
+}
+
+void RM_RequestEnterRoom::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
+  auto* const _this = static_cast<RM_RequestEnterRoom*>(&to_msg);
+  auto& from = static_cast<const RM_RequestEnterRoom&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:RM_RequestEnterRoom)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = from._impl_._has_bits_[0];
+  if ((cached_has_bits & 0x00000001u) != 0) {
+    _this->_impl_.roomindex_ = from._impl_.roomindex_;
+  }
+  _this->_impl_._has_bits_[0] |= cached_has_bits;
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void RM_RequestEnterRoom::CopyFrom(const RM_RequestEnterRoom& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:RM_RequestEnterRoom)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+
+void RM_RequestEnterRoom::InternalSwap(RM_RequestEnterRoom* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
+  using ::std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  swap(_impl_.roomindex_, other->_impl_.roomindex_);
+}
+
+::google::protobuf::Metadata RM_RequestEnterRoom::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class RM_ResultEnterRoom::_Internal {
+ public:
+  using HasBits =
+      decltype(::std::declval<RM_ResultEnterRoom>()._impl_._has_bits_);
+  static constexpr ::int32_t kHasBitsOffset =
+      8 * PROTOBUF_FIELD_OFFSET(RM_ResultEnterRoom, _impl_._has_bits_);
+};
+
+RM_ResultEnterRoom::RM_ResultEnterRoom(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, RM_ResultEnterRoom_class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:RM_ResultEnterRoom)
+}
+PROTOBUF_NDEBUG_INLINE RM_ResultEnterRoom::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
+    const ::RM_ResultEnterRoom& from_msg)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0},
+        reason_(arena, from.reason_) {}
+
+RM_ResultEnterRoom::RM_ResultEnterRoom(
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena,
+    const RM_ResultEnterRoom& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, RM_ResultEnterRoom_class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  RM_ResultEnterRoom* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
+  _impl_.result_ = from._impl_.result_;
+
+  // @@protoc_insertion_point(copy_constructor:RM_ResultEnterRoom)
+}
+PROTOBUF_NDEBUG_INLINE RM_ResultEnterRoom::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+      : _cached_size_{0},
+        reason_(arena) {}
+
+inline void RM_ResultEnterRoom::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  _impl_.result_ = {};
+}
+RM_ResultEnterRoom::~RM_ResultEnterRoom() {
+  // @@protoc_insertion_point(destructor:RM_ResultEnterRoom)
+  SharedDtor(*this);
+}
+inline void RM_ResultEnterRoom::SharedDtor(MessageLite& self) {
+  RM_ResultEnterRoom& this_ = static_cast<RM_ResultEnterRoom&>(self);
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  this_._impl_.reason_.Destroy();
+  this_._impl_.~Impl_();
+}
+
+inline void* PROTOBUF_NONNULL RM_ResultEnterRoom::PlacementNew_(
+    const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
+  return ::new (mem) RM_ResultEnterRoom(arena);
+}
+constexpr auto RM_ResultEnterRoom::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::CopyInit(sizeof(RM_ResultEnterRoom),
+                                            alignof(RM_ResultEnterRoom));
+}
+constexpr auto RM_ResultEnterRoom::InternalGenerateClassData_() {
+  return ::google::protobuf::internal::ClassDataFull{
+      ::google::protobuf::internal::ClassData{
+          &_RM_ResultEnterRoom_default_instance_._instance,
+          &_table_.header,
+          nullptr,  // OnDemandRegisterArenaDtor
+          nullptr,  // IsInitialized
+          &RM_ResultEnterRoom::MergeImpl,
+          ::google::protobuf::Message::GetNewImpl<RM_ResultEnterRoom>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+          &RM_ResultEnterRoom::SharedDtor,
+          ::google::protobuf::Message::GetClearImpl<RM_ResultEnterRoom>(), &RM_ResultEnterRoom::ByteSizeLong,
+              &RM_ResultEnterRoom::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          PROTOBUF_FIELD_OFFSET(RM_ResultEnterRoom, _impl_._cached_size_),
+          false,
+      },
+      &RM_ResultEnterRoom::kDescriptorMethods,
+      &descriptor_table_room_5fmessage_2eproto,
+      nullptr,  // tracker
+  };
+}
+
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const
+    ::google::protobuf::internal::ClassDataFull RM_ResultEnterRoom_class_data_ =
+        RM_ResultEnterRoom::InternalGenerateClassData_();
+
+PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
+RM_ResultEnterRoom::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&RM_ResultEnterRoom_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(RM_ResultEnterRoom_class_data_.tc_table);
+  return RM_ResultEnterRoom_class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<1, 2, 0, 33, 2>
+RM_ResultEnterRoom::_table_ = {
+  {
+    PROTOBUF_FIELD_OFFSET(RM_ResultEnterRoom, _impl_._has_bits_),
+    0, // no _extensions_
+    2, 8,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967292,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    2,  // num_field_entries
+    0,  // num_aux_entries
+    offsetof(decltype(_table_), field_names),  // no aux_entries
+    RM_ResultEnterRoom_class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::RM_ResultEnterRoom>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    // string reason = 2;
+    {::_pbi::TcParser::FastUS1,
+     {18, 0, 0, PROTOBUF_FIELD_OFFSET(RM_ResultEnterRoom, _impl_.reason_)}},
+    // bool result = 1;
+    {::_pbi::TcParser::SingularVarintNoZag1<bool, offsetof(RM_ResultEnterRoom, _impl_.result_), 1>(),
+     {8, 1, 0, PROTOBUF_FIELD_OFFSET(RM_ResultEnterRoom, _impl_.result_)}},
+  }}, {{
+    65535, 65535
+  }}, {{
+    // bool result = 1;
+    {PROTOBUF_FIELD_OFFSET(RM_ResultEnterRoom, _impl_.result_), _Internal::kHasBitsOffset + 1, 0,
+    (0 | ::_fl::kFcOptional | ::_fl::kBool)},
+    // string reason = 2;
+    {PROTOBUF_FIELD_OFFSET(RM_ResultEnterRoom, _impl_.reason_), _Internal::kHasBitsOffset + 0, 0,
+    (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
+  }},
+  // no aux_entries
+  {{
+    "\22\0\6\0\0\0\0\0"
+    "RM_ResultEnterRoom"
+    "reason"
+  }},
+};
+PROTOBUF_NOINLINE void RM_ResultEnterRoom::Clear() {
+// @@protoc_insertion_point(message_clear_start:RM_ResultEnterRoom)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  cached_has_bits = _impl_._has_bits_[0];
+  if ((cached_has_bits & 0x00000001u) != 0) {
+    _impl_.reason_.ClearNonDefaultToEmpty();
+  }
+  _impl_.result_ = false;
+  _impl_._has_bits_.Clear();
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+::uint8_t* PROTOBUF_NONNULL RM_ResultEnterRoom::_InternalSerialize(
+    const ::google::protobuf::MessageLite& base, ::uint8_t* PROTOBUF_NONNULL target,
+    ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) {
+  const RM_ResultEnterRoom& this_ = static_cast<const RM_ResultEnterRoom&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+::uint8_t* PROTOBUF_NONNULL RM_ResultEnterRoom::_InternalSerialize(
+    ::uint8_t* PROTOBUF_NONNULL target,
+    ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
+  const RM_ResultEnterRoom& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(serialize_to_array_start:RM_ResultEnterRoom)
+  ::uint32_t cached_has_bits = 0;
+  (void)cached_has_bits;
+
+  cached_has_bits = this_._impl_._has_bits_[0];
+  // bool result = 1;
+  if ((cached_has_bits & 0x00000002u) != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(
+        1, this_._internal_result(), target);
+  }
+
+  // string reason = 2;
+  if ((cached_has_bits & 0x00000001u) != 0) {
+    const ::std::string& _s = this_._internal_reason();
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+        _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "RM_ResultEnterRoom.reason");
+    target = stream->WriteStringMaybeAliased(2, _s, target);
+  }
+
+  if (ABSL_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
+    target =
+        ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+            this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:RM_ResultEnterRoom)
+  return target;
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+::size_t RM_ResultEnterRoom::ByteSizeLong(const MessageLite& base) {
+  const RM_ResultEnterRoom& this_ = static_cast<const RM_ResultEnterRoom&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+::size_t RM_ResultEnterRoom::ByteSizeLong() const {
+  const RM_ResultEnterRoom& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(message_byte_size_start:RM_ResultEnterRoom)
+  ::size_t total_size = 0;
+
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void)cached_has_bits;
+
+  ::_pbi::Prefetch5LinesFrom7Lines(&this_);
+  cached_has_bits = this_._impl_._has_bits_[0];
+  total_size += static_cast<bool>(0x00000002u & cached_has_bits) * 2;
+   {
+    // string reason = 2;
+    if ((cached_has_bits & 0x00000001u) != 0) {
+      total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                      this_._internal_reason());
+    }
+  }
+  return this_.MaybeComputeUnknownFieldsSize(total_size,
+                                             &this_._impl_._cached_size_);
+}
+
+void RM_ResultEnterRoom::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
+  auto* const _this = static_cast<RM_ResultEnterRoom*>(&to_msg);
+  auto& from = static_cast<const RM_ResultEnterRoom&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:RM_ResultEnterRoom)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = from._impl_._has_bits_[0];
+  if ((cached_has_bits & 0x00000003u) != 0) {
+    if ((cached_has_bits & 0x00000001u) != 0) {
+      _this->_internal_set_reason(from._internal_reason());
+    }
+    if ((cached_has_bits & 0x00000002u) != 0) {
+      _this->_impl_.result_ = from._impl_.result_;
+    }
+  }
+  _this->_impl_._has_bits_[0] |= cached_has_bits;
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void RM_ResultEnterRoom::CopyFrom(const RM_ResultEnterRoom& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:RM_ResultEnterRoom)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+
+void RM_ResultEnterRoom::InternalSwap(RM_ResultEnterRoom* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
+  using ::std::swap;
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.reason_, &other->_impl_.reason_, arena);
+  swap(_impl_.result_, other->_impl_.result_);
+}
+
+::google::protobuf::Metadata RM_ResultEnterRoom::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class RM_BroadcastMessage::_Internal {
+ public:
+  using HasBits =
+      decltype(::std::declval<RM_BroadcastMessage>()._impl_._has_bits_);
+  static constexpr ::int32_t kHasBitsOffset =
+      8 * PROTOBUF_FIELD_OFFSET(RM_BroadcastMessage, _impl_._has_bits_);
+};
+
+RM_BroadcastMessage::RM_BroadcastMessage(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, RM_BroadcastMessage_class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:RM_BroadcastMessage)
+}
+PROTOBUF_NDEBUG_INLINE RM_BroadcastMessage::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
+    const ::RM_BroadcastMessage& from_msg)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0},
+        message_(arena, from.message_) {}
+
+RM_BroadcastMessage::RM_BroadcastMessage(
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena,
+    const RM_BroadcastMessage& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, RM_BroadcastMessage_class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  RM_BroadcastMessage* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
+  _impl_.time_ = from._impl_.time_;
+
+  // @@protoc_insertion_point(copy_constructor:RM_BroadcastMessage)
+}
+PROTOBUF_NDEBUG_INLINE RM_BroadcastMessage::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+      : _cached_size_{0},
+        message_(arena) {}
+
+inline void RM_BroadcastMessage::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  _impl_.time_ = {};
+}
+RM_BroadcastMessage::~RM_BroadcastMessage() {
+  // @@protoc_insertion_point(destructor:RM_BroadcastMessage)
+  SharedDtor(*this);
+}
+inline void RM_BroadcastMessage::SharedDtor(MessageLite& self) {
+  RM_BroadcastMessage& this_ = static_cast<RM_BroadcastMessage&>(self);
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  this_._impl_.message_.Destroy();
+  this_._impl_.~Impl_();
+}
+
+inline void* PROTOBUF_NONNULL RM_BroadcastMessage::PlacementNew_(
+    const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
+  return ::new (mem) RM_BroadcastMessage(arena);
+}
+constexpr auto RM_BroadcastMessage::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::CopyInit(sizeof(RM_BroadcastMessage),
+                                            alignof(RM_BroadcastMessage));
+}
+constexpr auto RM_BroadcastMessage::InternalGenerateClassData_() {
+  return ::google::protobuf::internal::ClassDataFull{
+      ::google::protobuf::internal::ClassData{
+          &_RM_BroadcastMessage_default_instance_._instance,
+          &_table_.header,
+          nullptr,  // OnDemandRegisterArenaDtor
+          nullptr,  // IsInitialized
+          &RM_BroadcastMessage::MergeImpl,
+          ::google::protobuf::Message::GetNewImpl<RM_BroadcastMessage>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+          &RM_BroadcastMessage::SharedDtor,
+          ::google::protobuf::Message::GetClearImpl<RM_BroadcastMessage>(), &RM_BroadcastMessage::ByteSizeLong,
+              &RM_BroadcastMessage::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          PROTOBUF_FIELD_OFFSET(RM_BroadcastMessage, _impl_._cached_size_),
+          false,
+      },
+      &RM_BroadcastMessage::kDescriptorMethods,
+      &descriptor_table_room_5fmessage_2eproto,
+      nullptr,  // tracker
+  };
+}
+
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const
+    ::google::protobuf::internal::ClassDataFull RM_BroadcastMessage_class_data_ =
+        RM_BroadcastMessage::InternalGenerateClassData_();
+
+PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
+RM_BroadcastMessage::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&RM_BroadcastMessage_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(RM_BroadcastMessage_class_data_.tc_table);
+  return RM_BroadcastMessage_class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<1, 2, 0, 35, 2>
+RM_BroadcastMessage::_table_ = {
+  {
+    PROTOBUF_FIELD_OFFSET(RM_BroadcastMessage, _impl_._has_bits_),
+    0, // no _extensions_
+    2, 8,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967292,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    2,  // num_field_entries
+    0,  // num_aux_entries
+    offsetof(decltype(_table_), field_names),  // no aux_entries
+    RM_BroadcastMessage_class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::RM_BroadcastMessage>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    // int32 time = 2;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(RM_BroadcastMessage, _impl_.time_), 1>(),
+     {16, 1, 0, PROTOBUF_FIELD_OFFSET(RM_BroadcastMessage, _impl_.time_)}},
+    // string message = 1;
+    {::_pbi::TcParser::FastUS1,
+     {10, 0, 0, PROTOBUF_FIELD_OFFSET(RM_BroadcastMessage, _impl_.message_)}},
+  }}, {{
+    65535, 65535
+  }}, {{
+    // string message = 1;
+    {PROTOBUF_FIELD_OFFSET(RM_BroadcastMessage, _impl_.message_), _Internal::kHasBitsOffset + 0, 0,
+    (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
+    // int32 time = 2;
+    {PROTOBUF_FIELD_OFFSET(RM_BroadcastMessage, _impl_.time_), _Internal::kHasBitsOffset + 1, 0,
+    (0 | ::_fl::kFcOptional | ::_fl::kInt32)},
+  }},
+  // no aux_entries
+  {{
+    "\23\7\0\0\0\0\0\0"
+    "RM_BroadcastMessage"
+    "message"
+  }},
+};
+PROTOBUF_NOINLINE void RM_BroadcastMessage::Clear() {
+// @@protoc_insertion_point(message_clear_start:RM_BroadcastMessage)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  cached_has_bits = _impl_._has_bits_[0];
+  if ((cached_has_bits & 0x00000001u) != 0) {
+    _impl_.message_.ClearNonDefaultToEmpty();
+  }
+  _impl_.time_ = 0;
+  _impl_._has_bits_.Clear();
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+::uint8_t* PROTOBUF_NONNULL RM_BroadcastMessage::_InternalSerialize(
+    const ::google::protobuf::MessageLite& base, ::uint8_t* PROTOBUF_NONNULL target,
+    ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) {
+  const RM_BroadcastMessage& this_ = static_cast<const RM_BroadcastMessage&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+::uint8_t* PROTOBUF_NONNULL RM_BroadcastMessage::_InternalSerialize(
+    ::uint8_t* PROTOBUF_NONNULL target,
+    ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
+  const RM_BroadcastMessage& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(serialize_to_array_start:RM_BroadcastMessage)
+  ::uint32_t cached_has_bits = 0;
+  (void)cached_has_bits;
+
+  cached_has_bits = this_._impl_._has_bits_[0];
+  // string message = 1;
+  if ((cached_has_bits & 0x00000001u) != 0) {
+    const ::std::string& _s = this_._internal_message();
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+        _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "RM_BroadcastMessage.message");
+    target = stream->WriteStringMaybeAliased(1, _s, target);
+  }
+
+  // int32 time = 2;
+  if ((cached_has_bits & 0x00000002u) != 0) {
+    target =
+        ::google::protobuf::internal::WireFormatLite::WriteInt32ToArrayWithField<2>(
+            stream, this_._internal_time(), target);
+  }
+
+  if (ABSL_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
+    target =
+        ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+            this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:RM_BroadcastMessage)
+  return target;
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+::size_t RM_BroadcastMessage::ByteSizeLong(const MessageLite& base) {
+  const RM_BroadcastMessage& this_ = static_cast<const RM_BroadcastMessage&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+::size_t RM_BroadcastMessage::ByteSizeLong() const {
+  const RM_BroadcastMessage& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(message_byte_size_start:RM_BroadcastMessage)
+  ::size_t total_size = 0;
+
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void)cached_has_bits;
+
+  ::_pbi::Prefetch5LinesFrom7Lines(&this_);
+  cached_has_bits = this_._impl_._has_bits_[0];
+  if ((cached_has_bits & 0x00000003u) != 0) {
+    // string message = 1;
+    if ((cached_has_bits & 0x00000001u) != 0) {
+      total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                      this_._internal_message());
+    }
+    // int32 time = 2;
+    if ((cached_has_bits & 0x00000002u) != 0) {
+      total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
+          this_._internal_time());
+    }
+  }
+  return this_.MaybeComputeUnknownFieldsSize(total_size,
+                                             &this_._impl_._cached_size_);
+}
+
+void RM_BroadcastMessage::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
+  auto* const _this = static_cast<RM_BroadcastMessage*>(&to_msg);
+  auto& from = static_cast<const RM_BroadcastMessage&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:RM_BroadcastMessage)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = from._impl_._has_bits_[0];
+  if ((cached_has_bits & 0x00000003u) != 0) {
+    if ((cached_has_bits & 0x00000001u) != 0) {
+      _this->_internal_set_message(from._internal_message());
+    }
+    if ((cached_has_bits & 0x00000002u) != 0) {
+      _this->_impl_.time_ = from._impl_.time_;
+    }
+  }
+  _this->_impl_._has_bits_[0] |= cached_has_bits;
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void RM_BroadcastMessage::CopyFrom(const RM_BroadcastMessage& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:RM_BroadcastMessage)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+
+void RM_BroadcastMessage::InternalSwap(RM_BroadcastMessage* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
+  using ::std::swap;
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.message_, &other->_impl_.message_, arena);
+  swap(_impl_.time_, other->_impl_.time_);
+}
+
+::google::protobuf::Metadata RM_BroadcastMessage::GetMetadata() const {
   return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
 }
 // @@protoc_insertion_point(namespace_scope)

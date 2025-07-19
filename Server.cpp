@@ -12,21 +12,22 @@ Server::Server(
       _udpSocket(io, asio::ip::udp::endpoint(asio::ip::udp::v4(), 51022))
 {
     _udpRecvBuffer = std::shared_ptr<char[]>(
-        new char[static_cast<size_t>(static_cast<size_t>(UDPBufferSize::RECV_BUFFER_SIZE))]);
+        new (std::nothrow) char[static_cast<size_t>(static_cast<size_t>(UDPBufferSize::RECV_BUFFER_SIZE))]);
 
-    _rm = std::make_shared<RoomManager>(io, _udpSocket);
-    // _udpSendBuffer = std::shared_ptr<char[]>(
-    //     new char[static_cast<size_t>(static_cast<size_t>(UDPBufferSize::SEND_BUFFER_SIZE))]);
+    ASSERT(_udpRecvBuffer != nullptr, "Server. Failed to allocate UDP receive buffer");
+
+    try
+    {
+        _rm = std::make_shared<RoomManager>(io, _udpSocket);
+    }
+    catch (const std::bad_alloc &e)
+    {
+        ASSERT(false, "Server. Failed to allocate RoomManager");
+    }
 }
 
 void Server::ReceiveUDP()
 {
-    // if (!_udpRecvBuffer)
-    // {
-    //     std::cout << "UDP Recv buffer is not initialized.(maybe alloc exception.)\n";
-    //     return;
-    // }
-
     _udpSocket.async_receive_from(
         asio::buffer(_udpRecvBuffer.get(), static_cast<size_t>(UDPBufferSize::RECV_BUFFER_SIZE)),
         _remoteEndpoint,
@@ -66,66 +67,28 @@ void Server::ReceiveUDP()
         });
 }
 
-bool Server::MoveClientToLogin(std::shared_ptr<ClientSocket> client, std::string nickname)
-{
-    std::scoped_lock sl{_connMtx, _loginedMtx};
-
-    int clientIndex = client->GetIndex();
-    auto cc = _connectedClients.find(clientIndex);
-
-    if (cc == _connectedClients.end())
-    {
-        std::cout << std::format("Not found connected client {}:{}\n",
-                                 clientIndex, nickname);
-        // do nothing on the server side.
-        return false;
-    }
-
-    if (_loginedClients.find(clientIndex) != _loginedClients.end())
-    {
-        std::cout << std::format("client {}:{} has aleady logined\n",
-                                 clientIndex, nickname);
-
-        return false;
-    }
-    else
-    {
-        _loginedClients[clientIndex] = cc->second;
-        _connectedClients.erase(cc);
-
-        return true;
-    }
-}
-
 void Server::RemoveClient(int index)
 {
-    std::scoped_lock sl{_connMtx, _loginedMtx};
+    std::scoped_lock sl{_connMtx};
+
     _connectedClients.erase(index);
-    _loginedClients.erase(index);
 }
 
-void Server::PassClientToRoomManager(std::shared_ptr<ClientSocket> client)
-{
-    std::scoped_lock sl{_loginedMtx};
-    _rm->Enter(client->GetIndex(), std::weak_ptr<ClientSocket>(client));
-}
+// bool Server::TryLogin(std::shared_ptr<ClientSocket> client, std::string &reason)
+// {
+//     return _rm->Login(std::weak_ptr<ClientSocket>(client), reason);
+// }
 
 void Server::Stop()
 {
-    std::scoped_lock sl{_connMtx, _loginedMtx};
+    std::scoped_lock sl{_connMtx};
 
     for (auto &c : _connectedClients)
     {
         c.second->Stop();
     }
 
-    for (auto &c : _loginedClients)
-    {
-        c.second->Stop();
-    }
-
     _connectedClients.clear();
-    _loginedClients.clear();
 }
 
 void Server::AddClient(std::shared_ptr<ClientSocket> client)
@@ -137,122 +100,76 @@ void Server::AddClient(std::shared_ptr<ClientSocket> client)
 
     std::weak_ptr wclient{client};
     auto self = shared_from_this();
-    
+
     // io_context.stop()이 Server 소멸보다 먼저 호출될 것을 보장할 것
     client->SetPacketHandler(
-        PLM_Type::CTM_REQUEST_LOGIN,
+        LM_Type::CM_REQUEST_LOGIN,
         [self, wclient](char *serializedData, int length)
         {
             if (auto c = wclient.lock())
             {
-                PLM_RequestLogin msg;
-                // std::cout << std::format("c use_count: {}\n", client.use_count());
-
-                if (msg.ParseFromArray(serializedData, length))
-                {
-                    std::string nickname{msg.nickname()};
-
-                    c->SetNickname(nickname);
-
-                    PLM_LoginResult lr;
-                    
-                    {
-                        bool res = self->MoveClientToLogin(c, nickname);
-
-                        if (res)
-                        {
-
-                            lr.set_clientindex(c->GetIndex());
-                        }
-                        else
-                        {
-                            lr.set_clientindex(-1);
-                            lr.set_reason("Not found as connected client");
-                        }
-                    }
-
-                    std::string message{std::format("client nickname: {}. login allowed.", nickname)};
-                    std::cout << message << std::endl;
-                    // for (auto &c : message)
-                    // {
-                    //     printf("0x%X(%c) ", c, c);
-                    // }
-
-                    // printf("\n");
-
-                    std::string lrString{lr.SerializeAsString()};
-
-                    std::vector<char> t;
-                    append_prot_packet(
-                        t,
-                        static_cast<int>(PLM_Type::STM_RESULT_LOGIN),
-                        static_cast<int>(lrString.length()) + 12);
-                    t.insert(t.end(), lrString.begin(), lrString.end());
-                    // t.push_back(message.begin(), message.end());
-                    c->PostWrite(t);
-
-                    self->PassClientToRoomManager(c);
-                }
-                else
-                {
-                    PLM_LoginResult lr;
-
-                    lr.set_clientindex(-1);
-                    lr.set_reason("CTM_REQUEST_LOGIN parsing error.");
-
-                    std::string lrString{lr.SerializeAsString()};
-                    std::vector<char> t;
-
-                    append_prot_packet(
-                        t,
-                        static_cast<int>(PLM_Type::STM_RESULT_LOGIN),
-                        static_cast<int>(lrString.length()) + 12);
-                    t.insert(t.end(), lrString.begin(), lrString.end());
-
-                    c->PostWrite(t);
-                }
+                self->HandleRequestLogin(c, serializedData, length);
             }
         });
 
-    // client->SetPacketHandler(
-    //     PM_MessageType::CTM_REQUEST_ROOM_LIST,
-    //     [self, wclient](char *serializedData, int length)
-    //     {
-    //         if (auto c = wclient.lock())
-    //         {
-    //             c->ClearHandler();
-
-    //             self->PassClientToRoomManager(c);
-
-    //             PM_RequestSyncResult rsr;
-    //             rsr.set_roomindex(100);
-
-    //             std::string rsrString{rsr.SerializeAsString()};
-
-    //             std::vector<char> t;
-    //             append_prot_packet(
-    //                 t,
-    //                 static_cast<int>(STM_RESULT_ROOM_LIST),
-    //                 static_cast<int>(rsrString.length()) + 12);
-    //             t.insert(t.end(), rsrString.begin(), rsrString.end());
-
-    //             c->PostWrite(t);
-    //         }
-    //     });
-
-    client->SetPacketHandler(
-        PEM_Type::PEM_DISCONNECTED,
-        [self, wclient](char *serializedData, int length)
+    client->SetDisconnectHandler(
+        EM_Type::EM_DISCONNECTED,
+        [self, wclient](system::error_code &ec)
         {
             if (auto c = wclient.lock())
             {
                 int index = c->GetIndex();
 
-                std::cout << std::format("client {} / {} disconnected\n", index, c->GetNickname());
-
+                c->Stop();
                 self->RemoveClient(index);
             }
         });
+}
+
+void Server::HandleRequestLogin(std::shared_ptr<ClientSocket> client, char *serializedData, int length)
+{
+    LM_RequestLogin msg;
+    // std::cout << std::format("c use_count: {}\n", client.use_count());
+    LM_LoginResult lr;
+
+    if (msg.ParseFromArray(serializedData, length))
+    {
+        std::string nickname{msg.nickname()};
+
+        client->SetNickname(nickname);
+
+        {
+            std::string reason;
+            bool res = _rm->Login(client, reason);
+
+            if (res)
+            {
+                lr.set_token(client->GetToken());
+                lr.set_reason("ok");
+            }
+            else
+            {
+                lr.set_token(0);
+                lr.set_reason(std::move(reason));
+            }
+        }
+    }
+    else
+    {
+        lr.set_token(0);
+        lr.set_reason("CTM_REQUEST_LOGIN parsing error.");
+    }
+
+    std::string lrString{lr.SerializeAsString()};
+    std::vector<char> t;
+
+    append_prot_packet(
+        t,
+        static_cast<int>(LM_Type::SM_RESPONSE_LOGIN),
+        static_cast<int>(lrString.length()) + 12);
+    t.insert(t.end(), lrString.begin(), lrString.end());
+
+    client->PostWrite(t);
 }
 
 void Server::StartUDPReceive()
@@ -266,22 +183,15 @@ void Server::StartUDPReceive()
 
 void Server::PrintStatus()
 {
-    std::scoped_lock sl{_connMtx, _loginedMtx};
+    std::scoped_lock sl{_connMtx};
 
-    std::cout << "--- just connected clients ---\n";
+    std::cout << "--- connected clients ---\n";
     for (auto &pair : _connectedClients)
     {
         std::cout << std::format("{}: ---\n", pair.first);
     }
-    std::cout << "------------------------------\n\n";
 
-    std::cout << "--- logined client ---\n";
-    for (auto &pair : _loginedClients)
-    {
-        if (pair.second.use_count() > 0)
-            std::cout << std::format("{}: {}\n", pair.first, pair.second->GetNickname());
-    }
-    std::cout << "-----------------------\n\n";
+    std::cout << "-------------------------\n\n";
 
     _rm->PrintStatus();
 }
