@@ -8,7 +8,7 @@ find_package(protobuf REQUIRED)
 
 #link_directories(/usr/local/lib)
 
-add_subdirectory(./protoc)
+add_subdirectory(./isolation_pb)
 
 set(SOURCES
     main.cpp
