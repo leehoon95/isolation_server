@@ -8,7 +8,7 @@ find_package(Protobuf REQUIRED)
 
 file(GLOB PROTO_FILES ./*.proto)
 
-protobuf_generate_cpp(PROTO_SRCS PROTO_HDRS ${PROTO_FILES})
+#protobuf_generate_cpp(PROTO_SRCS PROTO_HDRS ${PROTO_FILES})
 
 add_library(myproto STATIC 
     proto_message.pb.cc

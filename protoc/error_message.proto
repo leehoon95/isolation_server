@@ -1,7 +1,0 @@
-edition="2023";
-
-enum EM_Type {
-	EM_UNSPECIFIED = 0;
-    EM_DISCONNECTED = 1;
-	EM_ENDOFFILE = 2;
-}

@@ -201,7 +201,7 @@ int RoomManager::CreateRoom(std::shared_ptr<ClientSocket> client, const std::str
         {
             reason = std::move(erReason);
             _rooms.erase(_roomIndex);
-            
+
             return -1;
         }
 
