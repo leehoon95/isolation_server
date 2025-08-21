@@ -1,7 +1,7 @@
 #include "ClientSocket.h"
 #include <iostream>
 #include <format>
-#include "protoc/error_message.pb.h"
+#include "isolation_pb/error_message.pb.h"
 #include "util.h"
 
 using namespace boost;
@@ -27,7 +27,7 @@ void ClientSocket::ReadAsync()
         {
             if (length == 0)
             {
-                self->HandleDisconnect(ec);
+                self->HandleError(ec);
             }
             else if (!ec)
             {
@@ -104,19 +104,17 @@ void ClientSocket::ReadAsync()
             else
             {
                 self->HandleError(ec);
-                std::cout << std::format("Client Socket error: {}. what: {} .\n", ec.value(), ec.what());
             }
         });
 }
 
 void ClientSocket::WriteAsync()
 {
+    std::cout << "WriteAsync before lock\n";
     std::scoped_lock<std::mutex> sl{_writeBufferMtx};
 
     if (_writeBufferQueue.empty())
         return;
-
-    _writeInProcessing = true;
 
     auto bufferShared = _writeBufferQueue.front();
 
@@ -132,10 +130,8 @@ void ClientSocket::WriteAsync()
                                 {
                                     self->PopFrontWriteBuffer();
 
-                                    if (self->IsWriteBufferQueueEmpty())
+                                    if (!self->IsWriteBufferQueueEmpty())
                                         self->WriteAsync();
-                                    else
-                                        self->SetWriteProcessing(false);
 
                                     std::cout << "transferred: " << transferred << std::endl;
                                 }
@@ -177,23 +173,17 @@ bool ClientSocket::IsWriteBufferQueueEmpty()
     return _writeBufferQueue.empty();
 }
 
-bool ClientSocket::IsWriteProcessing()
-{
-    return _writeInProcessing.load();
-}
-
-void ClientSocket::SetWriteProcessing(bool value)
-{
-    _writeInProcessing = value;
-}
-
 bool ClientSocket::HandlePacket(int type, char *data, int length)
 {
+    std::function<void(char *, int)> handler;
 
-    std::scoped_lock<std::mutex> sl{_packetHandlerMtx};
-
-    if (_packetHandler.find(type) == _packetHandler.end())
-        return false;
+    {
+        std::scoped_lock<std::mutex> sl{_packetHandlerMtx};
+        if (_packetHandler.find(type) == _packetHandler.end())
+            return false;
+        else
+            handler = _packetHandler[type];
+    }
 
     if (type == EM_Type::EM_DISCONNECTED)
     {
@@ -205,8 +195,8 @@ bool ClientSocket::HandlePacket(int type, char *data, int length)
 
         return true;
     }
-
-    _packetHandler[type](data, length);
+    
+    handler(data, length);
 
     return true;
 }
@@ -215,19 +205,8 @@ void ClientSocket::HandleError(boost::system::error_code &ec)
 {
     auto re = _socket.remote_endpoint();
     std::cout << std::format(
-        "Client socket Error: {} ({}:{})\n",
+        "Client socket Error: {} ({}:{})\nClient socket is closed.\n",
         ec.what(),
-        re.address().to_string(),
-        re.port());
-    
-    HandleDisconnect(ec);
-}
-
-void ClientSocket::HandleDisconnect(boost::system::error_code &ec)
-{
-    auto re = _socket.remote_endpoint();
-    std::cerr << std::format(
-        "Client socket is closed. ({}:{})\n",
         re.address().to_string(),
         re.port());
 
@@ -255,16 +234,12 @@ bool ClientSocket::Init(int index)
 
 void ClientSocket::Stop()
 {
-    std::cout << std::format("STOP Client {} / {}.\n", _index, _nickname);
     system::error_code ec;
     _socket.shutdown(asio::ip::tcp::socket::shutdown_both, ec);
     _socket.close(ec);
     _stopped = true;
 
-    if (!ec)
-    {
-        std::cout << std::format("STOP Client {} / {}. error: {}\n", _index, _nickname, ec.what());
-    }
+    std::cout << std::format("STOP Client {} / {}. error: {}\n", _index, _nickname, ec.what());
 }
 
 bool ClientSocket::PostWrite(std::vector<char> &data)
@@ -272,13 +247,13 @@ bool ClientSocket::PostWrite(std::vector<char> &data)
     auto buffer = std::make_shared<std::vector<char>>(std::move(data));
 
     auto self = shared_from_this();
-
-    asio::post(_strand, [self, buffer]()
-               {
-        self->PushWriteBuffer(buffer);
-
-        if (!self->IsWriteProcessing())
-            self->WriteAsync(); });
+    PushWriteBuffer(buffer);
+    WriteAsync();
+    // strand로 직렬화된 작업 안에서 또 strand를 사용하는 함수를 호출하지 마라
+    // asio::post(_strand, [self, buffer]()
+    // ...
+    //         self->WriteAsync();
+    // ...
 
     return true;
 }
@@ -291,7 +266,7 @@ void ClientSocket::SetPacketHandler(int type, std::function<void(char *, int)> h
     _packetHandler[type] = handler;
 }
 
-void ClientSocket::SetDisconnectHandler(int type, std::function<void(boost::system::error_code&)> handler)
+void ClientSocket::SetDisconnectHandler(int type, std::function<void(boost::system::error_code &)> handler)
 {
     std::scoped_lock<std::mutex> sl{_disconnectHandlerMtx};
 

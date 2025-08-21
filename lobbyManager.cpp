@@ -1,21 +1,22 @@
-#include "roomManager.h"
+#include "lobbyManager.h"
 #include "util.h"
-#include "protoc/room_message.pb.h"
+#include "isolation_pb/lobby_message.pb.h"
+#include "redisService.h"
 
 using namespace boost;
 
-RoomManager::RoomManager(asio::io_context &io, asio::ip::udp::socket &socket)
+LobbyManager::LobbyManager(asio::io_context &io, asio::ip::udp::socket &socket)
     : _io(io),
       _udpSocket(socket),
       _roomIndex(0)
 {
 }
 
-bool RoomManager::Login(std::shared_ptr<ClientSocket> client, std::string &reason)
+bool LobbyManager::Login(std::shared_ptr<ClientSocket> client, std::string &reason)
 {
     if (!client)
     {
-        reason = "RoomManager::Login: Client is not valid.";
+        reason = "LobbyManager::Login: Client is not valid.";
         return false;
     }
 
@@ -23,31 +24,37 @@ bool RoomManager::Login(std::shared_ptr<ClientSocket> client, std::string &reaso
 
     if (nickname.length() < 3)
     {
-        reason = "RoomManager::Login: Client nickname is not valid.";
+        reason = "LobbyManager::Login: Client nickname is not valid.";
         return false;
     }
 
     std::scoped_lock<std::mutex> sl{_loginedClientMtx};
 
-    // 닉네임 중복검사는 하지 않음 25.07.16
-    // if (_loginedClients.find(nickname) != _loginedClients.end())
-    // {
-    //     return "RoomManager::Login: Client is logined aleady.";
-    // }
+    RS &rs = RS::Instance();
+
+    bool nicknameExists = rs.Exists(nickname); // 중복검사
+
+    if (nicknameExists)
+    {
+        reason = "This nickname is already exists";
+        return false;
+    }
+
+    auto token = _tokenPool.allocate();
+
+    rs.HashSet(std::format("user:{}", nickname), "lastToken", std::to_string(token));
 
     client->ClearPacketHandler();
     client->ClearDisconnectHandler();
-
-    auto token = _tokenPool.allocate();
 
     _loginedClients[token] = client;
     client->SetToken(token);
 
     std::weak_ptr<ClientSocket> wc{client};
-    std::weak_ptr<RoomManager> wrm{shared_from_this()};
+    std::weak_ptr<LobbyManager> wrm{shared_from_this()};
 
     client->SetPacketHandler(
-        RM_Type::CM_REQUEST_ROOM_LIST,
+        LobbyMessage_Type::REQUEST_ROOM_LIST,
         [wrm, wc](char *serializedData, int length)
         {
             if (auto c = wc.lock())
@@ -60,7 +67,7 @@ bool RoomManager::Login(std::shared_ptr<ClientSocket> client, std::string &reaso
         });
 
     client->SetPacketHandler(
-        RM_Type::CM_REQUEST_CREATE_ROOM,
+        LobbyMessage_Type::REQUEST_CREATE_ROOM,
         [wrm, wc](char *serializedData, int length)
         {
             if (auto c = wc.lock())
@@ -73,7 +80,7 @@ bool RoomManager::Login(std::shared_ptr<ClientSocket> client, std::string &reaso
         });
 
     client->SetPacketHandler(
-        RM_Type::CM_REQUEST_ROOM_ENTER,
+        LobbyMessage_Type::REQUEST_ROOM_ENTER,
         [wrm, wc](char *serializedData, int length)
         {
             if (auto c = wc.lock())
@@ -86,7 +93,7 @@ bool RoomManager::Login(std::shared_ptr<ClientSocket> client, std::string &reaso
         });
 
     client->SetPacketHandler(
-        RM_Type::CM_REQUEST_ROOM_LEAVE,
+        LobbyMessage_Type::REQUEST_ROOM_LEAVE,
         [wrm, wc](char *serializedData, int length)
         {
             if (auto c = wc.lock())
@@ -99,7 +106,7 @@ bool RoomManager::Login(std::shared_ptr<ClientSocket> client, std::string &reaso
         });
 
     client->SetDisconnectHandler(
-        RM_Type::RM_DISCONNECTED,
+        LobbyMessage_Type::LBMT_DISCONNECTED,
         [wrm, wc](system::error_code &ec)
         {
             if (auto c = wc.lock())
@@ -116,7 +123,7 @@ bool RoomManager::Login(std::shared_ptr<ClientSocket> client, std::string &reaso
     return true;
 }
 
-void RoomManager::DisconnectedClient(std::shared_ptr<ClientSocket> client)
+void LobbyManager::DisconnectedClient(std::shared_ptr<ClientSocket> client)
 {
     std::scoped_lock<std::mutex> sl{_loginedClientMtx};
 
@@ -127,7 +134,7 @@ void RoomManager::DisconnectedClient(std::shared_ptr<ClientSocket> client)
     _tokenPool.release(token);
 }
 
-std::weak_ptr<Room> RoomManager::GetRoom(int roomIndex)
+std::weak_ptr<Room> LobbyManager::GetRoom(int roomIndex)
 {
     std::scoped_lock<std::mutex> sl{_roomsMtx};
     if (_rooms.find(roomIndex) == _rooms.end())
@@ -136,15 +143,15 @@ std::weak_ptr<Room> RoomManager::GetRoom(int roomIndex)
     return _rooms[roomIndex];
 }
 
-void RoomManager::PrintStatus()
+void LobbyManager::PrintStatus()
 {
 }
 
-void RoomManager::SendCurrentRoomList(std::shared_ptr<ClientSocket> client)
+void LobbyManager::SendCurrentRoomList(std::shared_ptr<ClientSocket> client)
 {
     std::scoped_lock<std::mutex> sl{_roomListCacheMtx};
 
-    RM_ResultRoomList rrl;
+    M_ResponseRoomList rrl;
 
     if (_roomListCache.empty())
     {
@@ -156,7 +163,7 @@ void RoomManager::SendCurrentRoomList(std::shared_ptr<ClientSocket> client)
 
         for (const auto &entry : _roomListCache)
         {
-            RM_RoomSmallInfo *rsi = rrl.add_list();
+            M_RoomSmallInfo *rsi = rrl.add_list();
             rsi->set_roomindex(entry.second.first);
             rsi->set_roomname(entry.second.second);
         }
@@ -167,14 +174,14 @@ void RoomManager::SendCurrentRoomList(std::shared_ptr<ClientSocket> client)
 
     append_prot_packet(
         t,
-        static_cast<int>(RM_Type::SM_RESPONSE_ROOM_LIST),
+        static_cast<int>(LobbyMessage_Type::RESPONSE_ROOM_LIST),
         static_cast<int>(rrlString.length()) + 12);
     t.insert(t.end(), rrlString.begin(), rrlString.end());
 
     client->PostWrite(t);
 }
 
-int RoomManager::CreateRoom(std::shared_ptr<ClientSocket> client, const std::string &name, std::string &reason)
+int LobbyManager::CreateRoom(std::shared_ptr<ClientSocket> client, const std::string &name, std::string &reason)
 {
     std::scoped_lock<std::mutex> sl{_roomsMtx};
 
@@ -209,7 +216,7 @@ int RoomManager::CreateRoom(std::shared_ptr<ClientSocket> client, const std::str
     }
 }
 
-bool RoomManager::EnterRoom(std::shared_ptr<ClientSocket> client, int roomIndex, std::string &reason)
+bool LobbyManager::EnterRoom(std::shared_ptr<ClientSocket> client, int roomIndex, std::string &reason)
 {
     std::scoped_lock<std::mutex> sl{_roomsMtx};
 
@@ -225,14 +232,14 @@ bool RoomManager::EnterRoom(std::shared_ptr<ClientSocket> client, int roomIndex,
     return res;
 }
 
-void RoomManager::LeaveRoom(std::shared_ptr<ClientSocket> client, int roomIndex)
+void LobbyManager::LeaveRoom(std::shared_ptr<ClientSocket> client, int roomIndex)
 {
 }
 
-void RoomManager::HandleRequestCreateRoom(std::shared_ptr<ClientSocket> client, char *serializedData, int length)
+void LobbyManager::HandleRequestCreateRoom(std::shared_ptr<ClientSocket> client, char *serializedData, int length)
 {
-    RM_RequestCreateRoom rcr;
-    RM_ResultCreateRoom response;
+    M_RequestCreateRoom rcr;
+    M_ResponseCreateRoom response;
 
     if (rcr.ParseFromArray(serializedData, length))
     {
@@ -263,16 +270,16 @@ void RoomManager::HandleRequestCreateRoom(std::shared_ptr<ClientSocket> client, 
 
     append_prot_packet(
         t,
-        static_cast<int>(RM_Type::SM_RESPONSE_CREATE_ROOM),
+        static_cast<int>(LobbyMessage_Type::RESPONSE_CREATE_ROOM),
         static_cast<int>(rcrString.length()) + 12);
 
     client->PostWrite(t);
 }
 
-void RoomManager::HandleRequestEnterToRoom(std::shared_ptr<ClientSocket> client, char *serializedData, int length)
+void LobbyManager::HandleRequestEnterToRoom(std::shared_ptr<ClientSocket> client, char *serializedData, int length)
 {
-    RM_RequestEnterRoom rer;
-    RM_ResultEnterRoom response;
+    M_RequestEnterRoom rer;
+    M_ResponseEnterRoom response;
 
     if (rer.ParseFromArray(serializedData, length))
     {
@@ -303,20 +310,20 @@ void RoomManager::HandleRequestEnterToRoom(std::shared_ptr<ClientSocket> client,
 
     append_prot_packet(
         t,
-        static_cast<int>(RM_Type::SM_RESPONSE_CREATE_ROOM),
+        static_cast<int>(LobbyMessage_Type::RESPONSE_CREATE_ROOM),
         static_cast<int>(rcrString.length()) + 12);
 
     client->PostWrite(t);
 }
 
-void RoomManager::HandleRequestLeaveFromRoom(std::shared_ptr<ClientSocket> client, char *serializedData, int length)
+void LobbyManager::HandleRequestLeaveFromRoom(std::shared_ptr<ClientSocket> client, char *serializedData, int length)
 {
 }
 
-void RoomManager::HandleRequestLogout(std::shared_ptr<ClientSocket> client, char *serializedData, int length)
+void LobbyManager::HandleRequestLogout(std::shared_ptr<ClientSocket> client, char *serializedData, int length)
 {
 }
 
-void RoomManager::ForwardUDPData(char *data, int length)
+void LobbyManager::ForwardUDPData(char *data, int length)
 {
 }

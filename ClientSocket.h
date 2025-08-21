@@ -22,7 +22,6 @@ class ClientSocket : public std::enable_shared_from_this<ClientSocket>
     std::shared_ptr<char[]> _recvBuffer;
 
     std::deque<std::shared_ptr<std::vector<char>>> _writeBufferQueue;
-    std::atomic<bool> _writeInProcessing;
     boost::asio::strand<boost::asio::io_context::executor_type> _strand;
     std::mutex _writeBufferMtx;
 
@@ -46,11 +45,8 @@ private:
     std::shared_ptr<std::vector<char>> GetFrontWriteBuffer();
     void PopFrontWriteBuffer();
     bool IsWriteBufferQueueEmpty();
-    bool IsWriteProcessing();
-    void SetWriteProcessing(bool value);
     bool HandlePacket(int type, char *data, int length);
     void HandleError(boost::system::error_code &ec);
-    void HandleDisconnect(boost::system::error_code &ec);
     std::shared_ptr<char[]> GetReceiveBuffer() { return _recvBuffer; };
 
 public:
@@ -60,7 +56,7 @@ public:
     bool Init(int index);
     void Stop();
     bool PostWrite(std::vector<char> &data);
-    void SetMessageDeserializer(std::function<void(char *, int)> dispatcher);
+    //void SetMessageDeserializer(std::function<void(char *, int)> dispatcher);
     void SetPacketHandler(int type, std::function<void(char *, int)> handler);
     void SetDisconnectHandler(int type, std::function<void(boost::system::error_code&)> handler);
     void RemovePacketHandler(int type);

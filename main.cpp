@@ -3,15 +3,14 @@
 #include <boost/asio.hpp>
 #include <memory>
 #include <format>
-#include <set>
-#include "TestAsyncServer.h"
-#include "Server.h"
 
 #include <unistd.h>
 #include <arpa/inet.h>
 #include <sys/socket.h>
 
 #include "Acceptor.h"
+#include "TestAsyncServer.h"
+#include "Server.h"
 
 using namespace boost;
 using boost::asio::ip::tcp;
@@ -23,7 +22,7 @@ int main()
 	try
 	{
 		boost::asio::io_context io_context;
-		//std::map<unsigned int, std::shared_ptr<Server>> Servers;
+		// std::map<unsigned int, std::shared_ptr<Server>> Servers;
 		auto server = std::make_shared<Server>(io_context);
 		asio::executor_work_guard<asio::io_context::executor_type> work_guard = asio::make_work_guard(io_context);
 		unsigned int clientIndex = 0;
@@ -32,22 +31,22 @@ int main()
 
 		std::vector<std::thread> ioThreads;
 
-		for (int i = 0; i < 8; ++i) {
+		for (int i = 0; i < 8; ++i)
+		{
 			ioThreads.emplace_back([&, i]()
-			{
+								   {
 				std::cout << std::format("io_context.run() {}...\n", i);
 				io_context.run();
-				std::cout << "io_context.run() is returned!!!\n";
-			});
+				std::cout << "io_context.run() is returned!!!\n"; });
 		}
 
-		acceptor.Accept([&](asio::ip::tcp::socket socket){
+		acceptor.Accept([&](asio::ip::tcp::socket socket)
+						{
 			//auto server = std::make_shared<Server>(std::move(socket));
 			
 			server->AddClient(
 				std::make_shared<ClientSocket>(io_context, std::move(socket))
-			);
-		});
+			); });
 
 		while (true)
 		{
@@ -71,7 +70,7 @@ int main()
 			}
 			else
 			{
-				//server.Notify(cmd);
+				// server.Notify(cmd);
 			}
 		}
 
@@ -79,10 +78,11 @@ int main()
 
 		// testAsyncSendThread.join();
 
-		// for (auto& th : ioThreads) {
-		// 	th.join();
-		// }
-		//ioThread.join();
+		io_context.stop();
+		for (auto& th : ioThreads) {
+			th.join();
+		}
+		// ioThread.join();
 
 		std::cout << "All io thread is joined\n";
 	}
@@ -91,7 +91,7 @@ int main()
 		std::cerr << "Exception: " << e.what() << "\n";
 	}
 
-	// TestAsioAsync();
+	std::cout << "Server closed\n";
 
 	return 0;
 }

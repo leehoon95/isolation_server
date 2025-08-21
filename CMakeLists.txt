@@ -19,7 +19,7 @@ set(SOURCES
     Acceptor.cpp
     util.cpp
     room.cpp
-    roomManager.cpp
+    lobbyManager.cpp
 )
 
 add_executable(test_server ${SOURCES})

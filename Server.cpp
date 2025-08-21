@@ -1,7 +1,7 @@
 #include "Server.h"
 #include <iostream>
-#include "protoc/login_message.pb.h"
-#include "protoc/error_message.pb.h"
+#include "isolation_pb/login_message.pb.h"
+#include "isolation_pb/error_message.pb.h"
 #include "util.h"
 
 using namespace boost;
@@ -18,11 +18,11 @@ Server::Server(
 
     try
     {
-        _rm = std::make_shared<RoomManager>(io, _udpSocket);
+        _lm = std::make_shared<LobbyManager>(io, _udpSocket);
     }
     catch (const std::bad_alloc &e)
     {
-        ASSERT(false, "Server. Failed to allocate RoomManager");
+        ASSERT(false, "Server. Failed to allocate LobbyManager");
     }
 }
 
@@ -53,7 +53,7 @@ void Server::ReceiveUDP()
                     }
                     else
                     {
-                        _rm->ForwardUDPData(&_udpRecvBuffer[12], length);
+                        //_rm->ForwardUDPData(&_udpRecvBuffer[12], length);
                     }
                 }
 
@@ -99,38 +99,44 @@ void Server::AddClient(std::shared_ptr<ClientSocket> client)
     client->Init(_clientIndex);
 
     std::weak_ptr wclient{client};
-    auto self = shared_from_this();
+    std::weak_ptr<Server> wself{shared_from_this()};
 
     // io_context.stop()이 Server 소멸보다 먼저 호출될 것을 보장할 것
     client->SetPacketHandler(
-        LM_Type::CM_REQUEST_LOGIN,
-        [self, wclient](char *serializedData, int length)
+        LoginMessage_Type::REQUEST_LOGIN,
+        [wself, wclient](char *serializedData, int length)
         {
-            if (auto c = wclient.lock())
+            if (auto s = wself.lock())
             {
-                self->HandleRequestLogin(c, serializedData, length);
+                if (auto c = wclient.lock())
+                {
+                    s->HandleRequestLogin(c, serializedData, length);
+                }
             }
         });
 
     client->SetDisconnectHandler(
         EM_Type::EM_DISCONNECTED,
-        [self, wclient](system::error_code &ec)
+        [wself, wclient](system::error_code &ec)
         {
-            if (auto c = wclient.lock())
+            if (auto s = wself.lock())
             {
-                int index = c->GetIndex();
+                if (auto c = wclient.lock())
+                {
+                    int index = c->GetIndex();
 
-                c->Stop();
-                self->RemoveClient(index);
+                    c->Stop();
+                    s->RemoveClient(index);
+                }
             }
         });
 }
 
 void Server::HandleRequestLogin(std::shared_ptr<ClientSocket> client, char *serializedData, int length)
 {
-    LM_RequestLogin msg;
-    // std::cout << std::format("c use_count: {}\n", client.use_count());
-    LM_LoginResult lr;
+    M_RequestLogin msg;
+    std::cout << std::format("c use_count: {}\n", client.use_count());
+    M_ResponseLogin rl;
 
     if (msg.ParseFromArray(serializedData, length))
     {
@@ -140,34 +146,34 @@ void Server::HandleRequestLogin(std::shared_ptr<ClientSocket> client, char *seri
 
         {
             std::string reason;
-            bool res = _rm->Login(client, reason);
+            bool res = _lm->Login(client, reason);
 
             if (res)
             {
-                lr.set_token(client->GetToken());
-                lr.set_reason("ok");
+                rl.set_token(client->GetToken());
+                rl.set_reason("ok");
             }
             else
             {
-                lr.set_token(0);
-                lr.set_reason(std::move(reason));
+                rl.set_token(0);
+                rl.set_reason(std::move(reason));
             }
         }
     }
     else
     {
-        lr.set_token(0);
-        lr.set_reason("CTM_REQUEST_LOGIN parsing error.");
+        rl.set_token(0);
+        rl.set_reason("CTM_REQUEST_LOGIN parsing error.");
     }
 
-    std::string lrString{lr.SerializeAsString()};
+    std::string rlString{rl.SerializeAsString()};
     std::vector<char> t;
 
     append_prot_packet(
         t,
-        static_cast<int>(LM_Type::SM_RESPONSE_LOGIN),
-        static_cast<int>(lrString.length()) + 12);
-    t.insert(t.end(), lrString.begin(), lrString.end());
+        static_cast<int>(LoginMessage_Type::RESPONSE_LOGIN),
+        static_cast<int>(rlString.length()) + 12);
+    t.insert(t.end(), rlString.begin(), rlString.end());
 
     client->PostWrite(t);
 }
@@ -193,5 +199,5 @@ void Server::PrintStatus()
 
     std::cout << "-------------------------\n\n";
 
-    _rm->PrintStatus();
+    _lm->PrintStatus();
 }

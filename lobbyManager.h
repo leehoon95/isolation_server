@@ -7,7 +7,7 @@
 #include "room.h"
 #include "tokenPool.h"
 
-class RoomManager : public std::enable_shared_from_this<RoomManager>
+class LobbyManager : public std::enable_shared_from_this<LobbyManager>
 {
     boost::asio::io_context &_io;
     boost::asio::ip::udp::socket &_udpSocket;
@@ -39,7 +39,7 @@ private:
     //void LeaveRoom(std::shared_ptr<ClientSocket> client);
 
 public:
-    RoomManager(boost::asio::io_context &io,
+    LobbyManager(boost::asio::io_context &io,
                 boost::asio::ip::udp::socket &socket);
 
     bool Login(std::shared_ptr<ClientSocket> wc, std::string &reason);

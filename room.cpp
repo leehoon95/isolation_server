@@ -1,8 +1,8 @@
 #include "room.h"
 #include <iostream>
 #include "util.h"
-#include "protoc/room_message.pb.h"
-#include "protoc/sync_message.pb.h"
+#include "isolation_pb/lobby_message.pb.h"
+#include "isolation_pb/sync_message.pb.h"
 
 using namespace boost;
 
@@ -62,7 +62,7 @@ void Room::StartSyncTimer()
 
     if (_broadcastingMessage.length() > 0)
     {
-        SM_BCSync_1 bcsync1;
+        M_BCSync_1 bcsync1;
 
         bcsync1.set_message(_broadcastingMessage);
 
@@ -75,7 +75,7 @@ void Room::StartSyncTimer()
                 std::vector<char> buffer;
                 append_prot_packet(
                     buffer,
-                    static_cast<int>(SM_Type::SM_BC_SYNC_1),
+                    static_cast<int>(SyncMessage_Type::REQUEST_SYNC1),
                     static_cast<int>(serialized.length()) + 12);
                 buffer.insert(buffer.end(), serialized.begin(), serialized.end());
 
@@ -128,7 +128,7 @@ void Room::BroadcastMessage(std::string message)
         std::vector<char> t;
         append_prot_packet(
             t,
-            static_cast<int>(RM_Type::SM_BC_MESSAGE),
+            static_cast<int>(LobbyMessage_Type::RESPONSE_BROADCASTING_MESSAGE),
             static_cast<int>(message.length()) + 12);
         t.insert(t.end(), message.begin(), message.end());
 
@@ -155,14 +155,14 @@ bool Room::EnterRoom(std::shared_ptr<ClientSocket> client, std::string &reason)
     std::weak_ptr<ClientSocket> wc{client};
 
     client->SetPacketHandler(
-        RM_Type::CM_BC_MESSAGE,
+        LobbyMessage_Type::REQUEST_BROADCASTING_MESSAGE,
         [wr, wc](char *serializedData, int length)
         {
             if (auto room = wr.lock())
             {
                 if (auto c = wc.lock())
                 {
-                    RM_BroadcastMessage bm;
+                    M_BroadcastMessage bm;
 
                     if (bm.ParseFromArray(serializedData, length))
                     {
@@ -196,7 +196,7 @@ void Room::ExitRoom(const int index)
     auto client = _clients[index];
 
     std::cout << std::format("Client({}) exit room. {}\n", index, client->GetNickname());
-    client->RemovePacketHandler(RM_Type::CM_BC_MESSAGE);
+    client->RemovePacketHandler(LobbyMessage_Type::REQUEST_BROADCASTING_MESSAGE);
 
     _clients.erase(index);
 

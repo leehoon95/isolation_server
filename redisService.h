@@ -9,16 +9,26 @@
 class RS
 {
     sw::redis::Redis _redis;
-    boost::asio::io_context& _io;
-    std::queue<std::future<std::string>> _q;
-    
+
+private:
+    RS();
     RS(RS &rs) = delete;
     RS &operator=(const RS &) = delete;
 
 public:
-    RS(boost::asio::io_context& io);
+    static RS& Instance()
+    {
+        static RS rs;
 
-    bool Start();
-    bool Set(std::string_view key, std::string_view value, std::function<void(std::string)> completion);
-    std::string Get(std::string_view key);
+        return rs;
+    }
+
+    bool Set(std::string_view key, std::string_view value);
+    std::optional<std::string> Get(std::string_view key);
+    bool Exists(std::string_view key);
+    bool HashExists(std::string_view key, std::string_view field);
+    bool HashSet(std::string_view key, std::string_view field, std::string_view value);
+    void HashSet(std::string_view key, std::initializer_list<std::pair<std::string_view, std::string_view>> list);
+    std::optional<std::string> HashGet(std::string_view key, std::string_view field);
+    bool Expire(std::string_view key, int duration);
 };
