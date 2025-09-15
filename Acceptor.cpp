@@ -29,7 +29,6 @@ Acceptor::Acceptor(asio::io_context &io, uint16_t port)
 
 void Acceptor::Accept(std::function<void(asio::ip::tcp::socket)> delegator)
 {
-
     _acceptor.async_accept(
         [this, delegator](system::error_code ec, asio::ip::tcp::socket socket)
         {
@@ -50,7 +49,7 @@ void Acceptor::Accept(std::function<void(asio::ip::tcp::socket)> delegator)
             }
             else
             {
-                std::cout << std::format("Acceptor.Accept() Error: {}\n", ec.what());
+                std::cout << std::format("Acceptor.Accept() Error: {}\n", ec.message());
             }
         });
 }

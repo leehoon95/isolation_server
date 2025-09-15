@@ -37,16 +37,19 @@ int main()
 								   {
 				std::cout << std::format("io_context.run() {}...\n", i);
 				io_context.run();
-				std::cout << "io_context.run() is returned!!!\n"; });
+				std::cout << "io_context.run() is returned\n"; });
 		}
 
-		acceptor.Accept([&](asio::ip::tcp::socket socket)
-						{
-			//auto server = std::make_shared<Server>(std::move(socket));
-			
-			server->AddClient(
-				std::make_shared<ClientSocket>(io_context, std::move(socket))
-			); });
+		std::weak_ptr<Server> wserver{server};
+		acceptor.Accept(
+			[wserver, &io_context](asio::ip::tcp::socket socket)
+			{
+				if (auto server = wserver.lock())
+				{
+					server->AddClient(
+						std::make_shared<ClientSocket>(io_context, std::move(socket)));
+				}
+			});
 
 		while (true)
 		{
@@ -75,11 +78,10 @@ int main()
 		}
 
 		work_guard.reset();
-
-		// testAsyncSendThread.join();
-
 		io_context.stop();
-		for (auto& th : ioThreads) {
+
+		for (auto &th : ioThreads)
+		{
 			th.join();
 		}
 		// ioThread.join();

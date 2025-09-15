@@ -5,6 +5,11 @@
 
 class TokenPool64
 {
+private:
+    TokenPool64() = default;
+    TokenPool64(const TokenPool64 &) = delete;
+    TokenPool64 &operator=(const TokenPool64 &) = delete;
+
 public:
     uint64_t allocate()
     {
@@ -22,6 +27,12 @@ public:
     {
         std::lock_guard<std::mutex> lock(m_);
         used_.erase(t);
+    }
+
+    static TokenPool64& Instance()
+    {
+        static TokenPool64 instance;
+        return instance;
     }
 
 private:

@@ -61,17 +61,16 @@ void Server::ReceiveUDP()
             }
             else
             {
-                print_boost_system_error("UDP async_receive_from.error.", ec);
-                std::cout << std::format("UDP error: {}\n", ec.what());
+                std::cout << std::format("Server::ReceiveUDP ec what: {}", ec.message());
             }
         });
 }
 
-void Server::RemoveClient(int index)
+void Server::RemoveClient(uint64_t token)
 {
     std::scoped_lock sl{_connMtx};
 
-    _connectedClients.erase(index);
+    _connectedClients.erase(token);
 }
 
 // bool Server::TryLogin(std::shared_ptr<ClientSocket> client, std::string &reason)
@@ -94,9 +93,8 @@ void Server::Stop()
 void Server::AddClient(std::shared_ptr<ClientSocket> client)
 {
     std::scoped_lock sl{_connMtx};
-    _clientIndex++;
-    _connectedClients[_clientIndex] = client;
-    client->Init(_clientIndex);
+    _connectedClients[client->GetToken()] = client;
+    client->Init();
 
     std::weak_ptr wclient{client};
     std::weak_ptr<Server> wself{shared_from_this()};
@@ -123,10 +121,8 @@ void Server::AddClient(std::shared_ptr<ClientSocket> client)
             {
                 if (auto c = wclient.lock())
                 {
-                    int index = c->GetIndex();
-
                     c->Stop();
-                    s->RemoveClient(index);
+                    s->RemoveClient(c->GetToken());
                 }
             }
         });
@@ -146,7 +142,7 @@ void Server::HandleRequestLogin(std::shared_ptr<ClientSocket> client, char *seri
 
         {
             std::string reason;
-            bool res = _lm->Login(client, reason);
+            bool res = _lm->RequestEnterLobby(client, reason);
 
             if (res)
             {
@@ -163,7 +159,7 @@ void Server::HandleRequestLogin(std::shared_ptr<ClientSocket> client, char *seri
     else
     {
         rl.set_token(0);
-        rl.set_reason("CTM_REQUEST_LOGIN parsing error.");
+        rl.set_reason("Parsing error");
     }
 
     std::string rlString{rl.SerializeAsString()};

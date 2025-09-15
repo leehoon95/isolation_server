@@ -8,11 +8,15 @@ using namespace boost;
 
 static_assert(std::is_trivially_copyable<ObjectTransform>::value, "memcpy unsafe for non-trivially-copyable types");
 
-Room::Room(boost::asio::io_context &io, asio::ip::udp::socket &socket)
+Room::Room(
+    boost::asio::io_context &io, 
+    asio::ip::udp::socket &socket,
+    std::string joinCode)
     : _index(100),
       _io(io),
       _timer(io),
-      _udpSocket(socket)
+      _udpSocket(socket),
+      _joinCode(joinCode)
 {
     _udpRecvBuffer = std::shared_ptr<char[]>(
         new char[static_cast<size_t>(static_cast<size_t>(UDPBufferSize::RECV_BUFFER_SIZE))]);
@@ -111,7 +115,7 @@ void Room::SendUDPData(
             }
             else
             {
-                std::cout << std::format("UDP send error: {}\n", ec.what());
+                std::cout << std::format("UDP send error: {}\n", ec.message());
             }
 
             // std::scoped_lock sl{_mtxSendQueue};

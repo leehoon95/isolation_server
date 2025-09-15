@@ -3,18 +3,22 @@
 #include <format>
 #include "isolation_pb/error_message.pb.h"
 #include "util.h"
+#include "tokenPool.h"
 
 using namespace boost;
 // using asio::ip::tcp;
+
+//TokenPool64 ClientSocket::_tokenPool;
 
 ClientSocket::ClientSocket(
     asio::io_context &io,
     asio::ip::tcp::socket socket)
     : _io(io),
       _socket(std::move(socket)),
-      _strand(asio::make_strand(io)),
-      _isConnected(true)
+
+      _strand(asio::make_strand(io))
 {
+    _token = TokenPool64::Instance().allocate();
 }
 
 void ClientSocket::ReadAsync()
@@ -110,7 +114,6 @@ void ClientSocket::ReadAsync()
 
 void ClientSocket::WriteAsync()
 {
-    std::cout << "WriteAsync before lock\n";
     std::scoped_lock<std::mutex> sl{_writeBufferMtx};
 
     if (_writeBufferQueue.empty())
@@ -137,7 +140,7 @@ void ClientSocket::WriteAsync()
                                 }
                                 else
                                 {
-                                    std::cout << "ClientSocket.Write() error :" << ec.what() << std::endl;
+                                    std::cout << "ClientSocket.Write() error :" << ec.message() << std::endl;
                                 }
                             }));
 }
@@ -195,7 +198,7 @@ bool ClientSocket::HandlePacket(int type, char *data, int length)
 
         return true;
     }
-    
+
     handler(data, length);
 
     return true;
@@ -203,10 +206,16 @@ bool ClientSocket::HandlePacket(int type, char *data, int length)
 
 void ClientSocket::HandleError(boost::system::error_code &ec)
 {
-    auto re = _socket.remote_endpoint();
+    system::error_code ec2;
+    auto re = _socket.remote_endpoint(ec2);
+    if (ec2)
+    {
+        std::cerr << std::format("ClientSocket::HandleError. remote_endpoint. {}\n", ec2.message());
+    }
+
     std::cout << std::format(
-        "Client socket Error: {} ({}:{})\nClient socket is closed.\n",
-        ec.what(),
+        "ClientSocket::HandleError. {} ({}:{})\nClient socket is closed.\n",
+        ec.message(),
         re.address().to_string(),
         re.port());
 
@@ -218,14 +227,12 @@ void ClientSocket::HandleError(boost::system::error_code &ec)
     }
 }
 
-bool ClientSocket::Init(int index)
+bool ClientSocket::Init()
 {
     _recvBuffer = std::shared_ptr<char[]>(
         new char[static_cast<size_t>(BufferSize::RECV_BUFFER_SIZE)]);
 
     ASSERT(_recvBuffer != nullptr, "ClientSocket. Failed to allocate receive buffer");
-
-    _index = index;
 
     ReadAsync();
 
@@ -234,12 +241,19 @@ bool ClientSocket::Init(int index)
 
 void ClientSocket::Stop()
 {
+    std::cout << std::format("STOP client {} / {}\n", _token, _nickname);
     system::error_code ec;
     _socket.shutdown(asio::ip::tcp::socket::shutdown_both, ec);
-    _socket.close(ec);
-    _stopped = true;
+    if (ec)
+    {
+        std::cout << std::format("ClientSocket::Stop: socket.shutdown. {}\n", ec.message());
+    }
 
-    std::cout << std::format("STOP Client {} / {}. error: {}\n", _index, _nickname, ec.what());
+    _socket.close(ec);
+    if (ec)
+    {
+        std::cout << std::format("ClientSocket::Stop: socket.close. {}\n", ec.message());
+    }
 }
 
 bool ClientSocket::PostWrite(std::vector<char> &data)
@@ -249,7 +263,7 @@ bool ClientSocket::PostWrite(std::vector<char> &data)
     auto self = shared_from_this();
     PushWriteBuffer(buffer);
     WriteAsync();
-    // strand로 직렬화된 작업 안에서 또 strand를 사용하는 함수를 호출하지 마라
+    // strand로 직렬화된 작업 안에서 strand를 사용하는 함수를 호출하지 마라
     // asio::post(_strand, [self, buffer]()
     // ...
     //         self->WriteAsync();
@@ -260,7 +274,6 @@ bool ClientSocket::PostWrite(std::vector<char> &data)
 
 void ClientSocket::SetPacketHandler(int type, std::function<void(char *, int)> handler)
 {
-    // std::cout << "SetProcedure() type: " << static_cast<int>(type) << std::endl;
     std::scoped_lock<std::mutex> sl{_packetHandlerMtx};
 
     _packetHandler[type] = handler;
@@ -282,7 +295,7 @@ void ClientSocket::RemovePacketHandler(int type)
 
 void ClientSocket::RemoveDisconnectHandler(int type)
 {
-    std::scoped_lock<std::mutex> sl{_packetHandlerMtx};
+    std::scoped_lock<std::mutex> sl{_disconnectHandlerMtx};
 
     _disconnectHandler.erase(type);
 }
@@ -308,5 +321,6 @@ void ClientSocket::SetNickname(std::string nickname)
 
 ClientSocket::~ClientSocket()
 {
-    std::cout << std::format("\n", _nickname);
+    std::cout << std::format("CS {} is destroyed.\n", _nickname);
+    TokenPool64::Instance().release(_token);
 }

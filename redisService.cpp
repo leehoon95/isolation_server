@@ -50,7 +50,12 @@ bool RS::Exists(std::string_view key)
     return _redis.exists(key) > 0;
 }
 
-bool RS::HashExists(std::string_view key, std::string_view field)
+bool RS::Del(std::string_view key)
+{
+    return _redis.del(key) > 0;
+}
+
+bool RS::HashFieldExists(std::string_view key, std::string_view field)
 {
     return _redis.hexists(key, field);
 }
@@ -77,9 +82,37 @@ std::optional<std::string> RS::HashGet(std::string_view key, std::string_view fi
     return std::nullopt;
 }
 
-bool RS::Expire(std::string_view key, int hour)
+bool RS::SetAdd(std::string_view key, std::string_view member)
+{
+    return _redis.sadd(key, member) > 0;
+}
+
+bool RS::SetRemove(std::string_view key, std::string_view memver)
+{
+    return _redis.srem(key, memver) > 0;
+}
+
+bool RS::SetMemberExists(std::string_view key, std::string_view member)
+{
+    return _redis.sismember(key, member);
+}
+
+std::vector<std::string> RS::SetMembers(std::string_view key)
+{
+    std::vector<std::string> members;
+    _redis.smembers(key, std::back_inserter(members));
+
+    return std::move(members);
+}
+
+unsigned int RS::SetCardinality(std::string_view key)
+{
+    return static_cast<int>(_redis.scard(key));
+} 
+
+bool RS::Expire(std::string_view key, int minutes)
 {
     return _redis.expire(
         key,
-        std::chrono::hours(hour));
+        std::chrono::minutes(minutes));
 }

@@ -19,7 +19,7 @@ class Server : public std::enable_shared_from_this<Server>
     boost::asio::ip::udp::endpoint _remoteEndpoint;
     std::shared_ptr<char[]> _udpRecvBuffer;
 
-    std::map<int, std::shared_ptr<ClientSocket>> _connectedClients;
+    std::map<uint64_t, std::shared_ptr<ClientSocket>> _connectedClients;
     std::mutex _connMtx;
 
     // std::map<std::string, std::shared_ptr<ClientSocket>> _loginedClients;
@@ -27,17 +27,14 @@ class Server : public std::enable_shared_from_this<Server>
     // std::mutex _loginedMtx;
 
     std::shared_ptr<LobbyManager> _lm;
-    // Room _room;
 
-    unsigned int _clientIndex = 0;
+    //unsigned int _clientIndex = 0;
 
 private:
     void ReceiveUDP();
-    void RemoveClient(int index);
-    void PassClientToRoomManager(std::shared_ptr<ClientSocket> client);
+    void RemoveClient(uint64_t token);
     //bool TryLogin(std::shared_ptr<ClientSocket> client, std::string &reason);
     void HandleRequestLogin(std::shared_ptr<ClientSocket> client, char *serializedData, int length);
-    
 
 public:
     explicit Server(

@@ -16,9 +16,8 @@ class ClientSocket : public std::enable_shared_from_this<ClientSocket>
 
     boost::asio::io_context &_io;
     boost::asio::ip::tcp::socket _socket;
-    int _index;
-    std::string _nickname;
     uint64_t _token;
+    std::string _nickname;
     std::shared_ptr<char[]> _recvBuffer;
 
     std::deque<std::shared_ptr<std::vector<char>>> _writeBufferQueue;
@@ -30,12 +29,7 @@ class ClientSocket : public std::enable_shared_from_this<ClientSocket>
 
     std::map<int, std::function<void(boost::system::error_code&)>> _disconnectHandler;
     std::mutex _disconnectHandlerMtx;
-    // boost::system::error_code _lastError;
-    bool _isConnected;
-    bool _stopped;
-
-    // std::function<void(std::shared_ptr<ClientSocket>)> _disconnectHandler;
-
+    
 private:
     ClientSocket(ClientSocket &) = delete;
     ClientSocket &operator=(const ClientSocket &) = delete;
@@ -53,7 +47,7 @@ public:
     explicit ClientSocket(
         boost::asio::io_context &io,
         boost::asio::ip::tcp::socket socket);
-    bool Init(int index);
+    bool Init();
     void Stop();
     bool PostWrite(std::vector<char> &data);
     //void SetMessageDeserializer(std::function<void(char *, int)> dispatcher);
@@ -64,10 +58,8 @@ public:
     void ClearPacketHandler();
     void ClearDisconnectHandler();
     void SetNickname(std::string nickname);
-    void SetToken(uint64_t token) { _token = token; }
     uint64_t GetToken() { return _token; }
-    unsigned int GetIndex() { return _index; }
     std::string GetNickname() { return _nickname; }
 
-    ~ClientSocket();
+    virtual ~ClientSocket();
 };

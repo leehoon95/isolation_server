@@ -21,7 +21,7 @@ class Room : public std::enable_shared_from_this<Room>
         SEND_BUFFER_SIZE = 4096
     };
 
-    enum class BroadcastingInterval : int 
+    enum class BroadcastingInterval : int
     {
         INTERVAL = 1000
     };
@@ -37,13 +37,15 @@ class Room : public std::enable_shared_from_this<Room>
     std::map<uint64_t, std::shared_ptr<ClientSocket>> _clients;
     std::mutex _mtxClient;
 
-    //std::map<uint64_t, boost::asio::ip::udp::endpoint> _clientUDPEndpoint;
-    //std::mutex _mtxClientUDPEndpoint;
+    std::string _joinCode;
 
-    //std::map<int, std::shared_ptr<PM_ObjectTransform>> _transforms;
+    // std::map<uint64_t, boost::asio::ip::udp::endpoint> _clientUDPEndpoint;
+    // std::mutex _mtxClientUDPEndpoint;
+
+    // std::map<int, std::shared_ptr<PM_ObjectTransform>> _transforms;
     std::mutex _mtxTransforms;
 
-    //PM_SyncCharacterPhysics _scp;
+    // PM_SyncCharacterPhysics _scp;
     std::string _broadcastingMessage;
     std::mutex _bcmMtx;
 
@@ -63,7 +65,8 @@ private:
 
 public:
     Room(boost::asio::io_context &io,
-         boost::asio::ip::udp::socket &socket);
+         boost::asio::ip::udp::socket &socket,
+         std::string joinCode);
     bool EnterRoom(std::shared_ptr<ClientSocket> client, std::string &reason);
     void ExitRoom(const int index);
     void DisconnectClient(uint64_t token);
