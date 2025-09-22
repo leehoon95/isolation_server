@@ -28,11 +28,13 @@ public:
     std::optional<std::string> Get(std::string_view key);
     bool Exists(std::string_view key);
     bool Del(std::string_view key);
+    bool Persist(std::string_view key);
     
     // Hash
     bool HashFieldExists(std::string_view key, std::string_view field);
     bool HashSet(std::string_view key, std::string_view field, std::string_view value);
     void HashSet(std::string_view key, std::initializer_list<std::pair<std::string_view, std::string_view>> list);
+    long long HashLen(std::string_view key);
     std::optional<std::string> HashGet(std::string_view key, std::string_view field);
     
     // Sets

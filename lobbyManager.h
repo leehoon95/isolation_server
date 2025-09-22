@@ -19,6 +19,8 @@ class LobbyManager : public std::enable_shared_from_this<LobbyManager>
     std::map<int, std::shared_ptr<Session>> _activatedSessions; // session token, session
     std::mutex _activatedSessionsMtx;
 
+    
+
     std::map<uint64_t, std::shared_ptr<ClientSocket>> _loginedClients; // token, client
     std::mutex _loginedClientMtx;
 
@@ -26,7 +28,7 @@ class LobbyManager : public std::enable_shared_from_this<LobbyManager>
     std::mutex _sessionListCacheMtx;
 
 private:
-    void SendCurrentSessionList(std::shared_ptr<ClientSocket> client);
+    void SendCurrentActivedSessionList(std::shared_ptr<ClientSocket> client);
     int CreateSession(
         const uint64_t hostToken,
         std::string_view name,
@@ -51,6 +53,6 @@ public:
 
     //std::weak_ptr<Room> GetRoom(int index);
     void ForwardUDPData(char* data, int length);
-
+    
     void PrintStatus();
 };

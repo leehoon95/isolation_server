@@ -50,7 +50,7 @@ bool LobbyManager::RequestEnterLobby(std::shared_ptr<ClientSocket> client, std::
 
     _loginedClients[client->GetToken()] = client;
     rs.Set(keyUser, nickname);
-    rs.Expire(keyUser, 5);
+    // rs.Expire(keyUser, 5);
 
     SetClientHandler(client);
 
@@ -85,13 +85,13 @@ void LobbyManager::SetClientHandler(std::shared_ptr<ClientSocket> client)
             {
                 if (auto lm = wlm.lock())
                 {
-                    lm->SendCurrentSessionList(c);
+                    lm->SendCurrentActivedSessionList(c);
                 }
             }
         });
 
     client->SetPacketHandler(
-        LobbyMessage_Type::REQUEST_CREATE_SESSION,
+        LobbyMessage_Type::REQUEST_SESSION_CREATE,
         [wlm, wc](char *serializedData, int length)
         {
             if (auto c = wc.lock())
@@ -156,7 +156,7 @@ void LobbyManager::PrintStatus()
 {
 }
 
-void LobbyManager::SendCurrentSessionList(std::shared_ptr<ClientSocket> client)
+void LobbyManager::SendCurrentActivedSessionList(std::shared_ptr<ClientSocket> client)
 {
     std::scoped_lock<std::mutex> sl{_sessionListCacheMtx};
 
@@ -178,14 +178,14 @@ void LobbyManager::SendCurrentSessionList(std::shared_ptr<ClientSocket> client)
         }
     }
 
-    std::string rrlString{rsl.SerializeAsString()};
+    std::string serial{rsl.SerializeAsString()};
     std::vector<char> t;
 
     append_prot_packet(
         t,
         static_cast<int>(LobbyMessage_Type::RESPONSE_SESSION_LIST),
-        static_cast<int>(rrlString.length()) + 12);
-    t.insert(t.end(), rrlString.begin(), rrlString.end());
+        static_cast<int>(serial.length()) + 12);
+    t.insert(t.end(), serial.begin(), serial.end());
 
     client->PostWrite(t);
 }
@@ -210,15 +210,17 @@ int LobbyManager::CreateSession(
 
     {
         std::scoped_lock<std::mutex> sl{_sessionsMtx};
-        ++_sessionIndexCounter;
-        _sessions[_sessionIndexCounter] = session;
+        _sessions[++_sessionIndexCounter] = session;
 
-        session->SetReceiveJoincodeCallback([wlobby = std::weak_ptr<LobbyManager>(shared_from_this()),
-                                             ssindex = _sessionIndexCounter]()
-                                            {
-        if (auto l = wlobby.lock()) {
-               l->ActivateSession(ssindex);
-        } });
+        session->SetReceiveJoinCodeCallback(
+            [wlobby = std::weak_ptr<LobbyManager>(shared_from_this()),
+             ssindex = _sessionIndexCounter]()
+            {
+                if (auto l = wlobby.lock())
+                {
+                    l->ActivateSession(ssindex);
+                }
+            });
     }
 
     reason = "ok";
@@ -236,6 +238,8 @@ void LobbyManager::ActivateSession(int sessionIndex)
     auto ss = _sessions[sessionIndex];
     _activatedSessions[sessionIndex] = ss;
     _sessions.erase(sessionIndex);
+
+    std::cout << std::format("Activate session:{}\n", ss->GetSessionToken());
 }
 
 void LobbyManager::HandleRequestCreateSession(std::shared_ptr<ClientSocket> client, char *serializedData, int length)
@@ -253,6 +257,7 @@ void LobbyManager::HandleRequestCreateSession(std::shared_ptr<ClientSocket> clie
 
         if (res >= 0)
         {
+            std::cout << std::format("LobbyManager::HandleRequestCreateSession: session {} is created.\n", res);
             response.set_sessionindex(res);
             response.set_reason("ok");
         }
@@ -268,13 +273,14 @@ void LobbyManager::HandleRequestCreateSession(std::shared_ptr<ClientSocket> clie
         response.set_reason("Parsing message error.");
     }
 
-    std::string rcrString{response.SerializeAsString()};
+    std::string serial{response.SerializeAsString()};
     std::vector<char> t;
 
     append_prot_packet(
         t,
-        static_cast<int>(LobbyMessage_Type::RESPONSE_CREATE_SESSION),
-        static_cast<int>(rcrString.length()) + 12);
+        static_cast<int>(LobbyMessage_Type::RESPONSE_SESSION_CREATE),
+        static_cast<int>(serial.length()) + 12);
+    t.insert(t.end(), serial.begin(), serial.end());
 
     client->PostWrite(t);
 }
@@ -301,6 +307,8 @@ void LobbyManager::HandleRequestEnterToSession(std::shared_ptr<ClientSocket> cli
             {
                 auto ss = _sessions[sessionIndex];
                 success = ss->AddClient(client, true, reason);
+                std::cout << std::format("client({}) is added to session({})",
+                                         client->GetToken(), ss->GetSessionToken());
             }
         }
         else
@@ -334,13 +342,14 @@ void LobbyManager::HandleRequestEnterToSession(std::shared_ptr<ClientSocket> cli
         response.set_reason("Parsing message error");
     }
 
-    std::string rcrString{response.SerializeAsString()};
+    std::string serial{response.SerializeAsString()};
     std::vector<char> t;
 
     append_prot_packet(
         t,
-        static_cast<int>(LobbyMessage_Type::RESPONSE_CREATE_SESSION),
-        static_cast<int>(rcrString.length()) + 12);
+        static_cast<int>(LobbyMessage_Type::RESPONSE_SESSION_ENTER),
+        static_cast<int>(serial.length()) + 12);
+    t.insert(t.end(), serial.begin(), serial.end());
 
     client->PostWrite(t);
 }

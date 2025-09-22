@@ -19,9 +19,9 @@ Redis key-value 목록
     ||name|{string}|게임에서 session list에 노출되는 이름
     ||maxClientCount|{uint}|접속가능한 client 수
     ||password|{string}|비밀번호
-    ||joincode|{string}|Unity Relay에 사용되는 코드
+    ||joinCode|{string}|Unity Relay에 사용되는 코드
     
-* session 클라이언트 참가 상태
+* session 클라이언트 참가 client
     |key|field|value|desc|
     |-|-|-|-|
     |session:{session token}:clients|{client token(uint64)}|{nickname(string)}|session에 참가한 client

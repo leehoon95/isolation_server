@@ -6,9 +6,6 @@
 #include "tokenPool.h"
 
 using namespace boost;
-// using asio::ip::tcp;
-
-//TokenPool64 ClientSocket::_tokenPool;
 
 ClientSocket::ClientSocket(
     asio::io_context &io,

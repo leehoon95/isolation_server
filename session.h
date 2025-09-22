@@ -3,8 +3,8 @@
 #include <memory>
 #include <string>
 #include <functional>
+#include "ClientSocket.h"
 
-class ClientSocket;
 class LobbyManager;
 
 /*
@@ -14,28 +14,26 @@ class LobbyManager;
 class Session : public std::enable_shared_from_this<Session>
 {
     uint64_t _token; // session token
-    std::shared_ptr<ClientSocket> _host;
+    std::mutex _addClientMtx;
     std::map<uint64_t, std::shared_ptr<ClientSocket>> _clients; // token, client
     std::weak_ptr<LobbyManager> _lobbyManager;
     std::string _sessionKey;
     std::string _sessionClientsKey;
-    std::string _joincodeCache;
 
-    std::function<void(void)> _receiveJoincodeCallback;
+    std::function<void(void)> _receiveJoinCodeCallback;
 
 private:
     Session(Session &) = delete;
     Session &operator=(const Session &) = delete;
-    void SetJoincode(const std::string &joincode);
-    std::string GetJoincode();
-    bool IsHost(uint64_t token)
+    bool SetHostJoinCode(
+        std::shared_ptr<ClientSocket> sender,
+        const std::string &joinCode);
+    std::string GetJoinCode();
+    bool IsValidSession(std::string &reason);
+    void CallReceiveJoinCodeCallback()
     {
-        return _host && _host->GetToken() == token;
-    }
-    void CallReceiveJoincodeCallback()
-    {
-        if (_receiveJoincodeCallback)
-            _receiveJoincodeCallback();
+        if (_receiveJoinCodeCallback)
+            _receiveJoinCodeCallback();
     }
 
 public:
@@ -46,11 +44,17 @@ public:
         std::string_view name,
         std::string_view password,
         std::string &reason);
-    void SetReceiveJoincodeCallback(std::function<void(void)> callback);
+    void SetReceiveJoinCodeCallback(std::function<void(void)> callback);
     bool AddClient(
         std::shared_ptr<ClientSocket> client,
         bool host,
         std::string &reason);
+    void GetSessionInfo(
+        std::string &name,
+        int maxUserCount,
+        int userCount,
+        std::string &password);
     void StopSession();
+    uint64_t GetSessionToken() { return _token; }
     virtual ~Session();
 };

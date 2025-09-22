@@ -55,6 +55,11 @@ bool RS::Del(std::string_view key)
     return _redis.del(key) > 0;
 }
 
+bool RS::Persist(std::string_view key)
+{
+    return _redis.persist(key);
+}
+
 bool RS::HashFieldExists(std::string_view key, std::string_view field)
 {
     return _redis.hexists(key, field);
@@ -80,6 +85,11 @@ std::optional<std::string> RS::HashGet(std::string_view key, std::string_view fi
     }
 
     return std::nullopt;
+}
+
+long long RS::HashLen(std::string_view key)
+{
+    return _redis.hlen(key);
 }
 
 bool RS::SetAdd(std::string_view key, std::string_view member)

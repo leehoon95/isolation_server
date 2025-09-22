@@ -19,24 +19,57 @@ Session::Session()
     _token = TokenPool64::Instance().allocate();
 }
 
-void Session::SetJoincode(const std::string &joincode)
+bool Session::SetHostJoinCode(
+    std::shared_ptr<ClientSocket> sender,
+    const std::string &joinCode)
 {
-    std::string sessionKey{std::format("session:{}", _token)};
-
     RS &rs = RS::Instance();
 
-    rs.HashSet(sessionKey, "joincode", joincode);
+    auto ht = rs.HashGet(_sessionKey, "hostToken");
+
+    if (!ht)
+    {
+        std::cerr << "Session::SetHostJoinCode: session does not have hostToken\n";
+        return false;
+    }
+
+    uint64_t hostToken = std::stoull(*ht);
+    if (hostToken != sender->GetToken())
+    {
+        return false;
+    }
+
+    rs.HashSet(_sessionKey, "joinCode", joinCode);
+
+    return true;
 }
 
-std::string Session::GetJoincode()
+std::string Session::GetJoinCode()
 {
-    std::string sessionKey{std::format("session:{}", _token)};
-
     RS &rs = RS::Instance();
 
-    auto res = rs.HashGet(sessionKey, "joincode");
+    auto res = rs.HashGet(_sessionKey, "joinCode");
 
     return res.value_or("");
+}
+
+bool Session::IsValidSession(std::string &reason)
+{
+    auto &rs = RS::Instance();
+
+    if (!rs.Exists(_sessionKey))
+    {
+        reason = std::format("Session key({}) does not exist", _sessionKey);
+        std::cerr << "Session::IsValidSession: session key does not exists.\n";
+        return false;
+    }
+
+    if (!rs.Exists(_sessionClientsKey))
+    {
+        reason = std::format("Session clients key({}) does not exist", _sessionClientsKey);
+        std::cerr << "Session::IsValidSession: session clients key does not exists.\n";
+        return false;
+    }
 }
 
 bool Session::CreateSession(
@@ -71,13 +104,7 @@ bool Session::CreateSession(
     auto &rs = RS::Instance();
 
     // token이 중복을 허용하지 않으므로 session key도 그러함
-    _sessionKey = std::format("session:{}", hostToken);
-
-    if (rs.Exists(_sessionKey))
-    {
-        ASSERT(false, "Session::CreateSession: session key already exists.");
-        return false;
-    }
+    _sessionKey = std::format("session:{}", _token);
 
     /*
         session 설정의 의미
@@ -85,25 +112,26 @@ bool Session::CreateSession(
         maxClientCount: session에 입장 가능한 최대 client 수
         name: session 리스트에 보이는 이름(host가 입장하기 전까지는 보이지 않음)
         password: session 입장시 필요한 비밀번호(필수 아님)
+        joinCode: client가 host 접속시 필요한 코드
 
-        host는 1분 안에 접속해야 함
+        host는 3분 안에 접속해야 함
     */
     rs.HashSet(_sessionKey, {{"hostToken", std::to_string(hostToken)},
                              {"maxClientCount", std::to_string(maxClientCount)},
                              {"name", std::string{name}},
                              {"password", std::string{password}},
-                             {"joincode", ""}});
-    rs.Expire(_sessionKey, 5);
+                             {"joinCode", ""}});
+    rs.Expire(_sessionKey, 3);
 
-    _sessionClientsKey = std::format("session:{}:clients", hostToken);
-    rs.Expire(_sessionClientsKey, 5);
+    _sessionClientsKey = std::format("session:{}:clients", _token);
+    rs.Expire(_sessionClientsKey, 3);
 
     return true;
 }
 
-void Session::SetReceiveJoincodeCallback(std::function<void(void)> callback)
+void Session::SetReceiveJoinCodeCallback(std::function<void(void)> callback)
 {
-    _receiveJoincodeCallback = callback;
+    _receiveJoinCodeCallback = callback;
 }
 
 bool Session::AddClient(
@@ -111,132 +139,202 @@ bool Session::AddClient(
     bool host,
     std::string &reason)
 {
+    std::scoped_lock sl{_addClientMtx};
+
     if (!client)
     {
         ASSERT(false, "Session::TryEnterAsClient: client is null.\n");
         return false;
     }
 
-    if (_host == nullptr)
-    {
-        reason = "Session host is not set";
-        return false;
-    }
-
     auto &rs = RS::Instance();
 
-    if (!rs.Exists(_sessionKey))
+    std::string userKey{std::format("user:{}", client->GetToken())};
+
+    if (!rs.Exists(userKey))
     {
-        reason = "Session does not exist";
+        reason = std::format("User key({}) does not exist", _sessionKey);
+        std::cerr << std::format("Session::AddClient: {}\n", userKey);
         return false;
     }
 
-    uint64_t token = client->GetToken();
-
-    if (host && _host->GetToken() != token)
+    if (!IsValidSession(reason))
     {
-        reason = "Host token does not match";
         return false;
     }
 
-    rs.HashSet(_sessionClientsKey, std::to_string(token), client->GetNickname());
+    uint64_t clientToken = client->GetToken();
+
+    /*
+        session을 생성한 hostToken과 host로 들어온 client가 맞는지 검사
+    */
+    if (host)
+    {
+        auto ht = rs.HashGet(_sessionKey, "hostToken");
+
+        if (!ht)
+        {
+            reason = "Session does not have hostToken";
+            // std::cerr << "Session::AddClient: session does not have hostToken\n";
+            return false;
+        }
+
+        uint64_t hostToken = std::stoull(*ht);
+
+        if (hostToken != clientToken)
+        {
+            reason = "Host token does not match";
+            return false;
+        }
+    }
+
+    /*
+        mcc=max client count
+        session이 full인지 검사
+    */
+    auto mccOpt = rs.HashGet(_sessionKey, "maxClientCount");
+    if (!mccOpt)
+    {
+        reason = "Invalid session";
+        std::cerr << "Seesion::AddClient. maxClientCount is null\n";
+        return false;
+    }
+
+    auto mccStr = std::move(*mccOpt);
+    auto mcc = std::stoull(mccStr);
+
+    auto currentClientCount = rs.HashLen(_sessionClientsKey);
+
+    if (currentClientCount > mcc)
+    {
+        reason = "Session is full";
+        std::cerr << "Session::AddClient. Session is full.\n";
+        return false;
+    }
 
     std::weak_ptr<Session> wss{shared_from_this()};
     std::weak_ptr<ClientSocket> wc{std::weak_ptr<ClientSocket>{client}};
 
-    // host -> session. The joincode to open this session.
+    // host -> session. The joinCode to open this session.
     if (host)
     {
         client->SetPacketHandler(
-            GameMessage_Type::JOINCODE,
+            LobbyMessage_Type::JOINCODE,
             [wss, wc](char *serializedData, int length)
             {
                 if (auto ss = wss.lock())
                 {
-                    M_Joincode j;
+                    M_JoinCode j;
 
-                    if (j.ParseFromArray(serializedData, length))
+                    if (auto c = wc.lock())
                     {
-                        std::cout << std::format("Session::AddClient. JOINCODE: {}\n", j.joincode());
-                        if (ss->IsHost(j.sendertoken()))
+                        if (j.ParseFromArray(serializedData, length))
                         {
-                            std::cout << std::format("Session::AddClient. joincode is set\n");
-                            ss->SetJoincode(j.joincode());
-                            ss->CallReceiveJoincodeCallback();
+                            std::cout << std::format("Session::AddClient. JOINCODE: {}\n", j.joincode());
+                            if (ss->SetHostJoinCode(c, j.joincode()))
+                            {
+                                std::cout << std::format("Session::AddClient. joinCode is set\n");
+                                ss->CallReceiveJoinCodeCallback();
+                            }
+                            else
+                            {
+                                std::cerr << "Session::AddClient. JOINCODE: Failed to set joinCode\n";
+                            }
+                        }
+                    }
+                }
+            });
+
+        rs.Persist(_sessionKey);
+        rs.Persist(_sessionClientsKey);
+    }
+    else
+    {
+        // client -> session. Request the joinCode to join this session.
+        client->SetPacketHandler(
+            LobbyMessage_Type::REQUEST_JOINCODE,
+            [wss, wc](char *serializedData, int length)
+            {
+                if (auto ss = wss.lock())
+                {
+                    if (auto c = wc.lock())
+                    {
+                        if (auto c = wc.lock())
+                        {
+                            M_RequestJoinCode rj;
+
+                            if (rj.ParseFromArray(serializedData, length))
+                            {
+                                M_JoinCode response;
+
+                                auto joinCode{ss->GetJoinCode()};
+
+                                if (joinCode.empty())
+                                {
+                                    std::cerr << "Session::AddClient. REQUEST_JOINCODE: JoinCode is empty.\n";
+                                    return;
+                                }
+
+                                response.set_joincode(joinCode);
+
+                                auto serial{response.SerializeAsString()};
+                                std::vector<char> t;
+
+                                append_prot_packet(
+                                    t,
+                                    static_cast<int>(LobbyMessage_Type::JOINCODE),
+                                    static_cast<int>(serial.length()) + 12);
+                                t.insert(t.end(), serial.begin(), serial.end());
+
+                                c->PostWrite(t);
+                            }
+                            else
+                            {
+                                std::cout << "Session.RESPONSE_JOINCODE parsing error.\n";
+                            }
                         }
                     }
                 }
             });
     }
 
-    // client -> session. Request the joincode to join this session.
-    client->SetPacketHandler(
-        GameMessage_Type::REQUEST_JOINCODE,
-        [wss, wc](char *serializedData, int length)
-        {
-            if (auto ss = wss.lock())
-            {
-                if (auto c = wc.lock())
-                {
-                    if (auto c = wc.lock())
-                    {
-                        M_RequestJoincode rj;
+    rs.HashSet(_sessionClientsKey, std::to_string(clientToken), client->GetNickname());
 
-                        if (rj.ParseFromArray(serializedData, length))
-                        {
-                            M_Joincode response;
+    // if (host)
+    // {
+    //     M_RequestJoinCode request;
+    //     std::string rjString{request.SerializeAsString()};
+    //     std::vector<char> t;
 
-                            auto joincode{ss->GetJoincode()};
+    //     append_prot_packet(
+    //         t,
+    //         static_cast<int>(GameMessage_Type::REQUEST_JOINCODE),
+    //         static_cast<int>(rjString.length()) + 12);
 
-                            if (joincode.empty())
-                            {
-                                ASSERT(false, "Session::AddClient REQUEST_JOINCODE: Joincode is empty.\n");
-                                return;
-                            }
-
-                            response.set_joincode(joincode);
-
-                            auto jString{response.SerializeAsString()};
-                            std::vector<char> t;
-
-                            append_prot_packet(
-                                t,
-                                static_cast<int>(GameMessage_Type::JOINCODE),
-                                static_cast<int>(jString.length()) + 12);
-
-                            c->PostWrite(t);
-                        }
-                        else
-                        {
-                            std::cout << "Session.RESPONSE_JOINCODE parsing error.\n";
-                        }
-                    }
-                }
-            }
-        });
-
-    if (host)
-    {
-        M_RequestJoincode request;
-        std::string rjString{request.SerializeAsString()};
-        std::vector<char> t;
-
-        append_prot_packet(
-            t,
-            static_cast<int>(GameMessage_Type::REQUEST_JOINCODE),
-            static_cast<int>(rjString.length()) + 12);
-
-        client->PostWrite(t);
-    }
+    //     client->PostWrite(t);
+    // }
 
     return true;
 }
 
+void Session::GetSessionInfo(
+    std::string &name,
+    int maxUserCount,
+    int userCount,
+    std::string &password)
+{
+    
+}
+
 void Session::StopSession()
 {
+    auto &rs = RS::Instance();
+    rs.Del(_sessionKey);
+    rs.Del(_sessionClientsKey);
 }
 
 Session::~Session()
 {
     TokenPool64::Instance().release(_token);
+    StopSession();
 }
