@@ -19,6 +19,7 @@ Server::Server(
     try
     {
         _lm = std::make_shared<LobbyManager>(io, _udpSocket);
+        _lm->StartRefreshSessionCache();
     }
     catch (const std::bad_alloc &e)
     {
@@ -146,19 +147,21 @@ void Server::HandleRequestLogin(std::shared_ptr<ClientSocket> client, char *seri
 
             if (res)
             {
-                rl.set_token(client->GetToken());
+                rl.set_result(client->GetToken());
                 rl.set_reason("ok");
+
+                RemoveClient(client->GetToken());
             }
             else
             {
-                rl.set_token(0);
+                rl.set_result(0);
                 rl.set_reason(std::move(reason));
             }
         }
     }
     else
     {
-        rl.set_token(0);
+        rl.set_result(0);
         rl.set_reason("Parsing error");
     }
 

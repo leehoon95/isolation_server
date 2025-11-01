@@ -29,6 +29,7 @@ public:
     bool Exists(std::string_view key);
     bool Del(std::string_view key);
     bool Persist(std::string_view key);
+    void FlushAll();
     
     // Hash
     bool HashFieldExists(std::string_view key, std::string_view field);

@@ -60,6 +60,11 @@ bool RS::Persist(std::string_view key)
     return _redis.persist(key);
 }
 
+void RS::FlushAll()
+{
+    _redis.flushall();
+}
+
 bool RS::HashFieldExists(std::string_view key, std::string_view field)
 {
     return _redis.hexists(key, field);

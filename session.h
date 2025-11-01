@@ -15,6 +15,7 @@ class Session : public std::enable_shared_from_this<Session>
 {
     uint64_t _token; // session token
     std::mutex _addClientMtx;
+    std::mutex _getSessionInfoMtx;
     std::map<uint64_t, std::shared_ptr<ClientSocket>> _clients; // token, client
     std::weak_ptr<LobbyManager> _lobbyManager;
     std::string _sessionKey;
@@ -30,7 +31,8 @@ private:
         const std::string &joinCode);
     std::string GetJoinCode();
     bool IsValidSession(std::string &reason);
-    void CallReceiveJoinCodeCallback()
+    bool IsActiveSession();
+    void OnReceiveHostJoinCode()
     {
         if (_receiveJoinCodeCallback)
             _receiveJoinCodeCallback();
@@ -39,7 +41,7 @@ private:
 public:
     explicit Session();
     bool CreateSession(
-        const uint64_t hostToken,
+        std::shared_ptr<ClientSocket> client,
         const unsigned int maxClientCount,
         std::string_view name,
         std::string_view password,
@@ -47,13 +49,13 @@ public:
     void SetReceiveJoinCodeCallback(std::function<void(void)> callback);
     bool AddClient(
         std::shared_ptr<ClientSocket> client,
-        bool host,
         std::string &reason);
-    void GetSessionInfo(
+    bool GetSessionInfo(
         std::string &name,
-        int maxUserCount,
-        int userCount,
-        std::string &password);
+        int &maxClientCount,
+        int &clientCount,
+        std::string &password,
+        std::string &joinCode);
     void StopSession();
     uint64_t GetSessionToken() { return _token; }
     virtual ~Session();

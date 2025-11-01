@@ -12,6 +12,8 @@
 #include "TestAsyncServer.h"
 #include "Server.h"
 
+#include "redisService.h"
+
 using namespace boost;
 using boost::asio::ip::tcp;
 
@@ -94,6 +96,9 @@ int main()
 	}
 
 	std::cout << "Server closed\n";
+
+	auto &rs = RS::Instance();
+	rs.FlushAll();
 
 	return 0;
 }
