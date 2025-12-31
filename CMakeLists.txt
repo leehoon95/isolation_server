@@ -18,9 +18,10 @@ set(SOURCES
     ClientSocket.cpp
     Acceptor.cpp
     util.cpp
+    sha256.cpp
     #room.cpp
-    lobbyManager.cpp
-    session.cpp
+    #lobbyManager.cpp
+    #session.cpp
 )
 
 add_executable(test_server ${SOURCES})

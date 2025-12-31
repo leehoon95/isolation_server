@@ -276,6 +276,39 @@ bool Session::AddClient(
                 }
             });
 
+        //   client->SetPacketHandler(
+        //     SessionMessage_Type::ENVIRONMENT,
+        //     [wss, wc](char *serializedData, int length)
+        //     {
+        //         auto ss = wss.lock();
+        //         auto c = wc.lock();
+
+        //         if (ss && c)
+        //         {
+        //             M_JoinCode j;
+
+        //             if (j.ParseFromArray(serializedData, length))
+        //             {
+        //                 if (j.joincode().empty())
+        //                 {
+        //                     std::cout << "Session::AddClient. Received joinCode. but empty.\n";
+        //                 }
+
+        //                 std::cout << std::format("Session::AddClient. JOINCODE: {}\n", j.joincode());
+        //                 if (ss->SetHostJoinCode(c, j.joincode()))
+        //                 {
+        //                     std::cout << std::format("Session::AddClient. joinCode is set\n");
+        //                     ss->OnReceiveHostJoinCode();
+        //                     // LobbyManager will activate this session
+        //                 }
+        //                 else
+        //                 {
+        //                     std::cerr << "Session::AddClient. JOINCODE: Failed to set joinCode\n";
+        //                 }
+        //             }
+        //         }
+        //     });
+
         rs.Persist(_sessionKey);
         rs.Persist(_sessionClientsKey);
     }

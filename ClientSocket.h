@@ -17,7 +17,7 @@ class ClientSocket : public std::enable_shared_from_this<ClientSocket>
     boost::asio::io_context &_io;
     boost::asio::ip::tcp::socket _socket;
     uint64_t _token;
-    std::string _nickname;
+    //std::string _nickname;
     std::shared_ptr<char[]> _recvBuffer;
 
     std::deque<std::shared_ptr<std::vector<char>>> _writeBufferQueue;
@@ -50,16 +50,13 @@ public:
     bool Init();
     void Stop();
     bool PostWrite(std::vector<char> &data);
-    //void SetMessageDeserializer(std::function<void(char *, int)> dispatcher);
     void SetPacketHandler(int type, std::function<void(char *, int)> handler);
-    void SetDisconnectHandler(int type, std::function<void(boost::system::error_code&)> handler);
+    void SetErrorHandler(int type, std::function<void(boost::system::error_code&)> handler);
     void RemovePacketHandler(int type);
     void RemoveDisconnectHandler(int type);
     void ClearPacketHandler();
     void ClearDisconnectHandler();
-    void SetNickname(std::string nickname);
     uint64_t GetToken() { return _token; }
-    std::string GetNickname() { return _nickname; }
 
     virtual ~ClientSocket();
 };

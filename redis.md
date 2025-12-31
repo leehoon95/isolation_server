@@ -1,27 +1,24 @@
 Isolation-Redis 서버
 -
 
-nickname: 유저가 설정하고 온라인 공간에서 식별할 수 있는 값
+ID: 유저가 설정하고 온라인 공간에서 식별할 수 있는 값
 client token: 서버와 클라이언트, Redis가 내부적으로 사용하는 64bit 중복사용 불가값
 
 Redis key-value 목록
 -
-중괄호 안 내용은 고정되지 않음
-* user 로그인시 (String)  
-    |key|value|desc|
+중괄호 안 내용은 string 타입(서식 또는 용도를 의미)
+* Account Register(Hash)
+    |key|field|value|
     |-|-|-|
-    |user:{client token(uint64)}|{nickname(string)}|client token으로 구분
+    |id:{id}|password|{sha256 hash}|
+    ||nickname|{다른 player에게 노출되는 식별자}||
+    ||personalColor|{hhh/sss/vvv}|
 
-* session 생성시 (Hash)  
-    |key|field|value|desc|
-    |-|-|-|-|
-    |session:{session token(uin64)}|hostToken|{uint64}|hostToken은 이 session을 생성요청한 host의 client token
-    ||name|{string}|게임에서 session list에 노출되는 이름
-    ||maxClientCount|{uint}|접속가능한 client 수
-    ||password|{string}|비밀번호
-    ||joinCode|{string}|Unity Relay에 사용되는 코드
+* Authorized token(Hash)
+    |key|field|value|
+    |-|-|-|
+    |authorized:{token}|id|{id}|
+    ||loginTime||
     
-* session 클라이언트 참가 client
-    |key|field|value|desc|
-    |-|-|-|-|
-    |session:{session token}:clients|{client token(uint64)}|{nickname(string)}|session에 참가한 client
+    1. token은 client가 접속할 때 마다 부여되고 게임 데이터에 접속하기 위한 수단으로 사용됨
+    2. token 타입은 uint64

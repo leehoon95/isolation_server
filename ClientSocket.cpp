@@ -238,7 +238,7 @@ bool ClientSocket::Init()
 
 void ClientSocket::Stop()
 {
-    std::cout << std::format("STOP client {} / {}\n", _token, _nickname);
+    std::cout << std::format("STOP client {}\n", _token);
     system::error_code ec;
     _socket.shutdown(asio::ip::tcp::socket::shutdown_both, ec);
     if (ec)
@@ -276,7 +276,7 @@ void ClientSocket::SetPacketHandler(int type, std::function<void(char *, int)> h
     _packetHandler[type] = handler;
 }
 
-void ClientSocket::SetDisconnectHandler(int type, std::function<void(boost::system::error_code &)> handler)
+void ClientSocket::SetErrorHandler(int type, std::function<void(boost::system::error_code &)> handler)
 {
     std::scoped_lock<std::mutex> sl{_disconnectHandlerMtx};
 
@@ -311,13 +311,13 @@ void ClientSocket::ClearDisconnectHandler()
     _disconnectHandler.clear();
 }
 
-void ClientSocket::SetNickname(std::string nickname)
-{
-    _nickname = std::move(nickname);
-}
+// void ClientSocket::SetNickname(std::string nickname)
+// {
+//     _nickname = std::move(nickname);
+// }
 
 ClientSocket::~ClientSocket()
 {
-    std::cout << std::format("CS {} is destroyed.\n", _nickname);
+    std::cout << std::format("ClientSocket {} is destroyed.\n", _token);
     TokenPool64::Instance().release(_token);
 }

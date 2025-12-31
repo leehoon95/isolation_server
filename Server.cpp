@@ -1,8 +1,12 @@
 #include "Server.h"
 #include <iostream>
-#include "isolation_pb/login_message.pb.h"
+#include <chrono>
+// #include "isolation_pb/login_message.pb.h"
+#include "isolation_pb/authentication_message.pb.h"
 #include "isolation_pb/error_message.pb.h"
+#include "redisService.h"
 #include "util.h"
+#include "sha256.h"
 
 using namespace boost;
 
@@ -11,61 +15,23 @@ Server::Server(
     : _io(io),
       _udpSocket(io, asio::ip::udp::endpoint(asio::ip::udp::v4(), 51022))
 {
-    _udpRecvBuffer = std::shared_ptr<char[]>(
-        new (std::nothrow) char[static_cast<size_t>(static_cast<size_t>(UDPBufferSize::RECV_BUFFER_SIZE))]);
+    //_udpRecvBuffer = std::shared_ptr<char[]>(
+        //new (std::nothrow) char[static_cast<size_t>(static_cast<size_t>(UDPBufferSize::RECV_BUFFER_SIZE))]);
 
-    ASSERT(_udpRecvBuffer != nullptr, "Server. Failed to allocate UDP receive buffer");
+    //ASSERT(_udpRecvBuffer != nullptr, "Server. Failed to allocate UDP receive buffer");
 
-    try
-    {
-        _lm = std::make_shared<LobbyManager>(io, _udpSocket);
-        _lm->StartRefreshSessionCache();
-    }
-    catch (const std::bad_alloc &e)
-    {
-        ASSERT(false, "Server. Failed to allocate LobbyManager");
-    }
+    // try
+    // {
+    //     _lm = std::make_shared<LobbyManager>(io, _udpSocket);
+    //     _lm->StartRefreshSessionCache();
+    // }
+    // catch (const std::bad_alloc &e)
+    // {
+    //     ASSERT(false, "Server. Failed to allocate LobbyManager");
+    // }
 }
 
-void Server::ReceiveUDP()
-{
-    _udpSocket.async_receive_from(
-        asio::buffer(_udpRecvBuffer.get(), static_cast<size_t>(UDPBufferSize::RECV_BUFFER_SIZE)),
-        _remoteEndpoint,
-        [this](system::error_code ec, std::size_t length)
-        {
-            if (!ec && length > 0)
-            {
-                // for (int i = 0; i < length; ++i) {
-                //     printf("%0X ", _udpRecvBuffer[i]);
-                // }
 
-                // std::cout << std::endl;
-
-                if (memcmp(_udpRecvBuffer.get(), "prot", 4) == 0)
-                {
-                    int type = *(int32_t *)(&_udpRecvBuffer[4]);
-                    int totalDataLength = *(int32_t *)(&_udpRecvBuffer[8]);
-
-                    if (totalDataLength != length)
-                    {
-                        std::cout << std::format("UDP prot data is insufficient. buffer data length: {}, packet data length: {}\n",
-                                                 length, totalDataLength);
-                    }
-                    else
-                    {
-                        //_rm->ForwardUDPData(&_udpRecvBuffer[12], length);
-                    }
-                }
-
-                ReceiveUDP();
-            }
-            else
-            {
-                std::cout << std::format("Server::ReceiveUDP ec what: {}", ec.message());
-            }
-        });
-}
 
 void Server::RemoveClient(uint64_t token)
 {
@@ -102,7 +68,7 @@ void Server::AddClient(std::shared_ptr<ClientSocket> client)
 
     // io_context.stop()이 Server 소멸보다 먼저 호출될 것을 보장할 것
     client->SetPacketHandler(
-        LoginMessage_Type::REQUEST_LOGIN,
+        ProtoAuthenticationMessage::REQUEST_LOGIN,
         [wself, wclient](char *serializedData, int length)
         {
             if (auto s = wself.lock())
@@ -114,7 +80,33 @@ void Server::AddClient(std::shared_ptr<ClientSocket> client)
             }
         });
 
-    client->SetDisconnectHandler(
+    client->SetPacketHandler(
+        ProtoAuthenticationMessage::REQUEST_REGISTER_ACCOUNT,
+        [wself, wclient](char *serializedData, int length)
+        {
+            if (auto s = wself.lock())
+            {
+                if (auto c = wclient.lock())
+                {
+                    s->HandleRequestCreationAccount(c, serializedData, length);
+                }
+            }
+        });
+
+    client->SetPacketHandler(
+        ProtoAuthenticationMessage::REQUEST_PLAYER_DATA,
+        [wself, wclient](char *serializedData, int length)
+        {
+            if (auto s = wself.lock())
+            {
+                if (auto c = wclient.lock())
+                {
+                    s->HandlerRequestPlayerData(c, serializedData, length);
+                }
+            }
+        });
+
+    client->SetErrorHandler(
         EM_Type::EM_DISCONNECTED,
         [wself, wclient](system::error_code &ec)
         {
@@ -131,59 +123,168 @@ void Server::AddClient(std::shared_ptr<ClientSocket> client)
 
 void Server::HandleRequestLogin(std::shared_ptr<ClientSocket> client, char *serializedData, int length)
 {
-    M_RequestLogin msg;
+    PMRequestLogin receivedMessage;
     std::cout << std::format("c use_count: {}\n", client.use_count());
-    M_ResponseLogin rl;
+    PMResponseLogin responseMessage;
 
-    if (msg.ParseFromArray(serializedData, length))
+    if (receivedMessage.ParseFromArray(serializedData, length))
     {
-        std::string nickname{msg.nickname()};
+        auto &rs = RS::Instance();    
+        std::string idStr{std::format("id:{}", receivedMessage.id())};
+        std::string passwordHashStr{sha256(receivedMessage.password())};
+        bool valid = true;
+        // bool res = _lm->RequestEnterLobby(client, reason);
 
-        client->SetNickname(nickname);
-
+        if (rs.Exists(idStr) == false)
         {
-            std::string reason;
-            bool res = _lm->RequestEnterLobby(client, reason);
+            valid = false;
+            responseMessage.set_message("idDoesNotExsist");
+        }
+        else if ((*rs.HashGet(idStr, "password")).compare(passwordHashStr) != 0)
+        {
+            valid = false;
+            responseMessage.set_message("passwordMismatch");
+        }
 
-            if (res)
-            {
-                rl.set_result(client->GetToken());
-                rl.set_reason("ok");
-
-                RemoveClient(client->GetToken());
-            }
-            else
-            {
-                rl.set_result(0);
-                rl.set_reason(std::move(reason));
-            }
+        if (valid)
+        {
+            auto token = client->GetToken();
+            auto authTokenStr{std::format("authorized:{}", token)};
+            auto now = std::chrono::system_clock().now();
+            auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch());
+            
+            rs.HashSet(authTokenStr, "id", receivedMessage.id());
+            rs.HashSet(authTokenStr, "loginTime", std::to_string(ms.count()));\
+            
+            responseMessage.set_result(true);
+            responseMessage.set_message("ok");
+            responseMessage.set_token(token);
         }
     }
     else
     {
-        rl.set_result(0);
-        rl.set_reason("Parsing error");
+        responseMessage.set_result(false);
+        responseMessage.set_message("parsingError");
     }
 
-    std::string rlString{rl.SerializeAsString()};
+    std::string responseStr{responseMessage.SerializeAsString()};
     std::vector<char> t;
 
     append_prot_packet(
         t,
-        static_cast<int>(LoginMessage_Type::RESPONSE_LOGIN),
-        static_cast<int>(rlString.length()) + 12);
-    t.insert(t.end(), rlString.begin(), rlString.end());
+        static_cast<int>(ProtoAuthenticationMessage::RESPONSE_LOGIN),
+        static_cast<int>(responseStr.length()) + 12);
+    t.insert(t.end(), responseStr.begin(), responseStr.end());
+
+    client->PostWrite(t);
+}
+     
+void Server::HandleRequestCreationAccount(std::shared_ptr<ClientSocket> client, char *serializedData, int length)
+{
+    PMRequestRegisterAccount receivedMessage;
+    PMResponseRegisterAccount responseMessage;
+
+    if (receivedMessage.ParseFromArray(serializedData, length))
+    {
+        auto id = receivedMessage.id();
+        auto password = receivedMessage.password();
+        auto nickname = receivedMessage.nickname(); 
+        uint32_t pch = receivedMessage.pch();
+        uint32_t pcs = receivedMessage.pcs();
+        uint32_t pcv = receivedMessage.pcv();
+
+        auto &rs = RS::Instance();
+        std::string idStr{std::format("id:{}", id)};
+        bool valid = true;
+
+        if (id.length() < 2) 
+        {
+            valid = false;
+            responseMessage.set_message("idLengthIs<2");
+        }
+        else if (password.length() < 2) 
+        {
+            valid = false;
+            responseMessage.set_message("passwordLengthIs<2");
+        }
+        else if (rs.Exists(idStr)) 
+        {
+            valid = false;
+            responseMessage.set_message("idIsAleadyInUse");
+        }
+
+        if (valid)
+        {
+            std::string passwordHashStr{sha256(password)};
+            std::string pcStr{std::format("{}/{}/{}", pch, pcs, pcv)};
+
+            std::cout << std::format("New account {} {} {}\n", id, password, pcStr);
+            rs.HashSet(idStr, "password", passwordHashStr);
+            rs.HashSet(idStr, "nickname", nickname);
+            rs.HashSet(idStr, "personalColor", pcStr);
+            rs.Expire(idStr, 60);
+
+            responseMessage.set_message("ok");
+        }
+        
+        responseMessage.set_result(valid);
+    }
+    else
+    {
+        responseMessage.set_result(false);
+        responseMessage.set_message("parsingError");
+    }
+
+    std::string responseStr{responseMessage.SerializeAsString()};
+    std::vector<char> t;
+    append_prot_packet(
+        t,
+        static_cast<int>(ProtoAuthenticationMessage::RESPONSE_REGISTER_ACCOUNT),
+        static_cast<int>(responseStr.length() + 12));
+    t.insert(t.end(), responseStr.begin(), responseStr.end());
 
     client->PostWrite(t);
 }
 
-void Server::StartUDPReceive()
+void Server::HandlerRequestPlayerData(
+    std::shared_ptr<ClientSocket> client, 
+    char *serializedData, int length)
 {
-    for (int i = 0; i < 8; ++i)
+    PMRequestPlayerData receivedMessage;
+    PMResponsePlayerData responseMessage;
+
+    if (receivedMessage.ParseFromArray(serializedData, length))
     {
-        std::cout << std::format("Receive UDP data {}", i);
-        ReceiveUDP();
+        auto &rs = RS::Instance(); 
+        auto authTokenStr = std::format("authorized:{}", receivedMessage.token());
+
+        if (rs.Exists(authTokenStr))
+        {
+            auto idKeyStr = std::format("id:{}", *rs.HashGet(authTokenStr, "id"));
+            auto nicknameStr = rs.HashGet(idKeyStr, "nickname");
+            auto personalColorStr = rs.HashGet(idKeyStr, "personalColor");
+
+            responseMessage.set_result(true);
+            responseMessage.set_message("ok");
+            responseMessage.set_nickname(*nicknameStr);
+            responseMessage.set_personalcolor(*personalColorStr);
+        }
     }
+    else
+    {
+        responseMessage.set_result(false);
+        responseMessage.set_message("parsingError");
+    }
+
+    std::string responseStr{responseMessage.SerializeAsString()};
+    std::vector<char> t;
+    append_prot_packet(
+        t,
+        static_cast<int>(ProtoAuthenticationMessage::RESPONSE_PLAYER_DATA),
+        static_cast<int>(responseStr.length() + 12));
+    t.insert(t.end(), responseStr.begin(), responseStr.end());
+
+    client->PostWrite(t);
 }
 
 void Server::PrintStatus()
@@ -198,5 +299,48 @@ void Server::PrintStatus()
 
     std::cout << "-------------------------\n\n";
 
-    _lm->PrintStatus();
+   // _lm->PrintStatus();
+}
+
+void Server::StartUDPReceive()
+{
+    for (int i = 0; i < 8; ++i)
+    {
+        std::cout << std::format("Receive UDP data {}", i);
+        ReceiveUDP();
+    }
+}
+
+void Server::ReceiveUDP()
+{
+    _udpSocket.async_receive_from(
+        asio::buffer(_udpRecvBuffer.get(), static_cast<size_t>(UDPBufferSize::RECV_BUFFER_SIZE)),
+        _remoteEndpoint,
+        [this](system::error_code ec, std::size_t length)
+        {
+            if (!ec && length > 0)
+            {
+                if (memcmp(_udpRecvBuffer.get(), "prot", 4) == 0)
+                {
+                    int type = *(int32_t *)(&_udpRecvBuffer[4]);
+                    int totalDataLength = *(int32_t *)(&_udpRecvBuffer[8]);
+
+                    if (totalDataLength != length)
+                    {
+                        std::cout << std::format("UDP prot data is insufficient. buffer data length: {}, packet data length: {}\n",
+                                                 length, totalDataLength);
+                    }
+                    else
+                    {
+                        //_rm->ForwardUDPData(&_udpRecvBuffer[12], length);
+                    }
+                }
+
+                ReceiveUDP();
+            }
+            else
+            {
+                std::cout << std::format("Server::ReceiveUDP ec what: {}", ec.message());
+            }
+        });
 }

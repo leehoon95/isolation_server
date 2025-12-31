@@ -31,10 +31,21 @@ class Server : public std::enable_shared_from_this<Server>
     //unsigned int _clientIndex = 0;
 
 private:
-    void ReceiveUDP();
+    
     void RemoveClient(uint64_t token);
     //bool TryLogin(std::shared_ptr<ClientSocket> client, std::string &reason);
-    void HandleRequestLogin(std::shared_ptr<ClientSocket> client, char *serializedData, int length);
+    void HandleRequestLogin(
+        std::shared_ptr<ClientSocket> client, 
+        char *serializedData, int length);
+    void HandleRequestCreationAccount(
+        std::shared_ptr<ClientSocket> client, 
+        char *serializedData, int length);
+    void HandlerRequestPlayerData(
+        std::shared_ptr<ClientSocket> client, 
+        char *serializedData, int length);
+
+private:
+    void ReceiveUDP();
 
 public:
     explicit Server(
@@ -42,6 +53,7 @@ public:
 
     void Stop();
     void AddClient(std::shared_ptr<ClientSocket> client);
-    void StartUDPReceive();
+   
     void PrintStatus();
+    void StartUDPReceive();
 };
