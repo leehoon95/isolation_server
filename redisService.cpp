@@ -97,6 +97,11 @@ long long RS::HashLen(std::string_view key)
     return _redis.hlen(key);
 }
 
+bool RS::HashDel(std::string_view key, std::string_view field)
+{
+    return _redis.hdel(key, field);
+}
+
 bool RS::SetAdd(std::string_view key, std::string_view member)
 {
     return _redis.sadd(key, member) > 0;
@@ -123,7 +128,7 @@ std::vector<std::string> RS::SetMembers(std::string_view key)
 unsigned int RS::SetCardinality(std::string_view key)
 {
     return static_cast<int>(_redis.scard(key));
-} 
+}
 
 bool RS::Expire(std::string_view key, int minutes)
 {

@@ -17,7 +17,7 @@ class ClientSocket : public std::enable_shared_from_this<ClientSocket>
     boost::asio::io_context &_io;
     boost::asio::ip::tcp::socket _socket;
     uint64_t _token;
-    //std::string _nickname;
+    std::string _loginKey;
     std::shared_ptr<char[]> _recvBuffer;
 
     std::deque<std::shared_ptr<std::vector<char>>> _writeBufferQueue;
@@ -57,6 +57,8 @@ public:
     void ClearPacketHandler();
     void ClearDisconnectHandler();
     uint64_t GetToken() { return _token; }
+    void SetLoginKey(std::string& key) { _loginKey = key; }
+    std::string GetLoginKey() { return _loginKey; }
 
     virtual ~ClientSocket();
 };

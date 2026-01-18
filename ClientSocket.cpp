@@ -12,7 +12,6 @@ ClientSocket::ClientSocket(
     asio::ip::tcp::socket socket)
     : _io(io),
       _socket(std::move(socket)),
-
       _strand(asio::make_strand(io))
 {
     _token = TokenPool64::Instance().allocate();

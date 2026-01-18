@@ -37,6 +37,7 @@ public:
     void HashSet(std::string_view key, std::initializer_list<std::pair<std::string_view, std::string_view>> list);
     long long HashLen(std::string_view key);
     std::optional<std::string> HashGet(std::string_view key, std::string_view field);
+    bool HashDel(std::string_view key, std::string_view field);
     
     // Sets
     bool SetAdd(std::string_view key, std::string_view member);

@@ -4,7 +4,7 @@
 #include <map>
 #include <list>
 #include "room.h"
-#include "lobbyManager.h"
+// #include "lobbyManager.h"
 
 class Server : public std::enable_shared_from_this<Server>
 {
@@ -21,28 +21,33 @@ class Server : public std::enable_shared_from_this<Server>
 
     std::map<uint64_t, std::shared_ptr<ClientSocket>> _connectedClients;
     std::mutex _connMtx;
-
+    boost::asio::steady_timer _timer;
     // std::map<std::string, std::shared_ptr<ClientSocket>> _loginedClients;
     // std::map<int, std::shared_ptr<ClientSocket>> _loginedClients;
     // std::mutex _loginedMtx;
 
-    std::shared_ptr<LobbyManager> _lm;
+    // std::shared_ptr<LobbyManager> _lm;
 
-    //unsigned int _clientIndex = 0;
+    // unsigned int _clientIndex = 0;
 
 private:
-    
     void RemoveClient(uint64_t token);
-    //bool TryLogin(std::shared_ptr<ClientSocket> client, std::string &reason);
-    void HandleRequestLogin(
-        std::shared_ptr<ClientSocket> client, 
-        char *serializedData, int length);
+    // bool TryLogin(std::shared_ptr<ClientSocket> client, std::string &reason);
+
     void HandleRequestCreationAccount(
-        std::shared_ptr<ClientSocket> client, 
+        std::shared_ptr<ClientSocket> client,
         char *serializedData, int length);
-    void HandlerRequestPlayerData(
-        std::shared_ptr<ClientSocket> client, 
+    void HandleRequestLogin(
+        std::shared_ptr<ClientSocket> client,
         char *serializedData, int length);
+    void HandleRequestPlayerData(
+        std::shared_ptr<ClientSocket> client,
+        char *serializedData, int length);
+    void HandleRequestLogout(
+        std::shared_ptr<ClientSocket> client,
+        char *serializedData, int length);
+
+    void LogoutClient(std::shared_ptr<ClientSocket> client);
 
 private:
     void ReceiveUDP();
@@ -50,10 +55,9 @@ private:
 public:
     explicit Server(
         boost::asio::io_context &io);
-
     void Stop();
     void AddClient(std::shared_ptr<ClientSocket> client);
-   
+    // void CacheLobbyList();
     void PrintStatus();
     void StartUDPReceive();
 };
