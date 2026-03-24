@@ -30,6 +30,7 @@ public:
     bool Del(std::string_view key);
     bool Persist(std::string_view key);
     void FlushAll();
+    std::vector<std::string> Scan(std::string_view pattern);
     
     // Hash
     bool HashFieldExists(std::string_view key, std::string_view field);

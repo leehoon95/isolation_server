@@ -65,6 +65,22 @@ void RS::FlushAll()
     _redis.flushall();
 }
 
+std::vector<std::string> RS::Scan(std::string_view pattern)
+{
+    sw::redis::Cursor cursor = 0;
+    std::vector<std::string> data;
+    while (true)
+    {
+        _redis.scan(cursor, pattern, std::inserter(data, data.begin()));
+        if (cursor == 0)
+        {
+            break;
+        }
+    }
+
+    return std::move(data);
+}
+
 bool RS::HashFieldExists(std::string_view key, std::string_view field)
 {
     return _redis.hexists(key, field);

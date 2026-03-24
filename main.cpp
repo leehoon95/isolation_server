@@ -25,6 +25,20 @@ int main()
 	{
 		std::cout << std::unitbuf;
 
+		auto& rs = RS::Instance();
+		auto scanResult{rs.Scan("client:*")};
+		auto scanResult2{rs.Scan("logined:*")};
+		scanResult.insert(
+			scanResult.end(),
+			std::make_move_iterator(scanResult2.begin()),
+			std::make_move_iterator(scanResult2.end())
+		);
+
+		for (auto& key : scanResult)
+		{
+			rs.Del(key);
+		}
+
 		boost::asio::io_context io_context;
 		auto server = std::make_shared<Server>(io_context);
 		asio::executor_work_guard<asio::io_context::executor_type> work_guard = asio::make_work_guard(io_context);

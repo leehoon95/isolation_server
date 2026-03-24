@@ -19,9 +19,14 @@ Redis 사용 목록
     |-|-|-|
     |client:{token}|connectedTime|{time}|
     ||loginId|{id}|
+    1. client가 연결되는 즉시 생성
+    2. loginId 필드는 로그인 성공시 생성, 로그아웃하면 제거
+    3. 로그인 성공 후 player data를 전달하기 위한 인증용
     
 * Logined Account
     |key|field|value|
     |-|-|-|
     |logined:{id}|token|{token}|
     ||loginTime|{time}|
+    1. 로그인 성공하면 생성
+    2. 중복 로그인 방지책
