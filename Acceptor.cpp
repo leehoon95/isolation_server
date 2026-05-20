@@ -36,7 +36,7 @@ void Acceptor::Accept(std::function<void(asio::ip::tcp::socket)> delegator)
             {
                 auto re = socket.remote_endpoint();
 
-                std::cout << std::format("accept! {}:{}", re.address().to_string(), re.port()) << std::endl;
+                std::cout << std::format("Accept client({}:{})\n", re.address().to_string(), re.port());
                 {
                     asio::ip::tcp::no_delay noDelay(true);
                     socket.set_option(noDelay);

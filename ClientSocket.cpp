@@ -44,14 +44,14 @@ void ClientSocket::ReadAsync()
                     int type = *(int32_t *)(&buffer[4]);
                     int totalDataLength = *(int32_t *)(&buffer[8]);
 
-                    std::cout << std::format("prot data length: {} / {} type: {}\n",
-                                             length, totalDataLength, type);
+                    std::cout << std::format("received data from {}\nlength: {} / {} type: {}\n",
+                                                self->GetToken(), length, totalDataLength, type);
 
                     char *data = &buffer[12];
 
                     if (totalDataLength != length)
                     {
-                        std::cout << std::format("TCP serialized data is insufficient. buffer data len: {}. serialized data length: {}\n",
+                        std::cout << std::format("This data is insufficient. buffer data len: {}. serialized data length: {}\n",
                                                  length, totalDataLength);
                     }
                     else
@@ -132,7 +132,7 @@ void ClientSocket::WriteAsync()
                                     if (!self->IsWriteBufferQueueEmpty())
                                         self->WriteAsync();
 
-                                    std::cout << "transferred: " << transferred << std::endl;
+                                    //std::cout << std::format("Send to client {} byte\n", transferred);
                                 }
                                 else
                                 {
@@ -188,7 +188,7 @@ bool ClientSocket::HandlePacket(int type, char *data, int length)
     {
         auto re = _socket.remote_endpoint();
         std::cerr << std::format(
-            "Client socket is closed. ({}:{})\n",
+            "Client socket is disconnected. ({}:{})\n",
             re.address().to_string(),
             re.port());
 
@@ -204,16 +204,17 @@ void ClientSocket::HandleError(boost::system::error_code &ec)
 {
     system::error_code ec2;
     auto re = _socket.remote_endpoint(ec2);
-    if (ec2)
+    auto ev = ec2.value();
+    if (ev != 0)
     {
-        std::cerr << std::format("ClientSocket::HandleError. remote_endpoint. {}\n", ec2.message());
+        std::cerr << std::format("remote_endpoint error({}) {}\n", ev, ec2.message());
     }
 
-    std::cout << std::format(
-        "ClientSocket::HandleError. {} ({}:{})\nClient socket is closed.\n",
-        ec.message(),
-        re.address().to_string(),
-        re.port());
+    // std::cout << std::format(
+    //     "ClientSocket::HandleError. {} ({}:{})\nClient socket is closed.\n",
+    //     ec.message(),
+    //     re.address().to_string(),
+    //     re.port());
 
     std::scoped_lock<std::mutex> sl{_disconnectHandlerMtx};
 
@@ -237,18 +238,18 @@ bool ClientSocket::Init()
 
 void ClientSocket::Stop()
 {
-    std::cout << std::format("STOP client {}\n", _token);
+    std::cout << std::format("Client socket closed {}\n", _token);
     system::error_code ec;
     _socket.shutdown(asio::ip::tcp::socket::shutdown_both, ec);
     if (ec)
     {
-        std::cout << std::format("ClientSocket::Stop: socket.shutdown. {}\n", ec.message());
+        std::cout << std::format("socket shutdown error. message: {}\n", ec.message());
     }
 
     _socket.close(ec);
     if (ec)
     {
-        std::cout << std::format("ClientSocket::Stop: socket.close. {}\n", ec.message());
+        std::cout << std::format("socket close error. message: {}\n", ec.message());
     }
 }
 
@@ -317,6 +318,6 @@ void ClientSocket::ClearDisconnectHandler()
 
 ClientSocket::~ClientSocket()
 {
-    std::cout << std::format("ClientSocket {} is destroyed.\n", _token);
+    //std::cout << std::format("ClientSocket {} is destroyed.\n", _token);
     TokenPool64::Instance().release(_token);
 }

@@ -171,7 +171,11 @@ void Server::HandleRequestCreationAccount(std::shared_ptr<ClientSocket> client, 
         auto password = receivedMessage.password();
         auto nickname = receivedMessage.nickname();
         auto personalColor = receivedMessage.personalcolor();
-
+        
+        // std::cout << std::format(
+        //     "Create Account ---\n{}------------------\n",
+        //     receivedMessage.DebugString());
+        
         auto &rs = RS::Instance();
         std::string idStr{std::format("id:{}", id)};
         bool valid = true;
@@ -201,7 +205,8 @@ void Server::HandleRequestCreationAccount(std::shared_ptr<ClientSocket> client, 
         {
             std::string passwordHashStr{sha256(password)};
 
-            std::cout << std::format("New account {} {} {}\n", id, password, personalColor);
+            std::cout << std::format("A new account has been created {} {} {}\n", 
+                id, password, personalColor);
             rs.HashSet(idStr, "password", passwordHashStr);
             rs.HashSet(idStr, "nickname", nickname);
             rs.HashSet(idStr, "personalColor", personalColor);
@@ -235,7 +240,6 @@ void Server::HandleRequestCreationAccount(std::shared_ptr<ClientSocket> client, 
 void Server::HandleRequestLogin(std::shared_ptr<ClientSocket> client, char *serializedData, int length)
 {
     PMRequestLogin receivedMessage;
-    std::cout << std::format("c use_count: {}\n", client.use_count());
     PMResponseLogin responseMessage;
 
     if (receivedMessage.ParseFromArray(serializedData, length))
@@ -392,14 +396,14 @@ void Server::LogoutClient(std::shared_ptr<ClientSocket> client)
 
     if (!rs.Exists(clientKey))
     {
-        std::cout << std::format("LogoutClient This client isn't exists {}\n", clientKey);
+        std::cout << std::format("Disconnected from client({})", client->GetToken());
         return;
     }
 
     auto loginIdStr = rs.HashGet(clientKey, "loginId");
     if (!loginIdStr)
     {
-        std::cout << std::format("LogoutClient This client was not logined\n");
+        std::cout << std::format("Disconnected from client(not logined, {})\n", client->GetToken());
         return;
     }
 
