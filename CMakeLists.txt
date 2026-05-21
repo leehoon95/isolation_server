@@ -12,21 +12,18 @@ add_subdirectory(./isolation_pb)
 
 set(SOURCES
     main.cpp
-    #TestAsyncServer.cpp
     redisService.cpp
     Server.cpp
     ClientSocket.cpp
     Acceptor.cpp
     util.cpp
     sha256.cpp
-    #room.cpp
-    #lobbyManager.cpp
-    #session.cpp
 )
 
 add_executable(test_server ${SOURCES})
 #target_include_directories(test_server PRIVATE ${Protobuf_INCLUDE_DIRS})
 target_link_libraries(test_server Boost::boost myproto redis++ hiredis)
+
 #protobuf::protobuf
 #protobuf::libprotobuf
 #libprotobuf

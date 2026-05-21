@@ -3,8 +3,6 @@
 #include "ClientSocket.h"
 #include <map>
 #include <list>
-#include "room.h"
-// #include "lobbyManager.h"
 
 class Server : public std::enable_shared_from_this<Server>
 {
@@ -22,13 +20,6 @@ class Server : public std::enable_shared_from_this<Server>
     std::map<uint64_t, std::shared_ptr<ClientSocket>> _connectedClients;
     std::mutex _connMtx;
     boost::asio::steady_timer _timer;
-    // std::map<std::string, std::shared_ptr<ClientSocket>> _loginedClients;
-    // std::map<int, std::shared_ptr<ClientSocket>> _loginedClients;
-    // std::mutex _loginedMtx;
-
-    // std::shared_ptr<LobbyManager> _lm;
-
-    // unsigned int _clientIndex = 0;
 
 private:
     void RemoveClient(uint64_t token);

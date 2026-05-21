@@ -9,7 +9,6 @@
 #include <sys/socket.h>
 
 #include "Acceptor.h"
-#include "TestAsyncServer.h"
 #include "Server.h"
 
 #include "redisService.h"

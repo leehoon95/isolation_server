@@ -11,7 +11,9 @@
 * [Protocol Buffers](https://github.com/protocolbuffers/protobuf)(31.0.0)  
     플랫폼과 언어 중립적 정의 언어 사용, 데이터 직렬화 지원
 * [Boost.asio](https://www.boost.org/library/latest/asio/)  
-    apt libboost-all-dev 설치
+    apt libboost-all-dev 명령으로 설치. 비동기 네트워크 처리 구현
+* [sha256](https://www.zedwood.com/article/cpp-sha256-function)  
+    비밀번호 암호화용 hash 함수
    
 ### 서버 구성 요소와 역할
 ---
@@ -23,26 +25,26 @@
 ### Redis server key, value 설명
 ---
 
-* Account Register
-    |key|field|desc|
-    |-|-|-|
-    |id:{id}|password|sha256 hash|
-    ||nickname|닉네임|
-    ||personalColor|{h/s/v}|
-
 * Connected Client
     |key|field|desc|
     |-|-|-|
     |client:{token}|connectedTime|연결된 시간|
     ||loginId|로그인 id|
-    1. client가 연결되는 즉시 생성
-    2. loginId 필드는 로그인 성공시 생성, 로그아웃하면 제거
-    3. 로그인 성공 후 player data를 전달하기 위한 인증용
+    1. client 연결시 생성
+    2. loginId 필드는 로그인 상태에서 유효
+
+* Registered Account
+    |key|field|desc|
+    |-|-|-|
+    |id:{id}|password|sha256 hash|
+    ||nickname|닉네임|
+    ||personalColor|hsv|
+    1. 계정생성 완료시 생성
     
 * Logined Account
     |key|field|value|
     |-|-|-|
-    |logined:{id}|token|{token}|
-    ||loginTime|{time}|
-    1. 로그인 성공하면 생성
+    |logined:{id}|token|실제 client 식별자|
+    ||loginTime|로그인 성공 시간|
+    1. 로그인 성공시 생성
     2. 중복 로그인 방지책
