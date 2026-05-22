@@ -1,11 +1,11 @@
 # Isolation Monolithic 서버
+---
 
 ### 의존 패키지  
----
 * Redis-Server(7.0.15)  
 
 ### 의존 라이브러리
----
+
 * [Redis++](https://github.com/sewenew/redis-plus-plus?tab=readme-ov-file)  
     서버가 redis-server와 통신하기 위함
 * [Hiredis](https://github.com/redis/hiredis)(1.3.0)  
@@ -18,7 +18,6 @@
     비밀번호 암호화용 hash 함수
 
 ### Redis server 데이터 구조
----
 
 * Connected Client
     |key|field|desc|
