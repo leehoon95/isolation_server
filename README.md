@@ -37,7 +37,7 @@
     1. 계정생성 완료시 생성
     
 * Logined Account
-    |key|field|value|
+    |key|field|desc|
     |-|-|-|
     |logined:{id}|token|실제 client 식별자|
     ||loginTime|로그인 성공 시간|

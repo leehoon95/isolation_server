@@ -1,0 +1,49 @@
+git clone https://github.com/protocolbuffers/protobuf.git
+cd protobuf
+git checkout v25.3
+git submodule update --init --recursive
+
+// github에 31버전이 올라와 있으므로 수동으로 다운 받는다
+// apt로 설치된 protobuf는 구버전으로 esition="2023"을 인식하지 못한다
+
+mkdir build && cd build
+cmake .. -DCMAKE_BUILD_TYPE=Release
+make -j$(nproc)
+sudo make install
+sudo ldconfig
+
+
+redis++ 설치는 아래 링크 참고
+https://github.com/sewenew/redis-plus-plus?tab=readme-ov-file#install-redis-plus-plus
+
+apt 기록
+cat /var/log/apt/history.log
+
+-----------------------------
+GCP ec2 인스턴스 생성 이후
+
+sudo apt update
+설치 가능 패키지 리스트 업데이트
+
+sudo apt install build-essential
+필수 빌드 패키지 설치(g++ 포함)
+
+sudo apt install git
+git 설치
+
+sudo apt-get install redis-server
+redis-server 설치
+
+ hiredis 설치(github참고)
+
+sudo apt install cmake
+cmake 설치
+
+github에서 redis-plus-plus 설치(github참고)
+cmake 할 때 옵션을 사용할 것(vm리소스 부족으로 단위 테스트 컴파일 불가)
+cmake -DREDIS_PLUS_PLUS_BUILD_TEST=OFF ..
+이후 make install
+
+github에서 protobuf v31.0 설치해서 컴파일
+sudo make install
+sudo ldconfig
