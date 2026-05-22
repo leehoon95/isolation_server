@@ -1,9 +1,11 @@
 # Isolation Monolithic 서버
 
 ### 의존 패키지  
+---
 * Redis-Server(7.0.15)  
 
 ### 의존 라이브러리
+---
 * [Redis++](https://github.com/sewenew/redis-plus-plus?tab=readme-ov-file)  
     서버가 redis-server와 통신하기 위함
 * [Hiredis](https://github.com/redis/hiredis)(1.3.0)  
@@ -14,15 +16,8 @@
     apt libboost-all-dev 명령으로 설치. 비동기 네트워크 처리 구현
 * [sha256](https://www.zedwood.com/article/cpp-sha256-function)  
     비밀번호 암호화용 hash 함수
-   
-### 서버 구성 요소와 역할
----
-* 로그인 서버  
-    클라이언트 로그인 기능 제공
-* Redis-Server  
-    클라이언트 계정 및 데이터 관리
 
-### Redis server key, value 설명
+### Redis server 데이터 구조
 ---
 
 * Connected Client
