@@ -1,6 +1,5 @@
-# Isolation Monolithic 서버
----
-
+# Isolation 인증 서버
+로그인 서버와 DB를 같은 인스턴스에 두고 있는 모놀리식(Monolithic) 서버
 ### 의존 패키지  
 * Redis-Server(7.0.15)  
 
@@ -25,7 +24,7 @@
     |client:{token}|connectedTime|연결된 시간|
     ||loginId|로그인 id|
     1. client 연결시 생성
-    2. loginId 필드는 로그인 상태에서 유효
+    2. loginId 필드는 로그인 성공시 설정됨
 
 * Registered Account
     |key|field|desc|
