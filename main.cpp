@@ -78,19 +78,12 @@ int main()
 			if (cmd.compare("stop") == 0)
 			{
 				acceptor.Stop();
-				server->Stop();
-				// for (auto& client : Servers){
-				// 	client.second->Stop();
-				// }
+
 				break;
 			}
 			else if (cmd.compare("status") == 0)
 			{
 				server->PrintStatus();
-			}
-			else
-			{
-				// server.Notify(cmd);
 			}
 		}
 
