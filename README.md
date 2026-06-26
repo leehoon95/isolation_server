@@ -3,18 +3,27 @@
 ### 의존 패키지  
 * Redis-Server(7.0.15)  
 
-### 의존 라이브러리
+### 의존 라이브러리  
 
 * [Redis++](https://github.com/sewenew/redis-plus-plus?tab=readme-ov-file)  
     서버가 redis-server와 통신하기 위함
 * [Hiredis](https://github.com/redis/hiredis)(1.3.0)  
     redis++에서 의존
 * [Protocol Buffers](https://github.com/protocolbuffers/protobuf)(31.0.0)  
-    플랫폼과 언어 중립적 정의 언어 사용, 데이터 직렬화 지원
+    데이터 직렬화 지원.
 * [Boost.asio](https://www.boost.org/library/latest/asio/)  
-    apt libboost-all-dev 명령으로 설치. 비동기 네트워크 처리 구현
+    비동기 네트워크 처리 구현. apt install libboost-all-dev 명령으로 설치
 * [sha256](https://www.zedwood.com/article/cpp-sha256-function)  
     비밀번호 암호화용 hash 함수
+
+### 사전 준비
+1. [isolation_pb](https://github.com/leehoon95/isolation_pb) repository를 최상위 경로에서 clone
+2. isolation_pb 안에서 Windows에서는 cs.bat, 우분투에서는 cpp.sh을 실행해서 소스파일을 생성한다
+   
+### 빌드 방법
+1. mkdir build
+2. cmake ..
+3. make
 
 ### Redis server 데이터 구조
 
