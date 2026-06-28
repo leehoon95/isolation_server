@@ -109,8 +109,8 @@ int main()
 
 	std::cout << "Server closed\n";
 
-	auto &rs = RS::Instance();
-	rs.FlushAll();
+	// auto &rs = RS::Instance();
+	// rs.FlushAll();
 
 	return 0;
 }
