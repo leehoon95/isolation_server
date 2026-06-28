@@ -21,11 +21,11 @@
 2. isolation_pb 안에서 Windows에서는 cs.bat, 우분투에서는 cpp.sh을 실행해서 소스파일을 생성한다
    
 ### 빌드 방법
-```
 1. mkdir build
-2. cmake ..
-3. make  
-```
+2. cd build
+3. cmake ..
+4. make (-j4)
+
 ### 실행 방법
 ```
 nohup ./test_server 1>/dev/null 2>&1 &

@@ -46,6 +46,10 @@ int main()
 		std::vector<std::thread> ioThreads;
 		auto concurrency = std::thread::hardware_concurrency() / 2;
 
+		if (concurrency == 0) {
+			concurrency = 1;
+		}
+
 		for (int i = 0; i < concurrency; ++i)
 		{
 			ioThreads.emplace_back([&, i]()
