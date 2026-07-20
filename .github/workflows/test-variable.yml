@@ -7,7 +7,7 @@ jobs: # Jobs
   build:
     runs-on: ubuntu-latest
     steps: # Step
-      - uses: actions/checkout@v3 # Action 
+      - uses: actions/checkout@v6 # Action 
       - name: Echo Variable And Secret 
         run: |
           echo "Hello World! Github Actions 🚀"
