@@ -16,6 +16,8 @@ jobs:
       # 1. 소스코드 체크아웃
       - name: Checkout repository
         uses: actions/checkout@v6
+        with:
+          submodules: recursive
 
       # 2. 이전 빌드 캐시/잔재 정리 (Self-hosted 러너 필수 권장)
       - name: Clean build directory
