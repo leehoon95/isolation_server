@@ -4,7 +4,7 @@ on: # Events
 
 jobs: # Jobs
   build:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps: # Step
       - uses: actions/checkout@v6 # Action 
       - name: Echo Variable And Secret 
