@@ -1,0 +1,15 @@
+name: Test Variable # 워크플로우
+on: # Events 
+  workflow_dispatch:
+  push:
+
+jobs: # Jobs
+  build:
+    runs-on: ubuntu-latest
+    steps: # Step
+      - uses: actions/checkout@v3 # Action 
+      - name: Echo Variable And Secret 
+        run: |
+          echo "Hello World! Github Actions 🚀"
+          echo ENV: ${{ vars.SERVER_VARIABLE }}
+          echo SECRET: ${{ secrets.SERVER_SECRET }}
