@@ -1,7 +1,6 @@
 name: Server Build & Execute
 
 on:
-  push:
   workflow_dispatch: # GitHub 웹 UI에서 수동 실행 가능
   
 jobs:
