@@ -23,7 +23,7 @@ jobs:
 
       # 3. CMake 구성 (Configure)
       - name: Configure CMake
-        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+        run: cmake -S . -B build
 
       # 4. 빌드 (Build)
       # -j $(nproc) 옵션으로 호스트 PC의 모든 CPU 코어를 활용해 병렬 빌드합니다.
