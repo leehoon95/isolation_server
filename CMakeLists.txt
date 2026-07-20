@@ -7,7 +7,7 @@ find_package(Boost REQUIRED)
 find_package(protobuf REQUIRED)
 
 
-add_subdirectory(../isolation_pb)
+add_subdirectory(./isolation_pb)
 
 set(SOURCES
     main.cpp
