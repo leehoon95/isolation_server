@@ -20,6 +20,7 @@ jobs:
           submodules: recursive
 
       - name: Build isolation_pb
+        working-directory: ./libs/isolation_pb
         run: sh ./libs/isolation_pb/cpp.sh
 
       # 2. 이전 빌드 캐시/잔재 정리 (Self-hosted 러너 필수 권장)
