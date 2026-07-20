@@ -5,7 +5,7 @@ on:
   workflow_dispatch: # GitHub 웹 UI에서 수동 실행 가능
   
 jobs:
-  build-and-run:
+  build-and-execute:
     # 셀프 호스팅 러너 지정을 위해 self-hosted를 설정합니다.
     # 필요시 특정 태그(예: [self-hosted, linux, x64])를 조합할 수 있습니다.
     runs-on: self-hosted
