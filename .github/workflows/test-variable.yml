@@ -1,7 +1,6 @@
 name: Test Variable # 워크플로우
 on: # Events 
   workflow_dispatch:
-  push:
 
 jobs: # Jobs
   build:
