@@ -1,0 +1,3 @@
+[submodule "libs/isolation_pb"]
+	path = libs/isolation_pb
+	url = https://github.com/leehoon95/isolation_pb.git
