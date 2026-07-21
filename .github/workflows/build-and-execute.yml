@@ -36,4 +36,4 @@ jobs:
       - name: Run Executable
         run: |
           echo "=== Executing Program ==="
-          ./build/test_server # 실제 생성되는 바이너리 파일 이름으로 변경
+          nohup ./build/test_server 1>/dev/null 2>&1 &
