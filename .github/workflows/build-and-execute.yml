@@ -31,7 +31,7 @@ jobs:
       - name: Build project
         run: cmake --build build --config Release
 
-      - name: Run Executable
+      - name: Restart Service
         run: |
           echo "=== Executing Server ==="
           mkdir -p /home/ubuntu/isolation_server/bin
