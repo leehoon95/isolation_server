@@ -15,22 +15,9 @@
     비동기 네트워크 처리 구현. apt install libboost-all-dev 명령으로 설치
 * [sha256](https://www.zedwood.com/article/cpp-sha256-function)  
     비밀번호 암호화용 hash 함수
-
-### 사전 준비
-1. [isolation_pb](https://github.com/leehoon95/isolation_pb) repository를 최상위 경로에서 clone
-2. isolation_pb 안에서 Windows에서는 cs.bat, 우분투에서는 cpp.sh을 실행해서 소스파일을 생성한다
    
-### 빌드 방법
-1. mkdir build
-2. cd build
-3. cmake ..
-4. make (-j4)
-
-### 실행 방법
-```
-nohup ./test_server 1>/dev/null 2>&1 &
-```
-nohup.out이 생성되지 않게 한다
+### 빌드 후 실행
+Actions에서 Server Build & Execute workflow를 실행할 것
 
 ### Redis server 데이터 구조
 
