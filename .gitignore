@@ -77,3 +77,4 @@ CMakeUserPresets.json
 
 build/
 actions-runner/
+bin/
