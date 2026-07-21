@@ -36,4 +36,6 @@ jobs:
       - name: Run Executable
         run: |
           echo "=== Executing Program ==="
-          nohup ./build/test_server 1>/dev/null 2>&1 &
+          cp ./build/test_server /home/ubuntu/isolation_server/bin/test_server
+          sudo sustemctl restart test-server.service
+        #nohup ./build/test_server 1>/dev/null 2>&1 &
