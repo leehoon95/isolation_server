@@ -44,7 +44,7 @@ int main()
 		unsigned int clientIndex = 0;
 		Acceptor acceptor(io_context, 51010);
 		std::vector<std::thread> ioThreads;
-		auto concurrency = std::thread::hardware_concurrency() / 2;
+		auto concurrency = 1;//std::thread::hardware_concurrency() / 2;
 
 		if (concurrency == 0) {
 			concurrency = 1;
@@ -70,35 +70,21 @@ int main()
 				}
 			});
 
-		//server->CacheLobbyList();
-
-		while (true)
-		{
-			std::string cmd;
-			std::getline(std::cin, cmd);
-
-			std::cout << "cmd: " << cmd << std::endl;
-
-			if (cmd.compare("stop") == 0)
-			{
-				acceptor.Stop();
-
-				break;
+		boost::asio::signal_set signals(io_context, SIGINT, SIGTERM);
+		signals.async_wait([&](const boost::system::error_code& error, int signal_num) {
+			if (!error) {
+				std::cout << "\n[SIGNAL] Shutdown signal received\n";
+				work_guard.reset();
+				io_context.stop();
 			}
-			else if (cmd.compare("status") == 0)
-			{
-				server->PrintStatus();
-			}
-		}
+		});
 
-		work_guard.reset();
-		io_context.stop();
 
 		for (auto &th : ioThreads)
 		{
-			th.join();
+			if (th.joinable())
+				th.join();
 		}
-		// ioThread.join();
 
 		std::cout << "All io thread is joined\n";
 	}
