@@ -20,6 +20,12 @@ void TestAsioSync();
 
 int main()
 {
+#ifdef BUILD_TIMESTAMP
+    std::cout << "Server Built At: " << BUILD_TIMESTAMP << " (UTC)" << std::endl;
+#else
+    std::cout << "Build Time: Unknown" << std::endl;
+#endif
+
 	try
 	{
 		std::cout << std::unitbuf;
@@ -92,8 +98,6 @@ int main()
 	{
 		std::cerr << "Exception: " << e.what() << "\n";
 	}
-
-	std::cout << "Server closed\n";
 
 	// auto &rs = RS::Instance();
 	// rs.FlushAll();

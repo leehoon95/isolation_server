@@ -6,8 +6,10 @@ set(CMAKE_CXX_STANDARD 20)
 find_package(Boost REQUIRED)
 find_package(protobuf REQUIRED)
 
-
 add_subdirectory(./libs/isolation_pb)
+
+string(TIMESTAMP BUILD_TIMESTAMP "%Y-%m-%d %H:%M:%S" UTC)
+add_compile_definitions(BUILD_TIMESTAMP="${BUILD_TIMESTAMP}")
 
 set(SOURCES
     main.cpp
