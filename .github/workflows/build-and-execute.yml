@@ -27,15 +27,14 @@ jobs:
       - name: Configure CMake
         run: cmake -S . -B build
 
-      # 4. 빌드 (Build)
       # -j $(nproc) 옵션으로 호스트 PC의 모든 CPU 코어를 활용해 병렬 빌드합니다.
       - name: Build project
-        run: cmake --build build --config Release
+        run: cmake --build build --config Release -j 2
 
-      # 5. 프로그램 실행 (Execute)
       - name: Run Executable
         run: |
-          echo "=== Executing Program ==="
+          echo "=== Executing Server ==="
+          mkdir -p /home/ubuntu/isolation_server/bin
           cp ./build/test_server /home/ubuntu/isolation_server/bin/test_server
           sudo sustemctl restart test-server.service
         #nohup ./build/test_server 1>/dev/null 2>&1 &
