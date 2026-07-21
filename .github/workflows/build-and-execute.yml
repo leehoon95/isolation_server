@@ -36,5 +36,6 @@ jobs:
           echo "=== Executing Server ==="
           mkdir -p /home/ubuntu/isolation_server/bin
           cp ./build/test_server /home/ubuntu/isolation_server/bin/test_server
-          sudo systemctl restart test-server.service
+          sudo systemctl stop test-server.service
+          sudo systemctl start test-server.service
         #nohup ./build/test_server 1>/dev/null 2>&1 &
