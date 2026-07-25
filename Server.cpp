@@ -1,9 +1,8 @@
 #include "Server.h"
 #include <iostream>
 #include <chrono>
-// #include "isolation_pb/login_message.pb.h"
-#include "libs/isolation_pb/authentication_message.pb.h"
-#include "libs/isolation_pb/error_message.pb.h"
+#include "authentication_message.pb.h"
+#include "error_message.pb.h"
 #include "redisService.h"
 #include "util.h"
 #include "sha256.h"
