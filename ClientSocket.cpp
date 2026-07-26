@@ -1,7 +1,7 @@
 #include "ClientSocket.h"
 #include <iostream>
 #include <format>
-#include "libs/isolation_pb/error_message.pb.h"
+#include "error_message.pb.h"
 #include "util.h"
 #include "tokenPool.h"
 

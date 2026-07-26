@@ -1,0 +1,5 @@
+# act workflow 테스트용 간편 옵션 적용 파일
+-P self-hosted=catthehacker/ubuntu:act-latest
+
+# DockerHub에서 이미지를 pull하지 마라
+#--pull=false

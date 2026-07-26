@@ -16,8 +16,15 @@
 * [sha256](https://www.zedwood.com/article/cpp-sha256-function)  
     비밀번호 암호화용 hash 함수
    
-### 빌드 후 실행
-Actions에서 Server Build & Execute workflow를 실행할 것
+### Github Actions test
+```
+# workflow 테스트 명령어 예시(.actrc파일도 참고)
+sudo act -W .github/workflows/test-git.yml
+```
+.actrc 파일 내용
+```
+-P self-hosted=catthehacker/ubuntu:act-latest
+```
 
 ### Redis server 데이터 구조
 

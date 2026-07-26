@@ -1,0 +1,49 @@
+services:
+  # 1. Redis 인스턴스 설정
+  redis:
+    image: redis:7-alpine
+    container_name: isolation-redis
+    restart: always
+    # 호스트 PC나 외부 GUI 툴에서 Redis에 직접 접속해야 할 때만 ports 작성
+    ports:
+      - "6379:6379"
+    #expose:
+    #  - "6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - game-net
+    # 서버 프로그램보다 Redis가 완전히 켜질 때까지 기다리기 위한 헬스체크
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  # 2. 서버 프로그램 컨테이너 설정
+  server-app:
+    build:
+      context: .
+      dockerfile: Dockerfile.server
+    container_name: isolation-server
+    restart: no
+    # Redis가 헬스체크(ping)에 성공한 후 서버 프로그램 실행
+    depends_on:
+      redis:
+        condition: service_healthy
+    environment:
+      - REDIS_HOST=redis   # 핵심: localhost가 아니라 service 이름 사용
+      - REDIS_PORT=6379
+    ports:
+      - "51010:51010" # 게임/웹 서버의 서비스 포트
+    networks:
+      - game-net
+
+# 사용자 정의 브리지 네트워크. 격리된 도커 네트워크
+networks:
+  game-net:
+    driver: bridge
+
+# Redis 데이터 영구 보존을 위한 볼륨
+volumes:
+  redis-data:

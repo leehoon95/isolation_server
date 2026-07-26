@@ -21,31 +21,6 @@ Server::Server(
     // ASSERT(_udpRecvBuffer != nullptr, "Server. Failed to allocate UDP receive buffer");
 }
 
-// void Server::CacheLobbyList()
-// {
-//     std::scoped_lock sl{_lobbyCacheMtx};
-
-//     // lobby cache를 갱신
-
-//     _timer.expires_after(std::chrono::milliseconds(static_cast<int>(1000)));
-//     _timer.async_wait(
-//         [ws = std::weak_ptr{shared_from_this()}](const boost::system::error_code &ec)
-//         {
-//             std::cout << "cache!";
-//             if (!ec)
-//             {
-//                 if (auto s = ws.lock())
-//                 {
-//                     s->CacheLobbyList();
-//                 }
-//             }
-//             else
-//             {
-//                 std::cerr << "timer error: " << ec.what() << std::endl;
-//             }
-//         });
-// }
-
 void Server::RemoveClient(uint64_t token)
 {
     std::scoped_lock sl{_connMtx};
@@ -53,11 +28,6 @@ void Server::RemoveClient(uint64_t token)
     rs.Del(std::format("client:{}", token));
     _connectedClients.erase(token);
 }
-
-// bool Server::TryLogin(std::shared_ptr<ClientSocket> client, std::string &reason)
-// {
-//     return _rm->Login(std::weak_ptr<ClientSocket>(client), reason);
-// }
 
 void Server::Stop()
 {
