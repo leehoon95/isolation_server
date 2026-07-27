@@ -1,19 +1,32 @@
 # Isolation 인증 서버
-로그인 서버와 DB를 같은 인스턴스에 두고 있는 모놀리식(Monolithic) 서버
+비동기 Isolation 게임 로그인 서버
+
+### 주요 특징
+1. **Non-Blocking Async I/O**  
+    * Boost.Asio 기반 비동기 TCP 통신 처리
+2. **인메모리 데이터 관리**
+    * redis-server 연동
+3. **자동화된 개발/배포 환경**  
+    * Github Actions CI/CD 구현
+    * Docker Compose 멀티 컨테이너 환경 구축
+
+### CI/CD 관련 파일
+1. [Dockerfile.server](./Dockerfile.server)
+2. [docker-compose.yml](./docker-compose.yml)
+3. [deploy.yml](./.github/workflows/deploy.yml)
+
 
 ### 소스코드 빌드
 build.sh을 실행한다.
 ```
 sh build.sh
 ```
-⚠️ Dockerfile.server에서 사용하는 스크립트이므로 수정할 때 주의하라
+⚠️ Dockerfile.server에서 참조하는 스크립트이므로 수정할 때 주의
 
-### Docker 빌드
-bdocker.sh을 실행한다.
+### 서버 이미지 빌드
 ```
-sh bdocker.sh
+sh makeimg.sh
 ```
-⚠️ Docker Compose가 이미지가 동일하다고 판단하는 이슈가 있음
 
 ### Docker Compose 실행
 ```

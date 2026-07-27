@@ -26,7 +26,7 @@ services:
       context: .
       dockerfile: Dockerfile.server
       args:
-        REDIS_SERVER_HOST: redis # redis 컨테이너
+        REDIS_SERVER_HOST: redis # redis 서비스이름을 사용
         REDIS_SERVER_PORT: 6380
     image: leehoon95/isolation-server
     restart: no
