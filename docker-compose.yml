@@ -25,7 +25,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.server
-    container_name: isolation-server
+    image: leehoon95/isolation-server
     restart: no
     # Redis가 헬스체크(ping)에 성공한 후 서버 프로그램 실행
     depends_on:

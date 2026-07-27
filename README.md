@@ -39,17 +39,18 @@ sudo act -W .github/workflows/test-git.yml
 
 ### 의존 패키지  
 * Redis-Server(7.0.15)  
+* libboost-all-dev
 
 ### 의존 라이브러리  
 
 * [Redis++](https://github.com/sewenew/redis-plus-plus?tab=readme-ov-file)  
-    서버가 redis-server와 통신하기 위함
+    redis-server 통신
 * [Hiredis](https://github.com/redis/hiredis)(1.3.0)  
-    redis++에서 의존
+    redis++ 라이브러리가 의존함
 * [Protocol Buffers](https://github.com/protocolbuffers/protobuf)(31.0.0)  
-    데이터 직렬화 지원.
+    데이터 직렬화 지원
 * [Boost.asio](https://www.boost.org/library/latest/asio/)  
-    비동기 네트워크 처리 구현. apt install libboost-all-dev 명령으로 설치
+    비동기 네트워크 처리 구현
 * [sha256](https://www.zedwood.com/article/cpp-sha256-function)  
     비밀번호 암호화용 hash 함수
 
