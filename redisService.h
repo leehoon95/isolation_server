@@ -1,3 +1,4 @@
+#pragma once
 #include <sw/redis++/redis++.h>
 #include <boost/asio.hpp>
 #include <string>
@@ -8,7 +9,7 @@
 
 class RS
 {
-    sw::redis::Redis _redis;
+    std::unique_ptr<sw::redis::Redis> _redis;
 
 private:
     RS();
@@ -24,6 +25,7 @@ public:
     }
 
     // Common
+    void Ping();
     bool Set(std::string_view key, std::string_view value);
     std::optional<std::string> Get(std::string_view key);
     bool Exists(std::string_view key);

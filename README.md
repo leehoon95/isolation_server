@@ -1,5 +1,42 @@
 # Isolation 인증 서버
 로그인 서버와 DB를 같은 인스턴스에 두고 있는 모놀리식(Monolithic) 서버
+
+### 소스코드 빌드
+build.sh을 실행한다.
+```
+sh build.sh
+```
+⚠️ Dockerfile.server에서 사용하는 스크립트이므로 수정할 때 주의하라
+
+### Docker 빌드
+bdocker.sh을 실행한다.
+```
+sh bdocker.sh
+```
+⚠️ Docker Compose가 이미지가 동일하다고 판단하는 이슈가 있음
+
+### Docker Compose 실행
+```
+docker compose up --build
+```
+⚠️ Docker 빌드 이슈를 해결하기 위해 --build 옵션을 사용하라
+
+### Docker Compose Container 접속
+```
+docker compose exec redis sh
+docker compose exec server-app bash
+```
+
+### Github Actions test
+```
+# workflow 테스트 명령어 예시
+sudo act -W .github/workflows/test-git.yml
+```
+.actrc 내용
+```
+-P self-hosted=catthehacker/ubuntu:act-latest
+```
+
 ### 의존 패키지  
 * Redis-Server(7.0.15)  
 
@@ -15,16 +52,6 @@
     비동기 네트워크 처리 구현. apt install libboost-all-dev 명령으로 설치
 * [sha256](https://www.zedwood.com/article/cpp-sha256-function)  
     비밀번호 암호화용 hash 함수
-   
-### Github Actions test
-```
-# workflow 테스트 명령어 예시(.actrc파일도 참고)
-sudo act -W .github/workflows/test-git.yml
-```
-.actrc 파일 내용
-```
--P self-hosted=catthehacker/ubuntu:act-latest
-```
 
 ### Redis server 데이터 구조
 

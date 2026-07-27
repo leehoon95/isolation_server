@@ -2,7 +2,6 @@ name: Server Build & Execute
 
 on:
   workflow_dispatch: # GitHub 웹 UI에서 수동 실행 가능
-  push:
   
 jobs:
   build-and-execute:
@@ -20,17 +19,23 @@ jobs:
         with:
           submodules: recursive
 
+      # CMake 설치(act docker 테스트용)
+      #- name: Setup CMake
+      #  uses: jwlawson/actions-setup-cmake@v2
+      #  with:
+      #    cmake-version: '3.28.x'
+
       # 2. 이전 빌드 캐시/잔재 정리 (Self-hosted 러너 필수 권장)
-      - name: Clean build directory
-        run: rm -rf build
+      #- name: Clean build directory
+      #  run: rm -rf build
 
       # 3. CMake 구성 (Configure)
-      - name: Configure CMake
-        run: cmake -S . -B build
+      #- name: Configure CMake
+      #  run: cmake -S . -B build
 
       # -j $(nproc) 옵션으로 호스트 PC의 모든 CPU 코어를 활용해 병렬 빌드합니다.
-      - name: Build project
-        run: cmake --build build --config Release
+      #- name: Build project
+      #  run: cmake --build build --config Release
 
       - name: Restart Service
         run: |

@@ -16,9 +16,9 @@ services:
     # 서버 프로그램보다 Redis가 완전히 켜질 때까지 기다리기 위한 헬스체크
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
-      interval: 5s
-      timeout: 3s
-      retries: 5
+      interval: 1s
+      timeout: 5s
+      retries: 10
 
   # 2. 서버 프로그램 컨테이너 설정
   server-app:

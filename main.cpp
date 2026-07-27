@@ -10,8 +10,8 @@
 
 #include "Acceptor.h"
 #include "Server.h"
-
 #include "redisService.h"
+#include "Config.h"
 
 using namespace boost;
 using boost::asio::ip::tcp;
@@ -20,17 +20,16 @@ void TestAsioSync();
 
 int main()
 {
-#ifdef BUILD_TIMESTAMP
-    std::cout << "Server Built At: " << BUILD_TIMESTAMP << " (UTC)" << std::endl;
-#else
-    std::cout << "Build Time: Unknown" << std::endl;
-#endif
+	std::cout << std::format("{0} Built At: {1} {2}\n",
+		SERVER_NAME, __DATE__, __TIME__);
 
 	try
 	{
 		std::cout << std::unitbuf;
 
 		auto& rs = RS::Instance();
+		rs.Ping();
+
 		auto scanResult{rs.Scan("client:*")};
 		auto scanResult2{rs.Scan("logined:*")};
 		scanResult.insert(
@@ -94,72 +93,13 @@ int main()
 
 		std::cout << "All io thread is joined\n";
 	}
-	catch (std::exception &e)
-	{
+	catch (sw::redis::Error &e) {
+		std::cout << "Redis++ Exception: " << e.what() << std::endl;
+		throw;
+	}
+	catch (std::exception &e) {
 		std::cerr << "Exception: " << e.what() << "\n";
 	}
 
-	// auto &rs = RS::Instance();
-	// rs.FlushAll();
-
 	return 0;
-}
-
-void TestAsioSync()
-{
-	try
-	{
-		asio::io_context ic;
-
-		tcp::acceptor acceptor{ic, tcp::endpoint{tcp::v4(), 51010}};
-
-		std::cout << "Echo server is running on port 12345...\n";
-
-		while (true)
-		{
-			tcp::socket socket{ic};
-
-			acceptor.accept(socket);
-
-			std::cout << "Client connected: " << socket.remote_endpoint() << "\n";
-
-			char data[2048];
-
-			while (true)
-			{
-				system::error_code error;
-
-				auto len = socket.read_some(asio::buffer(data), error);
-
-				if (error == asio::error::eof)
-				{
-					std::cout << "Connection closed by client\n";
-					socket.close();
-					break;
-				}
-				else if (error)
-				{
-					throw system::system_error(error);
-				}
-
-				std::string fromClient{data, len};
-
-				if (fromClient.compare("cmd:close"))
-				{
-					std::string msg{"server will disconnect you."};
-					asio::write(socket, asio::buffer(msg.c_str(), msg.length()));
-					socket.close();
-					break;
-				}
-
-				std::string str{std::format("server:your data:{}***", std::string{data, len})};
-
-				asio::write(socket, asio::buffer(str.c_str(), str.length()));
-			}
-		}
-	}
-	catch (std::exception &e)
-	{
-		std::cerr << "Server failed: " << e.what() << std::endl;
-	}
 }
