@@ -25,15 +25,15 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.server
+      args:
+        REDIS_SERVER_HOST: redis # redis 컨테이너
+        REDIS_SERVER_PORT: 6380
     image: leehoon95/isolation-server
     restart: no
     # Redis가 헬스체크(ping)에 성공한 후 서버 프로그램 실행
     depends_on:
       redis:
         condition: service_healthy
-    environment:
-      - REDIS_HOST=redis   # 핵심: localhost가 아니라 service 이름 사용
-      - REDIS_PORT=6379
     ports:
       - "51010:51010" # 게임/웹 서버의 서비스 포트
     networks:
