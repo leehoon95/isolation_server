@@ -40,16 +40,29 @@ docker compose exec redis sh
 docker compose exec server-app bash
 ```
 
-### Github Actions test
+### Github Actions Workflow test
 ```
 # workflow 테스트 명령어 예시
-sudo act -W .github/workflows/test-git.yml
-```
-.actrc 내용
-```
--P self-hosted=catthehacker/ubuntu:act-latest
+sudo act -W .github/workflows/deploy.yml --secret-file .secrets
 ```
 
+```
+# .secrets 파일 작성 예시
+DOCKERHUB_USERNAME="leehoon95"
+DOCKERHUB_TOKEN="***"
+INSTANCE_HOST="***"
+INSTANCE_USER="***"
+INSTANCE_SSH_PRIVATE_KEY="-----BEGIN RSA PRIVATE KEY-----
+***
+-----END RSA PRIVATE KEY-----"
+```
+
+```
+#.actrc 내용
+-P self-hosted=catthehacker/ubuntu:act-latest
+-P ubuntu-latest=catthehacker/ubuntu:act-latest
+```
+원격 서버 운영체제에 따라 수정
 ### 의존 패키지  
 * Redis-Server(7.0.15)  
 * libboost-all-dev

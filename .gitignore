@@ -79,3 +79,4 @@ build/
 actions-runner/
 bin/
 Config.h
+.secrets

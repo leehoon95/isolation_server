@@ -84,7 +84,7 @@ FROM ubuntu:24.04 AS package-cache
 
 ARG DEBIAN_FRONTEND
 
-RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - 
+RUN curl -fsSL https://deb.nodesource.com/setup_26.x | bash - 
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     nodejs \

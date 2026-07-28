@@ -4,7 +4,8 @@ name: Deploy to Cloud Instance
 on:
   push:
     branches: [ "main" ]
-
+  workflow_dispat:
+  
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -26,6 +27,7 @@ jobs:
         uses: docker/build-push-action@v7
         with:
           context: .
+          file: Dockerfile.server
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/isolation-server:${{ github.sha }}
 
@@ -45,7 +47,7 @@ jobs:
           username: ${{ secrets.INSTANCE_USER }}
           key: ${{ secrets.INSTANCE_SSH_PRIVATE_KEY }}
           script: |
-            cd /home/${{ secrets.SERVER_USER }}/server-app
+            cd /home/${{ secrets.INSTANCE_USER }}/server-app
             docker compose down
             docker compose pull
             docker compose up -d
