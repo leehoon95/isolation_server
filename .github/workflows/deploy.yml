@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v7
-        whtih:
+        with:
           submodules: true
 
       # Github 원격 캐시 스토리지와 통신해서 빠른 빌드 가능
