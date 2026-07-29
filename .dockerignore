@@ -6,3 +6,4 @@
 Dockerfile.*
 deprecated
 build
+tests

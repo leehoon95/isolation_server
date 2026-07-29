@@ -14,6 +14,14 @@ configure_file(
     "${CMAKE_CURRENT_SOURCE_DIR}/Config.h"
 )
 
+option(SET_TEST "build with unit tests" OFF)
+
+if(SET_TEST)
+    include(CTest)
+    enable_testing()
+    add_subdirectory(./tests)
+endif(SET_TEST)
+
 add_subdirectory(./libs/isolation_pb)
 
 set(SOURCES

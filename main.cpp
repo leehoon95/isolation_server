@@ -23,6 +23,8 @@ int main()
 	std::cout << std::format("{0} Built At: {1} {2}\n",
 		SERVER_NAME, __DATE__, __TIME__);
 
+	//std::cout << std::format("GTEST Result: {0}\n", RUN_ALL_TESTS());
+
 	try
 	{
 		std::cout << std::unitbuf;
