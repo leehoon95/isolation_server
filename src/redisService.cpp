@@ -4,7 +4,7 @@
 
 using namespace sw;
 
-RS::RS()
+RedisService::RedisService()
 {
     try
     {
@@ -35,12 +35,12 @@ RS::RS()
     }
 }
 
-void RS::Ping()
+void RedisService::Ping()
 {
     _redis->ping();
 }
 
-bool RS::Set(std::string_view key, std::string_view value)
+bool RedisService::Set(std::string_view key, std::string_view value)
 {
     if (key.empty())
         return false;
@@ -50,7 +50,7 @@ bool RS::Set(std::string_view key, std::string_view value)
     return true;
 }
 
-std::optional<std::string> RS::Get(std::string_view key)
+std::optional<std::string> RedisService::Get(std::string_view key)
 {
     auto value = _redis->get(key);
 
@@ -65,27 +65,27 @@ std::optional<std::string> RS::Get(std::string_view key)
     return std::nullopt;
 }
 
-bool RS::Exists(std::string_view key)
+bool RedisService::Exists(std::string_view key)
 {
     return _redis->exists(key) > 0;
 }
 
-bool RS::Del(std::string_view key)
+bool RedisService::Del(std::string_view key)
 {
     return _redis->del(key) > 0;
 }
 
-bool RS::Persist(std::string_view key)
+bool RedisService::Persist(std::string_view key)
 {
     return _redis->persist(key);
 }
 
-void RS::FlushAll()
+void RedisService::FlushAll()
 {
     _redis->flushall();
 }
 
-std::vector<std::string> RS::Scan(std::string_view pattern)
+std::vector<std::string> RedisService::Scan(std::string_view pattern)
 {
     sw::redis::Cursor cursor = 0;
     std::vector<std::string> data;
@@ -101,22 +101,22 @@ std::vector<std::string> RS::Scan(std::string_view pattern)
     return std::move(data);
 }
 
-bool RS::HashFieldExists(std::string_view key, std::string_view field)
+bool RedisService::HashFieldExists(std::string_view key, std::string_view field)
 {
     return _redis->hexists(key, field);
 }
 
-bool RS::HashSet(std::string_view key, std::string_view field, std::string_view value)
+bool RedisService::HashSet(std::string_view key, std::string_view field, std::string_view value)
 {
     return _redis->hset(key, field, value);
 }
 
-void RS::HashSet(std::string_view key, std::initializer_list<std::pair<std::string_view, std::string_view>> list)
+void RedisService::HashSet(std::string_view key, std::initializer_list<std::pair<std::string_view, std::string_view>> list)
 {
     _redis->hmset(key, list);
 }
 
-std::optional<std::string> RS::HashGet(std::string_view key, std::string_view field)
+std::optional<std::string> RedisService::HashGet(std::string_view key, std::string_view field)
 {
     auto value = _redis->hget(key, field);
 
@@ -128,32 +128,32 @@ std::optional<std::string> RS::HashGet(std::string_view key, std::string_view fi
     return std::nullopt;
 }
 
-long long RS::HashLen(std::string_view key)
+long long RedisService::HashLen(std::string_view key)
 {
     return _redis->hlen(key);
 }
 
-bool RS::HashDel(std::string_view key, std::string_view field)
+bool RedisService::HashDel(std::string_view key, std::string_view field)
 {
     return _redis->hdel(key, field);
 }
 
-bool RS::SetAdd(std::string_view key, std::string_view member)
+bool RedisService::SetAdd(std::string_view key, std::string_view member)
 {
     return _redis->sadd(key, member) > 0;
 }
 
-bool RS::SetRemove(std::string_view key, std::string_view memver)
+bool RedisService::SetRemove(std::string_view key, std::string_view member)
 {
-    return _redis->srem(key, memver) > 0;
+    return _redis->srem(key, member) > 0;
 }
 
-bool RS::SetMemberExists(std::string_view key, std::string_view member)
+bool RedisService::SetMemberExists(std::string_view key, std::string_view member)
 {
     return _redis->sismember(key, member);
 }
 
-std::vector<std::string> RS::SetMembers(std::string_view key)
+std::vector<std::string> RedisService::SetMembers(std::string_view key)
 {
     std::vector<std::string> members;
     _redis->smembers(key, std::back_inserter(members));
@@ -161,12 +161,12 @@ std::vector<std::string> RS::SetMembers(std::string_view key)
     return std::move(members);
 }
 
-unsigned int RS::SetCardinality(std::string_view key)
+unsigned int RedisService::SetCardinality(std::string_view key)
 {
     return static_cast<int>(_redis->scard(key));
 }
 
-bool RS::Expire(std::string_view key, int minutes)
+bool RedisService::Expire(std::string_view key, int minutes)
 {
     return _redis->expire(
         key,

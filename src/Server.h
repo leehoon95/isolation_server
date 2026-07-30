@@ -3,6 +3,7 @@
 #include "ClientSocket.h"
 #include <map>
 #include <list>
+#include "redisService.h"
 
 class Server : public std::enable_shared_from_this<Server>
 {
@@ -13,9 +14,8 @@ class Server : public std::enable_shared_from_this<Server>
     };
 
     boost::asio::io_context &_io;
-    boost::asio::ip::udp::socket _udpSocket;
-    boost::asio::ip::udp::endpoint _remoteEndpoint;
     std::shared_ptr<char[]> _udpRecvBuffer;
+    std::unique_ptr<RedisService> _rs;
 
     std::map<uint64_t, std::shared_ptr<ClientSocket>> _connectedClients;
     std::mutex _connMtx;
@@ -23,8 +23,6 @@ class Server : public std::enable_shared_from_this<Server>
 
 private:
     void RemoveClient(uint64_t token);
-    // bool TryLogin(std::shared_ptr<ClientSocket> client, std::string &reason);
-
     void HandleRequestCreationAccount(
         std::shared_ptr<ClientSocket> client,
         char *serializedData, int length);
@@ -40,15 +38,11 @@ private:
 
     void LogoutClient(std::shared_ptr<ClientSocket> client);
 
-private:
-    void ReceiveUDP();
-
 public:
     explicit Server(
-        boost::asio::io_context &io);
+        boost::asio::io_context &io,
+        std::unique_ptr<RedisService> rs);
     void Stop();
-    void AddClient(std::shared_ptr<ClientSocket> client);
-    // void CacheLobbyList();
+    int AddClient(std::shared_ptr<ClientSocket> client);
     void PrintStatus();
-    void StartUDPReceive();
 };

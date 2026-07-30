@@ -61,45 +61,6 @@ void ClientSocket::ReadAsync()
                 }
 
                 self->ReadAsync();
-
-                // test ----
-                // else if (memcmp(_recvBuffer.get(), "many", 4) == 0)
-                // {
-                //     int len = *(int *)(&_recvBuffer[4]);
-
-                //     if (length < len)
-                //     {
-                //         _remainedLengthToReceive = len - length;
-                //         _allDataSize = len;
-                //     }
-
-                //     std::cout << std::format("Received from client {} / {} ({} %)\n", length, len, (double)length / len);
-
-                //     std::string message{std::format("thanks! {} byte\n", length)};
-
-                //     std::vector<char> t(message.begin(), message.end());
-                //     PostWrite(t);
-                // }
-                // else if (_remainedLengthToReceive > 0)
-                // {
-                //     std::cout << std::format("Received from client {} / {} ({} %)\n", length, _allDataSize, ((float)length / _allDataSize) * 100.f);
-                //     _remainedLengthToReceive -= length;
-
-                //     if (_remainedLengthToReceive < 0)
-                //     {
-                //         std::cout << std::format("Ramained length to receive: {} ---!!!\n", _remainedLengthToReceive);
-                //     }
-                //     else if (_remainedLengthToReceive == 0)
-                //     {
-                //         std::string message{std::format("thanks! received all data {} byte\n", _allDataSize)};
-
-                //         std::vector<char> t(message.begin(), message.end());
-                //         PostWrite(t);
-
-                //         _allDataSize = 0;
-                //     }
-                // }
-                // ------
             }
             else
             {

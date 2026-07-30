@@ -2,8 +2,6 @@ name: Deploy to Cloud Instance
 
 # Github-hosted 러너를 사용한다. 
 on:
-  push:
-    branches: [ "main" ]
   workflow_dispatch:
   
 jobs:
@@ -12,6 +10,8 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v7
+        with:
+          submodules: true
 
       # Github 원격 캐시 스토리지와 통신해서 빠른 빌드 가능
       - name: Set up Docker Buildx

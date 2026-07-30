@@ -23,15 +23,17 @@ int main()
 	std::cout << std::format("{0} Built At: {1} {2}\n",
 		SERVER_NAME, __DATE__, __TIME__);
 
+	//std::cout << std::format("GTEST Result: {0}\n", RUN_ALL_TESTS());
+
 	try
 	{
 		std::cout << std::unitbuf;
 
-		auto& rs = RS::Instance();
-		rs.Ping();
+		auto rs = std::make_unique<RedisService>();
+		rs->Ping();
 
-		auto scanResult{rs.Scan("client:*")};
-		auto scanResult2{rs.Scan("logined:*")};
+		auto scanResult{rs->Scan("client:*")};
+		auto scanResult2{rs->Scan("logined:*")};
 		scanResult.insert(
 			scanResult.end(),
 			std::make_move_iterator(scanResult2.begin()),
@@ -40,11 +42,11 @@ int main()
 
 		for (auto& key : scanResult)
 		{
-			rs.Del(key);
+			rs->Del(key);
 		}
 
 		boost::asio::io_context io_context;
-		auto server = std::make_shared<Server>(io_context);
+		auto server = std::make_shared<Server>(io_context, std::move(rs));
 		asio::executor_work_guard<asio::io_context::executor_type> work_guard = asio::make_work_guard(io_context);
 		unsigned int clientIndex = 0;
 		Acceptor acceptor(io_context, 51010);

@@ -19,4 +19,5 @@ public:
     explicit Acceptor(boost::asio::io_context &io, uint16_t port);
     void Accept(std::function<void(boost::asio::ip::tcp::socket)> delegator);
     void Stop();
+    boost::asio::ip::tcp::endpoint GetLocalEndpoint() { return _acceptor.local_endpoint(); }
 };

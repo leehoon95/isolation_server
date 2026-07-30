@@ -10,10 +10,12 @@
 using namespace boost;
 
 Server::Server(
-    asio::io_context &io)
-    : _io(io),
-      _udpSocket(io, asio::ip::udp::endpoint(asio::ip::udp::v4(), 51022)),
-      _timer(io)
+    asio::io_context &io,
+    std::unique_ptr<RedisService> rs)
+    :
+    _io(io),
+    _rs(std::move(rs)),
+    _timer(io)
 {
     //_udpRecvBuffer = std::shared_ptr<char[]>(
     // new (std::nothrow) char[static_cast<size_t>(static_cast<size_t>(UDPBufferSize::RECV_BUFFER_SIZE))]);
@@ -24,8 +26,7 @@ Server::Server(
 void Server::RemoveClient(uint64_t token)
 {
     std::scoped_lock sl{_connMtx};
-    auto& rs = RS::Instance();
-    rs.Del(std::format("client:{}", token));
+    _rs->Del(std::format("client:{}", token));
     _connectedClients.erase(token);
 }
 
@@ -41,7 +42,7 @@ void Server::Stop()
     _connectedClients.clear();
 }
 
-void Server::AddClient(std::shared_ptr<ClientSocket> client)
+int Server::AddClient(std::shared_ptr<ClientSocket> client)
 {
     std::scoped_lock sl{_connMtx};
     _connectedClients[client->GetToken()] = client;
@@ -50,11 +51,10 @@ void Server::AddClient(std::shared_ptr<ClientSocket> client)
     std::weak_ptr wclient{client};
     std::weak_ptr<Server> wself{shared_from_this()};
 
-    auto &rs = RS::Instance();
     auto now = std::chrono::system_clock().now();
     auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch());
 
-    rs.HashSet(
+    _rs->HashSet(
         std::format("client:{}", client->GetToken()),
         "ConnectedTime",
         std::to_string(ms.count()));
@@ -127,6 +127,8 @@ void Server::AddClient(std::shared_ptr<ClientSocket> client)
                 }
             }
         });
+
+    return 0;
 }
 
 void Server::HandleRequestCreationAccount(std::shared_ptr<ClientSocket> client, char *serializedData, int length)
@@ -140,12 +142,7 @@ void Server::HandleRequestCreationAccount(std::shared_ptr<ClientSocket> client, 
         auto password = receivedMessage.password();
         auto nickname = receivedMessage.nickname();
         auto personalColor = receivedMessage.personalcolor();
-        
-        // std::cout << std::format(
-        //     "Create Account ---\n{}------------------\n",
-        //     receivedMessage.DebugString());
-        
-        auto &rs = RS::Instance();
+
         std::string idStr{std::format("id:{}", id)};
         bool valid = true;
 
@@ -164,7 +161,7 @@ void Server::HandleRequestCreationAccount(std::shared_ptr<ClientSocket> client, 
             valid = false;
             responseMessage.set_message("nicknameLength<2");
         }
-        else if (rs.Exists(idStr))
+        else if (_rs->Exists(idStr))
         {
             valid = false;
             responseMessage.set_message("idAleadyInUse");
@@ -176,9 +173,9 @@ void Server::HandleRequestCreationAccount(std::shared_ptr<ClientSocket> client, 
 
             std::cout << std::format("A new account has been created {} {} {}\n", 
                 id, password, personalColor);
-            rs.HashSet(idStr, "password", passwordHashStr);
-            rs.HashSet(idStr, "nickname", nickname);
-            rs.HashSet(idStr, "personalColor", personalColor);
+            _rs->HashSet(idStr, "password", passwordHashStr);
+            _rs->HashSet(idStr, "nickname", nickname);
+            _rs->HashSet(idStr, "personalColor", personalColor);
             // rs.Expire(idStr, 60);
 
             responseMessage.set_message("ok");
@@ -213,7 +210,6 @@ void Server::HandleRequestLogin(std::shared_ptr<ClientSocket> client, char *seri
 
     if (receivedMessage.ParseFromArray(serializedData, length))
     {
-        auto &rs = RS::Instance();
         auto idStr{receivedMessage.id()};
         auto idKeyStr{std::format("id:{}", receivedMessage.id())};
         auto passwordHashStr{sha256(receivedMessage.password())};
@@ -221,17 +217,17 @@ void Server::HandleRequestLogin(std::shared_ptr<ClientSocket> client, char *seri
         bool valid = true;
         // bool res = _lm->RequestEnterLobby(client, reason);
 
-        if (rs.Exists(idKeyStr) == false)
+        if (_rs->Exists(idKeyStr) == false)
         {
             valid = false;
             responseMessage.set_message("idDoesNotExsist");
         }
-        else if ((*rs.HashGet(idKeyStr, "password")).compare(passwordHashStr) != 0)
+        else if ((*(_rs->HashGet(idKeyStr, "password"))).compare(passwordHashStr) != 0)
         {
             valid = false;
             responseMessage.set_message("passwordMismatch");
         }
-        else if (rs.Exists(loginedKeyStr))
+        else if (_rs->Exists(loginedKeyStr))
         {
             valid = false;
             responseMessage.set_message("loginedAlready");
@@ -243,9 +239,9 @@ void Server::HandleRequestLogin(std::shared_ptr<ClientSocket> client, char *seri
             auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch());
             auto clientKeyStr{std::format("client:{}", client->GetToken())};
 
-            rs.HashSet(clientKeyStr, "loginId", idStr);
-            rs.HashSet(loginedKeyStr, "token", std::to_string(client->GetToken()));
-            rs.HashSet(loginedKeyStr, "loginTime", std::to_string(ms.count()));
+            _rs->HashSet(clientKeyStr, "loginId", idStr);
+            _rs->HashSet(loginedKeyStr, "token", std::to_string(client->GetToken()));
+            _rs->HashSet(loginedKeyStr, "loginTime", std::to_string(ms.count()));
             client->SetLoginKey(loginedKeyStr);
 
             responseMessage.set_result(true);
@@ -279,13 +275,12 @@ void Server::HandleRequestPlayerData(
 
     if (receivedMessage.ParseFromArray(serializedData, length))
     {
-        auto &rs = RS::Instance();
         auto clientTokenStr = std::format("client:{}", client->GetToken());
         std::string idStr;
         std::string idKeyStr;
         bool valid = true;
 
-        if (!rs.Exists(clientTokenStr))
+        if (!_rs->Exists(clientTokenStr))
         {
             valid = false;
             responseMessage.set_message("invalidToken");
@@ -293,7 +288,7 @@ void Server::HandleRequestPlayerData(
         
         if (valid) 
         {
-            auto loginId = rs.HashGet(clientTokenStr, "loginId");
+            auto loginId = _rs->HashGet(clientTokenStr, "loginId");
             if (!loginId)
             {
                 valid = false;
@@ -308,7 +303,7 @@ void Server::HandleRequestPlayerData(
         if (valid)
         {
             idKeyStr = std::format("id:{}", idStr);
-            if (!rs.Exists(idKeyStr))
+            if (!_rs->Exists(idKeyStr))
             {
                 valid = false;
                 responseMessage.set_message("invalidId");
@@ -317,9 +312,9 @@ void Server::HandleRequestPlayerData(
 
         if (valid)
         {
-            auto nicknameStr = rs.HashGet(idKeyStr, "nickname");
-            auto personalColorStr = rs.HashGet(idKeyStr, "personalColor");
-            rs.Persist(idKeyStr);
+            auto nicknameStr = _rs->HashGet(idKeyStr, "nickname");
+            auto personalColorStr = _rs->HashGet(idKeyStr, "personalColor");
+            _rs->Persist(idKeyStr);
 
             responseMessage.set_result(true);
             responseMessage.set_message("ok");
@@ -359,17 +354,15 @@ void Server::HandleRequestLogout(
 void Server::LogoutClient(std::shared_ptr<ClientSocket> client)
 {
     auto token = client->GetToken();
-    auto &rs = RS::Instance();
-
     auto clientKey{std::format("client:{}", token)};
 
-    if (!rs.Exists(clientKey))
+    if (!_rs->Exists(clientKey))
     {
         std::cout << std::format("Disconnected from client({})", client->GetToken());
         return;
     }
 
-    auto loginIdStr = rs.HashGet(clientKey, "loginId");
+    auto loginIdStr = _rs->HashGet(clientKey, "loginId");
     if (!loginIdStr)
     {
         std::cout << std::format("Disconnected from client(not logined, {})\n", client->GetToken());
@@ -380,8 +373,8 @@ void Server::LogoutClient(std::shared_ptr<ClientSocket> client)
     std::string noLoginedStr{"noLogined"};
     client->SetLoginKey(noLoginedStr);
 
-    rs.Del(loginIdKeyStr);
-    rs.HashDel(clientKey, "loginId");
+    _rs->Del(loginIdKeyStr);
+    _rs->HashDel(clientKey, "loginId");
 }
 
 void Server::PrintStatus()
@@ -397,47 +390,4 @@ void Server::PrintStatus()
     std::cout << "-------------------------\n\n";
 
     // _lm->PrintStatus();
-}
-
-void Server::StartUDPReceive()
-{
-    for (int i = 0; i < 8; ++i)
-    {
-        std::cout << std::format("Receive UDP data {}", i);
-        ReceiveUDP();
-    }
-}
-
-void Server::ReceiveUDP()
-{
-    _udpSocket.async_receive_from(
-        asio::buffer(_udpRecvBuffer.get(), static_cast<size_t>(UDPBufferSize::RECV_BUFFER_SIZE)),
-        _remoteEndpoint,
-        [this](system::error_code ec, std::size_t length)
-        {
-            if (!ec && length > 0)
-            {
-                if (memcmp(_udpRecvBuffer.get(), "prot", 4) == 0)
-                {
-                    int type = *(int32_t *)(&_udpRecvBuffer[4]);
-                    int totalDataLength = *(int32_t *)(&_udpRecvBuffer[8]);
-
-                    if (totalDataLength != length)
-                    {
-                        std::cout << std::format("UDP prot data is insufficient. buffer data length: {}, packet data length: {}\n",
-                                                 length, totalDataLength);
-                    }
-                    else
-                    {
-                        //_rm->ForwardUDPData(&_udpRecvBuffer[12], length);
-                    }
-                }
-
-                ReceiveUDP();
-            }
-            else
-            {
-                std::cout << std::format("Server::ReceiveUDP ec what: {}", ec.message());
-            }
-        });
 }

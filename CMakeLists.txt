@@ -10,20 +10,20 @@ message(STATUS "Redis server host: ${REDIS_SERVER_HOST_VAR}")
 message(STATUS "Redis server port: ${REDIS_SERVER_PORT_VAR}")
 
 configure_file(
-    "${CMAKE_CURRENT_SOURCE_DIR}/Config.h.in"
-    "${CMAKE_CURRENT_SOURCE_DIR}/Config.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/Config.h.in"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/Config.h"
 )
 
 add_subdirectory(./libs/isolation_pb)
 
 set(SOURCES
-    main.cpp
-    redisService.cpp
-    Server.cpp
-    ClientSocket.cpp
-    Acceptor.cpp
-    util.cpp
-    sha256.cpp
+    src/main.cpp
+    src/redisService.cpp
+    src/Server.cpp
+    src/ClientSocket.cpp
+    src/Acceptor.cpp
+    src/util.cpp
+    src/sha256.cpp
 )
 
 add_executable(isolation_server ${SOURCES})
