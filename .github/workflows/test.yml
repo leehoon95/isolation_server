@@ -3,8 +3,6 @@ name: C++ GTest CI
 on:
   push:
     branches: [ "develop" ]
-  pull_request:
-    branches: [ "main" ] # 목적지 브랜치
   workflow_dispatch:
 
 jobs:
