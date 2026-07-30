@@ -30,7 +30,6 @@ TEST(SeverTest, Accept) {
         acceptor.Accept(
                 [&count, &io_context](asio::ip::tcp::socket socket)
                 {
-                    std::cout << "Client accepted!\n";
                     count = 1;
                     io_context.stop();
                 });

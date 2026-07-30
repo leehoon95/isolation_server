@@ -14,6 +14,7 @@
 1. [Dockerfile.server](./Dockerfile.server)
 2. [docker-compose.yml](./docker-compose.yml)
 3. [deploy.yml](./.github/workflows/deploy.yml)
+4. [test.yml](./.github/workflows/test.yml)
 
 
 ### 소스코드 빌드
@@ -43,7 +44,7 @@ docker compose exec server-app bash
 ### Github Actions Workflow test
 ```
 # workflow 테스트 명령어 예시
-sudo act -W .github/workflows/deploy.yml --secret-file .secrets
+sudo act -W .github/workflows/workflow.yml --secret-file .secrets
 ```
 
 ```

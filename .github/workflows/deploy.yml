@@ -2,8 +2,6 @@ name: Deploy to Cloud Instance
 
 # Github-hosted 러너를 사용한다. 
 on:
-  pull_request:
-    branches: [ "main" ]
   workflow_dispatch:
   
 jobs:

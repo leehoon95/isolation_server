@@ -1,7 +1,8 @@
 cd tests
 cmake -B tbuild \
     -DCMAKE_BUILD_TYPE=Debug \
-    && cmake --build tbuild -j${nproc}
+    && cmake --build tbuild -j${nproc} \
+    && tbuild/run_unit_tests --output-on-failure
 
 #cmake -B build \
 #    -DCMAKE_BUILD_TYPE=Debug \
