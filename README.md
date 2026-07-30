@@ -66,6 +66,8 @@ INSTANCE_SSH_PRIVATE_KEY="-----BEGIN RSA PRIVATE KEY-----
 ### 의존 패키지  
 * Redis-Server(7.0.15)  
 * libboost-all-dev
+* libgtest-dev
+* libgmock-dev
 
 ### 의존 라이브러리  
 

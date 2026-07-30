@@ -1,0 +1,42 @@
+name: C++ GTest CI
+
+on:
+  push:
+    branches: [ "develop" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v7
+
+    - name: Install packages
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential cmake libboost-all-dev libgtest-dev libgmock-dev 
+
+    - name: Configure CMake
+      run: |
+        cd tests
+        cmake -B tbuild \
+        -DCMAKE_BUILD_TYPE=Debug \
+        && cmake --build tbuild -j${nproc}
+
+    - name: Run Tests
+      run: |
+        cd tests/tbuild
+        ctest --output-on-failure -C Debug --gtest_output=xml:gtest_results.xml
+
+    # 6. (선택) GTest XML 결과를 GitHub PR 및 Summary에 리포팅
+    - name: Publish Test Results
+      uses: dorny/test-reporter@v1
+      if: always() # 이전 단계(테스트)가 실패하더라도 리포트는 출력
+      with:
+        name: GTest Results
+        path: tests/tbuild/gtest_results.xml
+        reporter: java-junit # GTest XML은 JUnit 스키마와 호환됨
