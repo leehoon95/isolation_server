@@ -30,7 +30,7 @@ jobs:
     - name: Run Tests
       run: |
         cd tests/tbuild
-        ctest --output-on-failure -C Debug --gtest_output=xml:gtest_results.xml
+        ./run_unit_tests --output-on-failure --gtest_output=xml:gtest_results.xml
 
     # 6. (선택) GTest XML 결과를 GitHub PR 및 Summary에 리포팅
     - name: Publish Test Results
