@@ -8,6 +8,8 @@ on:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
+    env:
+      PROTOBUF_VERSION: 31.0
 
     steps:
     - name: Checkout repository
@@ -16,24 +18,45 @@ jobs:
     - name: Install packages
       run: |
         sudo apt-get update
-        sudo apt-get install -y build-essential cmake libboost-all-dev libgtest-dev libgmock-dev 
+        sudo apt-get install -y \
+        build-essential \
+        cmake \
+        libboost-all-dev \
+        libgtest-dev \
+        libgmock-dev \
+        ca-certificates \
+        curl \
+        unzip \
+        git
 
-    - name: Configure CMake
+    - name: Install Protoc
+      run: |
+        curl -LO https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOBUF_VERSION}/protoc-${PROTOBUF_VERSION}-linux-x86_64.zip
+        unzip protoc-${PROTOBUF_VERSION}-linux-x86_64.zip -d /usr/local
+        rm protoc-${PROTOBUF_VERSION}-linux-x86_64.zip
+
+    - name: Install Protocal Buffers
+      run: |
+        curl -LO https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOBUF_VERSION}/protobuf-${PROTOBUF_VERSION}.tar.gz
+        tar -xzf protobuf-${PROTOBUF_VERSION}.tar.gz
+        cd protobuf-${PROTOBUF_VERSION}
+        cmake -B build -Dprotobuf_BUILD_TESTS=OFF -DBUILD_SHARED_LIBS=OFF
+        cmake --build build -j$(nproc)
+        cmake --install build
+        cd /tmp && rm -rf protobuf-${PROTOBUF_VERSION}
+
+    - name: Configure CMake and Test
       run: |
         cd tests
-        cmake -B tbuild \
-        -DCMAKE_BUILD_TYPE=Debug \
-        && cmake --build tbuild -j${nproc}
-
-    - name: Run Tests
-      run: |
-        cd tests/tbuild
-        ./run_unit_tests --output-on-failure --gtest_output=xml:gtest_results.xml
+        cmake -B build \
+        -DCMAKE_BUILD_TYPE=Debug
+        cmake --build build -j${nproc}
+        build/run_unit_tests --output-on-failure --gtest_output=xml:gtest_results.xml
 
     - name: Publish Test Results
       uses: dorny/test-reporter@v3
       if: always() # 이전 단계(테스트)가 실패하더라도 리포트는 출력
       with:
         name: GTest Results
-        path: tests/tbuild/gtest_results.xml
+        path: tests/build/gtest_results.xml
         reporter: java-junit # GTest XML은 JUnit 스키마와 호환됨
