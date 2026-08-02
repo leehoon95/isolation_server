@@ -12,7 +12,7 @@
 using namespace testing;
 using namespace boost;
 
-TEST(SeverTest, Accept) {
+TEST(Server, AcceptClient) {
     try {
         asio::io_context io_context;
         asio::executor_work_guard<asio::io_context::executor_type> work_guard = asio::make_work_guard(io_context);
@@ -71,7 +71,7 @@ TEST(SeverTest, Accept) {
     }
 }
 
-TEST(ServerTest, AddClient)
+TEST(Server, AddClient)
 {
     asio::io_context io_context;
     auto rs = std::make_shared<MockRedisService>();
