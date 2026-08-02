@@ -32,18 +32,22 @@ TEST(SeverTest, Accept) {
             }
         });
 
+        std::promise<void> accepted;
+        auto acceptedFuture = accepted.get_future();
+
         acceptor.Accept(
-                [&count, &io_context](asio::ip::tcp::socket socket)
+                [&count, &accepted](asio::ip::tcp::socket socket)
                 {
                     count = 1;
-                    io_context.stop();
+                    accepted.set_value();
                 });
 
         asio::ip::tcp::socket clinetSocket(io_context);
-
         boost::asio::ip::tcp::endpoint ep(boost::asio::ip::make_address("127.0.0.1"), endpoint.port());
 
         clinetSocket.connect(ep);
+        ASSERT_EQ(acceptedFuture.wait_for(std::chrono::seconds(3)), std::future_status::ready);
+
         clinetSocket.shutdown(asio::ip::tcp::socket::shutdown_both);
         clinetSocket.close();
         
