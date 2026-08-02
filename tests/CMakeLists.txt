@@ -25,10 +25,6 @@ add_executable(run_unit_tests
     ../src/util.cpp
 )
 
-#target_include_directories(run_unit_tests PRIVATE
-#    ${CMAKE_CURRENT_SOURCE_DIR}/libs/isolation_pb
-#)
-
 target_link_libraries(run_unit_tests PRIVATE
     Boost::boost
     gtest
