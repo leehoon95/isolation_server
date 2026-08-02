@@ -31,18 +31,20 @@ jobs:
 
     - name: Install Protoc
       run: |
+        cd /tmp
         curl -LO https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOBUF_VERSION}/protoc-${PROTOBUF_VERSION}-linux-x86_64.zip
-        unzip protoc-${PROTOBUF_VERSION}-linux-x86_64.zip -d /usr/local
+        sudo unzip protoc-${PROTOBUF_VERSION}-linux-x86_64.zip -d /usr/local
         rm protoc-${PROTOBUF_VERSION}-linux-x86_64.zip
 
     - name: Install Protocal Buffers
       run: |
+        cd /tmp
         curl -LO https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOBUF_VERSION}/protobuf-${PROTOBUF_VERSION}.tar.gz
         tar -xzf protobuf-${PROTOBUF_VERSION}.tar.gz
         cd protobuf-${PROTOBUF_VERSION}
         cmake -B build -Dprotobuf_BUILD_TESTS=OFF -DBUILD_SHARED_LIBS=OFF
         cmake --build build -j$(nproc)
-        cmake --install build
+        sudo cmake --install build
         cd /tmp && rm -rf protobuf-${PROTOBUF_VERSION}
 
     - name: Configure CMake and Test
