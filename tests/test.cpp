@@ -3,11 +3,16 @@
 #include <gmock/gmock.h>
 #include <memory>
 #include "../src/Acceptor.h"
+#include "../src/Server.h"
+#include "mockRedisService.h"
+#include "mockClientSocket.h"
+#include "authentication_message.pb.h"
+#include "error_message.pb.h"
 
 using namespace testing;
 using namespace boost;
 
-TEST(SeverTest, Accept) {
+TEST(Server, AcceptClient) {
     try {
         asio::io_context io_context;
         asio::executor_work_guard<asio::io_context::executor_type> work_guard = asio::make_work_guard(io_context);
@@ -27,29 +32,27 @@ TEST(SeverTest, Accept) {
             }
         });
 
+        std::promise<void> accepted;
+        auto acceptedFuture = accepted.get_future();
+
         acceptor.Accept(
-                [&count, &io_context](asio::ip::tcp::socket socket)
+                [&count, &accepted](asio::ip::tcp::socket socket)
                 {
                     count = 1;
-                    io_context.stop();
+                    accepted.set_value();
                 });
 
         asio::ip::tcp::socket clinetSocket(io_context);
-
         boost::asio::ip::tcp::endpoint ep(boost::asio::ip::make_address("127.0.0.1"), endpoint.port());
-        clinetSocket.async_connect(ep, [](const std::error_code& error) {
-            if (!error) {
-                std::cout << "Connected to local server!\n";
-            } else {
-                std::cout << "error: " << error.message() << "\n";
-            }
-        });
 
         clinetSocket.connect(ep);
+        ASSERT_EQ(acceptedFuture.wait_for(std::chrono::seconds(3)), std::future_status::ready);
+
         clinetSocket.shutdown(asio::ip::tcp::socket::shutdown_both);
         clinetSocket.close();
         
         work_guard.reset();
+        io_context.stop();
         
         if (ioThread.joinable())
             ioThread.join();
@@ -59,9 +62,54 @@ TEST(SeverTest, Accept) {
     catch (std::exception& e)
     {
         std::cerr << "Exception: " << e.what() << std::endl;
+        FAIL();
     }
     catch (...)
     {
         std::cerr << "Unexpected exception" << std::endl;
+        FAIL();
     }
+}
+
+TEST(Server, AddClient)
+{
+    asio::io_context io_context;
+    auto rs = std::make_shared<MockRedisService>();
+    auto work_guard 
+        = asio::make_work_guard(io_context);
+    auto server = std::make_shared<Server>(io_context, rs);
+    auto mockClient = std::make_shared<MockClientSocket>();
+
+    EXPECT_CALL(
+        *mockClient, 
+        Init()).Times(1);
+
+    EXPECT_CALL(
+        *mockClient, 
+        GetToken()).Times(testing::AnyNumber());
+
+    EXPECT_CALL(
+        *rs, 
+        HashSet(testing::_, testing::_, testing::_)).Times(testing::AnyNumber());
+
+    EXPECT_CALL(
+        *mockClient, 
+        SetPacketHandler(ProtoAuthenticationMessage::REQUEST_LOGIN, testing::_)).Times(1);
+    EXPECT_CALL(
+        *mockClient, 
+        SetPacketHandler(ProtoAuthenticationMessage::REQUEST_REGISTER_ACCOUNT, testing::_)).Times(1);
+    EXPECT_CALL(
+        *mockClient, 
+        SetPacketHandler(ProtoAuthenticationMessage::REQUEST_PLAYER_DATA, testing::_)).Times(1);
+    EXPECT_CALL(
+        *mockClient, 
+        SetPacketHandler(ProtoAuthenticationMessage::REQUEST_LOGOUT, testing::_)).Times(1);
+
+    EXPECT_CALL(
+        *mockClient, 
+        SetErrorHandler(EM_Type::EM_DISCONNECTED, testing::_)).Times(1);
+        
+    server->AddClient(mockClient);
+    work_guard.reset();
+    io_context.stop();
 }

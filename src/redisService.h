@@ -8,7 +8,7 @@
 #include <condition_variable>
 #include "redisInterface.h"
 
-class RedisService : public IRedisService
+class RedisService : public IRedis
 {
     std::unique_ptr<sw::redis::Redis> _redis;
 

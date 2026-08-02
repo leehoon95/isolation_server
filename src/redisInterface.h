@@ -3,7 +3,7 @@
 #include <vector>
 #include <optional>
 
-class IRedisService
+class IRedis
 {
 public:
     virtual void Ping() = 0;
@@ -32,5 +32,5 @@ public:
     
     virtual bool Expire(std::string_view key, int minutes) = 0;
 
-    virtual ~IRedisService() = default;
+    virtual ~IRedis() = default;
 };

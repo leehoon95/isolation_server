@@ -3,7 +3,7 @@
 #include <chrono>
 #include "authentication_message.pb.h"
 #include "error_message.pb.h"
-#include "redisService.h"
+#include "redisInterface.h"
 #include "util.h"
 #include "sha256.h"
 
@@ -11,10 +11,10 @@ using namespace boost;
 
 Server::Server(
     asio::io_context &io,
-    std::unique_ptr<RedisService> rs)
+    std::shared_ptr<IRedis> rs)
     :
     _io(io),
-    _rs(std::move(rs)),
+    _rs(rs),
     _timer(io)
 {
     //_udpRecvBuffer = std::shared_ptr<char[]>(
@@ -42,7 +42,7 @@ void Server::Stop()
     _connectedClients.clear();
 }
 
-int Server::AddClient(std::shared_ptr<ClientSocket> client)
+int Server::AddClient(std::shared_ptr<IClient> client)
 {
     std::scoped_lock sl{_connMtx};
     _connectedClients[client->GetToken()] = client;
@@ -131,7 +131,7 @@ int Server::AddClient(std::shared_ptr<ClientSocket> client)
     return 0;
 }
 
-void Server::HandleRequestCreationAccount(std::shared_ptr<ClientSocket> client, char *serializedData, int length)
+void Server::HandleRequestCreationAccount(std::shared_ptr<IClient> client, char *serializedData, int length)
 {
     PMRequestRegisterAccount receivedMessage;
     PMResponseRegisterAccount responseMessage;
@@ -203,7 +203,7 @@ void Server::HandleRequestCreationAccount(std::shared_ptr<ClientSocket> client, 
     client->PostWrite(t);
 }
 
-void Server::HandleRequestLogin(std::shared_ptr<ClientSocket> client, char *serializedData, int length)
+void Server::HandleRequestLogin(std::shared_ptr<IClient> client, char *serializedData, int length)
 {
     PMRequestLogin receivedMessage;
     PMResponseLogin responseMessage;
@@ -267,7 +267,7 @@ void Server::HandleRequestLogin(std::shared_ptr<ClientSocket> client, char *seri
 }
 
 void Server::HandleRequestPlayerData(
-    std::shared_ptr<ClientSocket> client,
+    std::shared_ptr<IClient> client,
     char *serializedData, int length)
 {
     PMRequestPlayerData receivedMessage;
@@ -340,7 +340,7 @@ void Server::HandleRequestPlayerData(
 }
 
 void Server::HandleRequestLogout(
-    std::shared_ptr<ClientSocket> client,
+    std::shared_ptr<IClient> client,
     char *serializedData, int length)
 {
     PMRequestLogout receivedMessage;
@@ -351,7 +351,7 @@ void Server::HandleRequestLogout(
     }
 }
 
-void Server::LogoutClient(std::shared_ptr<ClientSocket> client)
+void Server::LogoutClient(std::shared_ptr<IClient> client)
 {
     auto token = client->GetToken();
     auto clientKey{std::format("client:{}", token)};

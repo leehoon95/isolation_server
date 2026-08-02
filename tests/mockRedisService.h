@@ -1,7 +1,7 @@
 #include "../src/redisInterface.h"
 #include <gmock/gmock.h>
 
-class MockRedisService : public IRedisService
+class MockRedisService : public IRedis
 {
 public:
     MOCK_METHOD(void, Ping, (), (override));
