@@ -47,7 +47,8 @@ int main()
 
 		boost::asio::io_context io_context;
 		auto server = std::make_shared<Server>(io_context, std::move(rs));
-		asio::executor_work_guard<asio::io_context::executor_type> work_guard = asio::make_work_guard(io_context);
+		asio::executor_work_guard<asio::io_context::executor_type> work_guard 
+		= asio::make_work_guard(io_context);
 		unsigned int clientIndex = 0;
 		Acceptor acceptor(io_context, 51010);
 		std::vector<std::thread> ioThreads;
