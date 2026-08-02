@@ -42,16 +42,15 @@ jobs:
         curl -LO https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOBUF_VERSION}/protobuf-${PROTOBUF_VERSION}.tar.gz
         tar -xzf protobuf-${PROTOBUF_VERSION}.tar.gz
         cd protobuf-${PROTOBUF_VERSION}
-        cmake -B build -Dprotobuf_BUILD_TESTS=OFF -DBUILD_SHARED_LIBS=OFF
+        cmake -B build -Dprotobuf_BUILD_TESTS=OFF -DBUILD_SHARED_LIBS=OFF -DCMAKE_MESSAGE_LOG_LEVEL=WARNING
         cmake --build build -j$(nproc)
-        sudo cmake --install build
+        sudo cmake --install build 
         cd /tmp && rm -rf protobuf-${PROTOBUF_VERSION}
 
     - name: Configure CMake and Test
       run: |
         cd tests
-        cmake -B build \
-        -DCMAKE_BUILD_TYPE=Debug
+        cmake -B build -DCMAKE_BUILD_TYPE=Debug
         cmake --build build -j${nproc}
         build/run_unit_tests --output-on-failure --gtest_output=xml:gtest_results.xml
 
