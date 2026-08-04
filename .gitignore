@@ -80,5 +80,5 @@ actions-runner/
 bin/
 Config.h
 .secrets
-tests/tbuild
+tests/build
 tests/Testing
