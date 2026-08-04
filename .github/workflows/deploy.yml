@@ -38,7 +38,7 @@ jobs:
           username: ${{ secrets.INSTANCE_USER }}
           key: ${{ secrets.INSTANCE_SSH_PRIVATE_KEY }}
           source: "docker-compose.yml"
-          target: "/home/${{ secrets.INSTANCE_USER }}/server-app"
+          target: "/home/${{ secrets.INSTANCE_USER }}/server"
 
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1
@@ -47,9 +47,10 @@ jobs:
           username: ${{ secrets.INSTANCE_USER }}
           key: ${{ secrets.INSTANCE_SSH_PRIVATE_KEY }}
           script: |
-            cd /home/${{ secrets.INSTANCE_USER }}/server-app
+            cd /home/${{ secrets.INSTANCE_USER }}/server
             docker compose down
-            docker compose pull
-            docker compose up -d
+            DOCKER_IMAGE_TAG=${{ github.sha }} docker compose pull
+            DOCKER_IMAGE_TAG=${{ github.sha }} docker compose up -d
+            docker image prune -f
 
             
