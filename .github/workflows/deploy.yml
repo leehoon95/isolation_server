@@ -30,6 +30,8 @@ jobs:
           file: Dockerfile.server
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/isolation-server:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type-gha,mode=max
 
       - name: Copy docker-compose.yml to Server via SCP
         uses: appleboy/scp-action@v1
