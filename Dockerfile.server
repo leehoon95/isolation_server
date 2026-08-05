@@ -72,9 +72,6 @@ RUN git clone --branch 1.3.15 --depth 1 https://github.com/sewenew/redis-plus-pl
 
 WORKDIR /$SERVER_NAME-build
 
-# 캐시 무효화
-ARG CACHEBUST=1
-
 COPY . .
 
 # 서버 프로그램 빌드
@@ -96,8 +93,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # 서버 프로그램 실행환경 구축 스테이지 ==============================================================
 FROM package-cache AS runner
 
-# 캐시 무효화
-ARG CACHEBUST=1
 ARG SERVER_NAME
 ENV SERVER_NAME_ENV=$SERVER_NAME
 
