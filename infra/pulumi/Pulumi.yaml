@@ -1,0 +1,7 @@
+name: aws-isolation-server
+description: .
+runtime: dotnet
+config:
+  pulumi:tags:
+    value:
+      pulumi:template: aws-csharp
