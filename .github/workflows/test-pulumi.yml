@@ -22,6 +22,8 @@ jobs:
     steps:
       - name: 체크아웃
         uses: actions/checkout@v7
+        with:
+          ref: develop
 
       # --- AWS OIDC 인증 ---
       - name: AWS 자격 증명 구성 (OIDC)
