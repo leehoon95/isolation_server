@@ -29,7 +29,7 @@ jobs:
       - name: AWS 자격 증명 구성 (OIDC)
         uses: aws-actions/configure-aws-credentials@v6
         with:
-          role-to-assume: arn:aws:iam::984445751003:role/pulumi-isolation-server-deployment
+          role-to-assume: arn:aws:iam::984445751003:role/PulumiDevAccessRole
           aws-region: ${{ env.AWS_REGION }}
           run: |
             # Your commands that require AWS credentials
