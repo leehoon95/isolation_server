@@ -132,7 +132,7 @@ return await Deployment.RunAsync(() =>
         },
         Tags = new Dictionary<string, string>
         {
-            ["Name"] = "ubuntu-docker-instance",
+            ["wakeup"] = "weekday",
         },
     });
 
