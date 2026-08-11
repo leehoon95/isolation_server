@@ -1,0 +1,1 @@
+sudo act -W .github/workflows/test-pulumi.yml --secret-file .secrets

@@ -27,6 +27,7 @@ jobs:
 
       # --- AWS OIDC 인증 ---
       - name: AWS 자격 증명 구성 (OIDC)
+        if: ${{ !env.ACT }}
         uses: aws-actions/configure-aws-credentials@v6
         with:
           role-to-assume: arn:aws:iam::984445751003:role/PulumiDevAccessRole
@@ -34,15 +35,16 @@ jobs:
           run: |
             # Your commands that require AWS credentials
             aws sts get-caller-identity
-    #   - name: Node.js 설치 (Pulumi TypeScript 프로젝트인 경우)
-    #     uses: actions/setup-node@v4
-    #     with:
-    #       node-version: '20'
+      # --- AWS 로컬 인증 ---
+      - name: AWS 자격 증명 구성 (로컬 act)
+        if: ${{ env.ACT }}
+        uses: aws-actions/configure-aws-credentials@v6
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
 
-    #   - name: 의존성 설치
-    #     working-directory: ${{ env.PULUMI_WORKDIR }}
-    #     run: npm ci
-
+      # dotnet 8.0 설치
       - uses: actions/setup-dotnet@v6
         with:
           dotnet-version: '8.0.x'

@@ -11,12 +11,13 @@ return await Deployment.RunAsync(() =>
     // ---------------------------------------------------------------------
     // 설정값 (pulumi config set 으로 지정)
     //   pulumi config set instanceType t3.small
-    //   pulumi config set sshPublicKey "ssh-ed25519 AAAA... your-key-comment"
+    //   pulumi config set awsEC2KeyPairSeoul "ssh-ed25519 AAAA... your-key-comment"
     //   pulumi config set sshAllowedCidr "0.0.0.0/0"   # 나중에 러너 IP로 제한 권장
     // ---------------------------------------------------------------------
     var instanceType = config.Get("instanceType") ?? "t3.small";
-    var sshPublicKey = config.RequireSecret("sshPublicKey"); // 공개키는 secret 취급 안 해도 되지만 실수 유출 방지 차원
+    var sshPublicKey = config.RequireSecret("aws-ssh-seoul"); // 공개키는 secret 취급 안 해도 되지만 실수 유출 방지 차원
     var sshAllowedCidr = config.Get("sshAllowedCidr") ?? "0.0.0.0/0";
+    var eipId = config.Get("aws-eip-id");
 
     // ---------------------------------------------------------------------
     // 최신 Ubuntu 24.04 (Noble) AMI 조회 (Canonical 공식 계정 owner id)
@@ -24,7 +25,7 @@ return await Deployment.RunAsync(() =>
     var ubuntuAmi = Aws.Ec2.GetAmi.Invoke(new Aws.Ec2.GetAmiInvokeArgs
     {
         MostRecent = true,
-        Owners = new List<string> { "984445751003" }, // Canonical
+        Owners = new List<string> { "099720109477" }, // Canonical
         Filters = new List<Aws.Ec2.Inputs.GetAmiFilterInputArgs>
         {
             new()
@@ -48,7 +49,7 @@ return await Deployment.RunAsync(() =>
     // ---------------------------------------------------------------------
     // SSH 키페어 (개인키는 로컬에 보관, 여기서는 공개키만 등록)
     // ---------------------------------------------------------------------
-    var keyPair = new KeyPair("ec2-keypair", new KeyPairArgs
+    var keyPair = new KeyPair("ec2-ssh-keypair", new KeyPairArgs
     {
         PublicKey = sshPublicKey,
     });
@@ -68,6 +69,14 @@ return await Deployment.RunAsync(() =>
                 ToPort = 22,
                 CidrBlocks = new[] { sshAllowedCidr },
                 Description = "SSH",
+            },
+            new SecurityGroupIngressArgs
+            {
+                Protocol = "tcp",
+                FromPort = 51010,
+                ToPort = 51010,
+                CidrBlocks = new[] { "0.0.0.0/0" },
+                Description = "GameServerPort",
             },
         },
         Egress = new[]
@@ -135,6 +144,16 @@ return await Deployment.RunAsync(() =>
             ["wakeup"] = "weekday",
         },
     });
+
+    // ---------------------------------------------------------------------
+    // Elastic IP 연결
+    // ---------------------------------------------------------------------
+    var eipAssoc = new Aws.Ec2.EipAssociation("isolation-server-eip-association", new()
+    {
+        InstanceId = instance.Id,
+        AllocationId = eipId,
+    });
+
 
     return new Dictionary<string, object?>
     {
