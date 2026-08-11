@@ -17,7 +17,7 @@ return await Deployment.RunAsync(() =>
     var instanceType = config.Get("instanceType") ?? "t3.small";
     var sshPublicKey = config.RequireSecret("aws-ssh-seoul"); // 공개키는 secret 취급 안 해도 되지만 실수 유출 방지 차원
     var sshAllowedCidr = config.Get("sshAllowedCidr") ?? "0.0.0.0/0";
-    var eipId = config.Get("aws-eip-id");
+    var eipId = config.Get("aws-eip-id") ?? "[Set EIP id]";
 
     // ---------------------------------------------------------------------
     // 최신 Ubuntu 24.04 (Noble) AMI 조회 (Canonical 공식 계정 owner id)
@@ -153,13 +153,10 @@ return await Deployment.RunAsync(() =>
         InstanceId = instance.Id,
         AllocationId = eipId,
     });
-
-
+    
     return new Dictionary<string, object?>
     {
         ["instanceId"] = instance.Id,
-        ["publicIp"] = instance.PublicIp,
-        ["publicDns"] = instance.PublicDns,
-        ["sshCommand"] = Output.Format($"ssh -i <private-key-path> ubuntu@{instance.PublicIp}"),
+        ["publicElasticIp"] = eipAssoc.PublicIp,
     };
 });

@@ -61,12 +61,25 @@ jobs:
 
       # --- 생성된 인스턴스의 Public IP를 stack output에서 추출 ---
       - name: Pulumi stack output 조회
-        id: stack-output
+        id: get-ip
         working-directory: ${{ env.PULUMI_WORKDIR }}
         run: |
-          IP=$(pulumi stack output instancePublicIp --stack ${{ env.PULUMI_STACK }})
+          IP=$(pulumi stack output publicElasticIp --stack ${{ env.PULUMI_STACK }})
           echo "instance_ip=$IP" >> "$GITHUB_OUTPUT"
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+
+      - name: Wait for SSH port to open
+        run: |
+          for i in {1..30}; do
+            if nc -z -w5 "${{ steps.get-ip.outputs.elastic_ip }}" 22; then
+              echo "SSH is up"
+              break
+            fi
+            echo "Waiting for SSH... ($i/30)"
+            sleep 10
+          done
+      - name: Check for test directory
+        run: ls -al
 
  
