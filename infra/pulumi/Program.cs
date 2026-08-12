@@ -165,7 +165,7 @@ systemctl start docker
         {
             Connection = new ConnectionArgs
             {
-                Host = instance.PublicIp,
+                Host = eipAssoc.PublicIp,
                 User = "ubuntu",
                 PrivateKey = sshPrivateKey,
             },
