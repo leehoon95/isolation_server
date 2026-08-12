@@ -124,6 +124,9 @@ usermod -aG docker $USER
 systemctl enable docker
 systemctl start docker
 ";
+
+    var normalizedUserData = userData.Replace("\r\n", "\n");
+    
     // ---------------------------------------------------------------------
     // EC2 인스턴스
     // ---------------------------------------------------------------------
@@ -133,7 +136,7 @@ systemctl start docker
         Ami = ubuntuAmi.Apply(a => a.Id),
         KeyName = keyPair.KeyName,
         VpcSecurityGroupIds = new[] { secGroup.Id },
-        UserData = userData,
+        UserData = normalizedUserData,
         AssociatePublicIpAddress = true,
         RootBlockDevice = new InstanceRootBlockDeviceArgs
         {
