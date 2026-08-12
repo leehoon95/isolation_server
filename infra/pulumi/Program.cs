@@ -2,6 +2,8 @@
 using Pulumi;
 using Pulumi.Aws.Ec2;
 using Pulumi.Aws.Ec2.Inputs;
+using Pulumi.Command.Remote;
+using Pulumi.Command.Remote.Inputs;
 using Aws = Pulumi.Aws;
 
 return await Deployment.RunAsync(() =>
@@ -15,7 +17,8 @@ return await Deployment.RunAsync(() =>
     //   pulumi config set sshAllowedCidr "0.0.0.0/0"   # 나중에 러너 IP로 제한 권장
     // ---------------------------------------------------------------------
     var instanceType = config.Get("instanceType") ?? "t3.small";
-    var sshPublicKey = config.RequireSecret("aws-ssh-seoul"); // 공개키는 secret 취급 안 해도 되지만 실수 유출 방지 차원
+    var sshPublicKey = config.RequireSecret("aws-ssh-public");
+    var sshPrivateKey = config.RequireSecret("aws-ssh-private");
     var sshAllowedCidr = config.Get("sshAllowedCidr") ?? "0.0.0.0/0";
     var eipId = config.Get("aws-eip-id") ?? "[Set EIP id]";
 
@@ -126,7 +129,7 @@ systemctl start docker
 ";
 
     var normalizedUserData = userData.Replace("\r\n", "\n");
-    
+
     // ---------------------------------------------------------------------
     // EC2 인스턴스
     // ---------------------------------------------------------------------
@@ -157,6 +160,30 @@ systemctl start docker
         InstanceId = instance.Id,
         AllocationId = eipId,
     });
+    
+    var waitForInstallDocker = new Command("wait-for-docker", new CommandArgs
+        {
+            Connection = new ConnectionArgs
+            {
+                Host = instance.PublicIp,
+                User = "ubuntu",
+                PrivateKey = sshPrivateKey,
+            },
+            Create = @"
+                for i in $(seq 1 30); do
+                  if command -v docker >/dev/null 2>&1 && systemctl is-active --quiet docker; then
+                    echo 'docker ready'
+                    exit 0
+                  fi
+                  sleep 10
+                done
+                echo 'timed out waiting for docker'
+                exit 1
+            ",
+        }, new CustomResourceOptions
+        {
+            DependsOn = { instance },
+        });
     
     return new Dictionary<string, object?>
     {
