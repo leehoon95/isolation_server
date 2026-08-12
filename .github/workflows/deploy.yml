@@ -4,7 +4,13 @@ name: Deploy to Cloud Instance
 on:
   workflow_dispatch:
   
+env:
+  AWS_EC2_INSTANCE_USERNAME: ubuntu
+
 jobs:
+  call-deploy-infra:
+    uses: ./.github/workflows/deploy-aws-infra.yml
+
   deploy:
     runs-on: ubuntu-latest
     steps:
@@ -36,20 +42,20 @@ jobs:
       - name: Copy docker-compose.yml to Server via SCP
         uses: appleboy/scp-action@v1
         with:
-          host: ${{ secrets.INSTANCE_HOST }}
-          username: ${{ secrets.INSTANCE_USER }}
-          key: ${{ secrets.INSTANCE_SSH_PRIVATE_KEY }}
+          host: ${{ needs.call-deploy-infra.outputs.instance_ip }}
+          username: ${{ secrets.AWS_EC2_USERNAME }}
+          key: ${{ secrets.AWS_EC2_PRIVATE_KEY }}
           source: "docker-compose.yml"
-          target: "/home/${{ secrets.INSTANCE_USER }}/server"
+          target: "/home/${{ secrets.AWS_EC2_USERNAME }}/server"
 
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1
         with:
-          host: ${{ secrets.INSTANCE_HOST }}
-          username: ${{ secrets.INSTANCE_USER }}
-          key: ${{ secrets.INSTANCE_SSH_PRIVATE_KEY }}
+          host: ${{ needs.call-deploy-infra.outputs.instance_ip }}
+          username: ${{ secrets.AWS_EC2_USERNAME }}
+          key: ${{ secrets.AWS_EC2_PRIVATE_KEY }}
           script: |
-            cd /home/${{ secrets.INSTANCE_USER }}/server
+            cd /home/${{ secrets.AWS_EC2_USERNAME }}/server
             docker compose down
             DOCKER_IMAGE_TAG=${{ github.sha }} docker compose pull
             DOCKER_IMAGE_TAG=${{ github.sha }} docker compose up -d

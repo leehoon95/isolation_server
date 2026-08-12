@@ -1,7 +1,11 @@
 name: Deploy EC2 via Pulumi and Run docker-compose
 
 on:
-  workflow_dispatch:
+  workflow_call:
+    outputs:
+      version:
+        description: "AWS EC2 인스턴스 Elastic IP"
+        value: ${{ jobs.deploy-infra.outputs.instance_ip}}
 
 # GitHub OIDC 토큰 발급을 위해 필요
 permissions:
@@ -12,13 +16,14 @@ env:
   AWS_REGION: ap-northeast-2
   PULUMI_STACK: dev          # 실제 스택 이름으로 변경
   PULUMI_WORKDIR: ./infra/pulumi     # Pulumi 프로젝트 디렉토리로 변경
+  EC2_INSTANCE_USERNAME: ubuntu
 
 jobs:
   deploy-infra:
     name: Pulumi로 EC2 생성
     runs-on: ubuntu-latest
     outputs:
-      instance_ip: ${{ steps.stack-output.outputs.instance_ip }}
+      instance_ip: ${{ steps.get-ip.outputs.instance_ip }}
     steps:
       - name: 체크아웃
         uses: actions/checkout@v7
@@ -33,16 +38,18 @@ jobs:
           role-to-assume: arn:aws:iam::984445751003:role/PulumiDevAccessRole
           aws-region: ${{ env.AWS_REGION }}
           run: |
-            # Your commands that require AWS credentials
             aws sts get-caller-identity
-      # --- AWS 로컬 인증 ---
-      - name: AWS 자격 증명 구성 (로컬 act)
+
+      # --- AWS 로컬 IAM 인증 ---
+      - name: AWS 자격 증명 구성 (ACT)
         if: ${{ env.ACT }}
         uses: aws-actions/configure-aws-credentials@v6
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
+          run: |
+            aws sts get-caller-identity
 
       # dotnet 8.0 설치
       - uses: actions/setup-dotnet@v6
@@ -68,18 +75,15 @@ jobs:
           echo "instance_ip=$IP" >> "$GITHUB_OUTPUT"
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
-
-      - name: Wait for SSH port to open
-        run: |
-          for i in {1..30}; do
-            if nc -z -w5 "${{ steps.get-ip.outputs.elastic_ip }}" 22; then
-              echo "SSH is up"
-              break
-            fi
-            echo "Waiting for SSH... ($i/30)"
-            sleep 10
-          done
-      - name: Check for test directory
-        run: ls -al
+      
+      # --- 
+      - name: Connect ssh
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ steps.get-ip.outputs.instance_ip }}
+          username: ${{ secrets.AWS_EC2_USERNAME }}
+          key: ${{ secrets.AWS_EC2_PRIVATE_KEY }}
+          script: |
+            mkdir -p hello_$(date '+%Y%m%d_%H%M%S')
 
  

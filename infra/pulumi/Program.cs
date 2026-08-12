@@ -11,7 +11,7 @@ return await Deployment.RunAsync(() =>
     // ---------------------------------------------------------------------
     // 설정값 (pulumi config set 으로 지정)
     //   pulumi config set instanceType t3.small
-    //   pulumi config set awsEC2KeyPairSeoul "ssh-ed25519 AAAA... your-key-comment"
+    //   pulumi config set sshPublicKey "ssh-ed25519 AAAA... your-key-comment"
     //   pulumi config set sshAllowedCidr "0.0.0.0/0"   # 나중에 러너 IP로 제한 권장
     // ---------------------------------------------------------------------
     var instanceType = config.Get("instanceType") ?? "t3.small";
@@ -99,34 +99,35 @@ return await Deployment.RunAsync(() =>
     // UserData: 부팅 시 Docker 설치 (Ubuntu 공식 apt 저장소 사용)
     // ---------------------------------------------------------------------
     const string userData = @"#!/bin/bash
-        mkdir created_$(date '+%Y-%m-%d_%H%M%S')";
+        set -eux
 
-    // set -eux
+        apt-get update -y
+        apt-get install -y ca-certificates curl
 
-    // apt-get update -y
-    // apt-get install -y ca-certificates curl gnupg
+        install -m 0755 -d /etc/apt/keyrings
+        curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+        chmod a+r /etc/apt/keyrings/docker.asc
 
-    // install -m 0755 -d /etc/apt/keyrings
-    // curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
-    // chmod a+r /etc/apt/keyrings/docker.asc
+        tee /etc/apt/sources.list.d/docker.sources <<EOF
+        Types: deb
+        URIs: https://download.docker.com/linux/ubuntu
+        Suites: $(. /etc/os-release && echo ""$${UBUNTU_CODENAME:-$VERSION_CODENAME}"")
+        Components: stable
+        Signed-By: /etc/apt/keyrings/docker.asc
+        EOF
+        
+        apt-get update -y
+        apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
-    // echo \
-    //   ""deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
-    //   $(. /etc/os-release && echo ""$VERSION_CODENAME"") stable"" | \
-    //   tee /etc/apt/sources.list.d/docker.list > /dev/null
+        usermod -aG docker $USER
 
-    // apt-get update -y
-    // apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-
-    // usermod -aG docker ubuntu
-
-    // systemctl enable docker
-    // systemctl start docker
-
+        systemctl enable docker
+        systemctl start docker
+";
     // ---------------------------------------------------------------------
     // EC2 인스턴스
     // ---------------------------------------------------------------------
-    var instance = new Instance("ubuntu-docker-instance", new InstanceArgs
+    var instance = new Instance("isolation-server", new InstanceArgs
     {
         InstanceType = instanceType,
         Ami = ubuntuAmi.Apply(a => a.Id),

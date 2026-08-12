@@ -1,1 +1,1 @@
-sudo act -W .github/workflows/test-pulumi.yml --secret-file .secrets
+sudo act -W .github/workflows/deploy-aws-infra.yml --secret-file .secrets
