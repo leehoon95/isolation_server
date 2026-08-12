@@ -4,7 +4,7 @@ on:
   workflow_call:
     outputs:
       version:
-        description: "AWS EC2 인스턴스 Elastic IP"
+        description: 'AWS EC2 인스턴스 Elastic IP'
         value: ${{ jobs.deploy-infra.outputs.instance_ip}}
 
 # GitHub OIDC 토큰 발급을 위해 필요

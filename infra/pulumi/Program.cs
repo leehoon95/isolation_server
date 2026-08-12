@@ -99,30 +99,30 @@ return await Deployment.RunAsync(() =>
     // UserData: 부팅 시 Docker 설치 (Ubuntu 공식 apt 저장소 사용)
     // ---------------------------------------------------------------------
     const string userData = @"#!/bin/bash
-        set -eux
+set -eux
 
-        apt-get update -y
-        apt-get install -y ca-certificates curl
+apt-get update -y
+apt-get install -y ca-certificates curl
 
-        install -m 0755 -d /etc/apt/keyrings
-        curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
-        chmod a+r /etc/apt/keyrings/docker.asc
+install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+chmod a+r /etc/apt/keyrings/docker.asc
 
-        tee /etc/apt/sources.list.d/docker.sources <<EOF
-        Types: deb
-        URIs: https://download.docker.com/linux/ubuntu
-        Suites: $(. /etc/os-release && echo ""${UBUNTU_CODENAME:-$VERSION_CODENAME}"")
-        Components: stable
-        Signed-By: /etc/apt/keyrings/docker.asc
-        EOF
-        
-        apt-get update -y
-        apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+tee /etc/apt/sources.list.d/docker.sources <<EOF
+Types: deb
+URIs: https://download.docker.com/linux/ubuntu
+Suites: $(. /etc/os-release && echo ""$UBUNTU_CODENAME"")
+Components: stable
+Signed-By: /etc/apt/keyrings/docker.asc
+EOF
 
-        usermod -aG docker $USER
+apt-get update -y
+apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
-        systemctl enable docker
-        systemctl start docker
+usermod -aG docker $USER
+
+systemctl enable docker
+systemctl start docker
 ";
     // ---------------------------------------------------------------------
     // EC2 인스턴스
