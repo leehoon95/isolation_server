@@ -2,6 +2,11 @@ name: Deploy EC2 via Pulumi and Run docker-compose
 
 on:
   workflow_call:
+    inputs:
+      BRANCH:
+        required: false
+        default: 'main'
+        type: string
     outputs:
       instance_ip:
         description: 'AWS EC2 인스턴스 Elastic IP'
@@ -28,7 +33,7 @@ jobs:
       - name: 체크아웃
         uses: actions/checkout@v7
         with:
-          ref: develop
+          ref: ${{ inputs.BRANCH }}
 
       # --- AWS OIDC 인증 ---
       - name: AWS 자격 증명 구성 (OIDC)

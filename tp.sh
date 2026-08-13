@@ -1,1 +1,1 @@
-sudo act -W .github/workflows/deploy.yml --secret-file .secrets
+sudo act -W .github/workflows/deploy.yml --secret-file .secrets --input branch=develop
