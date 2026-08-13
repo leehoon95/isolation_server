@@ -123,6 +123,7 @@ apt-get update -y
 apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
 usermod -aG docker $USER
+newgrp docker
 
 systemctl enable docker
 systemctl start docker
