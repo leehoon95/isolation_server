@@ -16,7 +16,7 @@ return await Deployment.RunAsync(() =>
     //   pulumi config set sshPublicKey "ssh-ed25519 AAAA... your-key-comment"
     //   pulumi config set sshAllowedCidr "0.0.0.0/0"   # 나중에 러너 IP로 제한 권장
     // ---------------------------------------------------------------------
-    var instanceType = config.Get("instanceType") ?? "t3.small";
+    var instanceType = config.Get("aws-ec2-type") ?? "t3.small";
     var sshPublicKey = config.RequireSecret("aws-ssh-public");
     var sshPrivateKey = config.RequireSecret("aws-ssh-private");
     var sshAllowedCidr = config.Get("sshAllowedCidr") ?? "0.0.0.0/0";
