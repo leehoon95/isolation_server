@@ -122,7 +122,7 @@ EOF
 apt-get update -y
 apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
-usermod -aG docker $USER
+usermod -aG docker ubuntu
 newgrp docker
 
 systemctl enable docker

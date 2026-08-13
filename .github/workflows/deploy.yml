@@ -15,7 +15,6 @@ jobs:
     secrets: inherit
     with:
       branch: ${{ inputs.branch }}
-      
 
   deploy:
     needs: deploy-infra
@@ -64,9 +63,7 @@ jobs:
           key: ${{ secrets.AWS_EC2_PRIVATE_KEY }}
           script: |
             cd /home/${{ secrets.AWS_EC2_USERNAME }}/server
-            # usermod -aG docker $USER
-            # newgrp docker
-            # echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+            echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
             DOCKERHUB_USERNAME=${{ secrets.DOCKERHUB_USERNAME }} DOCKER_IMAGE_TAG=${{ github.sha }} docker compose pull server
             DOCKERHUB_USERNAME=${{ secrets.DOCKERHUB_USERNAME }} DOCKER_IMAGE_TAG=${{ github.sha }} docker compose up -d
             docker image prune -f
