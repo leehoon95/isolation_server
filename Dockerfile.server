@@ -78,25 +78,30 @@ COPY . .
 RUN sh build.sh $SERVER_NAME $REDIS_SERVER_HOST $REDIS_SERVER_PORT
     
 # Github workflow 테스트를 위한 nodejs 캐싱용 스테이지 ==============================================================
-FROM ubuntu:24.04 AS package-cache
+# FROM ubuntu:24.04 AS package-cache
 
-ARG DEBIAN_FRONTEND
+# ARG DEBIAN_FRONTEND
 
-RUN curl -fsSL https://deb.nodesource.com/setup_26.x | bash - 
+# RUN curl -fsSL https://deb.nodesource.com/setup_26.x | bash - 
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    nodejs \
-    libhiredis1.1.0 \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+# RUN apt-get update && apt-get install -y --no-install-recommends \
+#     nodejs \
+#     libhiredis1.1.0 \
+#     && apt-get clean \
+#     && rm -rf /var/lib/apt/lists/*
 
 # 서버 프로그램 실행환경 구축 스테이지 ==============================================================
-FROM package-cache AS runner
+FROM ubuntu:24.04 AS runner
 
 ARG SERVER_NAME
 ENV SERVER_NAME_ENV=$SERVER_NAME
 
 WORKDIR /isolation-server
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libhiredis1.1.0 \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 COPY --from=builder /${SERVER_NAME}-build/build/${SERVER_NAME}-app .
 

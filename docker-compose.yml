@@ -28,8 +28,7 @@ services:
       args:
         REDIS_SERVER_HOST: redis # redis 서비스이름을 사용
         REDIS_SERVER_PORT: 6379
-        DOCKER_IMAGE_TAG: latest
-    image: leehoon95/isolation-server:${DOCKER_IMAGE_TAG:-latest}
+    image: ${DOCKER_USERNAME}/isolation-server:${DOCKER_IMAGE_TAG}
     container_name: isolation-server
     restart: unless-stopped
     # Redis가 헬스체크(ping)에 성공한 후 서버 프로그램 실행

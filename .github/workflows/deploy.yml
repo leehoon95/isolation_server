@@ -3,15 +3,13 @@ name: Deploy to Cloud Instance
 # Github-hosted 러너를 사용한다. 
 on:
   workflow_dispatch:
-  
-env:
-  AWS_EC2_INSTANCE_USERNAME: ubuntu
 
 jobs:
-  call-deploy-infra:
+  deploy-infra:
     uses: ./.github/workflows/deploy-aws-infra.yml
 
   deploy:
+    needs: deploy-infra
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -26,7 +24,7 @@ jobs:
       - name: Login to Docker Hub
         uses: docker/login-action@v4
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          username: ${{ vars.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and Push Docker Image
@@ -35,14 +33,14 @@ jobs:
           context: .
           file: Dockerfile.server
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/isolation-server:${{ github.sha }}
+          tags: ${{ vars.DOCKERHUB_USERNAME }}/isolation-server:${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
       - name: Copy docker-compose.yml to Server via SCP
         uses: appleboy/scp-action@v1
         with:
-          host: ${{ needs.call-deploy-infra.outputs.instance_ip }}
+          host: ${{ needs.deploy-infra.outputs.instance_ip }}
           username: ${{ secrets.AWS_EC2_USERNAME }}
           key: ${{ secrets.AWS_EC2_PRIVATE_KEY }}
           source: "docker-compose.yml"
@@ -51,14 +49,14 @@ jobs:
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1
         with:
-          host: ${{ needs.call-deploy-infra.outputs.instance_ip }}
+          host: ${{ needs.deploy-infra.outputs.instance_ip }}
           username: ${{ secrets.AWS_EC2_USERNAME }}
           key: ${{ secrets.AWS_EC2_PRIVATE_KEY }}
           script: |
             cd /home/${{ secrets.AWS_EC2_USERNAME }}/server
-            docker compose down
-            DOCKER_IMAGE_TAG=${{ github.sha }} docker compose pull
-            DOCKER_IMAGE_TAG=${{ github.sha }} docker compose up -d
+            echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u ${{ vars.DOCKER_USERNAME }} --password-stdin
+            DOCKER_USERNAME=${{ vars.DOCKER_USERNAME }} DOCKER_IMAGE_TAG=${{ github.sha }} docker compose pull server
+            DOCKER_USERNAME=${{ vars.DOCKER_USERNAME }} DOCKER_IMAGE_TAG=${{ github.sha }} docker compose up -d
             docker image prune -f
 
             

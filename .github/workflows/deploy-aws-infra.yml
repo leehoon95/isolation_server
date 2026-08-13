@@ -3,7 +3,7 @@ name: Deploy EC2 via Pulumi and Run docker-compose
 on:
   workflow_call:
     outputs:
-      version:
+      instance_ip:
         description: 'AWS EC2 인스턴스 Elastic IP'
         value: ${{ jobs.deploy-infra.outputs.instance_ip}}
 

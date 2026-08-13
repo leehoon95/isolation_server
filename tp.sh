@@ -1,1 +1,1 @@
-sudo act -W .github/workflows/deploy-aws-infra.yml --secret-file .secrets
+sudo act -W .github/workflows/deploy.yml --secret-file .secrets
