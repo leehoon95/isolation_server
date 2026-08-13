@@ -4,7 +4,7 @@ name: Deploy to Cloud Instance
 on:
   workflow_dispatch:
     inputs:
-      BRANCH:
+      branch:
         description: git branch
         required: false
         default: 'main'
@@ -12,6 +12,10 @@ on:
 jobs:
   deploy-infra:
     uses: ./.github/workflows/deploy-aws-infra.yml
+    secrets: inherit
+    with:
+      branch: ${{ inputs.branch }}
+      
 
   deploy:
     needs: deploy-infra
@@ -60,9 +64,9 @@ jobs:
           key: ${{ secrets.AWS_EC2_PRIVATE_KEY }}
           script: |
             cd /home/${{ secrets.AWS_EC2_USERNAME }}/server
-            echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u ${{ vars.DOCKER_USERNAME }} --password-stdin
-            DOCKER_USERNAME=${{ vars.DOCKER_USERNAME }} DOCKER_IMAGE_TAG=${{ github.sha }} docker compose pull server
-            DOCKER_USERNAME=${{ vars.DOCKER_USERNAME }} DOCKER_IMAGE_TAG=${{ github.sha }} docker compose up -d
+            echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+            DOCKERHUB_USERNAME=${{ secrets.DOCKERHUB_USERNAME }} DOCKER_IMAGE_TAG=${{ github.sha }} docker compose pull server
+            DOCKERHUB_USERNAME=${{ secrets.DOCKERHUB_USERNAME }} DOCKER_IMAGE_TAG=${{ github.sha }} docker compose up -d
             docker image prune -f
 
             

@@ -3,7 +3,7 @@ name: Deploy EC2 via Pulumi and Run docker-compose
 on:
   workflow_call:
     inputs:
-      BRANCH:
+      branch:
         required: false
         default: 'main'
         type: string
@@ -33,7 +33,7 @@ jobs:
       - name: 체크아웃
         uses: actions/checkout@v7
         with:
-          ref: ${{ inputs.BRANCH }}
+          ref: ${{ inputs.branch }}
 
       # --- AWS OIDC 인증 ---
       - name: AWS 자격 증명 구성 (OIDC)
