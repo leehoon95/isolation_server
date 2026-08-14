@@ -64,6 +64,12 @@ jobs:
           script: |
             cd /home/${{ secrets.AWS_EC2_USERNAME }}/server
             echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+            
+            cat > .env << EOF
+            DOCKERHUB_USERNAME=${{ secrets.DOCKERHUB_USERNAME }}
+            DOCKER_IMAGE_TAG=${{ github.sha }}
+            EOF
+
             DOCKERHUB_USERNAME=${{ secrets.DOCKERHUB_USERNAME }} DOCKER_IMAGE_TAG=${{ github.sha }} docker compose pull server
             DOCKERHUB_USERNAME=${{ secrets.DOCKERHUB_USERNAME }} DOCKER_IMAGE_TAG=${{ github.sha }} docker compose up -d
             docker image prune -f
