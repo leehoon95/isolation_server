@@ -23,7 +23,7 @@ target_include_directories(isolation_server PRIVATE
     "${CMAKE_CURRENT_BINARY_DIR}/src"
 )
 
-set_target_properties(isolation_server PROPERTIES OUTPUT_NAME "$isolation-server-app")
+set_target_properties(isolation_server PROPERTIES OUTPUT_NAME "isolation-server-app")
 
 target_link_libraries(isolation_server PRIVATE
     Boost::boost
