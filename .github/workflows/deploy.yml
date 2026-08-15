@@ -2,12 +2,18 @@ name: Deploy to Cloud Instance
 
 # Github-hosted 러너를 사용한다. 
 on:
-  workflow_dispatch:
+  workflow_dispatch: # 로컬 act 테스트용 (tp.sh 참고)
     inputs:
       branch:
         description: git branch
         required: false
         default: 'main'
+  pull_request: # PR이 닫히고 병합시 실행
+    branches: [main]
+    types: [closed]
+
+env:
+  DOCKER_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/isolation-server:${{ github.sha }}
 
 jobs:
   deploy-infra:
@@ -42,7 +48,7 @@ jobs:
           context: .
           file: Dockerfile.server
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/isolation-server:${{ github.sha }}
+          tags: ${{ env.DOCKER_IMAGE }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -64,14 +70,14 @@ jobs:
           script: |
             cd /home/${{ secrets.AWS_EC2_USERNAME }}/server
             echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
-            
+
             cat > .env << EOF
-            DOCKERHUB_USERNAME=${{ secrets.DOCKERHUB_USERNAME }}
-            DOCKER_IMAGE_TAG=${{ github.sha }}
+            DOCKERHUB_IMAGE=${{ env.DOCKER_IMAGE }}
+            SERVER_LISTENING_PORT=${{ secrets.SERVER_LISTENING_PORT }}
             EOF
 
-            DOCKERHUB_USERNAME=${{ secrets.DOCKERHUB_USERNAME }} DOCKER_IMAGE_TAG=${{ github.sha }} docker compose pull server
-            DOCKERHUB_USERNAME=${{ secrets.DOCKERHUB_USERNAME }} DOCKER_IMAGE_TAG=${{ github.sha }} docker compose up -d
+            docker compose pull server
+            docker compose up -d
             docker image prune -f
 
             

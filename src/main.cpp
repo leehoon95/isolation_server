@@ -11,25 +11,47 @@
 #include "Acceptor.h"
 #include "Server.h"
 #include "redisService.h"
-#include "Config.h"
 
 using namespace boost;
 using boost::asio::ip::tcp;
 
-void TestAsioSync();
-
 int main()
 {
-	std::cout << std::format("{0} Built At: {1} {2}\n",
-		SERVER_NAME, __DATE__, __TIME__);
+	std::cout << std::format("Isolation Server Built At: {0} {1}\n",
+		__DATE__, __TIME__);
 
-	//std::cout << std::format("GTEST Result: {0}\n", RUN_ALL_TESTS());
+	char* envPort = getenv("ISOLATION_SERVER_LISTENING_PORT");
+	if (envPort == nullptr)
+	{
+		std::cerr << "Env var listening port is null\n";
+		return -1;
+	}
+
+	int port = 0;
+
+	try
+	{
+		port = std::stoi(envPort);
+	}
+	catch (std::invalid_argument& e)
+	{
+		std::cerr << std::format("std::invalid_argument::what(): {0}\n", e.what());
+		return -2;
+	}
+	catch (std::out_of_range& e)
+	{
+		std::cerr << std::format("std::out_of_range::what(): {0}\n", e.what());
+		return -3;
+	}
+
+	std::cout << std::format("Start Isolation Server\nListening({0})...", 
+		getenv("ISOLATION_SERVER_LISTENING_PORT"));
 
 	try
 	{
 		std::cout << std::unitbuf;
-
-		auto rs = std::make_unique<RedisService>();
+		
+		auto rs = std::make_unique<RedisService>("redis", 6379);
 		rs->Ping();
 
 		auto scanResult{rs->Scan("client:*")};
@@ -50,7 +72,7 @@ int main()
 		asio::executor_work_guard<asio::io_context::executor_type> work_guard 
 		= asio::make_work_guard(io_context);
 		unsigned int clientIndex = 0;
-		Acceptor acceptor(io_context, 51010);
+		Acceptor acceptor(io_context, port);
 		std::vector<std::thread> ioThreads;
 		auto concurrency = 1;//std::thread::hardware_concurrency() / 2;
 

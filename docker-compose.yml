@@ -4,9 +4,7 @@ services:
     image: redis:7-alpine
     container_name: isolation-redis
     restart: always
-    # 호스트 PC나 외부 GUI 툴에서 Redis에 직접 접속해야 할 때만 ports 작성
-    #ports:
-    #  - "6379:6379"
+    # 같은 docker 네트워크 안에서 연결된 다른 컨테이너에게 공개할 포트(내부 통신용)
     expose:
       - "6379"
     volumes:
@@ -22,21 +20,18 @@ services:
 
   # 2. 서버 프로그램 컨테이너 설정
   server:
-    build:
-      context: .
-      dockerfile: Dockerfile.server
-      args:
-        REDIS_SERVER_HOST: redis # redis 서비스이름을 사용
-        REDIS_SERVER_PORT: 6379
-    image: ${DOCKERHUB_USERNAME}/isolation-server:${DOCKER_IMAGE_TAG}
+    image: ${DOCKERHUB_IMAGE}
     container_name: isolation-server
+    environment:
+      - ISOLATION_SERVER_LISTENING_PORT=${SERVER_LISTENING_PORT}
     restart: unless-stopped
     # Redis가 헬스체크(ping)에 성공한 후 서버 프로그램 실행
     depends_on:
       redis:
         condition: service_healthy
+    # host os와 컨테이너를 연결할 포트
     ports:
-      - "51010:51010" # 게임/웹 서버의 서비스 포트
+      - "${SERVER_LISTENING_PORT}:${SERVER_LISTENING_PORT}" # 게임/웹 서버의 서비스 포트
     networks:
       - game-net
 

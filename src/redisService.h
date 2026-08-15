@@ -13,7 +13,7 @@ class RedisService : public IRedis
     std::unique_ptr<sw::redis::Redis> _redis;
 
 public:
-    RedisService();
+    RedisService(const char* const host, const int port);
     RedisService(RedisService &rs) = delete;
     RedisService &operator=(const RedisService &) = delete;
 
