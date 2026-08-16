@@ -17,8 +17,15 @@ using boost::asio::ip::tcp;
 
 int main()
 {
-	std::cout << std::format("Isolation Server Built At: {0} {1}\n",
-		__DATE__, __TIME__);
+	char* envGitSha = getenv("GIT_COMMIT_SHA");
+	if (envGitSha == nullptr)
+	{
+		std::cerr << "Env var Git Commit Sha is null\n";
+		return -1;
+	}
+
+	std::cout << std::format("Isolation Server Built At: {0} {1}\nGit Commit: {2}\n",
+		__DATE__, __TIME__, envGitSha);
 
 	char* envPort = getenv("ISOLATION_SERVER_LISTENING_PORT");
 	if (envPort == nullptr)

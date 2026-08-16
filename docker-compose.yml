@@ -24,6 +24,7 @@ services:
     container_name: isolation-server
     environment:
       - ISOLATION_SERVER_LISTENING_PORT=${SERVER_LISTENING_PORT}
+      - GIT_COMMIT_SHA=${GIT_COMMIT_SHA}
     restart: unless-stopped
     # Redis가 헬스체크(ping)에 성공한 후 서버 프로그램 실행
     depends_on:
