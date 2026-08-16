@@ -74,6 +74,7 @@ jobs:
             cat > .env << EOF
             DOCKERHUB_IMAGE=${{ env.DOCKER_IMAGE }}
             SERVER_LISTENING_PORT=${{ secrets.SERVER_LISTENING_PORT }}
+            GIT_COMMIT_SHA=${{ github.sha }}
             EOF
 
             docker compose pull server
