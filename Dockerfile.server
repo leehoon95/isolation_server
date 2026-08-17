@@ -20,9 +20,6 @@ ARG DEBIAN_FRONTEND
 ARG PROTOBUF_VERSION=31.0
 ARG SERVER_NAME
 
-# nodejs 최신 LTS 버전 저장소 등록
-#RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - 
-
 # 기본 필수 개발 도구 및 CMake, 빌드 시스템 설치
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \

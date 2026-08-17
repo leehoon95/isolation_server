@@ -17,6 +17,8 @@ using boost::asio::ip::tcp;
 
 int main()
 {
+	std::cout << std::unitbuf;
+
 	char* envGitSha = getenv("GIT_COMMIT_SHA");
 	if (envGitSha == nullptr)
 	{
@@ -24,8 +26,8 @@ int main()
 		return -1;
 	}
 
-	std::cout << std::format("Isolation Server Built At: {0} {1}\nGit Commit: {2}\n",
-		__DATE__, __TIME__, envGitSha);
+	std::cout << std::format("Git Commit Sha: {0}\nBuilt At: {1} {2}\n",
+		envGitSha, __DATE__, __TIME__);
 
 	char* envPort = getenv("ISOLATION_SERVER_LISTENING_PORT");
 	if (envPort == nullptr)
@@ -51,13 +53,11 @@ int main()
 		return -3;
 	}
 
-	std::cout << std::format("Start Isolation Server\nListening({0})...", 
-		getenv("ISOLATION_SERVER_LISTENING_PORT"));
+	std::cout << std::format("Start Isolation Server\nListening({0})...\n\n", 
+		port);
 
 	try
 	{
-		std::cout << std::unitbuf;
-		
 		auto rs = std::make_unique<RedisService>("redis", 6379);
 		rs->Ping();
 

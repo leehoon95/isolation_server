@@ -26,7 +26,7 @@ target_include_directories(isolation_server PRIVATE
 set_target_properties(isolation_server PROPERTIES OUTPUT_NAME "isolation-server-app")
 
 target_link_libraries(isolation_server PRIVATE
-    Boost::boost
+    Boost::boost # 헤더전용 라이브러리 사용. 헤더파일 경로를 찾게함
     isolation_pb
     /usr/local/lib/libredis++.a
     hiredis
