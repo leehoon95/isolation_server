@@ -33,7 +33,7 @@ jobs:
     
     - name: Cache Protobuf
       id: cache-protobuf
-      uses: actions/cache@v4
+      uses: actions/cache@v6
       with:
         path: |
           /usr/local/bin/protoc
