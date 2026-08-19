@@ -30,24 +30,37 @@ jobs:
         curl \
         unzip \
         git
+    
+    - name: Cache Protobuf
+      id: cache-protobuf
+      uses: actions/cache@v4
+      with:
+        path: |
+          /usr/local/bin/protoc
+          /usr/local/include/google/protobuf
+          /usr/local/lib/libprotobuf*
+          /usr/local/lib/libprotoc*
+          /usr/local/lib/cmake/protobuf
+          /usr/local/lib/pkgconfig/protobuf*.pc
+        key: ${{ runner.os }}-protobuf-${{ env.PROTOBUF_VERSION }}
 
     - name: Install Protoc
+      if: steps.cache-protobuf.outputs.cache-hit != 'true'
       run: |
-        cd /tmp
         curl -LO https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOBUF_VERSION}/protoc-${PROTOBUF_VERSION}-linux-x86_64.zip
         sudo unzip protoc-${PROTOBUF_VERSION}-linux-x86_64.zip -d /usr/local
         rm protoc-${PROTOBUF_VERSION}-linux-x86_64.zip
 
     - name: Install Protocal Buffers
+      if: steps.cache-protobuf.outputs.cache-hit != 'true'
       run: |
-        cd /tmp
         curl -LO https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOBUF_VERSION}/protobuf-${PROTOBUF_VERSION}.tar.gz
         tar -xzf protobuf-${PROTOBUF_VERSION}.tar.gz
         cd protobuf-${PROTOBUF_VERSION}
         cmake -B build -Dprotobuf_BUILD_TESTS=OFF -DBUILD_SHARED_LIBS=OFF -DCMAKE_MESSAGE_LOG_LEVEL=WARNING
         cmake --build build -j$(nproc)
         sudo cmake --install build 
-        cd /tmp && rm -rf protobuf-${PROTOBUF_VERSION}
+        rm -rf protobuf-${PROTOBUF_VERSION}
 
     - name: Configure CMake and Test
       run: |
