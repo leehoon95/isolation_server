@@ -162,6 +162,7 @@ systemctl start docker
         AllocationId = eipId,
     });
     
+    // SSH 접속 후 초기화 완료 확인
     var waitForInstallDocker = new Command("wait-for-docker", new CommandArgs
         {
             Connection = new ConnectionArgs

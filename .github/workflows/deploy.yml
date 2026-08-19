@@ -1,16 +1,18 @@
 name: Deploy to Cloud Instance
 
-# Github-hosted 러너를 사용한다. 
+
 on:
-  workflow_dispatch:
+  workflow_dispatch: # 로컬 테스트용
     inputs:
       branch:
         description: git branch
         required: false
         default: 'main'
-  pull_request: # PR이 닫히고 병합시 실행
+  # pull_request: # PR이 닫히고 병합시 실행
+  #   branches: [main]
+  #   types: [closed]
+  push:
     branches: [main]
-    types: [closed]
 
 env:
   DOCKER_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/isolation-server:${{ github.sha }}
