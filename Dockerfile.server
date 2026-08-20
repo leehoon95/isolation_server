@@ -34,10 +34,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # Protocol Buffers protoc 설치
-WORKDIR /tmp
-RUN curl -LO https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOBUF_VERSION}/protoc-${PROTOBUF_VERSION}-linux-x86_64.zip \
-    && unzip protoc-${PROTOBUF_VERSION}-linux-x86_64.zip -d /usr/local \
-    && rm protoc-${PROTOBUF_VERSION}-linux-x86_64.zip
+# WORKDIR /tmp
+# RUN curl -LO https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOBUF_VERSION}/protoc-${PROTOBUF_VERSION}-linux-x86_64.zip \
+#     && unzip protoc-${PROTOBUF_VERSION}-linux-x86_64.zip -d /usr/local \
+#     && rm protoc-${PROTOBUF_VERSION}-linux-x86_64.zip
 
 # Protocol Buffers 설치
 WORKDIR /tmp/protobuf

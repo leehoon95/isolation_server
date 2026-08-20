@@ -1,0 +1,1 @@
+GIT_COMMIT_SHA=tempsha ISOLATION_SERVER_LISTENING_PORT=51010 build/isolation-server-app
