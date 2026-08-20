@@ -6,8 +6,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Boost REQUIRED)
 find_package(Protobuf CONFIG REQUIRED)
-find_library(REDISPP_LIB redis++::redis++_static REQUIRED)
 find_library(HIREDIS_LIB hiredis REQUIRED)
+find_library(REDISPP_STATIC_LIB libredis++.a PATHS /usr/local/lib REQUIRED)
 
 add_subdirectory(./libs/isolation_pb)
 
@@ -32,6 +32,6 @@ set_target_properties(isolation_server PROPERTIES OUTPUT_NAME "isolation-server-
 target_link_libraries(isolation_server PRIVATE
     Boost::boost # 헤더전용 라이브러리 사용. 헤더파일 경로를 찾게함
     isolation_pb
-    ${REDISPP_LIB}
+    ${REDISPP_STATIC_LIB}
     ${HIREDIS_LIB}
 )
