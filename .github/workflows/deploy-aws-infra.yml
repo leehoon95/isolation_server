@@ -42,8 +42,6 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::984445751003:role/PulumiDevAccessRole
           aws-region: ${{ env.AWS_REGION }}
-          run: |
-            aws sts get-caller-identity
 
       # --- AWS 로컬 IAM 인증 ---
       - name: AWS 자격 증명 구성 (ACT)
@@ -53,8 +51,6 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
-          run: |
-            aws sts get-caller-identity
 
       # dotnet 8.0 설치
       - uses: actions/setup-dotnet@v6
@@ -63,7 +59,7 @@ jobs:
 
       # --- Pulumi 실행 ---
       - name: Pulumi up
-        uses: pulumi/actions@v5
+        uses: pulumi/actions@v7
         with:
           command: up
           stack-name: ${{ env.PULUMI_STACK }}
