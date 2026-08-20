@@ -13,7 +13,7 @@ Isolation 게임 로그인 서버
 4. **코드 & workflow 테스트 환경**
 
 ### 의존 패키지  
-* libhiredis1.1.0
+* libhiredis1.1.0 (빌드&런타임 의존)
 * libboost-all-dev
 * libgtest-dev
 * libgmock-dev
@@ -36,13 +36,13 @@ git clone https://github.com/leehoon95/isolation_server.git
 
 ## 소스코드 빌드
 build.sh을 실행한다.  
-⚠️ Dockerfile.server에서 참조하는 스크립트이므로 수정시 주의
+❗Dockerfile.server에서 참조하는 스크립트이므로 수정시 주의
 ```
 sh build.sh
 ```
 
 ## 배포
-GitHub Actons 기반으로 main 브랜치에 커밋이 push되면 AWS 리소스부터 Docker 컨테이너 배포한다  
+GitHub Actions 기반으로 main 브랜치에 커밋이 push되면 AWS 리소스부터 Docker 컨테이너 배포한다  
 로컬에서 테스트 가능하며 .secrets 파일로 GitHub Secrets 기능을 대신해야 한다
 
 ⚠️workflow 실행을 위해 nektos/act와 Docker 설치 필요
@@ -92,6 +92,31 @@ config:
     secure: ***
   aws-isolation-server:aws-ssh-private:             # EC2 인스턴스 초기화 확인용
     secure: ***
+```
+
+## Redis++ 라이브러리 설치
+1. redis-plus-plus git 프로젝트를 clone
+2. 프로젝트 최상위 경로에서 아래 명령어 실행
+```
+cmake -B build \
+        -DREDIS_PLUS_PLUS_BUILD_TEST=OFF \
+        -DREDIS_PLUS_PLUS_BUILD_SHARED=OFF \
+        -DREDIS_PLUS_PLUS_BUILD_STATIC=ON \
+    && cmake --build build -j$(nproc) \
+    && sudo cmake --install build
+```
+⚠️Redis++는 정적 링크, hiredis는 libhiredis1.1.0 패키지를 동적 링크해서 사용한다
+
+## Protocol Buffers 라이브러리 설치
+1. 31.0 버전 프로젝트를 다운로드
+2. 프로젝트 최상위 경로에서 아래 명령어 실행
+```
+cmake -B build \
+    -DCMAKE_BUILD_TYPE=Release \
+    -Dprotobuf_BUILD_TESTS=OFF \
+    -DBUILD_SHARED_LIBS=OFF \
+    && cmake --build build -j$(nproc) \
+    && sudo cmake --install build
 ```
 
 ## 유닛 테스트
