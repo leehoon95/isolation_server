@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Boost REQUIRED)
 find_package(Protobuf CONFIG REQUIRED)
-find_library(REDISPP_LIB redis++ REQUIRED)
+find_library(REDISPP_LIB redis++::redis++_static REQUIRED)
 find_library(HIREDIS_LIB hiredis REQUIRED)
 
 add_subdirectory(./libs/isolation_pb)
