@@ -19,8 +19,8 @@ permissions:
 
 env:
   AWS_REGION: ap-northeast-2
-  PULUMI_STACK: dev          # 실제 스택 이름으로 변경
-  PULUMI_WORKDIR: ./infra/pulumi     # Pulumi 프로젝트 디렉토리로 변경
+  PULUMI_STACK: dev
+  PULUMI_WORKDIR: ./infra/pulumi
 
 jobs:
   deploy-infra:
