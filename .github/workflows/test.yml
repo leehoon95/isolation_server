@@ -46,14 +46,14 @@ jobs:
         key: ${{ runner.os }}-protobuf-${{ env.PROTOBUF_VERSION }}
 
     - name: Install Protoc
-      # if: steps.cache-protobuf.outputs.cache-hit != 'true'
+      if: steps.cache-protobuf.outputs.cache-hit != 'true'
       run: |
         curl -LO https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOBUF_VERSION}/protoc-${PROTOBUF_VERSION}-linux-x86_64.zip
         sudo unzip protoc-${PROTOBUF_VERSION}-linux-x86_64.zip -d /usr/local
         rm protoc-${PROTOBUF_VERSION}-linux-x86_64.zip
 
     - name: Install Protocal Buffers
-      # if: steps.cache-protobuf.outputs.cache-hit != 'true'
+      if: steps.cache-protobuf.outputs.cache-hit != 'true'
       run: |
         curl -LO https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOBUF_VERSION}/protobuf-${PROTOBUF_VERSION}.tar.gz
         tar -xzf protobuf-${PROTOBUF_VERSION}.tar.gz
