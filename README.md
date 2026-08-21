@@ -18,7 +18,7 @@ Isolation 게임 로그인 서버
 * libgtest-dev
 * libgmock-dev
 
-### 의존 라이브러리 및 코드  
+### 의존 라이브러리  
 * [Redis++](https://github.com/sewenew/redis-plus-plus?tab=readme-ov-file)  
     redis-server 통신
 * [Protocol Buffers](https://github.com/protocolbuffers/protobuf)(31.0.0)  
@@ -34,16 +34,34 @@ Isolation 게임 로그인 서버
 git clone https://github.com/leehoon95/isolation_server.git
 ```
 
-## 소스코드 빌드
-build.sh을 실행한다.  
-❗Dockerfile.server에서 참조하는 스크립트이므로 수정시 주의
+## Redis++ 라이브러리 설치
+1. redis-plus-plus git 프로젝트를 clone
+2. 프로젝트 최상위 경로에서 아래 명령어 실행
 ```
-sh build.sh
+cmake -B build \
+        -DREDIS_PLUS_PLUS_BUILD_TEST=OFF \
+        -DREDIS_PLUS_PLUS_BUILD_SHARED=OFF \
+        -DREDIS_PLUS_PLUS_BUILD_STATIC=ON \
+    && cmake --build build -j$(nproc) \
+    && sudo cmake --install build
+```
+⚠️Redis++는 정적 링크, hiredis는 libhiredis1.1.0 패키지를 동적 링크한다
+
+## Protocol Buffers 라이브러리 설치
+1. 31.0 버전 프로젝트를 다운로드
+2. 프로젝트 최상위 경로에서 아래 명령어 실행
+```
+cmake -B build \
+    -DCMAKE_BUILD_TYPE=Release \
+    -Dprotobuf_BUILD_TESTS=OFF \
+    -DBUILD_SHARED_LIBS=OFF \
+    && cmake --build build -j$(nproc) \
+    && sudo cmake --install build
 ```
 
 ## 배포
-GitHub Actions 기반으로 main 브랜치에 커밋이 push되면 AWS 리소스부터 Docker 컨테이너 배포한다  
-로컬에서 테스트 가능하며 .secrets 파일로 GitHub Secrets 기능을 대신해야 한다
+GitHub Actions 기반으로 main 브랜치에 커밋이 push되면 AWS 리소스와 Docker 컨테이너를 배포한다  
+로컬에서 테스트 가능하며 .secrets 파일로 GitHub Secrets 기능을 대신한다
 
 ⚠️workflow 실행을 위해 nektos/act와 Docker 설치 필요
 ```
@@ -71,7 +89,7 @@ AWS_EC2_PRIVATE_KEY=***
 ```
 로컬 테스트에 필요한 추가적 key-value는 아래와 같다
 ```
-# actions/checkout 액션에서 사용한다
+# actions/checkout 액션에서 사용한다 (GitHub PAT)
 GITHUB_TOKEN=*** 
 
 # OIDC를 사용할 수 없기 때문에 IAM 사용자 로그인
@@ -94,37 +112,8 @@ config:
     secure: ***
 ```
 
-## Redis++ 라이브러리 설치
-1. redis-plus-plus git 프로젝트를 clone
-2. 프로젝트 최상위 경로에서 아래 명령어 실행
-```
-cmake -B build \
-        -DREDIS_PLUS_PLUS_BUILD_TEST=OFF \
-        -DREDIS_PLUS_PLUS_BUILD_SHARED=OFF \
-        -DREDIS_PLUS_PLUS_BUILD_STATIC=ON \
-    && cmake --build build -j$(nproc) \
-    && sudo cmake --install build
-```
-⚠️Redis++는 정적 링크, hiredis는 libhiredis1.1.0 패키지를 동적 링크해서 사용한다
 
-## Protocol Buffers 라이브러리 설치
-1. 31.0 버전 프로젝트를 다운로드
-2. 프로젝트 최상위 경로에서 아래 명령어 실행
-```
-cmake -B build \
-    -DCMAKE_BUILD_TYPE=Release \
-    -Dprotobuf_BUILD_TESTS=OFF \
-    -DBUILD_SHARED_LIBS=OFF \
-    && cmake --build build -j$(nproc) \
-    && sudo cmake --install build
-```
-
-## 유닛 테스트
-```
-sh runtest.sh
-```
-
-### Redis server 데이터 구조
+## Redis server 데이터 구조
 
 * Connected Client
     |key|field|desc|
