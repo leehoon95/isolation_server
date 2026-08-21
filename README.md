@@ -9,7 +9,7 @@ Isolation 게임 로그인 서버
 3. **자동화된 개발/배포(CI/CD) 환경**  
     * Github Actions
     * Docker Compose 멀티 컨테이너
-    * Pulumi(C#) 인프라 배포
+    * Pulumi(C#) AWS 인프라 배포
 4. **코드 & workflow 테스트 환경**
 
 ### 의존 패키지  
@@ -95,7 +95,6 @@ GITHUB_TOKEN=***
 # OIDC를 사용할 수 없기 때문에 IAM 사용자 로그인
 AWS_ACCESS_KEY_ID=***
 AWS_SECRET_ACCESS_KEY=***
-
 ```
 
 ## Pulumi Config
@@ -103,12 +102,12 @@ AWS_SECRET_ACCESS_KEY=***
 ```
 environment: null
 config:
-  aws-isolation-server:aws-ec2-type: t3.small
-  aws-isolation-server:region: ap-northeast-2
-  aws-isolation-server:aws-eip-id: ***
-  aws-isolation-server:aws-ssh-public:
+  aws-isolation-server:aws-ec2-type: t3.small       # EC2 type
+  aws-isolation-server:region: ap-northeast-2       # Region (서울)
+  aws-isolation-server:aws-eip-id: ***              # Elastic IP 주소
+  aws-isolation-server:aws-ssh-public:              # ssh 접속용
     secure: ***
-  aws-isolation-server:aws-ssh-private:             # EC2 인스턴스 초기화 확인용
+  aws-isolation-server:aws-ssh-private:             # EC2 인스턴스 초기화 확인용 (Pulumi 코드에서 인스턴스으로 접속)
     secure: ***
 ```
 
