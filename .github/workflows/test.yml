@@ -42,7 +42,7 @@ jobs:
       uses: actions/cache@v6
       with:
         path: |
-          ${GITHUB_WORKSPACE}/pb-${PROTOBUF_VERSION}
+          ${{ github.workspace }}/pb-${{ env.PROTOBUF_VERSION }}
         key: ${{ runner.os }}-protobuf-${{ env.PROTOBUF_VERSION }}
 
     - name: Install Protocal Buffers
