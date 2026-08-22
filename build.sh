@@ -1,6 +1,4 @@
+# Docker 이미지 빌드시 사용하는 스크립트
 cmake -B build \
     -DCMAKE_BUILD_TYPE=Release \
-    -DSERVER_NAME_VAR=${1:-isolation-server} \
-    -DREDIS_SERVER_HOST_VAR=${2:-redis} \
-    -DREDIS_SERVER_PORT_VAR=${3:-6379} \
     && cmake --build build -j$(nproc) 

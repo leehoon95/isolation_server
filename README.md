@@ -1,89 +1,118 @@
 # Isolation 인증 서버
-비동기 Isolation 게임 로그인 서버
+Isolation 게임 로그인 서버
 
-### 주요 특징
+## 주요 특징
 1. **Non-Blocking Async I/O**  
     * Boost.Asio 기반 비동기 TCP 통신 처리
 2. **인메모리 데이터 관리**
     * redis-server 연동
-3. **자동화된 개발/배포 환경**  
-    * Github Actions CI/CD 구현
-    * Docker Compose 멀티 컨테이너 환경 구축
+3. **자동화된 개발/배포(CI/CD) 환경**  
+    * Github Actions
+    * Docker Compose 멀티 컨테이너
+    * Pulumi(C#) AWS 인프라 배포
+4. **코드 & workflow 테스트 환경**
 
-### CI/CD 관련 파일
-1. [Dockerfile.server](./Dockerfile.server)
-2. [docker-compose.yml](./docker-compose.yml)
-3. [deploy.yml](./.github/workflows/deploy.yml)
-4. [test.yml](./.github/workflows/test.yml)
-
-
-### 소스코드 빌드
-build.sh을 실행한다.
-```
-sh build.sh
-```
-⚠️ Dockerfile.server에서 참조하는 스크립트이므로 수정할 때 주의
-
-### 서버 이미지 빌드
-```
-sh makeimg.sh
-```
-
-### Docker Compose 실행
-```
-docker compose up --build
-```
-⚠️ Docker 빌드 이슈를 해결하기 위해 --build 옵션을 사용하라
-
-### Docker Compose Container 접속
-```
-docker compose exec redis sh
-docker compose exec server-app bash
-```
-
-### Github Actions Workflow test
-```
-# workflow 테스트 명령어 예시
-sudo act -W .github/workflows/workflow.yml --secret-file .secrets
-```
-
-```
-# .secrets 파일 작성 예시
-DOCKERHUB_USERNAME="leehoon95"
-DOCKERHUB_TOKEN="***"
-INSTANCE_HOST="***"
-INSTANCE_USER="***"
-INSTANCE_SSH_PRIVATE_KEY="-----BEGIN RSA PRIVATE KEY-----
-***
------END RSA PRIVATE KEY-----"
-```
-
-```
-#.actrc 내용
--P self-hosted=catthehacker/ubuntu:act-latest
--P ubuntu-latest=catthehacker/ubuntu:act-latest
-```
-원격 서버 운영체제에 따라 수정
 ### 의존 패키지  
-* Redis-Server(7.0.15)  
+* libhiredis1.1.0 (빌드&런타임 의존)
 * libboost-all-dev
 * libgtest-dev
 * libgmock-dev
 
 ### 의존 라이브러리  
-
 * [Redis++](https://github.com/sewenew/redis-plus-plus?tab=readme-ov-file)  
     redis-server 통신
-* [Hiredis](https://github.com/redis/hiredis)(1.3.0)  
-    redis++ 라이브러리가 의존함
 * [Protocol Buffers](https://github.com/protocolbuffers/protobuf)(31.0.0)  
-    데이터 직렬화 지원
+    데이터 직렬화
 * [Boost.asio](https://www.boost.org/library/latest/asio/)  
     비동기 네트워크 처리 구현
 * [sha256](https://www.zedwood.com/article/cpp-sha256-function)  
     비밀번호 암호화용 hash 함수
 
-### Redis server 데이터 구조
+## 설치 방법
+우분투 환경을 지원 한다
+```
+git clone https://github.com/leehoon95/isolation_server.git
+```
+
+## Redis++ 라이브러리 설치
+1. redis-plus-plus git 프로젝트를 clone
+2. 프로젝트 최상위 경로에서 아래 명령어 실행
+```
+cmake -B build \
+        -DREDIS_PLUS_PLUS_BUILD_TEST=OFF \
+        -DREDIS_PLUS_PLUS_BUILD_SHARED=OFF \
+        -DREDIS_PLUS_PLUS_BUILD_STATIC=ON \
+    && cmake --build build -j$(nproc) \
+    && sudo cmake --install build
+```
+⚠️Redis++는 정적 링크, hiredis는 libhiredis1.1.0 패키지를 동적 링크한다
+
+## Protocol Buffers 라이브러리 설치
+1. 31.0 버전 프로젝트를 다운로드
+2. 프로젝트 최상위 경로에서 아래 명령어 실행
+```
+cmake -B build \
+    -DCMAKE_BUILD_TYPE=Release \
+    -Dprotobuf_BUILD_TESTS=OFF \
+    -DBUILD_SHARED_LIBS=OFF \
+    && cmake --build build -j$(nproc) \
+    && sudo cmake --install build
+```
+
+## 배포
+GitHub Actions 기반으로 main 브랜치에 커밋이 push되면 AWS 리소스와 Docker 컨테이너를 배포한다  
+로컬에서 테스트 가능하며 .secrets 파일로 GitHub Secrets 기능을 대신한다
+
+⚠️workflow 실행을 위해 nektos/act와 Docker 설치 필요
+```
+sh rundeploy.sh
+```
+.secrets 파일은 프로젝트 최상위 디렉토리에 놓아야 한다  
+필수적인 key-value는 아래와 같다
+
+```
+# .secrets 파일 내용
+
+DOCKERHUB_USERNAME=leehoon95
+
+DOCKERHUB_TOKEN=***
+
+PULUMI_ACCESS_TOKEN=***
+
+# client 접속을 Listening하는 포트
+SERVER_LISTENING_PORT=***
+
+AWS_EC2_USERNAME="ubuntu"
+
+# ssh, scp 커맨드 실행을 위해 필요
+AWS_EC2_PRIVATE_KEY=***
+```
+로컬 테스트에 필요한 추가적 key-value는 아래와 같다
+```
+# actions/checkout 액션에서 사용한다 (GitHub PAT)
+GITHUB_TOKEN=*** 
+
+# OIDC를 사용할 수 없기 때문에 IAM 사용자 로그인
+AWS_ACCESS_KEY_ID=***
+AWS_SECRET_ACCESS_KEY=***
+```
+
+## Pulumi Config
+
+```
+environment: null
+config:
+  aws-isolation-server:aws-ec2-type: t3.small       # EC2 type
+  aws-isolation-server:region: ap-northeast-2       # Region (서울)
+  aws-isolation-server:aws-eip-id: ***              # Elastic IP 주소
+  aws-isolation-server:aws-ssh-public:              # ssh 접속용
+    secure: ***
+  aws-isolation-server:aws-ssh-private:             # EC2 인스턴스 초기화 확인용 (Pulumi 코드에서 인스턴스으로 접속)
+    secure: ***
+```
+
+
+## Redis server 데이터 구조
 
 * Connected Client
     |key|field|desc|

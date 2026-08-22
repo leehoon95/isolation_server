@@ -1,20 +1,25 @@
 #include "redisService.h"
 #include <iostream>
-#include "Config.h"
 
 using namespace sw;
 
-RedisService::RedisService()
+RedisService::RedisService(const char* const host, const int port)
 {
     try
     {
-        std::cout << std::format("Connect to redis-server. {0} {1}\n",
-            REDIS_SERVER_HOST,
-            REDIS_SERVER_PORT);
+        if (host == nullptr || port < 1 || port > 65535 )
+        {
+            std::cout << std::format("Redis++ Exception: Invaild argument({0} {1})\n ",
+                 host, port);
+            throw;
+        }
+
+        std::cout << std::format("Connect to redis. {0} {1}\n",
+            host, port);
 
         sw::redis::ConnectionOptions options;
-        options.host = REDIS_SERVER_HOST;
-        options.port = std::stoi(REDIS_SERVER_PORT);
+        options.host = host;
+        options.port = port;
 
         _redis = std::make_unique<sw::redis::Redis>(options);
     }

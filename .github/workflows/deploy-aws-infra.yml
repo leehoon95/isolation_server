@@ -1,0 +1,90 @@
+name: Deploy EC2 via Pulumi and Run docker-compose
+
+on:
+  workflow_call:
+    inputs:
+      branch:
+        required: false
+        default: 'main'
+        type: string
+    outputs:
+      instance_ip:
+        description: 'AWS EC2 인스턴스 Elastic IP'
+        value: ${{ jobs.deploy-infra.outputs.instance_ip}}
+
+# GitHub OIDC 토큰 발급을 위해 필요
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  AWS_REGION: ap-northeast-2
+  PULUMI_STACK: dev
+  PULUMI_WORKDIR: ./infra/pulumi
+
+jobs:
+  deploy-infra:
+    name: Pulumi로 EC2 생성
+    runs-on: ubuntu-latest
+    outputs:
+      instance_ip: ${{ steps.get-ip.outputs.instance_ip }}
+    steps:
+      - name: 체크아웃
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.branch }}
+          sparse-checkout: ${{ env.PULUMI_WORKDIR }}
+
+      # --- AWS OIDC 인증 ---
+      - name: AWS 자격 증명 구성 (OIDC)
+        if: ${{ !env.ACT }}
+        uses: aws-actions/configure-aws-credentials@v6
+        with:
+          role-to-assume: arn:aws:iam::984445751003:role/PulumiDevAccessRole
+          aws-region: ${{ env.AWS_REGION }}
+
+      # --- AWS 로컬 IAM 인증 ---
+      - name: AWS 자격 증명 구성 (ACT)
+        if: ${{ env.ACT }}
+        uses: aws-actions/configure-aws-credentials@v6
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      # dotnet 8.0 설치
+      - uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: '8.0.x'
+
+      # --- Pulumi 실행 ---
+      - name: Pulumi up
+        uses: pulumi/actions@v7
+        with:
+          command: up
+          stack-name: ${{ env.PULUMI_STACK }}
+          work-dir: ${{ env.PULUMI_WORKDIR }}
+        env:
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+
+      # --- 생성된 인스턴스의 Public IP를 stack output에서 추출 ---
+      - name: Pulumi stack output 조회
+        id: get-ip
+        working-directory: ${{ env.PULUMI_WORKDIR }}
+        run: |
+          IP=$(pulumi stack output publicElasticIp --stack ${{ env.PULUMI_STACK }})
+          echo "instance_ip=$IP" >> "$GITHUB_OUTPUT"
+        env:
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+      
+      # --- 
+      - name: Connect ssh
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ steps.get-ip.outputs.instance_ip }}
+          username: ${{ secrets.AWS_EC2_USERNAME }}
+          key: ${{ secrets.AWS_EC2_PRIVATE_KEY }}
+          script: |
+            mkdir -p hello_$(date '+%Y%m%d_%H%M%S')
+
+ 

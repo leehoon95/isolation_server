@@ -1,0 +1,1 @@
+sudo act workflow_dispatch -W .github/workflows/deploy.yml --secret-file .secrets --input branch=develop

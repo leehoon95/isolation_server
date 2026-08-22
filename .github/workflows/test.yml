@@ -4,6 +4,11 @@ on:
   push:
     branches: [ "develop" ]
   workflow_dispatch:
+    inputs:
+      branch:
+        description: git branch
+        required: false
+        default: 'develop'
 
 jobs:
   build-and-test:
@@ -16,6 +21,7 @@ jobs:
       uses: actions/checkout@v7
       with:
           submodules: true
+          ref: ${{ inputs.branch }}
 
     - name: Install packages
       run: |
@@ -30,29 +36,36 @@ jobs:
         curl \
         unzip \
         git
-
-    - name: Install Protoc
-      run: |
-        cd /tmp
-        curl -LO https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOBUF_VERSION}/protoc-${PROTOBUF_VERSION}-linux-x86_64.zip
-        sudo unzip protoc-${PROTOBUF_VERSION}-linux-x86_64.zip -d /usr/local
-        rm protoc-${PROTOBUF_VERSION}-linux-x86_64.zip
+    
+    - name: Cache Protobuf
+      id: cache-protobuf
+      uses: actions/cache@v6
+      with:
+        path: |
+          ${{ github.workspace }}/pb-${{ env.PROTOBUF_VERSION }}
+        key: ${{ runner.os }}-protobuf-${{ env.PROTOBUF_VERSION }}
 
     - name: Install Protocal Buffers
+      if: steps.cache-protobuf.outputs.cache-hit != 'true'
       run: |
-        cd /tmp
         curl -LO https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOBUF_VERSION}/protobuf-${PROTOBUF_VERSION}.tar.gz
         tar -xzf protobuf-${PROTOBUF_VERSION}.tar.gz
         cd protobuf-${PROTOBUF_VERSION}
-        cmake -B build -Dprotobuf_BUILD_TESTS=OFF -DBUILD_SHARED_LIBS=OFF -DCMAKE_MESSAGE_LOG_LEVEL=WARNING
+        cmake -B build \
+          -Dprotobuf_BUILD_TESTS=OFF \
+          -DBUILD_SHARED_LIBS=OFF \
+          -DCMAKE_MESSAGE_LOG_LEVEL=WARNING \
+          -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/pb-${PROTOBUF_VERSION}
         cmake --build build -j$(nproc)
-        sudo cmake --install build 
-        cd /tmp && rm -rf protobuf-${PROTOBUF_VERSION}
+        sudo cmake --install build
+        rm -rf protobuf-${PROTOBUF_VERSION}
 
     - name: Configure CMake and Test
       run: |
         cd tests
-        cmake -B build -DCMAKE_BUILD_TYPE=Debug
+        cmake -B build \
+          -DCMAKE_BUILD_TYPE=Debug \
+          -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/pb-${PROTOBUF_VERSION}
         cmake --build build -j${nproc}
         build/run_unit_tests --output-on-failure --gtest_output=xml:build/gtest_results.xml
 

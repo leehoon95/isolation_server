@@ -1,0 +1,1 @@
+sudo act workflow_dispatch -W .github/workflows/test.yml --input branch=develop

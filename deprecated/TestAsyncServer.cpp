@@ -300,7 +300,7 @@ private:
 	}
 };
 
-void TestAsioAsync()
+
 {
 	try
 	{
