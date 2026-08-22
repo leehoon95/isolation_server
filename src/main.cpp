@@ -77,11 +77,11 @@ int main()
 		boost::asio::io_context io_context;
 		auto server = std::make_shared<Server>(io_context, std::move(rs));
 		asio::executor_work_guard<asio::io_context::executor_type> work_guard 
-		= asio::make_work_guard(io_context);
+			= asio::make_work_guard(io_context);
 		unsigned int clientIndex = 0;
 		Acceptor acceptor(io_context, port);
 		std::vector<std::thread> ioThreads;
-		auto concurrency = 1;//std::thread::hardware_concurrency() / 2;
+		auto concurrency = std::thread::hardware_concurrency() / 2;
 
 		if (concurrency == 0) {
 			concurrency = 1;
