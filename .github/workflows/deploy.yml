@@ -85,8 +85,8 @@ jobs:
             GIT_COMMIT_SHA=${{ github.sha }}
             EOF
 
-            docker compose pull server
-            docker compose up -d --force-recreate server
+            docker compose pull
+            docker compose up -d --force-recreate
             docker image prune -f
 
             
