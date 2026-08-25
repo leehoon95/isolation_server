@@ -86,7 +86,7 @@ jobs:
             EOF
 
             docker compose pull server
-            docker compose up -d
+            docker compose up -d --force-recreate server
             docker image prune -f
 
             

@@ -134,7 +134,7 @@ systemctl start docker
     // ---------------------------------------------------------------------
     // EC2 인스턴스
     // ---------------------------------------------------------------------
-    var instance = new Instance("isolation-server", new InstanceArgs
+    var instance = new Instance("pulumi-isolation-server", new InstanceArgs
     {
         InstanceType = instanceType,
         Ami = ubuntuAmi.Apply(a => a.Id),
@@ -156,7 +156,7 @@ systemctl start docker
     // ---------------------------------------------------------------------
     // Elastic IP 연결
     // ---------------------------------------------------------------------
-    var eipAssoc = new Aws.Ec2.EipAssociation("isolation-server-eip-association", new()
+    var eipAssoc = new Aws.Ec2.EipAssociation("pulumi-eip-association", new()
     {
         InstanceId = instance.Id,
         AllocationId = eipId,
@@ -165,7 +165,7 @@ systemctl start docker
     // ---------------------------------------------------------------------
     // SSH 접속 후 초기화 완료 확인
     // ---------------------------------------------------------------------
-    var waitForInstallDocker = new Command("wait-for-docker", new CommandArgs
+    var waitForInstallDocker = new Command("pulumi-wait-for-docker", new CommandArgs
         {
             Connection = new ConnectionArgs
             {
