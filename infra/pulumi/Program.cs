@@ -79,7 +79,7 @@ return await Deployment.RunAsync(() =>
                 FromPort = 51010,
                 ToPort = 51010,
                 CidrBlocks = new[] { "0.0.0.0/0" },
-                Description = "GameServerPort",
+                Description = "Isolation game server port",
             },
         },
         Egress = new[]
@@ -94,7 +94,7 @@ return await Deployment.RunAsync(() =>
         },
         Tags = new Dictionary<string, string>
         {
-            ["Name"] = "ec2-ssh-sg",
+            ["Name"] = "pulumi-ssh-game-sg",
         },
     });
 
