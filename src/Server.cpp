@@ -64,12 +64,12 @@ int Server::AddClient(std::shared_ptr<IClient> client)
         ProtoAuthenticationMessage::REQUEST_LOGIN,
         [wself, wclient](char *serializedData, int length)
         {
-            if (auto s = wself.lock())
+            auto s = wself.lock();
+            auto c = wclient.lock();
+
+            if (s != nullptr && c != nullptr)
             {
-                if (auto c = wclient.lock())
-                {
-                    s->HandleRequestLogin(c, serializedData, length);
-                }
+                s->HandleRequestLogin(c, serializedData, length);
             }
         });
 
@@ -77,12 +77,12 @@ int Server::AddClient(std::shared_ptr<IClient> client)
         ProtoAuthenticationMessage::REQUEST_REGISTER_ACCOUNT,
         [wself, wclient](char *serializedData, int length)
         {
-            if (auto s = wself.lock())
+            auto s = wself.lock();
+            auto c = wclient.lock();
+
+            if (s != nullptr && c != nullptr)
             {
-                if (auto c = wclient.lock())
-                {
-                    s->HandleRequestCreationAccount(c, serializedData, length);
-                }
+                s->HandleRequestCreationAccount(c, serializedData, length);
             }
         });
 
@@ -90,12 +90,12 @@ int Server::AddClient(std::shared_ptr<IClient> client)
         ProtoAuthenticationMessage::REQUEST_PLAYER_DATA,
         [wself, wclient](char *serializedData, int length)
         {
-            if (auto s = wself.lock())
+            auto s = wself.lock();
+            auto c = wclient.lock();
+
+            if (s != nullptr && c != nullptr)
             {
-                if (auto c = wclient.lock())
-                {
-                    s->HandleRequestPlayerData(c, serializedData, length);
-                }
+                s->HandleRequestPlayerData(c, serializedData, length);
             }
         });
 
@@ -103,12 +103,12 @@ int Server::AddClient(std::shared_ptr<IClient> client)
         ProtoAuthenticationMessage::REQUEST_LOGOUT,
         [wself, wclient](char *serializedData, int length)
         {
-            if (auto s = wself.lock())
+            auto s = wself.lock();
+            auto c = wclient.lock();
+
+            if (s != nullptr && c != nullptr)
             {
-                if (auto c = wclient.lock())
-                {
-                    s->HandleRequestLogout(c, serializedData, length);
-                }
+                s->HandleRequestLogout(c, serializedData, length);
             }
         });
 
@@ -116,15 +116,15 @@ int Server::AddClient(std::shared_ptr<IClient> client)
         EM_Type::EM_DISCONNECTED,
         [wself, wclient](system::error_code &ec)
         {
-            if (auto s = wself.lock())
+              auto s = wself.lock();
+            auto c = wclient.lock();
+
+            if (s != nullptr && c != nullptr)
             {
-                if (auto c = wclient.lock())
-                {
-                    auto token = c->GetToken();
-                    s->LogoutClient(c);
-                    c->Stop();
-                    s->RemoveClient(token);
-                }
+                auto token = c->GetToken();
+                s->LogoutClient(c);
+                c->Stop();
+                s->RemoveClient(token);
             }
         });
 
