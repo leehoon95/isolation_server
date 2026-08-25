@@ -91,5 +91,5 @@ jobs:
           username: ${{ secrets.AWS_EC2_USERNAME }}
           key: ${{ secrets.AWS_EC2_PRIVATE_KEY }}
           script: |
-            mkdir -p hello_$(TZ='Asia/Seoul' date + '%Y%m%d_%H%M%S')
+            mkdir -p hello_$(TZ='Asia/Seoul' date '+%Y%m%d_%H%M%S')
  
