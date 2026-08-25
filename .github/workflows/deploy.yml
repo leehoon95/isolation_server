@@ -79,7 +79,7 @@ jobs:
             echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
 
             cat > .env << EOF
-            TIMESTAMP=$(date +'%Y-%m-%d %H:%M:%S')
+            TIMESTAMP=$(TZ='Asia/Seoul' date +'%Y-%m-%d %H:%M:%S')
             DOCKERHUB_IMAGE=${{ env.DOCKER_IMAGE }}
             SERVER_LISTENING_PORT=${{ secrets.SERVER_LISTENING_PORT }}
             GIT_COMMIT_SHA=${{ github.sha }}

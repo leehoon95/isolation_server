@@ -63,14 +63,6 @@ jobs:
         with:
           dotnet-version: '8.0.x'
 
-      # # --- Pulumi preview ---
-      # - name: Pulumi Preview
-      #   uses: pulumi/actions@v7
-      #   with:
-      #     commnad: preview
-      #     stack-name: dev
-
-
       # --- Pulumi up ---
       - name: Pulumi up
         uses: pulumi/actions@v7
@@ -91,7 +83,7 @@ jobs:
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
       
-      # --- 
+      # --- ssh 접속
       - name: Connect ssh
         uses: appleboy/ssh-action@v1
         with:
@@ -99,6 +91,5 @@ jobs:
           username: ${{ secrets.AWS_EC2_USERNAME }}
           key: ${{ secrets.AWS_EC2_PRIVATE_KEY }}
           script: |
-            mkdir -p hello_$(date '+%Y%m%d_%H%M%S')
-
+            mkdir -p hello_$(TZ='Asia/Seoul' date + '%Y%m%d_%H%M%S')
  
