@@ -28,7 +28,7 @@ return await Deployment.RunAsync(() =>
     var ubuntuAmi = Aws.Ec2.GetAmi.Invoke(new Aws.Ec2.GetAmiInvokeArgs
     {
         MostRecent = true,
-        Owners = new List<string> { "099720109477" }, // Canonical
+        Owners = new List<string> { "099720109477" }, // Canonical owner id
         Filters = new List<Aws.Ec2.Inputs.GetAmiFilterInputArgs>
         {
             new()
@@ -52,7 +52,7 @@ return await Deployment.RunAsync(() =>
     // ---------------------------------------------------------------------
     // SSH 키페어 (개인키는 로컬에 보관, 여기서는 공개키만 등록)
     // ---------------------------------------------------------------------
-    var keyPair = new KeyPair("ec2-ssh-keypair", new KeyPairArgs
+    var keyPair = new KeyPair("pulumi-ssh-keypair", new KeyPairArgs
     {
         PublicKey = sshPublicKey,
     });
@@ -60,7 +60,7 @@ return await Deployment.RunAsync(() =>
     // ---------------------------------------------------------------------
     // 보안 그룹: SSH(22) 인바운드 + 전체 아웃바운드 허용
     // ---------------------------------------------------------------------
-    var secGroup = new SecurityGroup("ec2-sg", new SecurityGroupArgs
+    var secGroup = new SecurityGroup("pulumi-sg", new SecurityGroupArgs
     {
         Description = "Allow SSH inbound, all outbound",
         Ingress = new[]
@@ -162,7 +162,9 @@ systemctl start docker
         AllocationId = eipId,
     });
     
+    // ---------------------------------------------------------------------
     // SSH 접속 후 초기화 완료 확인
+    // ---------------------------------------------------------------------
     var waitForInstallDocker = new Command("wait-for-docker", new CommandArgs
         {
             Connection = new ConnectionArgs

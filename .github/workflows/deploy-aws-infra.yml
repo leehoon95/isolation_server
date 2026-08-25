@@ -11,6 +11,12 @@ on:
       instance_ip:
         description: 'AWS EC2 인스턴스 Elastic IP'
         value: ${{ jobs.deploy-infra.outputs.instance_ip}}
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: git branch
+        required: false
+        default: 'main'
 
 # GitHub OIDC 토큰 발급을 위해 필요
 permissions:
@@ -52,12 +58,20 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
-      # dotnet 8.0 설치
+      # --- dotnet 8.0 설치 ---
       - uses: actions/setup-dotnet@v6
         with:
           dotnet-version: '8.0.x'
 
-      # --- Pulumi 실행 ---
+      # # --- Pulumi preview ---
+      # - name: Pulumi Preview
+      #   uses: pulumi/actions@v7
+      #   with:
+      #     commnad: preview
+      #     stack-name: dev
+
+
+      # --- Pulumi up ---
       - name: Pulumi up
         uses: pulumi/actions@v7
         with:
