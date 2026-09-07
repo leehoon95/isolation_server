@@ -1,8 +1,4 @@
-# Isolation 서버 도커 이미지 빌드 스크립트
-# 빌드시 bdocker.sh를 실행하라
-
-# exit 상태 container 제거
-# docker container prune
+# Isolation 서버 도커 이미지
 
 # 특정 라인부터 캐시를 무효화 하고 싶다면 해당 라인에 ARG CACHEBUST=1 을 넣고
 # 명령어 옵션에 --build-arg CACHEBUST=$(date +%s) 을 추가한다

@@ -14,13 +14,8 @@ Server::Server(
     std::shared_ptr<IRedis> rs)
     :
     _io(io),
-    _rs(rs),
-    _timer(io)
+    _rs(rs)
 {
-    //_udpRecvBuffer = std::shared_ptr<char[]>(
-    // new (std::nothrow) char[static_cast<size_t>(static_cast<size_t>(UDPBufferSize::RECV_BUFFER_SIZE))]);
-
-    // ASSERT(_udpRecvBuffer != nullptr, "Server. Failed to allocate UDP receive buffer");
 }
 
 void Server::RemoveClient(uint64_t token)
@@ -116,7 +111,7 @@ int Server::AddClient(std::shared_ptr<IClient> client)
         EM_Type::EM_DISCONNECTED,
         [wself, wclient](system::error_code &ec)
         {
-              auto s = wself.lock();
+            auto s = wself.lock();
             auto c = wclient.lock();
 
             if (s != nullptr && c != nullptr)

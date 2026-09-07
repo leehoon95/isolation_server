@@ -8,19 +8,11 @@
 
 class Server : public std::enable_shared_from_this<Server>
 {
-    enum class UDPBufferSize : size_t
-    {
-        RECV_BUFFER_SIZE = 4096,
-        // SEND_BUFFER_SIZE = 4096
-    };
-
     boost::asio::io_context &_io;
-    std::shared_ptr<char[]> _udpRecvBuffer;
     std::shared_ptr<IRedis> _rs;
 
     std::map<uint64_t, std::shared_ptr<IClient>> _connectedClients;
     std::mutex _connMtx;
-    boost::asio::steady_timer _timer;
 
 private:
     void RemoveClient(uint64_t token);
