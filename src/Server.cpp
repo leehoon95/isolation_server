@@ -14,8 +14,7 @@ Server::Server(
     std::shared_ptr<IRedis> rs)
     :
     _io(io),
-    _rs(rs),
-    _timer(io)
+    _rs(rs)
 {
 }
 
@@ -112,7 +111,7 @@ int Server::AddClient(std::shared_ptr<IClient> client)
         EM_Type::EM_DISCONNECTED,
         [wself, wclient](system::error_code &ec)
         {
-              auto s = wself.lock();
+            auto s = wself.lock();
             auto c = wclient.lock();
 
             if (s != nullptr && c != nullptr)
