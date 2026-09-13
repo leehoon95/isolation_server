@@ -1,4 +1,4 @@
-name: Deploy EC2 via Pulumi and Run docker-compose
+name: Deploy Infrastructure
 
 on:
   workflow_call:
