@@ -45,7 +45,7 @@ void ClientSocket::ReadAsync()
                     int totalDataLength = *(int32_t *)(&buffer[8]);
 
                     std::cout << std::format("received data from {}\nlength: {} / {} type: {}\n",
-                                                self->GetToken(), length, totalDataLength, type);
+                                             self->GetToken(), length, totalDataLength, type);
 
                     char *data = &buffer[12];
 
@@ -93,7 +93,7 @@ void ClientSocket::WriteAsync()
                                     if (!self->IsWriteBufferQueueEmpty())
                                         self->WriteAsync();
 
-                                    //std::cout << std::format("Send to client {} byte\n", transferred);
+                                    // std::cout << std::format("Send to client {} byte\n", transferred);
                                 }
                                 else
                                 {
@@ -272,13 +272,8 @@ void ClientSocket::ClearDisconnectHandler()
     _disconnectHandler.clear();
 }
 
-// void ClientSocket::SetNickname(std::string nickname)
-// {
-//     _nickname = std::move(nickname);
-// }
-
 ClientSocket::~ClientSocket()
 {
-    //std::cout << std::format("ClientSocket {} is destroyed.\n", _token);
+    // std::cout << std::format("ClientSocket {} is destroyed.\n", _token);
     TokenPool64::Instance().release(_token);
 }
